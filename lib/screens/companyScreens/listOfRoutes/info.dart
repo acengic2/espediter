@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/rendering.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
+import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
 import 'listOfRoutesRef.dart';
 
@@ -87,7 +88,7 @@ class _InfoPageState extends State<InfoPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ListOfRoutesRef()),
+                        builder: (context) => ListOfRoutes(userID: userID,)),
                   );
                 } else {
                   print('EMPTU');
