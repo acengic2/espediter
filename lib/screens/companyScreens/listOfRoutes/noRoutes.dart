@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/components/bottomAppBar.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/components/floatingActionButton.dart';
 
+import '../createRoute/createRouteScreen.dart';
+
 void main() => runApp(NoRoutes());
 
 const blueColor = Color.fromRGBO(3, 54, 255, 1);
 const textColorGray80 = Color.fromRGBO(0, 0, 0, 0.8);
 const textColorGray60 = Color.fromRGBO(0, 0, 0, 0.6);
 
-const noRoutesString = "Trenutno nemate nikakvih ruta. Molim vas kreirajte rutu.";
+const noRoutesString = "Trenutno nemate nikakvih ruta. Molimo vas da kreirate rutu.";
 
 class NoRoutes extends StatelessWidget {
   // This widget is the root of your application.
@@ -53,7 +55,9 @@ class _NoRoutesScreenPageState extends State<NoRoutesScreenPage> {
               ),
               Padding(
                 padding: EdgeInsets.only(top: 8.0, bottom: 16.0),
-                child: Text(
+                child: Container(
+                  width: 328,
+                  child: Text(
                  noRoutesString ,
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -61,8 +65,33 @@ class _NoRoutesScreenPageState extends State<NoRoutesScreenPage> {
                       fontFamily: "Roboto",
                       color: textColorGray60),
                 ),
+                )
               ),
-            
+              ButtonTheme(
+                    minWidth: 154.0,
+                    height: 36.0,
+                    child: RaisedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CreateRoute()),
+                        );
+                      },
+                      icon: Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
+                      label: Text(
+                        "KREIRAJ RUTU",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontFamily: "Roboto",
+                            color: Colors.white),
+                      ),
+                      color: blueColor,
+                    ),
+                  )
             ]),
           ),
         ),
