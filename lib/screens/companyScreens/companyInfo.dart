@@ -138,17 +138,6 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
   ///
   /// ulazimo u [Auth] dio firebase i na osnovu toga izvlacimo sve info o user u nasem slucaju kompaniji
   /// nakon cega dohvatamo kolekciju [LoggedUsers] i uzimamo [user.uid] i spremamo ga u varijablu [userID]
-  // getUserid() async {
-  //   final FirebaseAuth _auth = FirebaseAuth.instance;
-  //   final FirebaseUser user = await _auth.currentUser();
-
-  //   Firestore.instance
-  //       .collection('LoggedUsers')
-  //       .document(user.uid)
-  //       .snapshots()
-  //       .toString();
-  //   userID = user.uid;
-  // }
 
   /// bool f-ja koju smo ubacili u [BackButtonInterceptor], koja mora vratiti true ili false.
   /// u kojoj na klik back btn-a
@@ -157,14 +146,11 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
   bool myInterceptor(bool stopDefaultButtonEvent) {
     CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
-        print('NOT EMPRY');
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ListOfRoutes(
                   userID: userID,
                 )));
       } else {
-        print('EMPTU');
-
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => NoRoutes()));
       }
@@ -180,7 +166,6 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
   @override
   void initState() {
     super.initState();
-    //getUserid();
     onceToast = 0;
     BackButtonInterceptor.add(myInterceptor);
   }
@@ -226,7 +211,6 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
             /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
             CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
               if (docs.documents.isNotEmpty) {
-                print('NOT EMPRY');
                 imaliRuta = true;
                 Navigator.push(
                   context,
@@ -236,7 +220,6 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                           )),
                 );
               } else {
-                print('EMPTU');
                 imaliRuta = false;
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => NoRoutes()));
@@ -683,133 +666,202 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                                         updateData(snapshot
                                                             .data[index]
                                                             .documentID);
+
                                                          _isBtnDisabled = true;
                                                          onceBtnPressed = 1;
+
                                                       }
                                                     }
                                                   }
                                                 }),
                                     ),
                                   ),
+                                  Divider(
+                                    thickness: 8,
+                                    color: Color.fromRGBO(0, 0, 0, 0.03),
+                                  ),
                                   Container(
-                                    margin:
-                                        EdgeInsets.only(top: 16, bottom: 16),
-                                    height: 8,
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                      top: BorderSide(
-                                          width: 1,
-                                          color: Color.fromRGBO(0, 0, 0, 0.12)),
-                                      bottom: BorderSide(
-                                          width: 1,
-                                          color: Color.fromRGBO(0, 0, 0, 0.12)),
-                                    )),
-                                    child: Divider(
-                                      thickness: 8,
-                                      color: Color.fromRGBO(0, 0, 0, 0.03),
+                                    margin: EdgeInsets.only(
+                                      top: 16,
+                                      bottom: 16,
+                                      left: 16,
                                     ),
-                                  ),
-                                  Container(
-                                      alignment: Alignment(-1.0, 0.0),
-                                      height: 56,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                                top: 8, left: 16),
-                                            //height: 21,
-                                            //width: 89,
-                                            child: Text(
-                                              'Kontakt mail',
-                                              style: TextStyle(
-                                                  fontFamily: 'Roboto',
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                                bottom: 10, left: 16),
-                                            //height: 19,
-                                            //width: 130,
-                                            child: Text(
-                                              'support@ešped.com',
-                                              style: TextStyle(
-                                                  fontFamily: 'Roboto',
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ),
-                                        ],
-                                      )),
-                                  Divider(
-                                    thickness: 1,
-                                    color: Color.fromRGBO(0, 0, 0, 0.12),
-                                  ),
-                                  Container(
-                                      alignment: Alignment(-1.0, 0.0),
-                                      height: 56,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                                top: 8, left: 16),
-                                            //height: 21,
-                                            //width: 89,
-                                            child: Text(
-                                              'Kontakt telefon',
-                                              style: TextStyle(
-                                                  fontFamily: 'Roboto',
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                                bottom: 10, left: 16),
-                                            //height: 19,
-                                            //width: 130,
-                                            child: Text(
-                                              '062 667-266',
-                                              style: TextStyle(
-                                                  fontFamily: 'Roboto',
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ),
-                                        ],
-                                      )),
-                                  Divider(
-                                    thickness: 1,
-                                    color: Color.fromRGBO(0, 0, 0, 0.12),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      print('ODJAVAAAAAAAAAAA');
-                                      _signOut();
-                                    },
-                                    child: Container(
-                                      alignment: Alignment(-1.0, 0.0),
-                                      height: 56,
-                                      child: Container(
-                                        margin: EdgeInsets.only(
-                                            top: 17, left: 15, bottom: 18),
-                                        //height: 21,
-                                        //width: 89,
-                                        child: Text(
-                                          'Odjava',
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          "Kontakt mail",
                                           style: TextStyle(
                                               fontFamily: 'Roboto',
                                               fontSize: 16,
-                                              fontWeight: FontWeight.w400),
+                                              fontWeight: FontWeight.w500),
                                         ),
-                                      ),
+                                        Text("support@esped.com"),
+                                        Divider(
+                                          thickness: 1,
+                                          color: Color.fromRGBO(0, 0, 0, 0.12),
+                                        ),
+                                        Text(
+                                          "Kontakt telefon",
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                              fontFamily: 'Roboto',
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        Text("062 667-266"),
+                                        Divider(
+                                          thickness: 1,
+                                          color: Color.fromRGBO(0, 0, 0, 0.12),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            _signOut();
+                                          },
+                                          child: Container(
+                                            height: 30,
+                                            margin: EdgeInsets.only(top: 6),
+                                            child: Text(
+                                              "Odjava",
+                                              style: TextStyle(
+                                                  fontFamily: 'Roboto',
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
+
+                                  // Container(
+                                  //   margin:
+                                  //       EdgeInsets.only(top: 16, bottom: 16),
+                                  //   height: 8,
+                                  //   decoration: BoxDecoration(
+                                  //       border: Border(
+                                  //     top: BorderSide(
+                                  //         width: 1,
+                                  //         color: Color.fromRGBO(0, 0, 0, 0.12)),
+                                  //     bottom: BorderSide(
+                                  //         width: 1,
+                                  //         color: Color.fromRGBO(0, 0, 0, 0.12)),
+                                  //   )),
+                                  //   child: Divider(
+                                  //     thickness: 8,
+                                  //     color: Color.fromRGBO(0, 0, 0, 0.03),
+                                  //   ),
+                                  // ),
+                                  // Container(
+                                  //     alignment: Alignment(-1.0, 0.0),
+                                  //     height: 56,
+                                  //     child: Column(
+                                  //       crossAxisAlignment:
+                                  //           CrossAxisAlignment.start,
+                                  //       children: <Widget>[
+                                  //         Container(
+                                  //           margin: EdgeInsets.only(
+                                  //               top: 8, left: 16),
+                                  //           //height: 21,
+                                  //           //width: 89,
+                                  //           child: Text(
+                                  //             'Kontakt mail',
+                                  //             style: TextStyle(
+                                  //                 fontFamily: 'Roboto',
+                                  //                 fontSize: 16,
+                                  //                 fontWeight: FontWeight.w400),
+                                  //           ),
+                                  //         ),
+                                  //         Container(
+                                  //           margin: EdgeInsets.only(
+                                  //               bottom: 10, left: 16),
+                                  //           //height: 19,
+                                  //           //width: 130,
+                                  //           child: Text(
+                                  //             'support@ešped.com',
+                                  //             style: TextStyle(
+                                  //                 fontFamily: 'Roboto',
+                                  //                 fontSize: 14,
+                                  //                 fontWeight: FontWeight.w400),
+                                  //           ),
+                                  //         ),
+                                  //       ],
+                                  //     )),
+                                  // Divider(
+                                  //   thickness: 1,
+                                  //   color: Color.fromRGBO(0, 0, 0, 0.12),
+                                  // ),
+                                  // Container(
+                                  //     alignment: Alignment(-1.0, 0.0),
+                                  //     height: 56,
+                                  //     child: Column(
+                                  //       crossAxisAlignment:
+                                  //           CrossAxisAlignment.start,
+                                  //       children: <Widget>[
+                                  //         Container(
+                                  //           margin: EdgeInsets.only(
+                                  //               top: 8, left: 16),
+                                  //           //height: 21,
+                                  //           //width: 89,
+                                  //           child: Text(
+                                  //             'Kontakt telefon',
+                                  //             style: TextStyle(
+                                  //                 fontFamily: 'Roboto',
+                                  //                 fontSize: 16,
+                                  //                 fontWeight: FontWeight.w400),
+                                  //           ),
+                                  //         ),
+                                  //         Container(
+                                  //           margin: EdgeInsets.only(
+                                  //               bottom: 10, left: 16),
+                                  //           //height: 19,
+                                  //           //width: 130,
+                                  //           child: Text(
+                                  //             '062 667-266',
+                                  //             style: TextStyle(
+                                  //                 fontFamily: 'Roboto',
+                                  //                 fontSize: 14,
+                                  //                 fontWeight: FontWeight.w400),
+                                  //           ),
+                                  //         ),
+                                  //       ],
+                                  //     )),
+                                  // Divider(
+                                  //   thickness: 1,
+                                  //   color: Color.fromRGBO(0, 0, 0, 0.12),
+                                  // ),
+                                  // GestureDetector(
+                                  //   onTap: () {
+                                  //     print('ODJAVAAAAAAAAAAA');
+                                  //     _signOut();
+                                  //   },
+                                  //   child: Container(
+                                  //     alignment: Alignment(-1.0, 0.0),
+                                  //     height: 56,
+                                  //     child: Container(
+                                  //       margin: EdgeInsets.only(
+                                  //           top: 17, left: 15, bottom: 18),
+                                  //       //height: 21,
+                                  //       // width: 89,
+
+                                  //       child: Column(
+                                  //         children: <Widget>[
+                                  //           Center(
+                                  //             child: Text(
+                                  //               'Odjava',
+                                  //               style: TextStyle(
+                                  //                   fontFamily: 'Roboto',
+                                  //                   fontSize: 16,
+                                  //                   fontWeight:
+                                  //                       FontWeight.w400),
+                                  //             ),
+                                  //           ),
+                                  //         ],
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             )
