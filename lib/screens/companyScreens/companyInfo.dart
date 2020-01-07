@@ -708,7 +708,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                     color: Color.fromRGBO(0, 0, 0, 0.03),
                                   ),
                                   Container(
-                                          margin:
+                                      margin:
                                         EdgeInsets.only(top: 16, bottom: 16, left: 16,),
                                                                       child: Column(
                                 
@@ -743,14 +743,15 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                         GestureDetector(
                                             onTap: () {_signOut();},
                                               child: Container(
-                                                  child: Center(
-                                                    child: Text(
-                                                      "Odjava",
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          fontSize: 16,
-                                                          fontWeight: FontWeight.w500),
-                                                    ),
+                                                height: 30,
+                                                margin: EdgeInsets.only(top:6),
+                                                  child: Text(
+                                                    "Odjava",
+                                                    style: TextStyle(
+                                                        fontFamily: 'Roboto',
+                                                    
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.w500),
                                                   ),
                                             ),
                                           ),
