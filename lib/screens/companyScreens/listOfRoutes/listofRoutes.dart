@@ -40,6 +40,13 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
 
   @override
   Widget build(BuildContext context) {
+    // double defaultScreenWidth = 400.0;
+    //   double defaultScreenHeight = 810.0;
+    //   ScreenUtil.instance = ScreenUtil(
+    //     width: defaultScreenWidth,
+    //     height: defaultScreenHeight,
+    //     allowFontScaling: true,
+    //   )..init(context);
 
     return MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -59,7 +66,7 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
               ),
             ],
           ),
-          bottomNavigationBar: BottomAppBar1(),
+          bottomNavigationBar: BottomAppBar1(userID: userID),
           floatingActionButton: FloatingActionButton1(),
           floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         ));
