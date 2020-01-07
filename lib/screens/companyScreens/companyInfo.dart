@@ -875,6 +875,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
       'url_logo': '$urlLogoLast',
       'webpage': '$webPageLast',
     });
+    _isBtnDisabled = true;
     print('Update uspjesan');
   }
 
