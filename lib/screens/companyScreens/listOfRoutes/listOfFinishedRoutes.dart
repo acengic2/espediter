@@ -77,7 +77,7 @@ class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
     return Column(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(top: 8.0),
+          padding: EdgeInsets.only(top: 0.0),
           
         ),  Container(
             child: FutureBuilder(

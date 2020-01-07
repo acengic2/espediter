@@ -689,14 +689,14 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                   ),
                                   Container(
                                       alignment: Alignment(-1.0, 0.0),
-                                      height: 56,
+                                      height: 51,
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Container(
                                             margin: EdgeInsets.only(
-                                                top: 8, left: 16),
+                                                top: 2, left: 16),
                                             //height: 21,
                                             //width: 89,
                                             child: Text(
@@ -782,7 +782,22 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                               fontSize: 16,
                                               fontWeight: FontWeight.w400),
                                         ),
-                                      ),
+                                        GestureDetector(
+                                            onTap: () {_signOut();},
+                                              child: Container(
+                                                height: 30,
+                                                margin: EdgeInsets.only(top:6),
+                                                  child: Text(
+                                                    "Odjava",
+                                                    style: TextStyle(
+                                                        fontFamily: 'Roboto',
+                                                    
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.w500),
+                                                  ),
+                                            ),
+                                          ),
+                                      ],
                                     ),
                                   ),
                                 ],
@@ -832,6 +847,8 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
       'url_logo': '$urlLogoLast',
       'webpage': '$webPageLast',
     });
+    _isBtnDisabled = true;
+    print('Update uspjesan');
   }
 
   void _signOut() async {

@@ -22,7 +22,6 @@ import 'package:flutter/rendering.dart';
 
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 
-
 void main() => runApp(EditRoute());
 
 /// varijable
@@ -35,8 +34,7 @@ const blueColor = Color.fromRGBO(3, 54, 255, 1);
 const textColorGray80 = Color.fromRGBO(0, 0, 0, 0.8);
 const textColorGray60 = Color.fromRGBO(0, 0, 0, 0.6);
 
-
-var  _textController = TextEditingController();
+var _textController = TextEditingController();
 
 // instanca na NoRoutes screen
 NoRoutes noRoutes = new NoRoutes();
@@ -46,10 +44,7 @@ class EditRoute extends StatelessWidget {
   final DocumentSnapshot post;
   final String userID;
 
-  EditRoute({
-    this.post,
-    this.userID
-  });
+  EditRoute({this.post, this.userID});
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +63,7 @@ class EditRoute extends StatelessWidget {
         const Locale('bs'), // Bosnian
         const Locale('en'), // English
       ],
-      home: EditRouteScreenPage(
-        post: post,
-        userID:userID
-      ),
+      home: EditRouteScreenPage(post: post, userID: userID),
     );
   }
 }
@@ -80,16 +72,11 @@ class EditRouteScreenPage extends StatefulWidget {
   final DocumentSnapshot post;
   final String userID;
 
-  EditRouteScreenPage({
-    this.post,
-    this.userID
-  });
+  EditRouteScreenPage({this.post, this.userID});
 
   @override
-  _EditRouteScreenPageState createState() => _EditRouteScreenPageState(
-        post: post,
-        userID:userID
-      );
+  _EditRouteScreenPageState createState() =>
+      _EditRouteScreenPageState(post: post, userID: userID);
 }
 
 class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
@@ -98,7 +85,7 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
   final DocumentSnapshot post;
   String userID;
 
-  _EditRouteScreenPageState({this.post,this.userID});
+  _EditRouteScreenPageState({this.post, this.userID});
 
   /// VARIJABLE
   ///
@@ -146,7 +133,7 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
   /// vrijemeDolaska,vrijemePolaska, odabranoVozilo,
   /// procenat i kapacitet
   String userUid;
- 
+
   String id;
   String listOfInterdestinations = "";
   String goodsVar,
@@ -226,8 +213,10 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
     CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
         print('NOT EMPRY');
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => ListOfRoutes(userID: userID,)));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ListOfRoutes(
+                  userID: userID,
+                )));
       } else {
         print('EMPTU');
 
@@ -253,17 +242,16 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
 
     populateTheVariables();
 
-_textController.addListener((){
-            //here you have the changes of your textfield
-         //   print("value: ${_textController.text}");
-            //use setState to rebuild the widget
-            setState(() {
-                    });
-        });
+    _textController.addListener(() {
+      //here you have the changes of your textfield
+      //   print("value: ${_textController.text}");
+      //use setState to rebuild the widget
+      setState(() {});
+    });
   }
 
   populateTheVariables() {
-    formatted  = widget.post.data['departure_date'];
+    formatted = widget.post.data['departure_date'];
     t22 = widget.post.data['departure_time'];
     startingDestination = widget.post.data['starting_destination'];
     endingDestination = widget.post.data['ending_destination'];
@@ -527,7 +515,10 @@ _textController.addListener((){
                 imaliRuta = true;
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ListOfRoutes(userID: userID,)),
+                  MaterialPageRoute(
+                      builder: (context) => ListOfRoutes(
+                            userID: userID,
+                          )),
                 );
               } else {
                 print('EMPTU');
@@ -1098,7 +1089,7 @@ _textController.addListener((){
                                     borderSide: BorderSide(
                                         color: Color.fromRGBO(0, 0, 0, 0.12))),
                                 labelText: 'Kapacitet u tonama',
-                                 hintText: '1.5',
+                                hintText: '1.5',
                                 labelStyle: TextStyle(
                                     color: Color.fromRGBO(0, 0, 0, 0.5)),
                                 hasFloatingPlaceholder: true,
@@ -1309,8 +1300,14 @@ _textController.addListener((){
                                               onceToast = 0;
                                             });
                                           }
-                                        }else{
-                                       // validateDatesAndTimes(context);
+                                        } else {
+                                          if (onceBtnPressed == 0) {
+                                            updateData(widget.post);
+                                            onceBtnPressed = 1;
+                                            _isBtnDisabled = true;
+                                          }
+                                          // validateDatesAndTimes(context);
+
                                         }
                                       }),
                           ),
@@ -1344,15 +1341,13 @@ _textController.addListener((){
                                   ),
                                 ),
                                 onPressed: () {
-                                  
-                                  if(onceBtnPressed ==0){
+                                  if (onceBtnPressed == 0) {
                                     // ubacujemo u FinishedRoutes
-                                  finishedData();
-                                  // brisemo iz Rute
-                                  deleteData(widget.post);
-                                  onceBtnPressed =1;
+                                    finishedData();
+                                    // brisemo iz Rute
+                                    deleteData(widget.post);
+                                    onceBtnPressed = 1;
                                   }
-                                
                                 }),
                           ),
                         ),
@@ -1414,8 +1409,8 @@ _textController.addListener((){
     CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
         print('NOT EMPRY');
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => ListOfRoutes(userID: userID)));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ListOfRoutes(userID: userID)));
       } else {
         print('EMPTU');
 
@@ -1477,11 +1472,10 @@ _textController.addListener((){
       'user_id': '$userID',
       'timestamp': '$dateOfSubmit',
     });
+
     print('Update uspjesan');
   }
 }
-
-
 
 /// klasa vozila za dropdownlistu
 class Vehicle {

@@ -86,7 +86,7 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
           return Column(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
+          padding: EdgeInsets.only(top: 16.0, bottom: 0.0),
           
         ),
           Container(
