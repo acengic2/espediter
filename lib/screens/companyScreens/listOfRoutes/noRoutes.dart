@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/components/bottomAppBar.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/components/floatingActionButton.dart';
@@ -37,6 +38,15 @@ class NoRoutesScreenPage extends StatefulWidget {
 }
 
 class _NoRoutesScreenPageState extends State<NoRoutesScreenPage> {
+  Future getPosts(String id) async {
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore
+        .collection('Company')
+        .where('company_id', isEqualTo: id)
+        .getDocuments();
+    return qn.documents;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

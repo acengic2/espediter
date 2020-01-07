@@ -1477,6 +1477,7 @@ _textController.addListener((){
       'user_id': '$userID',
       'timestamp': '$dateOfSubmit',
     });
+    _isBtnDisabled = true;
     print('Update uspjesan');
   }
 }

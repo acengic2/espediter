@@ -8,6 +8,7 @@ class Divider1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return  /// DIVIDER
                         Container(
+                          margin: EdgeInsets.only(top: 0, bottom: 0),
                           height: 8,
                           decoration: BoxDecoration(
                               border: Border(
