@@ -104,7 +104,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
       webPage,
       location,
       companyName,
-      urlLogo,
+      urlLogo, 
       companyDescription,
       mail;
   String phoneLast,
@@ -564,6 +564,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                       right: 16.0,
                                       top: 8,
                                     ),
+                                    height: 50,
                                     child: ConstrainedBox(
                                       constraints: const BoxConstraints(
                                         minWidth: double.infinity,
@@ -665,8 +666,10 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                                         updateData(snapshot
                                                             .data[index]
                                                             .documentID);
-                                                        _isBtnDisabled = true;
-                                                        onceBtnPressed = 1;
+
+                                                         _isBtnDisabled = true;
+                                                         onceBtnPressed = 1;
+
                                                       }
                                                     }
                                                   }
