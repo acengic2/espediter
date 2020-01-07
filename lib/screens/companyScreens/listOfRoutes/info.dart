@@ -24,6 +24,9 @@ const textColorGray60 = Color.fromRGBO(0, 0, 0, 0.6);
 NoRoutes noRoutes = new NoRoutes();
 
 class Info extends StatelessWidget {
+  final String userID;
+  Info({this.userID});
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -42,20 +45,24 @@ class Info extends StatelessWidget {
         const Locale('bs'), // Bosnian
         const Locale('en'), // English
       ],
-      home: InfoPage(),
+      home: InfoPage(userID: userID),
     );
   }
 }
 
 class InfoPage extends StatefulWidget {
-  InfoPage({Key key}) : super(key: key);
+  final String userID;
+  InfoPage({this.userID});
+
 
   @override
-  _InfoPageState createState() => _InfoPageState();
+  _InfoPageState createState() => _InfoPageState(userID: userID);
 }
 
 class _InfoPageState extends State<InfoPage> {
-  _InfoPageState();
+  final String userID;
+
+  _InfoPageState({this.userID});
 
   /// instanca za bazu
   final db = Firestore.instance;
@@ -63,7 +70,7 @@ class _InfoPageState extends State<InfoPage> {
   int onceToast = 0, onceBtnPressed = 0;
 
   String userUid;
-  String userID;
+
   String id;
 
   bool imaliRuta = true;
@@ -78,25 +85,22 @@ class _InfoPageState extends State<InfoPage> {
             color: Colors.black,
             icon: Icon(Icons.clear),
             onPressed: () {
-              /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
-              CompanyRutes()
-                  .getCompanyRoutes(userID)
-                  .then((QuerySnapshot docs) {
-                if (docs.documents.isNotEmpty) {
-                  print('NOT EMPRY');
-                  imaliRuta = true;
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ListOfRoutes(userID: userID,)),
-                  );
-                } else {
-                  print('EMPTU');
-                  imaliRuta = false;
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => NoRoutes()));
-                }
-              });
+               /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
+            CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+              if (docs.documents.isNotEmpty) {
+                print('NOT EMPRY');
+                imaliRuta = true;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ListOfRoutes(userID: userID,)),
+                );
+              } else {
+                print('EMPTU');
+                imaliRuta = false;
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => NoRoutes()));
+              }
+            });
             },
           ),
           title: const Text('Info',
