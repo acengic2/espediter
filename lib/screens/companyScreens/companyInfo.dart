@@ -664,7 +664,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                                       updateData(snapshot
                                                           .data[index]
                                                           .documentID);
-                                                    }
+                                                     }
                                                   }
                                                 }),
                                     ),
@@ -674,56 +674,28 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                     color: Color.fromRGBO(0, 0, 0, 0.03),
                                   ),
                                   Container(
-                                      alignment: Alignment(-1.0, 0.0),
-                                      height: 56,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                                top: 8, left: 16),
-                                            //height: 21,
-                                            //width: 89,
-                                            child: Text(
-                                              'Kontakt telefon',
-                                              style: TextStyle(
-                                                  fontFamily: 'Roboto',
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                                bottom: 10, left: 16),
-                                            //height: 19,
-                                            //width: 130,
-                                            child: Text(
-                                              '062 667-266',
-                                              style: TextStyle(
-                                                  fontFamily: 'Roboto',
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ),
-                                        ],
-                                      )),
-                                  Divider(
-                                    thickness: 1,
-                                    color: Color.fromRGBO(0, 0, 0, 0.12),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      _signOut();
-                                    },
-                                    child: Container(
-                                      alignment: Alignment(-1.0, 0.0),
-                                      height: 56,
-                                      child: Container(
-                                        margin: EdgeInsets.only(
-                                            top: 17, left: 15, bottom: 18),
-                                        child: Text(
-                                          'Odjava',
+                                      margin:
+                                        EdgeInsets.only(top: 16, bottom: 16, left: 16,),
+                                                                      child: Column(
+                                
+                                      crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          "Kontakt mail",
+                                          style: TextStyle(
+                                              fontFamily: 'Roboto',
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        Text("support@esped.com"),
+                                        Divider(
+                                          thickness: 1,
+                                          color: Color.fromRGBO(0, 0, 0, 0.12),
+                                        ),
+                                        Text(
+                                          "Kontakt telefon",
+                                          textAlign: TextAlign.right,
                                           style: TextStyle(
                                               fontFamily: 'Roboto',
                                               fontSize: 16,
@@ -910,6 +882,12 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
         (phoneLast == null || phoneLast == '' || phoneLast == phone) &&
         (webPageLast == null || webPageLast == '' || webPageLast == webPage)) {
       _isBtnDisabled = true;
+      // } else if ((locationLast != location || mailLast != mail || companyDescriptionLast != companyDescription
+      //             || companyNameLast != companyName || urlLogoLast != urlLogo || phoneLast != phone || webPageLast != webPage) &&
+      //     (mailLast == null || mailLast == '' || locationLast == '' || locationLast == null || companyNameLast == '' || companyNameLast == null
+      //     || urlLogoLast == '' || urlLogoLast == null || phoneLast == null || phoneLast == '' || webPageLast == null || webPageLast == ''
+      //     || companyDescriptionLast == null || companyDescriptionLast == '')){
+      //   _isBtnDisabled = true;
     } else {
       _isBtnDisabled = false;
     }
@@ -933,6 +911,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
   void _signOut() async {
     await FirebaseAuth.instance.signOut();
     Future<FirebaseUser> Function() user = FirebaseAuth.instance.currentUser;
+    //print('$user');
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => Login()));
   }
