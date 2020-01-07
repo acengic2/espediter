@@ -59,7 +59,7 @@ class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
     QuerySnapshot qn = await firestore
         .collection('FinishedRoutes')
         .where('user_id', isEqualTo: id)
-        .orderBy('timestamp', descending: false)
+        .orderBy('timestamp', descending: true)
         .getDocuments();
     return qn.documents;
   }

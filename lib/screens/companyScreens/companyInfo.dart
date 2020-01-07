@@ -104,7 +104,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
       webPage,
       location,
       companyName,
-      urlLogo,
+      urlLogo, 
       companyDescription,
       mail;
   String phoneLast,
@@ -216,7 +216,6 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
 
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-
       appBar: AppBar(
         /// u appBaru kreiramo X iconicu na osnovu koje izlazimo iz [CreateRoutes] i idemo na [ListOfRoutes]
         backgroundColor: Colors.white,
@@ -582,6 +581,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                       right: 16.0,
                                       top: 8,
                                     ),
+                                    height: 50,
                                     child: ConstrainedBox(
                                       constraints: const BoxConstraints(
                                         minWidth: double.infinity,
@@ -679,25 +679,13 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                                         });
                                                       }
                                                     } else {
-                                                      updateData(snapshot
-                                                          .data[index]
-                                                          .documentID);
-                                                      print(snapshot.data[index]
-                                                          .documentID);
-                                                      print(
-                                                          'URL: -$urlLogoLast-');
-                                                      print(
-                                                          'Name: -$companyNameLast-');
-                                                      print(
-                                                          'Desc: -$companyDescriptionLast-');
-                                                      print(
-                                                          'Mail: -$mailLast-');
-                                                      print(
-                                                          'Phone: -$phoneLast-');
-                                                      print(
-                                                          'Web: -$webPageLast-');
-                                                      print(
-                                                          'Loaction: -$locationLast-');
+                                                      if (onceBtnPressed == 0) {
+                                                        updateData(snapshot
+                                                            .data[index]
+                                                            .documentID);
+                                                         _isBtnDisabled = true;
+                                                         onceBtnPressed = 1;
+                                                      }
                                                     }
                                                   }
                                                 }),
