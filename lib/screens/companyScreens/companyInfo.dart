@@ -138,17 +138,6 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
   ///
   /// ulazimo u [Auth] dio firebase i na osnovu toga izvlacimo sve info o user u nasem slucaju kompaniji
   /// nakon cega dohvatamo kolekciju [LoggedUsers] i uzimamo [user.uid] i spremamo ga u varijablu [userID]
-  // getUserid() async {
-  //   final FirebaseAuth _auth = FirebaseAuth.instance;
-  //   final FirebaseUser user = await _auth.currentUser();
-
-  //   Firestore.instance
-  //       .collection('LoggedUsers')
-  //       .document(user.uid)
-  //       .snapshots()
-  //       .toString();
-  //   userID = user.uid;
-  // }
 
   /// bool f-ja koju smo ubacili u [BackButtonInterceptor], koja mora vratiti true ili false.
   /// u kojoj na klik back btn-a
@@ -157,14 +146,11 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
   bool myInterceptor(bool stopDefaultButtonEvent) {
     CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
-        print('NOT EMPRY');
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ListOfRoutes(
                   userID: userID,
                 )));
       } else {
-        print('EMPTU');
-
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => NoRoutes()));
       }
@@ -180,7 +166,6 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
   @override
   void initState() {
     super.initState();
-    //getUserid();
     onceToast = 0;
     BackButtonInterceptor.add(myInterceptor);
   }
@@ -216,7 +201,6 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
 
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-
       appBar: AppBar(
         /// u appBaru kreiramo X iconicu na osnovu koje izlazimo iz [CreateRoutes] i idemo na [ListOfRoutes]
         backgroundColor: Colors.white,
@@ -227,7 +211,6 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
             /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
             CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
               if (docs.documents.isNotEmpty) {
-                print('NOT EMPRY');
                 imaliRuta = true;
                 Navigator.push(
                   context,
@@ -237,7 +220,6 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                           )),
                 );
               } else {
-                print('EMPTU');
                 imaliRuta = false;
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => NoRoutes()));
@@ -682,22 +664,6 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                                       updateData(snapshot
                                                           .data[index]
                                                           .documentID);
-                                                      print(snapshot.data[index]
-                                                          .documentID);
-                                                      print(
-                                                          'URL: -$urlLogoLast-');
-                                                      print(
-                                                          'Name: -$companyNameLast-');
-                                                      print(
-                                                          'Desc: -$companyDescriptionLast-');
-                                                      print(
-                                                          'Mail: -$mailLast-');
-                                                      print(
-                                                          'Phone: -$phoneLast-');
-                                                      print(
-                                                          'Web: -$webPageLast-');
-                                                      print(
-                                                          'Loaction: -$locationLast-');
                                                     }
                                                   }
                                                 }),
@@ -801,7 +767,6 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      print('ODJAVAAAAAAAAAAA');
                                       _signOut();
                                     },
                                     child: Container(
@@ -810,8 +775,6 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                       child: Container(
                                         margin: EdgeInsets.only(
                                             top: 17, left: 15, bottom: 18),
-                                        //height: 21,
-                                        //width: 89,
                                         child: Text(
                                           'Odjava',
                                           style: TextStyle(
@@ -853,12 +816,6 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
         (phoneLast == null || phoneLast == '' || phoneLast == phone) &&
         (webPageLast == null || webPageLast == '' || webPageLast == webPage)) {
       _isBtnDisabled = true;
-      // } else if ((locationLast != location || mailLast != mail || companyDescriptionLast != companyDescription
-      //             || companyNameLast != companyName || urlLogoLast != urlLogo || phoneLast != phone || webPageLast != webPage) &&
-      //     (mailLast == null || mailLast == '' || locationLast == '' || locationLast == null || companyNameLast == '' || companyNameLast == null
-      //     || urlLogoLast == '' || urlLogoLast == null || phoneLast == null || phoneLast == '' || webPageLast == null || webPageLast == ''
-      //     || companyDescriptionLast == null || companyDescriptionLast == '')){
-      //   _isBtnDisabled = true;
     } else {
       _isBtnDisabled = false;
     }
@@ -875,13 +832,11 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
       'url_logo': '$urlLogoLast',
       'webpage': '$webPageLast',
     });
-    print('Update uspjesan');
   }
 
   void _signOut() async {
     await FirebaseAuth.instance.signOut();
     Future<FirebaseUser> Function() user = FirebaseAuth.instance.currentUser;
-    //print('$user');
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => Login()));
   }
