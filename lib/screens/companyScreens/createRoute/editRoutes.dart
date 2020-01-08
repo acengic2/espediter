@@ -1247,6 +1247,7 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
                             right: 16.0,
                             top: 8,
                           ),
+                          height: 50,
                           child: ConstrainedBox(
                             constraints: const BoxConstraints(
                               minWidth: double.infinity,
@@ -1316,10 +1317,12 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
                         /// BUTTOON
                         Container(
                           margin: EdgeInsets.only(
+                            top: 5,
                             left: 16.0,
                             right: 16.0,
                             bottom: 56.0,
                           ),
+                          height: 50,
                           child: ConstrainedBox(
                             constraints: const BoxConstraints(
                               minWidth: double.infinity,

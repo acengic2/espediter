@@ -1190,11 +1190,14 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                             bottom: 56.0,
                             top: 8,
                           ),
+                          height: 50,
                           child: ConstrainedBox(
                             constraints: const BoxConstraints(
                               minWidth: double.infinity,
+                              maxHeight: 45.0
                             ),
                             child: RaisedButton(
+                                
                                 disabledColor: Color.fromRGBO(219, 219, 219, 1),
                                 disabledTextColor: Color.fromRGBO(0, 0, 0, 1),
                                 color: Color.fromRGBO(3, 54, 255, 1),

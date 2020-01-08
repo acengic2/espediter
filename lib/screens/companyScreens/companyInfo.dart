@@ -104,7 +104,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
       webPage,
       location,
       companyName,
-      urlLogo,
+      urlLogo, 
       companyDescription,
       mail;
   String phoneLast,
@@ -564,6 +564,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                       right: 16.0,
                                       top: 8,
                                     ),
+                                    height: 50,
                                     child: ConstrainedBox(
                                       constraints: const BoxConstraints(
                                         minWidth: double.infinity,
@@ -661,10 +662,16 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                                         });
                                                       }
                                                     } else {
-                                                      updateData(snapshot
-                                                          .data[index]
-                                                          .documentID);
-                                                     }
+                                                      if (onceBtnPressed == 0) {
+                                                        updateData(snapshot
+                                                            .data[index]
+                                                            .documentID);
+
+                                                         _isBtnDisabled = true;
+                                                         onceBtnPressed = 1;
+
+                                                      }
+                                                    }
                                                   }
                                                 }),
                                     ),
@@ -674,12 +681,14 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                     color: Color.fromRGBO(0, 0, 0, 0.03),
                                   ),
                                   Container(
-                                      margin:
-                                        EdgeInsets.only(top: 16, bottom: 16, left: 16,),
-                                                                      child: Column(
-                                
+                                    margin: EdgeInsets.only(
+                                      top: 16,
+                                      bottom: 16,
+                                      left: 16,
+                                    ),
+                                    child: Column(
                                       crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
                                           "Kontakt mail",
@@ -707,20 +716,21 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                           color: Color.fromRGBO(0, 0, 0, 0.12),
                                         ),
                                         GestureDetector(
-                                            onTap: () {_signOut();},
-                                              child: Container(
-                                                height: 30,
-                                                margin: EdgeInsets.only(top:6),
-                                                  child: Text(
-                                                    "Odjava",
-                                                    style: TextStyle(
-                                                        fontFamily: 'Roboto',
-                                                    
-                                                        fontSize: 16,
-                                                        fontWeight: FontWeight.w500),
-                                                  ),
+                                          onTap: () {
+                                            _signOut();
+                                          },
+                                          child: Container(
+                                            height: 30,
+                                            margin: EdgeInsets.only(top: 6),
+                                            child: Text(
+                                              "Odjava",
+                                              style: TextStyle(
+                                                  fontFamily: 'Roboto',
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500),
                                             ),
                                           ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -866,6 +876,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
       ),
     );
   }
+
   // funckija koja provjerava da li su polja prazna i enable/disable btn
   areFieldsEmpty() {
     if ((companyDescriptionLast == null ||
