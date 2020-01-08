@@ -84,7 +84,7 @@ class _InfoPageState extends State<InfoPage> {
             icon: Icon(Icons.clear),
             onPressed: () {
               /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
-              CompanyRutes()
+              CompanyRoutes()
                   .getCompanyRoutes(userID)
                   .then((QuerySnapshot docs) {
                 if (docs.documents.isNotEmpty) {

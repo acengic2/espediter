@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
@@ -7,10 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_container/responsive_container.dart';
-import 'package:spediter/components/snackBar.dart';
-import 'package:spediter/screens/companyScreens/createRoute/components/vehicle.dart';
+import 'package:spediter/components/inderdestination.dart';
+import 'package:spediter/components/vehicle.dart';
 import 'package:spediter/screens/companyScreens/createRoute/form.dart';
-import 'package:spediter/screens/companyScreens/createRoute/inderdestination.dart';
+import 'package:spediter/screens/companyScreens/editCompany/components/btnFinish.dart';
+import 'package:spediter/screens/companyScreens/editCompany/components/btnSave.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
@@ -48,6 +48,9 @@ class _EditRouteFormState extends State<EditRouteForm> {
 
   /// key za formu
   final _formKey = GlobalKey<FormState>();
+
+  /// Timestamp var [unos u bazu zbog ordera ispisa]
+  int dateOfSubmit = DateTime.now().millisecondsSinceEpoch;
 
   /// instanca za bazu
   final db = Firestore.instance;
@@ -95,9 +98,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
   DateTime endDateCompare;
   DateTime t1;
   DateTime t2;
-
-  /// Timestamp var [unos u bazu zbog ordera ispisa]
-  int dateOfSubmit = DateTime.now().millisecondsSinceEpoch;
 
   /// counteri za velicinu ekrana (responsive)
   /// i za postojanje ruta kod kompanije
@@ -816,54 +816,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                           constraints: const BoxConstraints(
                             minWidth: double.infinity,
                           ),
-                          child: RaisedButton(
-                              disabledColor: Color.fromRGBO(219, 219, 219, 1),
-                              disabledTextColor: Color.fromRGBO(0, 0, 0, 1),
-                              color: Color.fromRGBO(3, 54, 255, 1),
-                              textColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                              ),
-                              child: Text(
-                                'SAČUVAJ PROMJENE',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              onPressed: _isBtnDisabled
-                                  ? null
-                                  : () {
-                                      FocusScopeNode currentFocus =
-                                          FocusScope.of(context);
-                                      if (!currentFocus.hasPrimaryFocus) {
-                                        currentFocus.unfocus();
-                                      }
-
-                                      /// VALIDACIJA POLJA
-                                      if (percentageVar < 0 ||
-                                          percentageVar > 100) {
-                                        if (onceToast == 0) {
-                                          SnackBar1(
-                                              message:
-                                                  'Unesite broj od 0 do 100');
-
-                                          onceToast = 1;
-                                          Timer(Duration(seconds: 2), () {
-                                            onceToast = 0;
-                                          });
-                                        }
-                                      } else {
-                                        if (onceBtnPressed == 0) {
-                                          updateData(widget.post);
-                                          onceBtnPressed = 1;
-                                          _isBtnDisabled = true;
-                                        }
-                                        // validateDatesAndTimes(context);
-
-                                      }
-                                    }),
+                          child: ButtonSave(),
                         ),
                       ),
 
@@ -880,31 +833,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                           constraints: const BoxConstraints(
                             minWidth: double.infinity,
                           ),
-                          child: RaisedButton(
-                              disabledColor: Color.fromRGBO(219, 219, 219, 1),
-                              disabledTextColor: Color.fromRGBO(0, 0, 0, 1),
-                              color: Color.fromRGBO(174, 7, 37, 1),
-                              textColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                              ),
-                              child: Text(
-                                'ZAVRŠITE RUTU',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              onPressed: () {
-                                if (onceBtnPressed == 0) {
-                                  // ubacujemo u FinishedRoutes
-                                  finishedData();
-                                  // brisemo iz Rute
-                                  deleteData(widget.post);
-                                  onceBtnPressed = 1;
-                                }
-                              }),
+                          child: ButtonFinishRoute(),
                         ),
                       ),
                     ],
@@ -944,162 +873,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
     });
   }
 
-  // validateDatesAndTimes(BuildContext context) {
-  //   t11 = DateFormat.Hm().format(t1);
-  //   t22 = DateFormat.Hm().format(t2);
-  //   DateTime now = DateTime.now();
-  //   selectedDateP = new DateTime(
-  //       selectedDateP.year, selectedDateP.month, selectedDateP.day);
-  //   selectedDateD = new DateTime(
-  //       selectedDateD.year, selectedDateD.month, selectedDateD.day);
-  //   if (selectedDateD.isBefore(selectedDateP)) {
-  //     if (onceToast == 0) {
-  //       final snackBar = SnackBar(
-  //         duration: Duration(seconds: 2),
-  //         behavior: SnackBarBehavior.floating,
-  //         backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-  //         content: Text('Datum polaska ne može biti veći od datuma dolaska.'),
-  //         action: SnackBarAction(
-  //           label: 'Undo',
-  //           onPressed: () {},
-  //         ),
-  //       );
-  //       Scaffold.of(context).showSnackBar(snackBar);
-  //       onceToast = 1;
-  //       Timer(Duration(seconds: 2), () {
-  //         onceToast = 0;
-  //       });
-  //     }
-  //   } else if (selectedDateP.isAtSameMomentAs(selectedDateD)) {
-  //     if (DateFormat.Hm().format(t2).compareTo(DateFormat.Hm().format(t1)) >
-  //         0) {
-  //       if (onceToast == 0) {
-  //         final snackBar = SnackBar(
-  //           duration: Duration(seconds: 2),
-  //           behavior: SnackBarBehavior.floating,
-  //           backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-  //           content: Text(
-  //               'Vrijeme polaska ne može biti veće od vremena dolaska, ako su datumi jednaki.'),
-  //           action: SnackBarAction(
-  //             label: 'Undo',
-  //             onPressed: () {},
-  //           ),
-  //         );
-  //         Scaffold.of(context).showSnackBar(snackBar);
-  //         onceToast = 1;
-  //         Timer(Duration(seconds: 2), () {
-  //           onceToast = 0;
-  //         });
-  //       }
-  //     } else if (DateFormat.Hm()
-  //             .format(t2)
-  //             .compareTo(DateFormat.Hm().format(t1)) ==
-  //         0) {
-  //       if (onceToast == 0) {
-  //         final snackBar = SnackBar(
-  //           duration: Duration(seconds: 2),
-  //           behavior: SnackBarBehavior.floating,
-  //           backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-  //           content: Text('Datumi i vremena ne mogu biti jednaki.'),
-  //           action: SnackBarAction(
-  //             label: 'Undo',
-  //             onPressed: () {},
-  //           ),
-  //         );
-  //         Scaffold.of(context).showSnackBar(snackBar);
-  //         onceToast = 1;
-  //         Timer(Duration(seconds: 2), () {
-  //           onceToast = 0;
-  //         });
-  //       }
-  //     } else {
-  //       if (onceBtnPressed == 0) {
-  //         onSave();
-  //           updateData(widget.post);
-  //         onceBtnPressed = 1;
-  //       }
-  //     }
-  //   } else if (selectedDateD.isBefore(DateTime(now.year, now.month, now.day))) {
-  //     if (onceToast == 0) {
-  //       final snackBar = SnackBar(
-  //         duration: Duration(seconds: 2),
-  //         behavior: SnackBarBehavior.floating,
-  //         backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-  //         content:
-  //             Text('Datum dolaska ne može biti manji od današnjeg datuma.'),
-  //         action: SnackBarAction(
-  //           label: 'Undo',
-  //           onPressed: () {},
-  //         ),
-  //       );
-  //       Scaffold.of(context).showSnackBar(snackBar);
-  //       onceToast = 1;
-  //       Timer(Duration(seconds: 2), () {
-  //         onceToast = 0;
-  //       });
-  //     }
-  //   } else if (selectedDateD
-  //       .isAtSameMomentAs(DateTime(now.year, now.month, now.day))) {
-  //     if (DateFormat.Hm()
-  //             .format(t1)
-  //             .compareTo(DateFormat.Hm().format(DateTime.now())) <
-  //         0) {
-  //       if (onceToast == 0) {
-  //         final snackBar = SnackBar(
-  //           duration: Duration(seconds: 2),
-  //           behavior: SnackBarBehavior.floating,
-  //           backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-  //           content: Text(
-  //               'Datum dolaska je jednak današnjem datumu, ali vrijeme dolaska ne može biti manje od trenutnog vremena.'),
-  //           action: SnackBarAction(
-  //             label: 'Undo',
-  //             onPressed: () {},
-  //           ),
-  //         );
-  //         Scaffold.of(context).showSnackBar(snackBar);
-  //         onceToast = 1;
-  //         Timer(Duration(seconds: 2), () {
-  //           onceToast = 0;
-  //         });
-  //       }
-  //     } else if (DateFormat.Hm()
-  //             .format(t1)
-  //             .compareTo(DateFormat.Hm().format(DateTime.now())) ==
-  //         0) {
-  //       if (onceToast == 0) {
-  //         final snackBar = SnackBar(
-  //           duration: Duration(seconds: 2),
-  //           behavior: SnackBarBehavior.floating,
-  //           backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-  //           content: Text(
-  //               'Datum dolaska i vrijeme dolaska ne mogu biti jednaki današnjem datumu i trenutnom vremenu.'),
-  //           action: SnackBarAction(
-  //             label: 'Undo',
-  //             onPressed: () {},
-  //           ),
-  //         );
-  //         Scaffold.of(context).showSnackBar(snackBar);
-  //         onceToast = 1;
-  //         Timer(Duration(seconds: 2), () {
-  //           onceToast = 0;
-  //         });
-  //       }
-  //     } else {
-  //       if (onceBtnPressed == 0) {
-  //         onSave();
-  // updateData(widget.post);
-  //           onceBtnPressed = 1;
-  //       }
-  //     }
-  //   } else {
-  //     if (onceBtnPressed == 0) {
-  //       onSave();
-  //       updateData(widget.post);
-  //       onceBtnPressed = 1;
-  //     }
-  //   }
-  // }
-
   ///on save forms
   void onSave() {
     if (interdestinations.length > 0) {
@@ -1136,42 +909,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
     }
   }
 
-  // funkcija koja brise iz Rute
-  //potrebno joj je proslijediti doc.ID
-  void deleteData(DocumentSnapshot doc) async {
-    await db.collection('Rute').document(doc.documentID).delete();
-    CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-      if (docs.documents.isNotEmpty) {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ListOfRoutes(userID: userID)));
-      } else {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => NoRoutes()));
-      }
-    });
-  }
-
-  //funkcija koja dodaje u zavrseneRute
-  finishedData() async {
-    DocumentReference ref = await db.collection('FinishedRoutes').add({
-      'availability': '$percentageVar',
-      'capacity': '$capacityVar',
-      'ending_destination': '$endingDestination',
-      'starting_destination': '$startingDestination',
-      // 'interdestination': '$listOfInterdestinations',
-      'arrival_date': '$formatted2',
-      'arrival_time': '$t11',
-      'departure_time': '$t22',
-      'departure_date': '$formatted',
-      'dimensions': '$dimensionsVar',
-      'goods': '$goodsVar',
-      'vehicle': '$vehicleVar',
-      'user_id': '$userID',
-      'timestamp': '$dateOfSubmit',
-    });
-    setState(() => id = ref.documentID);
-  }
-
   populateTheVariables() {
     formatted = widget.post.data['departure_date'];
     t22 = widget.post.data['departure_time'];
@@ -1204,25 +941,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
     onceBtnPressed = 0;
     areFieldsEmpty();
     FocusScope.of(context).requestFocus(focusGoods);
-  }
-
-  updateData(DocumentSnapshot doc) async {
-    await db.collection('Rute').document(doc.documentID).updateData({
-      'availability': '$percentageVar',
-      'capacity': '$capacityVar',
-      'ending_destination': '$endingDestination',
-      'starting_destination': '$startingDestination',
-      // 'interdestination': '$listOfInterdestinations',
-      'arrival_date': '$formatted2',
-      'arrival_time': '$t11',
-      'departure_time': '$t22',
-      'departure_date': '$formatted',
-      'dimensions': '$dimensionsVar',
-      'goods': '$goodsVar',
-      'vehicle': '$vehicleVar',
-      'user_id': '$userID',
-      'timestamp': '$dateOfSubmit',
-    });
   }
 
   /// metoda koja provjerava da li je aktivan counter za screen aktivan
@@ -1266,7 +984,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
   /// provjeravamo da li company ima rute ili ne i na osnovu toga ih
   /// redirectamo na [NoRoutes] ili na [ListOfRoutes]
   bool myInterceptor(bool stopDefaultButtonEvent) {
-    CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ListOfRoutes(

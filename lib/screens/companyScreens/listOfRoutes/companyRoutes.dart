@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CompanyRutes {
+class CompanyRoutes {
   // getCompanyRoutes
   //
   // metoda koja prima [id] (userID) i koja filtrira kroz kolekciju ruta

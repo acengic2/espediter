@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:spediter/screens/companyScreens/createRoute/components/editRouteForm.dart';
 import 'package:spediter/screens/companyScreens/createRoute/form.dart';
+import 'package:spediter/screens/companyScreens/editCompany/components/editRouteForm.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:flutter/rendering.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
@@ -99,7 +99,7 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
           icon: Icon(Icons.clear),
           onPressed: () {
             /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
-            CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+            CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
               if (docs.documents.isNotEmpty) {
                 print('NOT EMPRY');
                 imaliRuta = true;

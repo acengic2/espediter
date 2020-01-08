@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spediter/screens/companyScreens/companyInfo.dart';
+import 'package:spediter/screens/companyScreens/companyInfo/companyInfo.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/info.dart';
 
 class BottomAppBar1 extends StatelessWidget {

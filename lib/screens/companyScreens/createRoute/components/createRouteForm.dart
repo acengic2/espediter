@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
@@ -10,11 +8,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_container/responsive_container.dart';
 import 'package:spediter/components/divider.dart';
-import 'package:spediter/components/loadingScreens/loadingRoutes.dart';
-import 'package:spediter/components/snackBar.dart';
-import 'package:spediter/screens/companyScreens/createRoute/components/vehicle.dart';
+import 'package:spediter/components/inderdestination.dart';
+import 'package:spediter/components/vehicle.dart';
+import 'package:spediter/screens/companyScreens/createRoute/components/btnCreateRoute.dart';
 import 'package:spediter/screens/companyScreens/createRoute/form.dart';
-import 'package:spediter/screens/companyScreens/createRoute/inderdestination.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
@@ -34,8 +31,7 @@ final formatP = DateFormat('yyyy-MM-dd');
 /// key za formu
 final _formKey = GlobalKey<FormState>();
 
-/// instanca za bazu
-final db = Firestore.instance;
+bool _isBtnDisabled = true;
 
 /// fokusi
 var focusPercentage = new FocusNode();
@@ -88,9 +84,6 @@ int percentageVar;
 /// i za postojanje ruta kod kompanije
 bool _screenUtilActive = true;
 bool imaliRuta = true;
-
-/// counter da li je btn diiseblan ili ne
-bool _isBtnDisabled = true;
 
 /// DROPDOWN LISTA VOZILA
 List<Vehicle> _vehicle = Vehicle.getVehicle();
@@ -790,47 +783,7 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                         child: ConstrainedBox(
                           constraints: const BoxConstraints(
                               minWidth: double.infinity, maxHeight: 45.0),
-                          child: RaisedButton(
-                              disabledColor: Color.fromRGBO(219, 219, 219, 1),
-                              disabledTextColor: Color.fromRGBO(0, 0, 0, 1),
-                              color: Color.fromRGBO(3, 54, 255, 1),
-                              textColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                              ),
-                              child: Text(
-                                'KREIRAJ RUTU',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              onPressed: _isBtnDisabled
-                                  ? null
-                                  : () {
-                                      FocusScopeNode currentFocus =
-                                          FocusScope.of(context);
-                                      if (!currentFocus.hasPrimaryFocus) {
-                                        currentFocus.unfocus();
-                                      }
-
-                                      /// VALIDACIJA POLJA
-                                      if (percentageVar < 0 ||
-                                          percentageVar > 100) {
-                                        if (onceToast == 0) {
-                                          SnackBar1(
-                                              message:
-                                                  "Unesite brojeve od 0 do 100");
-                                          onceToast = 1;
-                                          Timer(Duration(seconds: 2), () {
-                                            onceToast = 0;
-                                          });
-                                        }
-                                      } else {
-                                        validateDatesAndTimes(context);
-                                      }
-                                    }),
+                          child: ButtonCreateRoute(),
                         ),
                       ),
                     ],
@@ -842,112 +795,6 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
         ),
       ),
     );
-  }
-
-  validateDatesAndTimes(BuildContext context) {
-    t11 = DateFormat.Hm().format(t1);
-    t22 = DateFormat.Hm().format(t2);
-    DateTime now = DateTime.now();
-    selectedDateP = new DateTime(
-        selectedDateP.year, selectedDateP.month, selectedDateP.day);
-    selectedDateD = new DateTime(
-        selectedDateD.year, selectedDateD.month, selectedDateD.day);
-    if (selectedDateD.isBefore(selectedDateP)) {
-      if (onceToast == 0) {
-        SnackBar1(
-            message: 'Datum polaska ne može biti veći od datuma dolaska.');
-
-        onceToast = 1;
-        Timer(Duration(seconds: 2), () {
-          onceToast = 0;
-        });
-      }
-    } else if (selectedDateP.isAtSameMomentAs(selectedDateD)) {
-      if (DateFormat.Hm().format(t2).compareTo(DateFormat.Hm().format(t1)) >
-          0) {
-        if (onceToast == 0) {
-          SnackBar1(
-              message:
-                  'Vrijeme polaska ne može biti veće od vremena dolaska, ako su datumi jednaki.');
-
-          onceToast = 1;
-          Timer(Duration(seconds: 2), () {
-            onceToast = 0;
-          });
-        }
-      } else if (DateFormat.Hm()
-              .format(t2)
-              .compareTo(DateFormat.Hm().format(t1)) ==
-          0) {
-        if (onceToast == 0) {
-          SnackBar1(message: 'Datumi i vremena ne mogu biti jednaki.');
-
-          onceToast = 1;
-          Timer(Duration(seconds: 2), () {
-            onceToast = 0;
-          });
-        }
-      } else {
-        if (onceBtnPressed == 0) {
-          onSave();
-          createData();
-          onceBtnPressed = 1;
-        }
-      }
-    } else if (selectedDateD.isBefore(DateTime(now.year, now.month, now.day))) {
-      if (onceToast == 0) {
-        SnackBar1(
-            message: 'Datum dolaska ne može biti manji od današnjeg datuma.');
-
-        onceToast = 1;
-        Timer(Duration(seconds: 2), () {
-          onceToast = 0;
-        });
-      }
-    } else if (selectedDateD
-        .isAtSameMomentAs(DateTime(now.year, now.month, now.day))) {
-      if (DateFormat.Hm()
-              .format(t1)
-              .compareTo(DateFormat.Hm().format(DateTime.now())) <
-          0) {
-        if (onceToast == 0) {
-          SnackBar1(
-              message:
-                  'Datum dolaska je jednak današnjem datumu, ali vrijeme dolaska ne može biti manje od trenutnog vremena.');
-
-          onceToast = 1;
-          Timer(Duration(seconds: 2), () {
-            onceToast = 0;
-          });
-        }
-      } else if (DateFormat.Hm()
-              .format(t1)
-              .compareTo(DateFormat.Hm().format(DateTime.now())) ==
-          0) {
-        if (onceToast == 0) {
-          SnackBar1(
-              message:
-                  'Datum dolaska i vrijeme dolaska ne mogu biti jednaki današnjem datumu i trenutnom vremenu.');
-
-          onceToast = 1;
-          Timer(Duration(seconds: 2), () {
-            onceToast = 0;
-          });
-        }
-      } else {
-        if (onceBtnPressed == 0) {
-          onSave();
-          createData();
-          onceBtnPressed = 1;
-        }
-      }
-    } else {
-      if (onceBtnPressed == 0) {
-        onSave();
-        createData();
-        onceBtnPressed = 1;
-      }
-    }
   }
 
   /// lista vozila
@@ -993,37 +840,6 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
     } else {
       _isBtnDisabled = true;
     }
-  }
-
-  // funkcija koja snima informacije u bazu
-  createData() async {
-    DocumentReference ref = await db.collection('Rute').add({
-      'availability': '$percentageVar',
-      'capacity': '$capacityVar',
-      'ending_destination': '$endingDestination',
-      'starting_destination': '$startingDestination',
-      'interdestination': '$listOfInterdestinations',
-      'arrival_date': '$formatted2',
-      'arrival_time': '$t11',
-      'departure_time': '$t22',
-      'departure_date': '$formatted',
-      'dimensions': '$dimensionsVar',
-      'goods': '$goodsVar',
-      'vehicle': '$vehicleVar',
-      'user_id': '$userID',
-      'timestamp': '$dateOfSubmit',
-    });
-    setState(() => id = ref.documentID);
-
-    // navigiramo do ShowLoadingRoutes i saljemo userID i id
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => ShowLoadingRoutes(
-                userID: userID,
-                id: id,
-              )),
-    );
   }
 
   ///dispose back btn-a nakon njegovog koristenja
@@ -1102,7 +918,7 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
   /// provjeravamo da li company ima rute ili ne i na osnovu toga ih
   /// redirectamo na [NoRoutes] ili na [ListOfRoutes]
   bool myInterceptor(bool stopDefaultButtonEvent) {
-    CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ListOfRoutes(

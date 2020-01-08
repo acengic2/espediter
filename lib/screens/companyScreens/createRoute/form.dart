@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './inderdestination.dart';
+import 'package:spediter/components/inderdestination.dart';
 
 typedef OnDelete();
 typedef OnAdd();

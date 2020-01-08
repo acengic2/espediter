@@ -65,7 +65,7 @@ class _ListOfUsersRoutesPageState extends State<ListOfUsersRoutesPage> {
     super.initState();
  
     
-    CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
            if(docs.documents.isNotEmpty){
              print('NOT EMPRY');
 
@@ -89,7 +89,7 @@ class _ListOfUsersRoutesPageState extends State<ListOfUsersRoutesPage> {
           //u future se poziva metoda iz klase CompanyRoutes koja prima id
           //builder vraca context i snapshot koji koristimo kako bi mapirali kroz info
            child: FutureBuilder<QuerySnapshot>(
-             future: CompanyRutes().getCompanyRoutes(userID),
+             future: CompanyRoutes().getCompanyRoutes(userID),
               builder: (context, snapshot) {
                 print('DOVDJE');
                 print(userID);

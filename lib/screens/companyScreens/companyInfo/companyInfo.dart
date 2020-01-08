@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:spediter/screens/companyScreens/companyInfo/components/btnSaveInfo.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
@@ -130,7 +131,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
   /// provjeravamo da li company ima rute ili ne i na osnovu toga ih
   /// redirectamo na [NoRoutes] ili na [ListOfRoutes]
   bool myInterceptor(bool stopDefaultButtonEvent) {
-    CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ListOfRoutes(
@@ -195,7 +196,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
           icon: Icon(Icons.clear),
           onPressed: () {
             /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
-            CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+            CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
               if (docs.documents.isNotEmpty) {
                 imaliRuta = true;
                 Navigator.push(
@@ -555,110 +556,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                       constraints: const BoxConstraints(
                                         minWidth: double.infinity,
                                       ),
-                                      child: RaisedButton(
-                                          disabledColor:
-                                              Color.fromRGBO(219, 219, 219, 1),
-                                          disabledTextColor:
-                                              Color.fromRGBO(0, 0, 0, 1),
-                                          color: Color.fromRGBO(3, 54, 255, 1),
-                                          textColor: Colors.white,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                          ),
-                                          child: Text(
-                                            'SAČUVAJ PROMJENE',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontFamily: 'Roboto',
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          onPressed: _isBtnDisabled
-                                              ? null
-                                              : () {
-                                                  FocusScopeNode currentFocus =
-                                                      FocusScope.of(context);
-                                                  if (!currentFocus
-                                                      .hasPrimaryFocus) {
-                                                    currentFocus.unfocus();
-
-                                                    if (urlLogoLast == null) {
-                                                      urlLogoLast = urlLogo;
-                                                    }
-                                                    if (companyNameLast ==
-                                                        null) {
-                                                      companyNameLast =
-                                                          companyName;
-                                                    }
-                                                    if (companyDescriptionLast ==
-                                                        null) {
-                                                      companyDescriptionLast =
-                                                          companyDescription;
-                                                    }
-                                                    if (mailLast == null) {
-                                                      mailLast = mail;
-                                                    }
-                                                    if (phoneLast == null) {
-                                                      phoneLast = phone;
-                                                    }
-                                                    if (webPageLast == null) {
-                                                      webPageLast = webPage;
-                                                    }
-                                                    if (locationLast == null) {
-                                                      locationLast = location;
-                                                    }
-
-                                                    if (companyDescriptionLast ==
-                                                            '' ||
-                                                        mailLast == '' ||
-                                                        locationLast == '' ||
-                                                        companyNameLast == '' ||
-                                                        urlLogoLast == '' ||
-                                                        phoneLast == '' ||
-                                                        webPageLast == '') {
-                                                      if (onceToast == 0) {
-                                                        final snackBar =
-                                                            SnackBar(
-                                                          duration: Duration(
-                                                              seconds: 2),
-                                                          behavior:
-                                                              SnackBarBehavior
-                                                                  .floating,
-                                                          backgroundColor:
-                                                              Color.fromRGBO(28,
-                                                                  28, 28, 1.0),
-                                                          content: Text(
-                                                              'Sva polja moraju biti popunjena.'),
-                                                          action:
-                                                              SnackBarAction(
-                                                            label: 'Undo',
-                                                            onPressed: () {},
-                                                          ),
-                                                        );
-                                                        Scaffold.of(context)
-                                                            .showSnackBar(
-                                                                snackBar);
-                                                        onceToast = 1;
-                                                        Timer(
-                                                            Duration(
-                                                                seconds: 2),
-                                                            () {
-                                                          onceToast = 0;
-                                                        });
-                                                      }
-                                                    } else {
-                                                      if (onceBtnPressed == 0) {
-                                                        updateData(snapshot
-                                                            .data[index]
-                                                            .documentID);
-
-                                                        _isBtnDisabled = true;
-                                                        onceBtnPressed = 1;
-                                                      }
-                                                    }
-                                                  }
-                                                }),
+                                      child:ButtonSaveInfo(post: snapshot.data[index]),
                                     ),
                                   ),
                                   Divider(
@@ -755,19 +653,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
     }
   }
 
-  //  funckija za update todo
-  updateData(String docID) async {
-    await db.collection('Company').document(docID).updateData({
-      'company_description': '$companyDescriptionLast',
-      'company_name': '$companyNameLast',
-      'email': '$mailLast',
-      'location': '$locationLast',
-      'phone': '$phoneLast',
-      'url_logo': '$urlLogoLast',
-      'webpage': '$webPageLast',
-    });
-    _isBtnDisabled = true;
-  }
+
 
   void _signOut() async {
     await FirebaseAuth.instance.signOut();

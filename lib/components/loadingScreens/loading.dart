@@ -108,7 +108,7 @@ class _ShowLoading extends State<ShowLoading> {
   /// na [NoRoutes] ili na [ListOfRoutes]
   onDoneLoading() async {
     checkForRole();
-    CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ListOfRoutes(
