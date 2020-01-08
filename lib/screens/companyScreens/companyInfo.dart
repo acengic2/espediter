@@ -71,13 +71,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
   final db = Firestore.instance;
 
   /// fokusi
-  ///
-  /// fokus za procenat
-  /// fokus za dostupnost
-  /// fokus za robu
-  /// fokus za dimenzije
-  /// fokus za pocetnu destinaciju
-  /// fokus za krajnju destinaciju
+
   var focusImage = new FocusNode();
   var focusName = new FocusNode();
   var focusAbout = new FocusNode();
@@ -90,21 +84,13 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
   int onceToast = 0, onceBtnPressed = 0;
 
   /// Stringovi
-  ///
-  /// companyID
-  /// user id
-  /// id
-  /// medjudestinacija
-  /// roba,dimenzije,odabraniDatumPolaska,odabraniDatumDolaska,krajnja destinacija,pocetna destinacija
-  /// vrijemeDolaska,vrijemePolaska, odabranoVozilo,
-  /// procenat i kapacitet
   String userUid;
   String id;
   String phone,
       webPage,
       location,
       companyName,
-      urlLogo, 
+      urlLogo,
       companyDescription,
       mail;
   String phoneLast,
@@ -667,9 +653,8 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                                             .data[index]
                                                             .documentID);
 
-                                                         _isBtnDisabled = true;
-                                                         onceBtnPressed = 1;
-
+                                                        _isBtnDisabled = true;
+                                                        onceBtnPressed = 1;
                                                       }
                                                     }
                                                   }
@@ -734,134 +719,6 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                       ],
                                     ),
                                   ),
-
-                                  // Container(
-                                  //   margin:
-                                  //       EdgeInsets.only(top: 16, bottom: 16),
-                                  //   height: 8,
-                                  //   decoration: BoxDecoration(
-                                  //       border: Border(
-                                  //     top: BorderSide(
-                                  //         width: 1,
-                                  //         color: Color.fromRGBO(0, 0, 0, 0.12)),
-                                  //     bottom: BorderSide(
-                                  //         width: 1,
-                                  //         color: Color.fromRGBO(0, 0, 0, 0.12)),
-                                  //   )),
-                                  //   child: Divider(
-                                  //     thickness: 8,
-                                  //     color: Color.fromRGBO(0, 0, 0, 0.03),
-                                  //   ),
-                                  // ),
-                                  // Container(
-                                  //     alignment: Alignment(-1.0, 0.0),
-                                  //     height: 56,
-                                  //     child: Column(
-                                  //       crossAxisAlignment:
-                                  //           CrossAxisAlignment.start,
-                                  //       children: <Widget>[
-                                  //         Container(
-                                  //           margin: EdgeInsets.only(
-                                  //               top: 8, left: 16),
-                                  //           //height: 21,
-                                  //           //width: 89,
-                                  //           child: Text(
-                                  //             'Kontakt mail',
-                                  //             style: TextStyle(
-                                  //                 fontFamily: 'Roboto',
-                                  //                 fontSize: 16,
-                                  //                 fontWeight: FontWeight.w400),
-                                  //           ),
-                                  //         ),
-                                  //         Container(
-                                  //           margin: EdgeInsets.only(
-                                  //               bottom: 10, left: 16),
-                                  //           //height: 19,
-                                  //           //width: 130,
-                                  //           child: Text(
-                                  //             'support@ešped.com',
-                                  //             style: TextStyle(
-                                  //                 fontFamily: 'Roboto',
-                                  //                 fontSize: 14,
-                                  //                 fontWeight: FontWeight.w400),
-                                  //           ),
-                                  //         ),
-                                  //       ],
-                                  //     )),
-                                  // Divider(
-                                  //   thickness: 1,
-                                  //   color: Color.fromRGBO(0, 0, 0, 0.12),
-                                  // ),
-                                  // Container(
-                                  //     alignment: Alignment(-1.0, 0.0),
-                                  //     height: 56,
-                                  //     child: Column(
-                                  //       crossAxisAlignment:
-                                  //           CrossAxisAlignment.start,
-                                  //       children: <Widget>[
-                                  //         Container(
-                                  //           margin: EdgeInsets.only(
-                                  //               top: 8, left: 16),
-                                  //           //height: 21,
-                                  //           //width: 89,
-                                  //           child: Text(
-                                  //             'Kontakt telefon',
-                                  //             style: TextStyle(
-                                  //                 fontFamily: 'Roboto',
-                                  //                 fontSize: 16,
-                                  //                 fontWeight: FontWeight.w400),
-                                  //           ),
-                                  //         ),
-                                  //         Container(
-                                  //           margin: EdgeInsets.only(
-                                  //               bottom: 10, left: 16),
-                                  //           //height: 19,
-                                  //           //width: 130,
-                                  //           child: Text(
-                                  //             '062 667-266',
-                                  //             style: TextStyle(
-                                  //                 fontFamily: 'Roboto',
-                                  //                 fontSize: 14,
-                                  //                 fontWeight: FontWeight.w400),
-                                  //           ),
-                                  //         ),
-                                  //       ],
-                                  //     )),
-                                  // Divider(
-                                  //   thickness: 1,
-                                  //   color: Color.fromRGBO(0, 0, 0, 0.12),
-                                  // ),
-                                  // GestureDetector(
-                                  //   onTap: () {
-                                  //     print('ODJAVAAAAAAAAAAA');
-                                  //     _signOut();
-                                  //   },
-                                  //   child: Container(
-                                  //     alignment: Alignment(-1.0, 0.0),
-                                  //     height: 56,
-                                  //     child: Container(
-                                  //       margin: EdgeInsets.only(
-                                  //           top: 17, left: 15, bottom: 18),
-                                  //       //height: 21,
-                                  //       // width: 89,
-
-                                  //       child: Column(
-                                  //         children: <Widget>[
-                                  //           Center(
-                                  //             child: Text(
-                                  //               'Odjava',
-                                  //               style: TextStyle(
-                                  //                   fontFamily: 'Roboto',
-                                  //                   fontSize: 16,
-                                  //                   fontWeight:
-                                  //                       FontWeight.w400),
-                                  //             ),
-                                  //           ),
-                                  //         ],
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ),
                                 ],
                               ),
                             )
@@ -893,12 +750,6 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
         (phoneLast == null || phoneLast == '' || phoneLast == phone) &&
         (webPageLast == null || webPageLast == '' || webPageLast == webPage)) {
       _isBtnDisabled = true;
-      // } else if ((locationLast != location || mailLast != mail || companyDescriptionLast != companyDescription
-      //             || companyNameLast != companyName || urlLogoLast != urlLogo || phoneLast != phone || webPageLast != webPage) &&
-      //     (mailLast == null || mailLast == '' || locationLast == '' || locationLast == null || companyNameLast == '' || companyNameLast == null
-      //     || urlLogoLast == '' || urlLogoLast == null || phoneLast == null || phoneLast == '' || webPageLast == null || webPageLast == ''
-      //     || companyDescriptionLast == null || companyDescriptionLast == '')){
-      //   _isBtnDisabled = true;
     } else {
       _isBtnDisabled = false;
     }
@@ -916,13 +767,11 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
       'webpage': '$webPageLast',
     });
     _isBtnDisabled = true;
-    print('Update uspjesan');
   }
 
   void _signOut() async {
     await FirebaseAuth.instance.signOut();
     Future<FirebaseUser> Function() user = FirebaseAuth.instance.currentUser;
-    //print('$user');
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => Login()));
   }

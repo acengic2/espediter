@@ -14,7 +14,7 @@ class CompanyRutes {
         .getDocuments();
   }
 
-getCompanyFinishedRoutes(String id) {
+  getCompanyFinishedRoutes(String id) {
     return Firestore.instance
         .collection('FinishedRoutes')
         .where('user_id', isEqualTo: id)

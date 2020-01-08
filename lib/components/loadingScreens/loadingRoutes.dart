@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:spediter/components/loadingScreens/components/loadingComponent.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
-import 'package:spediter/screens/loadingScreens/components/loadingComponent.dart';
-
 
 void main() => runApp(ShowLoadingRoutes());
 
@@ -14,29 +13,26 @@ class ShowLoadingRoutes extends StatefulWidget {
   ShowLoadingRoutes({Key key, this.userID, this.id}) : super(key: key);
 
   @override
-  _ShowLoadingRoutes createState() => _ShowLoadingRoutes(userID: userID, id:id);
+  _ShowLoadingRoutes createState() =>
+      _ShowLoadingRoutes(userID: userID, id: id);
 }
 
 class _ShowLoadingRoutes extends State<ShowLoadingRoutes> {
-//  bool _loadingInProgress;
-
   String userID;
   String id;
-// final FirebaseUser user;
-   String firstMessage = "Ruta se kreira";
-   String secondMessage = "Molim vas sačekajte trenutak.";
+
+  String firstMessage = "Ruta se kreira";
+  String secondMessage = "Molim vas sačekajte trenutak.";
   _ShowLoadingRoutes({this.userID, this.id});
 
   @override
   void initState() {
     super.initState();
-    //_loadingInProgress = true;
     loadData();
   }
 
   @override
   Widget build(BuildContext context) {
-    //if (_loadingInProgress) {
     return Scaffold(body: LoadingComponent(firstMessage, secondMessage));
   }
 

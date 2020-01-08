@@ -5,21 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:responsive_container/responsive_container.dart';
 import 'package:spediter/screens/companyScreens/createRoute/form.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/listOfRoutesref.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
-
 import 'package:spediter/utils/screenUtils.dart';
 import './inderdestination.dart';
 import 'package:flutter/rendering.dart';
-
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 
 void main() => runApp(EditRoute());
@@ -104,13 +100,6 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
   final db = Firestore.instance;
 
   /// fokusi
-  ///
-  /// fokus za procenat
-  /// fokus za dostupnost
-  /// fokus za robu
-  /// fokus za dimenzije
-  /// fokus za pocetnu destinaciju
-  /// fokus za krajnju destinaciju
   var focusPercentage = new FocusNode();
   var focusCapacity = new FocusNode();
   var focusGoods = new FocusNode();
@@ -124,14 +113,6 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
   // var percentageController = new MaskedTextController(mask: '000');
 
   /// Stringovi
-  ///
-  /// companyID
-  /// user id
-  /// id
-  /// medjudestinacija
-  /// roba,dimenzije,odabraniDatumPolaska,odabraniDatumDolaska,krajnja destinacija,pocetna destinacija
-  /// vrijemeDolaska,vrijemePolaska, odabranoVozilo,
-  /// procenat i kapacitet
   String userUid;
 
   String id;
@@ -212,19 +193,15 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
   bool myInterceptor(bool stopDefaultButtonEvent) {
     CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
-        print('NOT EMPRY');
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ListOfRoutes(
                   userID: userID,
                 )));
       } else {
-        print('EMPTU');
-
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => NoRoutes()));
       }
     });
-    // Do some stuff.
     return true;
   }
 
@@ -243,9 +220,6 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
     populateTheVariables();
 
     _textController.addListener(() {
-      //here you have the changes of your textfield
-      //   print("value: ${_textController.text}");
-      //use setState to rebuild the widget
       setState(() {});
     });
   }
@@ -521,7 +495,6 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
                           )),
                 );
               } else {
-                print('EMPTU');
                 imaliRuta = false;
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => NoRoutes()));
@@ -941,7 +914,6 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
                                           00);
                                       bool check = selectedDateD
                                           .isBefore(DateTime.now());
-                                      print(check);
                                       onceToast = 0;
                                       onceBtnPressed = 0;
                                       areFieldsEmpty();
@@ -1096,7 +1068,6 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5.0))),
                             onChanged: (input) {
-                              print(input);
                               setState(() {
                                 capacityVar = input;
 
@@ -1107,7 +1078,6 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
                                 }
                                 capacityVar = capacityDouble.toString();
 
-                                print(capacityVar);
                                 onceToast = 0;
                                 onceBtnPressed = 0;
                                 areFieldsEmpty();
@@ -1374,7 +1344,6 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
       interdestinations.forEach((form) => allValid = allValid);
       if (allValid) {
         var data = interdestinations.map((it) => it.interdestination).toList();
-        print(data.length);
         for (int i = 0; i < data.length; i++) {
           if ('${data[i].interdestinationData}' != '')
             listOfInterdestinations += '${data[i].interdestinationData}, ';
@@ -1408,15 +1377,11 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
   //potrebno joj je proslijediti doc.ID
   void deleteData(DocumentSnapshot doc) async {
     await db.collection('Rute').document(doc.documentID).delete();
-    print('OBRISANA');
     CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
-        print('NOT EMPRY');
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ListOfRoutes(userID: userID)));
       } else {
-        print('EMPTU');
-
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => NoRoutes()));
       }
@@ -1442,8 +1407,6 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
       'timestamp': '$dateOfSubmit',
     });
     setState(() => id = ref.documentID);
-    print(ref.documentID);
-    print('Unos uspjesan');
   }
 
   /// na promjenu dropdown-a
@@ -1475,8 +1438,6 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
       'user_id': '$userID',
       'timestamp': '$dateOfSubmit',
     });
-
-    print('Update uspjesan');
   }
 }
 

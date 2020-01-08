@@ -1,44 +1,29 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:spediter/screens/loadingScreens/loading.dart';
-import 'package:spediter/screens/noInternetConnectionScreen/noInternetOnLogin.dart';
+import 'package:spediter/components/loadingScreens/loading.dart';
+import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
 
 class FormLogIn extends StatefulWidget {
   @override
   _FormState createState() => _FormState();
 }
 
-var err;
-
+final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 final FirebaseAuth _auth = FirebaseAuth.instance;
+final db = Firestore.instance;
 
+var err;
 var _focusNode = new FocusNode();
-
 var focusNode = new FocusNode();
 
 String _email = '', _password = '', userExist, passExist, id, userID;
-
-final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-final db = Firestore.instance;
-
 int onceToast = 0, onceBtnPressed = 0;
 
 class _FormState extends State<FormLogIn> {
-  ///VARIJABLE
-  ///
-  ///error, instanca na auth
-  /// fokusi za email i pass polje
-  /// email,pass, da li user postoji, da li sifra postoji, docID, i userID
-  /// GlobalKey za formu
-  /// instanca na firebase bazu
-  /// counteri za toast i btn
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -57,15 +42,10 @@ class _FormState extends State<FormLogIn> {
 
                     TextFormField(
                   focusNode: focusNode,
-
                   autocorrect: false,
-
                   keyboardType: TextInputType.visiblePassword,
-
                   autofocus: true,
-
                   enableInteractiveSelection: false,
-
                   autovalidate: false,
 
                   // dekoracija fielda
@@ -111,10 +91,8 @@ class _FormState extends State<FormLogIn> {
                         );
 
                         Scaffold.of(context).showSnackBar(snackBar);
-
                         onceToast = 1;
                       }
-
                       return '';
                     }
 
@@ -137,7 +115,6 @@ class _FormState extends State<FormLogIn> {
 
                         onceToast = 1;
                       }
-
                       return '';
                     }
 
@@ -157,20 +134,15 @@ class _FormState extends State<FormLogIn> {
                         );
 
                         Scaffold.of(context).showSnackBar(snackBar);
-
                         onceToast = 1;
                       }
-
                       return '';
                     }
-
                     return null;
                   },
 
                   // na promjenu u polju setamo state
-
                   // email == input
-
                   onChanged: (input) {
                     setState(() {
                       _email = input;
@@ -184,14 +156,11 @@ class _FormState extends State<FormLogIn> {
                 child:
 
                     // PASSWORD textform field
-
                     TextFormField(
                   focusNode: _focusNode,
-
                   obscureText: true,
 
                   //  dekoracija fielda
-
                   decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4.0)),
@@ -233,10 +202,8 @@ class _FormState extends State<FormLogIn> {
                         );
 
                         Scaffold.of(context).showSnackBar(snackBar);
-
                         onceToast = 1;
                       }
-
                       return '';
                     }
 
@@ -257,10 +224,8 @@ class _FormState extends State<FormLogIn> {
                         );
 
                         Scaffold.of(context).showSnackBar(snackBar);
-
                         onceToast = 1;
                       }
-
                       return '';
                     }
 
@@ -280,20 +245,15 @@ class _FormState extends State<FormLogIn> {
                         );
 
                         Scaffold.of(context).showSnackBar(snackBar);
-
                         onceToast = 1;
                       }
-
                       return '';
                     }
-
                     return null;
                   },
 
                   //  setanje state-a
-
                   // password == input
-
                   onChanged: (input) {
                     setState(() {
                       _password = input;
@@ -332,9 +292,7 @@ class _FormState extends State<FormLogIn> {
                       color: Color.fromRGBO(3, 54, 255, 1.0),
 
                       // na press btn-a
-
                       onPressed:
-
                           // provjera internet konekcije
 
                           () async {
@@ -343,12 +301,8 @@ class _FormState extends State<FormLogIn> {
                               await InternetAddress.lookup('google.com');
 
                           if (result.isNotEmpty &&
-                              result[0].rawAddress.isNotEmpty) {
-                            print('connected');
-                          }
+                              result[0].rawAddress.isNotEmpty) {}
                         } on SocketException catch (_) {
-                          print('not connected');
-
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) =>
                                   NoInternetConnectionLogInSrceen()));
@@ -378,7 +332,6 @@ class _FormState extends State<FormLogIn> {
                             );
 
                             Scaffold.of(context).showSnackBar(snackBar);
-
                             onceToast = 1;
 
                             Timer(Duration(seconds: 2), () {
@@ -388,15 +341,12 @@ class _FormState extends State<FormLogIn> {
                         }
 
                         // ukoliko nisu prazna izvrsi slj funkcije -> [signIn]
-
                         // setamo counter [onceBtnPressed] na 1 nakon jednog klika kako bi
-
                         // zabranili mogucnost vise klikova
 
                         else {
                           if (onceBtnPressed == 0) {
                             signIn(_email, _password, userExist);
-
                             onceBtnPressed = 1;
                           }
                         }
@@ -405,16 +355,11 @@ class _FormState extends State<FormLogIn> {
               ),
 
               /// FUTURE BUILDER
-
-              //
-
-              // ovdje provjeravamo da li password zaista postoji u bazi
-
-              // dok se provjerava printamo [Loading]
-
-              // ukoliko postoji =>  String [passExist] = Pass postoji
-
-              // ukoliko ne postoji =>  String [passExist] = Pass ne postoji
+              ///
+              /// ovdje provjeravamo da li password zaista postoji u bazi
+              /// dok se provjerava printamo [Loading]
+              /// ukoliko postoji =>  String [passExist] = Pass postoji
+              /// ukoliko ne postoji =>  String [passExist] = Pass ne postoji
 
               Column(
                 children: <Widget>[
@@ -423,10 +368,7 @@ class _FormState extends State<FormLogIn> {
                     builder: (context, AsyncSnapshot<bool> result) {
                       if (!result.hasData) {
                         onceToast = 0;
-
                         onceBtnPressed = 0;
-
-                        print('LOADING');
 
                         return Container(
                           width: 0,
@@ -436,9 +378,7 @@ class _FormState extends State<FormLogIn> {
 
                       if (result.data) {
                         passExist = 'Pass postoji';
-
                         onceToast = 0;
-
                         onceBtnPressed = 0;
 
                         return Container(
@@ -449,9 +389,7 @@ class _FormState extends State<FormLogIn> {
 
                       else {
                         passExist = 'Pass ne postoji';
-
                         onceToast = 0;
-
                         onceBtnPressed = 0;
 
                         return Container(
@@ -465,16 +403,11 @@ class _FormState extends State<FormLogIn> {
               ),
 
               /// FUTURE BUILDER
-
-              //
-
-              // ovdje provjeravamo da li Email/User zaista postoji u bazi
-
-              // dok se provjerava printamo [Loading]
-
-              // ukoliko postoji =>  String [userExist] = User postoji
-
-              // ukoliko ne postoji =>  String [userExist] = User ne postoji
+              ///
+              /// Ovdje provjeravamo da li Email/User zaista postoji u bazi
+              /// dok se provjerava printamo [Loading]
+              /// ukoliko postoji =>  String [userExist] = User postoji
+              /// ukoliko ne postoji =>  String [userExist] = User ne postoji
 
               Column(
                 children: <Widget>[
@@ -486,8 +419,6 @@ class _FormState extends State<FormLogIn> {
 
                         onceBtnPressed = 0;
 
-                        print('LOADING');
-
                         return Container(
                           width: 0,
                           height: 0,
@@ -496,9 +427,7 @@ class _FormState extends State<FormLogIn> {
 
                       if (result.data) {
                         onceToast = 0;
-
                         onceBtnPressed = 0;
-
                         userExist = 'User postoji';
 
                         return Container(
@@ -511,9 +440,7 @@ class _FormState extends State<FormLogIn> {
                         onceToast = 0;
 
                         onceBtnPressed = 0;
-
                         userExist = 'User ne postoji';
-
                         passExist = 'Pass ne postoji';
 
                         return Container(
@@ -555,10 +482,8 @@ class _FormState extends State<FormLogIn> {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) =>
                 ShowLoading(user: user, email: userEmail, userID: userID)));
-        return print(user);
       } catch (e) {
         err = e.message;
-        print(e.message);
       }
     }
   }

@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
-
+/// Loading component class 
+/// 
+/// Two components with messages: different style text and messages
+/// 
+/// Authors: Sena Cikic, Danis Preldzic, Adi Cengic, Jusuf Elfarahati
+/// Tech387 - T2
+/// Jan, 2020
+/// 
+/// 
 class LoadingComponent extends StatelessWidget {
-  
   String loadingStingFirstMessage;
   String loadingStingSecondMessage;
 

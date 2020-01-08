@@ -10,23 +10,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:responsive_container/responsive_container.dart';
+import 'package:spediter/components/loadingScreens/loadingRoutes.dart';
 import 'package:spediter/screens/companyScreens/createRoute/form.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/components/divider.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/listOfRoutesref.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
-import 'package:spediter/screens/loadingScreens/loadingRoutes.dart';
-import 'package:spediter/screens/singIn/components/form.dart';
-
 import 'package:spediter/utils/screenUtils.dart';
 import './inderdestination.dart';
-
 import 'package:flutter/rendering.dart';
-
 import 'package:back_button_interceptor/back_button_interceptor.dart';
-
-
 
 void main() => runApp(CreateRoute());
 
@@ -97,13 +90,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
   final db = Firestore.instance;
 
   /// fokusi
-  ///
-  /// fokus za procenat
-  /// fokus za dostupnost
-  /// fokus za robu
-  /// fokus za dimenzije
-  /// fokus za pocetnu destinaciju
-  /// fokus za krajnju destinaciju
   var focusPercentage = new FocusNode();
   var focusCapacity = new FocusNode();
   var focusGoods = new FocusNode();
@@ -121,15 +107,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
 
   var percentageController = new MaskedTextController(mask: '000');
 
-  /// Stringovi
-  ///
-  /// companyID
-  /// user id
-  /// id
-  /// medjudestinacija
-  /// roba,dimenzije,odabraniDatumPolaska,odabraniDatumDolaska,krajnja destinacija,pocetna destinacija
-  /// vrijemeDolaska,vrijemePolaska, odabranoVozilo,
-  /// procenat i kapacitet
+  /// Declaracion of Strings
   String userUid;
   String userID;
   String id;
@@ -208,12 +186,11 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
   bool myInterceptor(bool stopDefaultButtonEvent) {
     CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
-        print('NOT EMPRY');
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => ListOfRoutes(userID: userID,)));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ListOfRoutes(
+                  userID: userID,
+                )));
       } else {
-        print('EMPTU');
-
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => NoRoutes()));
       }
@@ -239,7 +216,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
   @override
   void dispose() {
     BackButtonInterceptor.remove(myInterceptor);
-    print('Ovdje sam ');
     super.dispose();
   }
 
@@ -281,7 +257,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
     }
 
     validateDatesAndTimes(BuildContext context) {
-       t11 = DateFormat.Hm().format(t1);
+      t11 = DateFormat.Hm().format(t1);
       t22 = DateFormat.Hm().format(t2);
       DateTime now = DateTime.now();
       selectedDateP = new DateTime(
@@ -289,7 +265,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
       selectedDateD = new DateTime(
           selectedDateD.year, selectedDateD.month, selectedDateD.day);
       if (selectedDateD.isBefore(selectedDateP)) {
-        print('Datum dolaska ne može biti manji od datuma polaska.');
         if (onceToast == 0) {
           final snackBar = SnackBar(
             duration: Duration(seconds: 2),
@@ -310,8 +285,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
       } else if (selectedDateP.isAtSameMomentAs(selectedDateD)) {
         if (DateFormat.Hm().format(t2).compareTo(DateFormat.Hm().format(t1)) >
             0) {
-          print(
-              'Vrijeme polaska ne može biti veće od vremena dolaska, ako su datumi jednaki.');
           if (onceToast == 0) {
             final snackBar = SnackBar(
               duration: Duration(seconds: 2),
@@ -334,7 +307,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                 .format(t2)
                 .compareTo(DateFormat.Hm().format(t1)) ==
             0) {
-          print('Datumi i vremena ne mogu biti jednaki.');
           if (onceToast == 0) {
             final snackBar = SnackBar(
               duration: Duration(seconds: 2),
@@ -353,9 +325,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
             });
           }
         } else {
-          print('Validacija ispravna');
           if (onceBtnPressed == 0) {
-            print('btn kreiraj');
             onSave();
             createData();
             onceBtnPressed = 1;
@@ -363,7 +333,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
         }
       } else if (selectedDateD
           .isBefore(DateTime(now.year, now.month, now.day))) {
-        print('Datum dolaska ne može biti manji od današnjeg datuma.');
         if (onceToast == 0) {
           final snackBar = SnackBar(
             duration: Duration(seconds: 2),
@@ -388,8 +357,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                 .format(t1)
                 .compareTo(DateFormat.Hm().format(DateTime.now())) <
             0) {
-          print(
-              'Vrijeme dolaska ne može biti manji od trenutnog vremena, ako je datum dolaska jednako današnjem datumu.');
           if (onceToast == 0) {
             final snackBar = SnackBar(
               duration: Duration(seconds: 2),
@@ -412,8 +379,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                 .format(t1)
                 .compareTo(DateFormat.Hm().format(DateTime.now())) ==
             0) {
-          print(
-              'Vrijeme dolaska ne može biti jednako trenutnom vremenu, ako je datum dolaska jednak današnjem datumu.');
           if (onceToast == 0) {
             final snackBar = SnackBar(
               duration: Duration(seconds: 2),
@@ -433,24 +398,19 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
             });
           }
         } else {
-          print('Validacija ispravna');
           if (onceBtnPressed == 0) {
-            print('btn kreiraj');
             onSave();
             createData();
             onceBtnPressed = 1;
           }
         }
       } else {
-        print('Validacija ispravna');
         if (onceBtnPressed == 0) {
-          print('btn kreiraj');
           onSave();
           createData();
           onceBtnPressed = 1;
         }
       }
-     
     }
 
     /// RESPONSIVE
@@ -476,14 +436,13 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
             /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
             CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
               if (docs.documents.isNotEmpty) {
-                print('NOT EMPRY');
                 imaliRuta = true;
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ListOfRoutes(userID: userID)),
+                  MaterialPageRoute(
+                      builder: (context) => ListOfRoutes(userID: userID)),
                 );
               } else {
-                print('EMPTU');
                 imaliRuta = false;
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => NoRoutes()));
@@ -578,8 +537,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                       return selectedDateP;
                                     },
                                     onChanged: (input) {
-                                      print(formatted);
-                                      print(selectedDateP);
                                       onceToast = 0;
                                       onceBtnPressed = 0;
                                       areFieldsEmpty();
@@ -912,8 +869,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                       return selectedDateD;
                                     },
                                     onChanged: (input) {
-                                      print(formatted2);
-                                      print(selectedDateD);
                                       onceToast = 0;
                                       onceBtnPressed = 0;
                                       areFieldsEmpty();
@@ -963,7 +918,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                       }
                                     },
                                     onChanged: (input) {
-                                      t1 = input; 
+                                      t1 = input;
                                       onceToast = 0;
                                       onceBtnPressed = 0;
                                       areFieldsEmpty();
@@ -1049,7 +1004,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5.0))),
                             onChanged: (input) {
-                              print(input);
                               setState(() {
                                 capacityVar = input;
 
@@ -1059,8 +1013,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                   capacityDouble = capacityDouble / 10.0;
                                 }
                                 capacityVar = capacityDouble.toString();
-
-                                print(capacityVar);
                                 onceToast = 0;
                                 onceBtnPressed = 0;
                                 areFieldsEmpty();
@@ -1193,11 +1145,8 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                           height: 50,
                           child: ConstrainedBox(
                             constraints: const BoxConstraints(
-                              minWidth: double.infinity,
-                              maxHeight: 45.0
-                            ),
+                                minWidth: double.infinity, maxHeight: 45.0),
                             child: RaisedButton(
-                                
                                 disabledColor: Color.fromRGBO(219, 219, 219, 1),
                                 disabledTextColor: Color.fromRGBO(0, 0, 0, 1),
                                 color: Color.fromRGBO(3, 54, 255, 1),
@@ -1246,8 +1195,8 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                               onceToast = 0;
                                             });
                                           }
-                                        }else{
-                                        validateDatesAndTimes(context);
+                                        } else {
+                                          validateDatesAndTimes(context);
                                         }
                                       }),
                           ),
@@ -1262,9 +1211,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
         ),
         // ),]
       ),
-      
     );
-    
   }
 
   ///on save forms
@@ -1274,7 +1221,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
       interdestinations.forEach((form) => allValid = allValid);
       if (allValid) {
         var data = interdestinations.map((it) => it.interdestination).toList();
-        print(data.length);
         for (int i = 0; i < data.length; i++) {
           if ('${data[i].interdestinationData}' != '')
             listOfInterdestinations += '${data[i].interdestinationData}, ';
@@ -1304,8 +1250,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
     }
   }
 
-  
-
   // funkcija koja snima informacije u bazu
   createData() async {
     DocumentReference ref = await db.collection('Rute').add({
@@ -1324,15 +1268,16 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
       'user_id': '$userID',
       'timestamp': '$dateOfSubmit',
     });
-    setState(() => id = ref.documentID) ;
-    print(ref.documentID);
-    print('Unos uspjesan');
+    setState(() => id = ref.documentID);
 
     // navigiramo do ShowLoadingRoutes i saljemo userID i id
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => ShowLoadingRoutes(userID: userID, id: id,)),
+          builder: (context) => ShowLoadingRoutes(
+                userID: userID,
+                id: id,
+              )),
     );
   }
 
