@@ -5,15 +5,13 @@ import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:spediter/screens/companyScreens/createRoute/createRouteScreen.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
+import 'package:spediter/theme/style.dart';
 
 
 
 
 void main() => runApp(ListOfUsersRoutes());
 
-const blueColor = Color.fromRGBO(3, 54, 255, 1);
-const textColorGray80 = Color.fromRGBO(0, 0, 0, 0.8);
-const textColorGray60 = Color.fromRGBO(0, 0, 0, 0.6);
 
 final leftSection = new Container();
 final middleSection = new Container();
@@ -155,7 +153,7 @@ class _ListOfUsersRoutesPageState extends State<ListOfUsersRoutesPage> {
             },
             tooltip: '+',
             child: Icon(Icons.add),
-            backgroundColor: blueColor,
+            backgroundColor: StyleColors().blueColor,
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
@@ -176,7 +174,7 @@ class _ListOfUsersRoutesPageState extends State<ListOfUsersRoutesPage> {
         margin: EdgeInsets.only(top: 8, bottom: 16),
         decoration: new BoxDecoration(
           shape: BoxShape.rectangle,
-          color: blueColor,
+          color: StyleColors().blueColor,
           borderRadius: BorderRadius.all(Radius.circular(1.0)),
         ),
         child: Padding(

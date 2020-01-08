@@ -1,11 +1,11 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spediter/components/loadingScreens/loadingRoutes.dart';
 import 'package:spediter/components/snackBar.dart';
 import 'package:intl/intl.dart';
 import 'package:spediter/screens/companyScreens/createRoute/form.dart';
+import 'package:spediter/theme/style.dart';
 
 class ButtonCreateRoute extends StatefulWidget {
   @override
@@ -60,9 +60,9 @@ class _ButtonCreateRouteState extends State<ButtonCreateRoute> {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-        disabledColor: Color.fromRGBO(219, 219, 219, 1),
-        disabledTextColor: Color.fromRGBO(0, 0, 0, 1),
-        color: Color.fromRGBO(3, 54, 255, 1),
+        disabledColor: StyleColors().disabledButton,
+        disabledTextColor: Colors.black,
+        color: StyleColors().blueColor,
         textColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4.0),

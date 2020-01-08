@@ -3,9 +3,6 @@ import 'package:spediter/components/noInternetConnectionScreen/components/textTr
 
 void main() => runApp(NoInternetConnectionLogInSrceen());
 
-const blueColor = Color.fromRGBO(3, 54, 255, 1);
-const textColorGray80 = Color.fromRGBO(0, 0, 0, 0.8);
-const textColorGray60 = Color.fromRGBO(0, 0, 0, 0.6);
 
 const String noConnection =
     "Nazalost nemate mreze. Rijesite problem pa pokusajte ponovno.";

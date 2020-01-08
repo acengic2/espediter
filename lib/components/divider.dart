@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spediter/theme/style.dart';
 
 class Divider1 extends StatelessWidget {
   @override
@@ -11,12 +12,12 @@ class Divider1 extends StatelessWidget {
       height: 8,
       decoration: BoxDecoration(
           border: Border(
-        top: BorderSide(width: 1, color: Color.fromRGBO(0, 0, 0, 0.12)),
-        bottom: BorderSide(width: 1, color: Color.fromRGBO(0, 0, 0, 0.12)),
+        top: BorderSide(width: 1, color: StyleColors().textColorGray12),
+        bottom: BorderSide(width: 1, color: StyleColors().textColorGray12),
       )),
       child: Divider(
         thickness: 8,
-        color: Color.fromRGBO(0, 0, 0, 0.03),
+        color: StyleColors().textColorGray3,
       ),
     );
   }

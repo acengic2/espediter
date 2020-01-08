@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spediter/theme/style.dart';
 /// Loading component class 
 /// 
 /// Two components with messages: different style text and messages
@@ -25,9 +26,9 @@ class LoadingComponent extends StatelessWidget {
           margin: EdgeInsets.only(bottom: 22),
           child: CircularProgressIndicator(
             valueColor: new AlwaysStoppedAnimation<Color>(
-                Color.fromRGBO(3, 54, 255, 1.0)),
+                StyleColors().progressBar,
           ),
-        ),
+        ),),
         Container(
           margin: EdgeInsets.only(bottom: 16.0),
           child: Text(

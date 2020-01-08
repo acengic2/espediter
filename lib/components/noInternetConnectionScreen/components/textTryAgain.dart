@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-
-const blueColor = Color.fromRGBO(3, 54, 255, 1);
-const textColorGray80 = Color.fromRGBO(0, 0, 0, 0.8);
-const textColorGray60 = Color.fromRGBO(0, 0, 0, 0.6);
+import 'package:spediter/theme/style.dart';
 
 class TryAgain extends StatelessWidget {
   final String tryAgainStingFirstMessage = "Nemate mreže";
@@ -22,7 +19,9 @@ class TryAgain extends StatelessWidget {
               Text(
                 tryAgainStingFirstMessage,
                 style: TextStyle(
-                    fontSize: 16, fontFamily: "Roboto", color: textColorGray80),
+                    fontSize: 16,
+                    fontFamily: "Roboto",
+                    color: StyleColors().textColorGray80),
               ),
               Padding(
                 padding: EdgeInsets.only(top: 8.0, bottom: 16.0),
@@ -32,7 +31,7 @@ class TryAgain extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 14,
                       fontFamily: "Roboto",
-                      color: textColorGray60),
+                      color: StyleColors().textColorGray60),
                 ),
               ),
               ButtonTheme(
@@ -40,7 +39,7 @@ class TryAgain extends StatelessWidget {
                 height: 36.0,
                 child: RaisedButton(
                   onPressed: () {},
-                  color: blueColor,
+                  color: StyleColors().blueColor,
                   child: Text(
                     buttonText,
                     style: TextStyle(

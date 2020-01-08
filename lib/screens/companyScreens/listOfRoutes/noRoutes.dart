@@ -2,13 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/components/bottomAppBar.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/components/floatingActionButton.dart';
+import 'package:spediter/theme/style.dart';
 import '../createRoute/createRouteScreen.dart';
 
 void main() => runApp(NoRoutes());
-
-const blueColor = Color.fromRGBO(3, 54, 255, 1);
-const textColorGray80 = Color.fromRGBO(0, 0, 0, 0.8);
-const textColorGray60 = Color.fromRGBO(0, 0, 0, 0.6);
 
 const noRoutesString =
     "Trenutno nemate nikakvih ruta. Molimo vas da kreirate rutu.";
@@ -63,7 +60,7 @@ class _NoRoutesScreenPageState extends State<NoRoutesScreenPage> {
                     style: TextStyle(
                         fontSize: 16,
                         fontFamily: "Roboto",
-                        color: textColorGray80),
+                        color: StyleColors().textColorGray80),
                   ),
                   Padding(
                       padding: EdgeInsets.only(top: 8.0, bottom: 16.0),
@@ -75,7 +72,7 @@ class _NoRoutesScreenPageState extends State<NoRoutesScreenPage> {
                           style: TextStyle(
                               fontSize: 14,
                               fontFamily: "Roboto",
-                              color: textColorGray60),
+                              color: StyleColors().textColorGray60),
                         ),
                       )),
                   ButtonTheme(
@@ -100,7 +97,7 @@ class _NoRoutesScreenPageState extends State<NoRoutesScreenPage> {
                             fontFamily: "Roboto",
                             color: Colors.white),
                       ),
-                      color: blueColor,
+                      color: StyleColors().blueColor,
                     ),
                   )
                 ]),

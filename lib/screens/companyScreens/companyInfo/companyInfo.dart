@@ -10,6 +10,7 @@ import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart'
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
 import 'package:spediter/screens/singIn/signIn.dart';
+import 'package:spediter/theme/style.dart';
 import 'package:spediter/utils/screenUtils.dart';
 import 'package:flutter/rendering.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
@@ -275,7 +276,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                           labelText: 'Url Profilne Slike',
                                           labelStyle: TextStyle(
                                               color:
-                                                  Color.fromRGBO(0, 0, 0, 0.5)),
+                                                  StyleColors().textColorGray5),
                                           hasFloatingPlaceholder: true,
                                           border: OutlineInputBorder(
                                               borderRadius:
@@ -556,7 +557,8 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                       constraints: const BoxConstraints(
                                         minWidth: double.infinity,
                                       ),
-                                      child:ButtonSaveInfo(post: snapshot.data[index]),
+                                      child: ButtonSaveInfo(
+                                          post: snapshot.data[index]),
                                     ),
                                   ),
                                   Divider(
@@ -652,8 +654,6 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
       _isBtnDisabled = false;
     }
   }
-
-
 
   void _signOut() async {
     await FirebaseAuth.instance.signOut();

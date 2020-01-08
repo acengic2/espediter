@@ -4,13 +4,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ButtonSaveInfo extends StatefulWidget {
-
   DocumentSnapshot post;
   String userID;
   ButtonSaveInfo({this.post, this.userID});
-  
+
   @override
-  _ButtonSaveInfoState createState() => _ButtonSaveInfoState(post: post, userID: userID);
+  _ButtonSaveInfoState createState() =>
+      _ButtonSaveInfoState(post: post, userID: userID);
 }
 
 class _ButtonSaveInfoState extends State<ButtonSaveInfo> {
@@ -145,7 +145,8 @@ class _ButtonSaveInfoState extends State<ButtonSaveInfo> {
                 }
               });
   }
-    //  funckija za update todo
+
+  //  funckija za update todo
   updateData(DocumentSnapshot docID) async {
     await db.collection('Company').document(docID.documentID).updateData({
       'company_description': '$companyDescriptionLast',

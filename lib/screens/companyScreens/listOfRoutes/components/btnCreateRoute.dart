@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spediter/screens/companyScreens/createRoute/createRouteScreen.dart';
+import 'package:spediter/theme/style.dart';
 
-const blueColor = Color.fromRGBO(3, 54, 255, 1);
 
 class BottomAppBar1 extends StatelessWidget {
   final String text = "KREIRAJ RUTU";
@@ -25,7 +25,7 @@ class BottomAppBar1 extends StatelessWidget {
           style: TextStyle(
               fontSize: 14, fontFamily: "Roboto", color: Colors.white),
         ),
-        color: blueColor,
+        color: StyleColors().blueColor,
       ),
     );
   }

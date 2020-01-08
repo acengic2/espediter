@@ -15,6 +15,7 @@ import 'package:spediter/screens/companyScreens/createRoute/form.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
+import 'package:spediter/theme/style.dart';
 import 'package:spediter/utils/screenUtils.dart';
 
 class CreateRouteForm extends StatefulWidget {
@@ -148,7 +149,7 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(4.0)),
                                       borderSide: BorderSide(
-                                          color: Color.fromRGBO(0, 0, 0, 0.12)),
+                                          color: StyleColors().textColorGray12),
                                     ),
                                     hintText: 'Datum polaska',
                                     contentPadding: EdgeInsets.fromLTRB(
@@ -212,7 +213,7 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(4.0)),
                                       borderSide: BorderSide(
-                                          color: Color.fromRGBO(0, 0, 0, 0.12)),
+                                          color: StyleColors().textColorGray12),
                                     ),
                                   ),
                                   format: formatTime,
@@ -267,16 +268,14 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                                             width: 16,
                                             child: Icon(
                                               Icons.brightness_1,
-                                              color: Color.fromRGBO(
-                                                  3, 54, 255, 1.0),
+                                              color: StyleColors().blueColor,
                                               size: 10.0,
                                             ),
                                           ),
                                           Container(
                                             child: Icon(
                                               Icons.brightness_1,
-                                              color: Color.fromRGBO(
-                                                  3, 54, 255, 0.2),
+                                              color: StyleColors().blueColor,
                                               size: 20.0,
                                             ),
                                           )
@@ -289,8 +288,8 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                                       width: 0,
                                       decoration: BoxDecoration(
                                           border: Border.all(
-                                              color: Color.fromRGBO(
-                                                  0, 0, 0, 0.12))),
+                                              color: StyleColors()
+                                                  .textColorGray12)),
                                     )
                                   ],
                                 )),
@@ -309,19 +308,19 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4.0)),
                                             borderSide: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    0, 0, 0, 0.12)),
+                                                color: StyleColors()
+                                                    .textColorGray12),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(4.0)),
                                               borderSide: BorderSide(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 0.12))),
+                                                  color: StyleColors()
+                                                      .textColorGray12)),
                                           labelText: 'Startna destinacija',
                                           labelStyle: TextStyle(
                                               color:
-                                                  Color.fromRGBO(0, 0, 0, 0.5)),
+                                                  StyleColors().textColorGray5),
                                           border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(5.0))),
@@ -371,8 +370,8 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                                       width: 0,
                                       decoration: BoxDecoration(
                                           border: Border.all(
-                                              color: Color.fromRGBO(
-                                                  0, 0, 0, 0.12))),
+                                              color: StyleColors()
+                                                  .textColorGray12)),
                                     ),
                                     Container(
                                       margin: EdgeInsets.only(bottom: 10.0),
@@ -389,16 +388,16 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                                             width: 16,
                                             child: Icon(
                                               Icons.brightness_1,
-                                              color: Color.fromRGBO(
-                                                  174, 7, 37, 1.0),
+                                              color: StyleColors()
+                                                  .destinationCircle1,
                                               size: 10.0,
                                             ),
                                           ),
                                           Container(
                                             child: Icon(
                                               Icons.brightness_1,
-                                              color: Color.fromRGBO(
-                                                  174, 7, 37, 0.2),
+                                              color: StyleColors()
+                                                  .destinationCircle2,
                                               size: 20.0,
                                             ),
                                           )
@@ -423,19 +422,19 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4.0)),
                                             borderSide: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    0, 0, 0, 0.12)),
+                                                color: StyleColors()
+                                                    .textColorGray12),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(4.0)),
                                               borderSide: BorderSide(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 0.12))),
+                                                  color: StyleColors()
+                                                      .textColorGray12)),
                                           labelText: 'Krajnja destinacija',
                                           labelStyle: TextStyle(
                                               color:
-                                                  Color.fromRGBO(0, 0, 0, 0.5)),
+                                                  StyleColors().textColorGray5),
                                           border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(5.0))),
@@ -472,7 +471,7 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(4.0)),
                                       borderSide: BorderSide(
-                                          color: Color.fromRGBO(0, 0, 0, 0.12)),
+                                          color: StyleColors().textColorGray12),
                                     ),
                                     hintText: 'Datum dolaska',
                                     contentPadding: EdgeInsets.fromLTRB(
@@ -536,7 +535,7 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                                             Radius.circular(4.0)),
                                         borderSide: BorderSide(
                                             color:
-                                                Color.fromRGBO(0, 0, 0, 0.12)),
+                                                StyleColors().textColorGray12),
                                       )),
                                   format: formatTime,
                                   onShowPicker: (context, currentValue) async {
@@ -585,17 +584,17 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(4.0)),
                                 borderSide: BorderSide(
-                                    color: Color.fromRGBO(0, 0, 0, 0.12)),
+                                    color: StyleColors().textColorGray12),
                               ),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(4.0)),
                                   borderSide: BorderSide(
-                                      color: Color.fromRGBO(0, 0, 0, 0.12))),
+                                      color: StyleColors().textColorGray12)),
                               labelText: 'Popunjenost u procentima',
                               hintText: '0 - 100',
                               labelStyle: TextStyle(
-                                  color: Color.fromRGBO(0, 0, 0, 0.5)),
+                                  color: StyleColors().textColorGray5),
                               hasFloatingPlaceholder: true,
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5.0))),
@@ -627,17 +626,17 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(4.0)),
                                 borderSide: BorderSide(
-                                    color: Color.fromRGBO(0, 0, 0, 0.12)),
+                                    color: StyleColors().textColorGray12),
                               ),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(4.0)),
                                   borderSide: BorderSide(
-                                      color: Color.fromRGBO(0, 0, 0, 0.12))),
+                                      color: StyleColors().textColorGray12)),
                               labelText: 'Kapacitet u tonama',
                               hintText: '1.5',
                               labelStyle: TextStyle(
-                                  color: Color.fromRGBO(0, 0, 0, 0.5)),
+                                  color: StyleColors().textColorGray5),
                               hasFloatingPlaceholder: true,
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5.0))),
@@ -672,7 +671,7 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                               side: BorderSide(
                                   width: 1.0,
                                   style: BorderStyle.solid,
-                                  color: Color.fromRGBO(0, 0, 0, 0.12)),
+                                  color: StyleColors().textColorGray12),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(5.0)),
                             ),
@@ -688,7 +687,7 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                               style: TextStyle(
                                   fontSize: 16,
                                   fontFamily: "Roboto",
-                                  color: Color.fromRGBO(0, 0, 0, 0.5)),
+                                  color: StyleColors().textColorGray5),
                               isExpanded: true,
                               items: _dropdownMenuItems,
                               underline: Container(color: Colors.white),
@@ -710,16 +709,16 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(4.0)),
                                 borderSide: BorderSide(
-                                    color: Color.fromRGBO(0, 0, 0, 0.12)),
+                                    color: StyleColors().textColorGray12),
                               ),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(4.0)),
                                   borderSide: BorderSide(
-                                      color: Color.fromRGBO(0, 0, 0, 0.12))),
+                                      color: StyleColors().textColorGray12)),
                               labelText: 'Vrsta robe',
                               labelStyle: TextStyle(
-                                  color: Color.fromRGBO(0, 0, 0, 0.5)),
+                                  color: StyleColors().textColorGray5),
                               hasFloatingPlaceholder: true,
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5.0))),
@@ -746,17 +745,17 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(4.0)),
                                 borderSide: BorderSide(
-                                    color: Color.fromRGBO(0, 0, 0, 0.12)),
+                                    color: StyleColors().textColorGray12),
                               ),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(4.0)),
                                   borderSide: BorderSide(
-                                      color: Color.fromRGBO(0, 0, 0, 0.12))),
+                                      color: StyleColors().textColorGray12)),
                               labelText: 'Dimenzije',
                               hintText: '16m x 2.5m x 3m',
                               labelStyle: TextStyle(
-                                  color: Color.fromRGBO(0, 0, 0, 0.5)),
+                                  color: StyleColors().textColorGray5),
                               hasFloatingPlaceholder: true,
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5.0))),

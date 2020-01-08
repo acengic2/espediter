@@ -12,16 +12,6 @@ import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
 
 void main() => runApp(EditRoute());
 
-/// varijable
-///
-/// varijable u kojoj smo spremili boje
-/// plava
-/// crna sa 80% opacity
-/// crna sa 60^ opacity
-const blueColor = Color.fromRGBO(3, 54, 255, 1);
-const textColorGray80 = Color.fromRGBO(0, 0, 0, 0.8);
-const textColorGray60 = Color.fromRGBO(0, 0, 0, 0.6);
-
 bool imaliRuta = true;
 
 // instanca na NoRoutes screen

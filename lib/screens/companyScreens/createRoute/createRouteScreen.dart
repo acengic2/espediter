@@ -12,11 +12,6 @@ import 'package:flutter/rendering.dart';
 
 void main() => runApp(CreateRoute());
 
-/// crna sa 60^ opacity
-const blueColor = Color.fromRGBO(3, 54, 255, 1);
-const textColorGray80 = Color.fromRGBO(0, 0, 0, 0.8);
-const textColorGray60 = Color.fromRGBO(0, 0, 0, 0.6);
-
 // instanca na NoRoutes screen
 NoRoutes noRoutes = new NoRoutes();
 

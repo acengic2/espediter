@@ -4,14 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:spediter/screens/companyScreens/editCompany/editRoutes.dart';
+import 'package:spediter/theme/style.dart';
 
 void main() => runApp(ListOfRoutesRef());
 
 String capacityString;
 
-const blueColor = Color.fromRGBO(3, 54, 255, 1);
-const textColorGray80 = Color.fromRGBO(0, 0, 0, 0.8);
-const textColorGray60 = Color.fromRGBO(0, 0, 0, 0.6);
+
 
 /// desni,lijevi,srednji kontejner za prikaz informacija o aktivnim rutama
 final leftSection = new Container();
@@ -79,7 +78,7 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                     margin: EdgeInsets.only(top: 8, bottom: 16),
                     decoration: new BoxDecoration(
                       shape: BoxShape.rectangle,
-                      color: blueColor,
+                      color: StyleColors().blueColor,
                       borderRadius: BorderRadius.all(Radius.circular(1.0)),
                     ),
                     child: Center(
@@ -187,7 +186,7 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                           ),
                           linearStrokeCap: LinearStrokeCap.butt,
                           backgroundColor: Colors.white,
-                          progressColor: Color.fromRGBO(3, 54, 255, 0.12),
+                          progressColor: StyleColors().progressBar,
                         ))
                   ],
                 );
