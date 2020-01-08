@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:spediter/components/divider.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/components/bottomAppBar.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/components/divider.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/components/floatingActionButton.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listOfFinishedRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listOfRoutesref.dart';

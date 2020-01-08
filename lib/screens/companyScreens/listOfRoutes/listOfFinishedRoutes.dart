@@ -23,7 +23,7 @@ final middleSection = new Container();
 final rightSection = new Container();
 
 class ListOfFinishedRoutes extends StatefulWidget {
-  String userID;
+ final String userID;
   ListOfFinishedRoutes({this.userID});
 
   @override

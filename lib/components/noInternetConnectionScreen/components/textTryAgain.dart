@@ -5,10 +5,10 @@ const textColorGray80 = Color.fromRGBO(0, 0, 0, 0.8);
 const textColorGray60 = Color.fromRGBO(0, 0, 0, 0.6);
 
 class TryAgain extends StatelessWidget {
-  String tryAgainStingFirstMessage = "Nemate mreže";
-  String tryAgainStingSecondMessage =
+  final String tryAgainStingFirstMessage = "Nemate mreže";
+  final String tryAgainStingSecondMessage =
       "Nažalost nemate mreže. Riješite problem pa pokušajte ponovno.";
-  String buttonText = "POKUSAJTE PONOVO";
+  final String buttonText = "POKUSAJTE PONOVO";
 
   @override
   Widget build(BuildContext context) {

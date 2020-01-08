@@ -23,7 +23,7 @@ class ListOfUsersRoutes extends StatelessWidget {
   /// id trenutne rute [id],
   /// id kompanije [userID]
 
-  String userID;
+  final String userID;
   ListOfUsersRoutes({this.userID});
   
   
@@ -42,7 +42,7 @@ class ListOfUsersRoutesPage extends StatefulWidget {
   /// id kompanije [userID]
  
  
-  String userID;
+  final String userID;
   ListOfUsersRoutesPage({ this.userID});
 
   @override

@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 /// 
 /// 
 class LoadingComponent extends StatelessWidget {
-  String loadingStingFirstMessage;
-  String loadingStingSecondMessage;
+  final String loadingStingFirstMessage;
+  final String loadingStingSecondMessage;
 
   LoadingComponent(
       this.loadingStingFirstMessage, this.loadingStingSecondMessage);

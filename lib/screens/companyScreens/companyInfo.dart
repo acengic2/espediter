@@ -772,6 +772,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
   void _signOut() async {
     await FirebaseAuth.instance.signOut();
     Future<FirebaseUser> Function() user = FirebaseAuth.instance.currentUser;
+    print(user);
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => Login()));
   }
