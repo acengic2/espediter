@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:spediter/components/divider.dart';
 import 'package:spediter/screens/companyScreens/companyInfo/components/btnSaveInfo.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
@@ -561,10 +562,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                           post: snapshot.data[index]),
                                     ),
                                   ),
-                                  Divider(
-                                    thickness: 8,
-                                    color: Color.fromRGBO(0, 0, 0, 0.03),
-                                  ),
+                                  Divider1(thickness:8,height: 8,),
                                   Container(
                                     margin: EdgeInsets.only(
                                       top: 16,
@@ -583,10 +581,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                               fontWeight: FontWeight.w500),
                                         ),
                                         Text("support@esped.com"),
-                                        Divider(
-                                          thickness: 1,
-                                          color: Color.fromRGBO(0, 0, 0, 0.12),
-                                        ),
+                                        Divider1(height: 1,thickness: 1,),
                                         Text(
                                           "Kontakt telefon",
                                           textAlign: TextAlign.right,
@@ -596,10 +591,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                               fontWeight: FontWeight.w500),
                                         ),
                                         Text("062 667-266"),
-                                        Divider(
-                                          thickness: 1,
-                                          color: Color.fromRGBO(0, 0, 0, 0.12),
-                                        ),
+                                        Divider1(height: 1,thickness: 1,),
                                         GestureDetector(
                                           onTap: () {
                                             _signOut();

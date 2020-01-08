@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:spediter/components/snackBar.dart';
 
 class ButtonSaveInfo extends StatefulWidget {
   DocumentSnapshot post;
@@ -118,17 +119,9 @@ class _ButtonSaveInfoState extends State<ButtonSaveInfo> {
                       phoneLast == '' ||
                       webPageLast == '') {
                     if (onceToast == 0) {
-                      final snackBar = SnackBar(
-                        duration: Duration(seconds: 2),
-                        behavior: SnackBarBehavior.floating,
-                        backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-                        content: Text('Sva polja moraju biti popunjena.'),
-                        action: SnackBarAction(
-                          label: 'Undo',
-                          onPressed: () {},
-                        ),
-                      );
-                      Scaffold.of(context).showSnackBar(snackBar);
+
+                      SnackBar1(message: 'Sva polja moraju biti popunjena.');
+            
                       onceToast = 1;
                       Timer(Duration(seconds: 2), () {
                         onceToast = 0;
