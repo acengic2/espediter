@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:responsive_container/responsive_container.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/loadingScreens/loadingRoutes.dart';
+import 'package:spediter/components/snackBar.dart';
 import 'package:spediter/screens/companyScreens/createRoute/components/vehicle.dart';
 import 'package:spediter/screens/companyScreens/createRoute/form.dart';
 import 'package:spediter/screens/companyScreens/createRoute/inderdestination.dart';
@@ -818,20 +819,9 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                                       if (percentageVar < 0 ||
                                           percentageVar > 100) {
                                         if (onceToast == 0) {
-                                          final snackBar = SnackBar(
-                                            duration: Duration(seconds: 2),
-                                            behavior: SnackBarBehavior.floating,
-                                            backgroundColor:
-                                                Color.fromRGBO(28, 28, 28, 1.0),
-                                            content: Text(
-                                                'Unesite broj od 0 do 100'),
-                                            action: SnackBarAction(
-                                              label: 'Undo',
-                                              onPressed: () {},
-                                            ),
-                                          );
-                                          Scaffold.of(context)
-                                              .showSnackBar(snackBar);
+                                          SnackBar1(
+                                              message:
+                                                  "Unesite brojeve od 0 do 100");
                                           onceToast = 1;
                                           Timer(Duration(seconds: 2), () {
                                             onceToast = 0;
@@ -864,17 +854,9 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
         selectedDateD.year, selectedDateD.month, selectedDateD.day);
     if (selectedDateD.isBefore(selectedDateP)) {
       if (onceToast == 0) {
-        final snackBar = SnackBar(
-          duration: Duration(seconds: 2),
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-          content: Text('Datum polaska ne može biti veći od datuma dolaska.'),
-          action: SnackBarAction(
-            label: 'Undo',
-            onPressed: () {},
-          ),
-        );
-        Scaffold.of(context).showSnackBar(snackBar);
+        SnackBar1(
+            message: 'Datum polaska ne može biti veći od datuma dolaska.');
+
         onceToast = 1;
         Timer(Duration(seconds: 2), () {
           onceToast = 0;
@@ -884,18 +866,10 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
       if (DateFormat.Hm().format(t2).compareTo(DateFormat.Hm().format(t1)) >
           0) {
         if (onceToast == 0) {
-          final snackBar = SnackBar(
-            duration: Duration(seconds: 2),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-            content: Text(
-                'Vrijeme polaska ne može biti veće od vremena dolaska, ako su datumi jednaki.'),
-            action: SnackBarAction(
-              label: 'Undo',
-              onPressed: () {},
-            ),
-          );
-          Scaffold.of(context).showSnackBar(snackBar);
+          SnackBar1(
+              message:
+                  'Vrijeme polaska ne može biti veće od vremena dolaska, ako su datumi jednaki.');
+
           onceToast = 1;
           Timer(Duration(seconds: 2), () {
             onceToast = 0;
@@ -906,17 +880,8 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
               .compareTo(DateFormat.Hm().format(t1)) ==
           0) {
         if (onceToast == 0) {
-          final snackBar = SnackBar(
-            duration: Duration(seconds: 2),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-            content: Text('Datumi i vremena ne mogu biti jednaki.'),
-            action: SnackBarAction(
-              label: 'Undo',
-              onPressed: () {},
-            ),
-          );
-          Scaffold.of(context).showSnackBar(snackBar);
+          SnackBar1(message: 'Datumi i vremena ne mogu biti jednaki.');
+
           onceToast = 1;
           Timer(Duration(seconds: 2), () {
             onceToast = 0;
@@ -931,18 +896,9 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
       }
     } else if (selectedDateD.isBefore(DateTime(now.year, now.month, now.day))) {
       if (onceToast == 0) {
-        final snackBar = SnackBar(
-          duration: Duration(seconds: 2),
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-          content:
-              Text('Datum dolaska ne može biti manji od današnjeg datuma.'),
-          action: SnackBarAction(
-            label: 'Undo',
-            onPressed: () {},
-          ),
-        );
-        Scaffold.of(context).showSnackBar(snackBar);
+        SnackBar1(
+            message: 'Datum dolaska ne može biti manji od današnjeg datuma.');
+
         onceToast = 1;
         Timer(Duration(seconds: 2), () {
           onceToast = 0;
@@ -955,18 +911,10 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
               .compareTo(DateFormat.Hm().format(DateTime.now())) <
           0) {
         if (onceToast == 0) {
-          final snackBar = SnackBar(
-            duration: Duration(seconds: 2),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-            content: Text(
-                'Datum dolaska je jednak današnjem datumu, ali vrijeme dolaska ne može biti manje od trenutnog vremena.'),
-            action: SnackBarAction(
-              label: 'Undo',
-              onPressed: () {},
-            ),
-          );
-          Scaffold.of(context).showSnackBar(snackBar);
+          SnackBar1(
+              message:
+                  'Datum dolaska je jednak današnjem datumu, ali vrijeme dolaska ne može biti manje od trenutnog vremena.');
+
           onceToast = 1;
           Timer(Duration(seconds: 2), () {
             onceToast = 0;
@@ -977,18 +925,10 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
               .compareTo(DateFormat.Hm().format(DateTime.now())) ==
           0) {
         if (onceToast == 0) {
-          final snackBar = SnackBar(
-            duration: Duration(seconds: 2),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-            content: Text(
-                'Datum dolaska i vrijeme dolaska ne mogu biti jednaki današnjem datumu i trenutnom vremenu.'),
-            action: SnackBarAction(
-              label: 'Undo',
-              onPressed: () {},
-            ),
-          );
-          Scaffold.of(context).showSnackBar(snackBar);
+          SnackBar1(
+              message:
+                  'Datum dolaska i vrijeme dolaska ne mogu biti jednaki današnjem datumu i trenutnom vremenu.');
+
           onceToast = 1;
           Timer(Duration(seconds: 2), () {
             onceToast = 0;

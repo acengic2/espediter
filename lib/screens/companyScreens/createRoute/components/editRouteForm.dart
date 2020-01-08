@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_container/responsive_container.dart';
+import 'package:spediter/components/snackBar.dart';
 import 'package:spediter/screens/companyScreens/createRoute/components/vehicle.dart';
 import 'package:spediter/screens/companyScreens/createRoute/form.dart';
 import 'package:spediter/screens/companyScreens/createRoute/inderdestination.dart';
@@ -844,20 +845,10 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                       if (percentageVar < 0 ||
                                           percentageVar > 100) {
                                         if (onceToast == 0) {
-                                          final snackBar = SnackBar(
-                                            duration: Duration(seconds: 2),
-                                            behavior: SnackBarBehavior.floating,
-                                            backgroundColor:
-                                                Color.fromRGBO(28, 28, 28, 1.0),
-                                            content: Text(
-                                                'Unesite broj od 0 do 100'),
-                                            action: SnackBarAction(
-                                              label: 'Undo',
-                                              onPressed: () {},
-                                            ),
-                                          );
-                                          Scaffold.of(context)
-                                              .showSnackBar(snackBar);
+                                          SnackBar1(
+                                              message:
+                                                  'Unesite broj od 0 do 100');
+
                                           onceToast = 1;
                                           Timer(Duration(seconds: 2), () {
                                             onceToast = 0;
