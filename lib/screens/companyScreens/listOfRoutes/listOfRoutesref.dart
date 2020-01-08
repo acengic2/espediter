@@ -84,6 +84,7 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
     //     body: Center(
     //       child: 
           return Column(
+           
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(top: 16.0, bottom: 0.0),
@@ -94,7 +95,8 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
               future: getPosts(userID) ,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
-                  return ListView.builder(
+                  return 
+                   ListView.builder(
                     shrinkWrap: true,
                     physics: ClampingScrollPhysics(),
                     itemCount: snapshot.data.length,
@@ -239,7 +241,7 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                         ],
                       );
 
-                      return GestureDetector(
+                      return GestureDetector(  
                         onTap: () => Navigator.of(context).push(
                             MaterialPageRoute(
                                 builder: (context) =>

@@ -84,7 +84,11 @@ class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
               future: getPosts(id),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
-                  return ListView.builder(
+                  return MediaQuery.removePadding(
+                    context: context,
+                    removeTop: true,
+
+                  child:ListView.builder(
                     shrinkWrap: true,
                     physics: ClampingScrollPhysics(),
                     addAutomaticKeepAlives: true,
@@ -228,7 +232,7 @@ class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
                         ),
                       );
                     },
-                  );
+                  ));
                 } else {
                   return SizedBox();
                 }
