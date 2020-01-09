@@ -259,7 +259,7 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                                 flex: 1,
                                 child: Column(
                                   children: <Widget>[
-                                    DestinationCircle(largeCircle: StyleColors().blueColor1, smallCircle: StyleColors().blueColor),
+                                    DestinationCircle(largeCircle: StyleColors().blueColor2, smallCircle: StyleColors().blueColor),
                                     DestinationLine(),
                                   ],
                                 )),

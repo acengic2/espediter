@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -10,13 +11,32 @@ import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
 import 'package:flutter/rendering.dart';
 
+import '../listOfRoutes/listOfFinishedRoutes.dart';
+
 void main() => runApp(CreateRoute());
+
+String userID;
 
 // instanca na NoRoutes screen
 NoRoutes noRoutes = new NoRoutes();
 
-class CreateRoute extends StatelessWidget {
-  // This widget is the root of your application.
+class CreateRoute extends StatefulWidget {
+String userID;
+CreateRoute({this.userID});
+
+  // This widget is the root of your applicatio
+  @override
+  _CreateRouteState createState() => _CreateRouteState(userID: userID);
+}
+
+class _CreateRouteState extends State<CreateRoute> {
+  String userID;
+  _CreateRouteState({this.userID});
+  @override
+  void initState() {
+    getUserid();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -101,5 +121,15 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
               style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.8))),
         ),
         body: CreateRouteForm());
+  }
+
+  getUserid() async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final FirebaseUser user = await _auth.currentUser();    Firestore.instance
+        .collection('LoggedUsers')
+        .document(user.uid)
+        .snapshots()
+        .toString();
+    userID = user.uid;
   }
 }
