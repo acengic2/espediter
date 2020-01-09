@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
@@ -9,8 +11,9 @@ import 'package:intl/intl.dart';
 import 'package:responsive_container/responsive_container.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/inderdestination.dart';
+import 'package:spediter/components/loadingScreens/loadingRoutes.dart';
+import 'package:spediter/components/snackBar.dart';
 import 'package:spediter/components/vehicle.dart';
-import 'package:spediter/screens/companyScreens/createRoute/components/btnCreateRoute.dart';
 import 'package:spediter/screens/companyScreens/createRoute/form.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
@@ -44,6 +47,7 @@ var focusEnding = new FocusNode();
 
 /// counteri za [Toast] i za [Button]
 int onceToast = 0, onceBtnPressed = 0;
+final db = Firestore.instance;
 
 ///maska za tone  0.0
 var controller = new MaskedTextController(
@@ -782,7 +786,47 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                         child: ConstrainedBox(
                           constraints: const BoxConstraints(
                               minWidth: double.infinity, maxHeight: 45.0),
-                          child: ButtonCreateRoute(),
+                          child: RaisedButton(
+                              disabledColor: StyleColors().disabledButton,
+                              disabledTextColor: Colors.black,
+                              color: StyleColors().blueColor,
+                              textColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                              child: Text(
+                                'KREIRAJ RUTU',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: 'Roboto',
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              onPressed: _isBtnDisabled
+                                  ? null
+                                  : () {
+                                      FocusScopeNode currentFocus =
+                                          FocusScope.of(context);
+                                      if (!currentFocus.hasPrimaryFocus) {
+                                        currentFocus.unfocus();
+                                      }
+
+                                      /// VALIDACIJA POLJA
+                                      if (percentageVar < 0 ||
+                                          percentageVar > 100) {
+                                        if (onceToast == 0) {
+                                          SnackBar1(
+                                              message:
+                                                  "Unesite brojeve od 0 do 100");
+                                          onceToast = 1;
+                                          Timer(Duration(seconds: 2), () {
+                                            onceToast = 0;
+                                          });
+                                        }
+                                      } else {
+                                        validateDatesAndTimes(context);
+                                      }
+                                    }),
                         ),
                       ),
                     ],
@@ -930,5 +974,207 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
     });
     // Do some stuff.
     return true;
+  }
+
+  // funkcija koja snima informacije u bazu
+  createData() async {
+    DocumentReference ref = await db.collection('Rute').add({
+      'availability': '$percentageVar',
+      'capacity': '$capacityVar',
+      'ending_destination': '$endingDestination',
+      'starting_destination': '$startingDestination',
+      'interdestination': '$listOfInterdestinations',
+      'arrival_date': '$formatted2',
+      'arrival_time': '$t11',
+      'departure_time': '$t22',
+      'departure_date': '$formatted',
+      'dimensions': '$dimensionsVar',
+      'goods': '$goodsVar',
+      'vehicle': '$vehicleVar',
+      'user_id': '$userID',
+      'timestamp': '$dateOfSubmit',
+    });
+    setState(() => id = ref.documentID);
+
+    // navigiramo do ShowLoadingRoutes i saljemo userID i id
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => ShowLoadingRoutes(
+                userID: userID,
+                id: id,
+              )),
+    );
+  }
+
+  validateDatesAndTimes(BuildContext context) {
+    t11 = DateFormat.Hm().format(t1);
+    t22 = DateFormat.Hm().format(t2);
+    DateTime now = DateTime.now();
+    selectedDateP = new DateTime(
+        selectedDateP.year, selectedDateP.month, selectedDateP.day);
+    selectedDateD = new DateTime(
+        selectedDateD.year, selectedDateD.month, selectedDateD.day);
+    if (selectedDateD.isBefore(selectedDateP)) {
+      print('Datum dolaska ne može biti manji od datuma polaska.');
+      if (onceToast == 0) {
+        final snackBar = SnackBar(
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+          content: Text('Datum polaska ne može biti veći od datuma dolaska.'),
+          action: SnackBarAction(
+            label: 'Undo',
+            onPressed: () {},
+          ),
+        );
+        Scaffold.of(context).showSnackBar(snackBar);
+        onceToast = 1;
+        Timer(Duration(seconds: 2), () {
+          onceToast = 0;
+        });
+      }
+    } else if (selectedDateP.isAtSameMomentAs(selectedDateD)) {
+      if (DateFormat.Hm().format(t2).compareTo(DateFormat.Hm().format(t1)) >
+          0) {
+        print(
+            'Vrijeme polaska ne može biti veće od vremena dolaska, ako su datumi jednaki.');
+        if (onceToast == 0) {
+          final snackBar = SnackBar(
+            duration: Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+            content: Text(
+                'Vrijeme polaska ne može biti veće od vremena dolaska, ako su datumi jednaki.'),
+            action: SnackBarAction(
+              label: 'Undo',
+              onPressed: () {},
+            ),
+          );
+          Scaffold.of(context).showSnackBar(snackBar);
+          onceToast = 1;
+          Timer(Duration(seconds: 2), () {
+            onceToast = 0;
+          });
+        }
+      } else if (DateFormat.Hm()
+              .format(t2)
+              .compareTo(DateFormat.Hm().format(t1)) ==
+          0) {
+        print('Datumi i vremena ne mogu biti jednaki.');
+        if (onceToast == 0) {
+          final snackBar = SnackBar(
+            duration: Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+            content: Text('Datumi i vremena ne mogu biti jednaki.'),
+            action: SnackBarAction(
+              label: 'Undo',
+              onPressed: () {},
+            ),
+          );
+          Scaffold.of(context).showSnackBar(snackBar);
+          onceToast = 1;
+          Timer(Duration(seconds: 2), () {
+            onceToast = 0;
+          });
+        }
+      } else {
+        print('Validacija ispravna');
+        if (onceBtnPressed == 0) {
+          print('btn kreiraj');
+          onSave();
+          createData();
+          onceBtnPressed = 1;
+        }
+      }
+    } else if (selectedDateD.isBefore(DateTime(now.year, now.month, now.day))) {
+      print('Datum dolaska ne može biti manji od današnjeg datuma.');
+      if (onceToast == 0) {
+        final snackBar = SnackBar(
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+          content:
+              Text('Datum dolaska ne može biti manji od današnjeg datuma.'),
+          action: SnackBarAction(
+            label: 'Undo',
+            onPressed: () {},
+          ),
+        );
+        Scaffold.of(context).showSnackBar(snackBar);
+        onceToast = 1;
+        Timer(Duration(seconds: 2), () {
+          onceToast = 0;
+        });
+      }
+    } else if (selectedDateD
+        .isAtSameMomentAs(DateTime(now.year, now.month, now.day))) {
+      if (DateFormat.Hm()
+              .format(t1)
+              .compareTo(DateFormat.Hm().format(DateTime.now())) <
+          0) {
+        print(
+            'Vrijeme dolaska ne može biti manji od trenutnog vremena, ako je datum dolaska jednako današnjem datumu.');
+        if (onceToast == 0) {
+          final snackBar = SnackBar(
+            duration: Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+            content: Text(
+                'Datum dolaska je jednak današnjem datumu, ali vrijeme dolaska ne može biti manje od trenutnog vremena.'),
+            action: SnackBarAction(
+              label: 'Undo',
+              onPressed: () {},
+            ),
+          );
+          Scaffold.of(context).showSnackBar(snackBar);
+          onceToast = 1;
+          Timer(Duration(seconds: 2), () {
+            onceToast = 0;
+          });
+        }
+      } else if (DateFormat.Hm()
+              .format(t1)
+              .compareTo(DateFormat.Hm().format(DateTime.now())) ==
+          0) {
+        print(
+            'Vrijeme dolaska ne može biti jednako trenutnom vremenu, ako je datum dolaska jednak današnjem datumu.');
+        if (onceToast == 0) {
+          final snackBar = SnackBar(
+            duration: Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+            content: Text(
+                'Datum dolaska i vrijeme dolaska ne mogu biti jednaki današnjem datumu i trenutnom vremenu.'),
+            action: SnackBarAction(
+              label: 'Undo',
+              onPressed: () {},
+            ),
+          );
+          Scaffold.of(context).showSnackBar(snackBar);
+          onceToast = 1;
+          Timer(Duration(seconds: 2), () {
+            onceToast = 0;
+          });
+        }
+      } else {
+        print('Validacija ispravna');
+        if (onceBtnPressed == 0) {
+          print('btn kreiraj');
+          onSave();
+          createData();
+          onceBtnPressed = 1;
+        }
+      }
+    } else {
+      print('Validacija ispravna');
+      if (onceBtnPressed == 0) {
+        print('btn kreiraj');
+        onSave();
+        createData();
+        onceBtnPressed = 1;
+      }
+    }
   }
 }

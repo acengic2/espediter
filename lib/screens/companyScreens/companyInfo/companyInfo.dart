@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spediter/components/divider.dart';
-import 'package:spediter/screens/companyScreens/companyInfo/components/btnSaveInfo.dart';
+import 'package:spediter/components/snackBar.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
@@ -544,8 +544,77 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                       constraints: const BoxConstraints(
                                         minWidth: double.infinity,
                                       ),
-                                      child: ButtonSaveInfo(
-                                          post: snapshot.data[index]),
+                                      child:RaisedButton(
+        disabledColor: Color.fromRGBO(219, 219, 219, 1),
+        disabledTextColor: Color.fromRGBO(0, 0, 0, 1),
+        color: Color.fromRGBO(3, 54, 255, 1),
+        textColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4.0),
+        ),
+        child: Text(
+          'SAČUVAJ PROMJENE',
+          style: TextStyle(
+            fontSize: 14,
+            fontFamily: 'Roboto',
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        onPressed: _isBtnDisabled
+            ? null
+            : () {
+                FocusScopeNode currentFocus = FocusScope.of(context);
+                if (!currentFocus.hasPrimaryFocus) {
+                  currentFocus.unfocus();
+
+                  if (urlLogoLast == null) {
+                    urlLogoLast = urlLogo;
+                  }
+                  if (companyNameLast == null) {
+                    companyNameLast = companyName;
+                  }
+                  if (companyDescriptionLast == null) {
+                    companyDescriptionLast = companyDescription;
+                  }
+                  if (mailLast == null) {
+                    mailLast = mail;
+                  }
+                  if (phoneLast == null) {
+                    phoneLast = phone;
+                  }
+                  if (webPageLast == null) {
+                    webPageLast = webPage;
+                  }
+                  if (locationLast == null) {
+                    locationLast = location;
+                  }
+
+                  if (companyDescriptionLast == '' ||
+                      mailLast == '' ||
+                      locationLast == '' ||
+                      companyNameLast == '' ||
+                      urlLogoLast == '' ||
+                      phoneLast == '' ||
+                      webPageLast == '') {
+                    if (onceToast == 0) {
+
+                      SnackBar1(message: 'Sva polja moraju biti popunjena.');
+            
+                      onceToast = 1;
+                      Timer(Duration(seconds: 2), () {
+                        onceToast = 0;
+                      });
+                    }
+                  } else {
+                    if (onceBtnPressed == 0) {
+                      updateData(widget.post);
+
+                      _isBtnDisabled = true;
+                      onceBtnPressed = 1;
+                    }
+                  }
+                }
+              }),
                                     ),
                                   ),
                                   Divider1(thickness:8,height: 8,),
@@ -639,5 +708,18 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
     print(user);
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => Login()));
+  }
+   //  funckija za update todo
+  updateData(DocumentSnapshot docID) async {
+    await db.collection('Company').document(docID.documentID).updateData({
+      'company_description': '$companyDescriptionLast',
+      'company_name': '$companyNameLast',
+      'email': '$mailLast',
+      'location': '$locationLast',
+      'phone': '$phoneLast',
+      'url_logo': '$urlLogoLast',
+      'webpage': '$webPageLast',
+    });
+    _isBtnDisabled = true;
   }
 }
