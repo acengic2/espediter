@@ -57,14 +57,14 @@ class _UserFormState extends State<InterdestinationForm> {
                           width: 16,
                           child: Icon(
                             Icons.brightness_1,
-                            color: StyleColors().textColorGray5,
+                            color: StyleColors().textColorGray50,
                             size: 10.0,
                           ),
                         ),
                         Container(
                           child: Icon(
                             Icons.brightness_1,
-                            color: StyleColors().textColorGray2,
+                            color: StyleColors().textColorGray20,
                             size: 20.0,
                           ),
                         )
@@ -77,7 +77,7 @@ class _UserFormState extends State<InterdestinationForm> {
                     width: 0,
                     decoration: BoxDecoration(
                         border:
-                            Border.all(color: StyleColors().textColorGray2)),
+                            Border.all(color: StyleColors().textColorGray20)),
                   )
                 ],
               )),
@@ -113,7 +113,7 @@ class _UserFormState extends State<InterdestinationForm> {
                                 color: StyleColors().textColorGray12)),
                         labelText: 'Dodaj među destinaciju',
                         labelStyle:
-                            TextStyle(color: StyleColors().textColorGray5),
+                            TextStyle(color: StyleColors().textColorGray50),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0))),
                   ))),

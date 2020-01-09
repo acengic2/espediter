@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
+import 'package:spediter/theme/style.dart';
 
 void main() => runApp(Info());
 
@@ -122,7 +123,7 @@ class _InfoPageState extends State<InfoPage> {
                                     child: Text(
                                       'Šta je e-Špediter?',
                                       style: TextStyle(
-                                          color: Color.fromRGBO(0, 0, 0, 0.8),
+                                          color: StyleColors().textColorGray80,
                                           fontFamily: 'Roboto',
                                           fontSize: 16,
                                           fontWeight: FontWeight.w400),
@@ -136,7 +137,7 @@ class _InfoPageState extends State<InfoPage> {
                                       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' +
                                           ' Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                                       style: TextStyle(
-                                          color: Color.fromRGBO(0, 0, 0, 0.6),
+                                          color: StyleColors().textColorGray60,
                                           fontFamily: 'Roboto',
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400),
@@ -150,7 +151,7 @@ class _InfoPageState extends State<InfoPage> {
                             decoration: BoxDecoration(
                                 border: Border(
                                     bottom: BorderSide(
-                                        color: Color.fromRGBO(0, 0, 0, 0.12),
+                                        color: StyleColors().textColorGray12,
                                         width: 1))),
                           ),
                           Container(
@@ -165,7 +166,7 @@ class _InfoPageState extends State<InfoPage> {
                                     child: Text(
                                       'Kako koristiti aplikaciju?',
                                       style: TextStyle(
-                                          color: Color.fromRGBO(0, 0, 0, 0.8),
+                                          color:StyleColors().textColorGray80,
                                           fontFamily: 'Roboto',
                                           fontSize: 16,
                                           fontWeight: FontWeight.w400),
@@ -178,7 +179,7 @@ class _InfoPageState extends State<InfoPage> {
                                     child: Text(
                                       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                                       style: TextStyle(
-                                          color: Color.fromRGBO(0, 0, 0, 0.6),
+                                          color: StyleColors().textColorGray60,
                                           fontFamily: 'Roboto',
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400),
@@ -192,7 +193,7 @@ class _InfoPageState extends State<InfoPage> {
                             decoration: BoxDecoration(
                                 border: Border(
                                     bottom: BorderSide(
-                                        color: Color.fromRGBO(0, 0, 0, 0.12),
+                                        color: StyleColors().textColorGray12,
                                         width: 1))),
                           ),
                           Container(
@@ -207,7 +208,7 @@ class _InfoPageState extends State<InfoPage> {
                                     child: Text(
                                       'Ko su naši partneri?',
                                       style: TextStyle(
-                                          color: Color.fromRGBO(0, 0, 0, 0.8),
+                                          color: StyleColors().textColorGray80,
                                           fontFamily: 'Roboto',
                                           fontSize: 16,
                                           fontWeight: FontWeight.w400),
@@ -221,7 +222,7 @@ class _InfoPageState extends State<InfoPage> {
                                       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ' +
                                           'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',
                                       style: TextStyle(
-                                          color: Color.fromRGBO(0, 0, 0, 0.6),
+                                          color: StyleColors().textColorGray60,
                                           fontFamily: 'Roboto',
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400),
@@ -235,7 +236,7 @@ class _InfoPageState extends State<InfoPage> {
                             decoration: BoxDecoration(
                                 border: Border(
                                     bottom: BorderSide(
-                                        color: Color.fromRGBO(0, 0, 0, 0.12),
+                                        color: StyleColors().textColorGray12,
                                         width: 1))),
                           ),
                         ],

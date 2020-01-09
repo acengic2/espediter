@@ -5,6 +5,7 @@ import 'package:spediter/screens/companyScreens/createRoute/form.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
+import 'package:spediter/theme/style.dart';
 
 class ButtonFinishRoute extends StatefulWidget {
   DocumentSnapshot post;
@@ -67,9 +68,9 @@ class _ButtonFinishRouteState extends State<ButtonFinishRoute> {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-        disabledColor: Color.fromRGBO(219, 219, 219, 1),
-        disabledTextColor: Color.fromRGBO(0, 0, 0, 1),
-        color: Color.fromRGBO(174, 7, 37, 1),
+        disabledColor: StyleColors().grayColor,
+        disabledTextColor: Colors.black,
+        color: StyleColors().destinationCircle1,
         textColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4.0),

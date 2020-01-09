@@ -265,19 +265,17 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4.0)),
                                             borderSide: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    0, 0, 0, 0.12)),
+                                                color: StyleColors().textColorGray12),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(4.0)),
                                               borderSide: BorderSide(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 0.12))),
+                                                  color: StyleColors().textColorGray12)),
                                           labelText: 'Url Profilne Slike',
                                           labelStyle: TextStyle(
                                               color:
-                                                  StyleColors().textColorGray5),
+                                                  StyleColors().textColorGray50),
                                           hasFloatingPlaceholder: true,
                                           border: OutlineInputBorder(
                                               borderRadius:
@@ -307,19 +305,17 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4.0)),
                                             borderSide: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    0, 0, 0, 0.12)),
+                                                color: StyleColors().textColorGray12),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(4.0)),
                                               borderSide: BorderSide(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 0.12))),
+                                                  color: StyleColors().textColorGray12)),
                                           labelText: 'Korisničko Ime',
                                           labelStyle: TextStyle(
                                               color:
-                                                  Color.fromRGBO(0, 0, 0, 0.5)),
+                                                  StyleColors().textColorGray50),
                                           hasFloatingPlaceholder: true,
                                           border: OutlineInputBorder(
                                               borderRadius:
@@ -350,19 +346,17 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4.0)),
                                             borderSide: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    0, 0, 0, 0.12)),
+                                                color: StyleColors().textColorGray12),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(4.0)),
                                               borderSide: BorderSide(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 0.12))),
+                                                  color: StyleColors().textColorGray12)),
                                           labelText: 'Kratki Opis',
                                           labelStyle: TextStyle(
                                               color:
-                                                  Color.fromRGBO(0, 0, 0, 0.5)),
+                                                  StyleColors().textColorGray50),
                                           hasFloatingPlaceholder: true,
                                           border: OutlineInputBorder(
                                               borderRadius:
@@ -392,19 +386,17 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4.0)),
                                             borderSide: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    0, 0, 0, 0.12)),
+                                                color: StyleColors().textColorGray12),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(4.0)),
                                               borderSide: BorderSide(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 0.12))),
+                                                  color: StyleColors().textColorGray12)),
                                           labelText: 'Mail',
                                           labelStyle: TextStyle(
                                               color:
-                                                  Color.fromRGBO(0, 0, 0, 0.5)),
+                                                  StyleColors().textColorGray50),
                                           hasFloatingPlaceholder: true,
                                           border: OutlineInputBorder(
                                               borderRadius:
@@ -434,19 +426,17 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4.0)),
                                             borderSide: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    0, 0, 0, 0.12)),
+                                                color: StyleColors().textColorGray12),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(4.0)),
                                               borderSide: BorderSide(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 0.12))),
+                                                  color: StyleColors().textColorGray12)),
                                           labelText: 'Telefon',
                                           labelStyle: TextStyle(
                                               color:
-                                                  Color.fromRGBO(0, 0, 0, 0.5)),
+                                                  StyleColors().textColorGray50),
                                           hasFloatingPlaceholder: true,
                                           border: OutlineInputBorder(
                                               borderRadius:
@@ -476,19 +466,17 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4.0)),
                                             borderSide: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    0, 0, 0, 0.12)),
+                                                color: StyleColors().textColorGray12),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(4.0)),
                                               borderSide: BorderSide(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 0.12))),
+                                                  color: StyleColors().textColorGray12)),
                                           labelText: 'Web Stranica',
                                           labelStyle: TextStyle(
                                               color:
-                                                  Color.fromRGBO(0, 0, 0, 0.5)),
+                                                  StyleColors().textColorGray50),
                                           hasFloatingPlaceholder: true,
                                           border: OutlineInputBorder(
                                               borderRadius:
@@ -518,19 +506,17 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4.0)),
                                             borderSide: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    0, 0, 0, 0.12)),
+                                                color: StyleColors().textColorGray12),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(4.0)),
                                               borderSide: BorderSide(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 0.12))),
+                                                  color: StyleColors().textColorGray12)),
                                           labelText: 'Lokacija',
                                           labelStyle: TextStyle(
                                               color:
-                                                  Color.fromRGBO(0, 0, 0, 0.5)),
+                                                  StyleColors().textColorGray50),
                                           hasFloatingPlaceholder: true,
                                           border: OutlineInputBorder(
                                               borderRadius:

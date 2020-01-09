@@ -89,12 +89,9 @@ class _ListOfUsersRoutesPageState extends State<ListOfUsersRoutesPage> {
            child: FutureBuilder<QuerySnapshot>(
              future: CompanyRoutes().getCompanyRoutes(userID),
               builder: (context, snapshot) {
-                print('DOVDJE');
-                print(userID);
                 // ukoliko postoje podatci
                 //vrati Column oi mapiraj kroz iste podatke
                 if (snapshot.hasData) {
-                   print('asasasas' + userID);
                     return Column(
                       children: snapshot.data.documents
                           .map((doc) => buildItem(doc))
@@ -217,7 +214,7 @@ class _ListOfUsersRoutesPageState extends State<ListOfUsersRoutesPage> {
                       text: 'Kapacitet: ',
                       style: new TextStyle(
                         fontSize: 14.0,
-                        color: Colors.black.withOpacity(0.8),
+                        color: StyleColors().blackWithOpacity80,
                         fontFamily: "Roboto",
                       )),
                   new TextSpan(
@@ -225,7 +222,7 @@ class _ListOfUsersRoutesPageState extends State<ListOfUsersRoutesPage> {
                     style: new TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14.0,
-                      color: Colors.black.withOpacity(0.8),
+                      color: StyleColors().blackWithOpacity80,
                       fontFamily: "Roboto",
                     ),
                   ),
@@ -258,21 +255,21 @@ class _ListOfUsersRoutesPageState extends State<ListOfUsersRoutesPage> {
                     style: TextStyle(
                         fontFamily: 'RobotoMono',
                         fontSize: 14,
-                        color: Colors.black.withOpacity(0.8))),
+                        color: StyleColors().blackWithOpacity80)),
                 TextSpan(
                   text: ('${doc.data['availability']} %'),
                   style: TextStyle(
                       fontFamily: 'RobotoMono',
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
-                      color: Colors.black.withOpacity(0.8)),
+                      color: StyleColors().blackWithOpacity80),
                 ),
               ],
             ),
           ),
           linearStrokeCap: LinearStrokeCap.butt,
           backgroundColor: Colors.white,
-          progressColor: Color.fromRGBO(3, 54, 255, 0.12),
+          progressColor: StyleColors().progressBar,
         ),
       ),
     );
@@ -290,7 +287,7 @@ class _ListOfUsersRoutesPageState extends State<ListOfUsersRoutesPage> {
                       text: '${doc.data['starting_destination']}',
                       style: new TextStyle(
                         fontSize: 20.0,
-                        color: Colors.black.withOpacity(0.8),
+                        color: StyleColors().blackWithOpacity80,
                         fontWeight: FontWeight.bold,
                         fontFamily: "Roboto",
                       )),
@@ -298,7 +295,7 @@ class _ListOfUsersRoutesPageState extends State<ListOfUsersRoutesPage> {
                       text: ('${doc.data['interdestination']}'),
                       style: new TextStyle(
                         fontSize: 20.0,
-                        color: Colors.black.withOpacity(0.8),
+                        color: StyleColors().blackWithOpacity80,
                         fontFamily: "Roboto",
                       )),
                   new TextSpan(
@@ -306,7 +303,7 @@ class _ListOfUsersRoutesPageState extends State<ListOfUsersRoutesPage> {
                     style: new TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20.0,
-                      color: Colors.black.withOpacity(0.8),
+                      color: StyleColors().blackWithOpacity80,
                       fontFamily: "Roboto",
                     ),
                   ),

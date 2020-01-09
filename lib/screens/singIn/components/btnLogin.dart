@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:spediter/components/loadingScreens/loading.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
 import 'package:spediter/components/snackBar.dart';
+import 'package:spediter/theme/style.dart';
 
 class ButtonLogin extends StatelessWidget {
   var err;
@@ -60,7 +61,7 @@ class ButtonLogin extends StatelessWidget {
         ),
       ),
 
-      color: Color.fromRGBO(3, 54, 255, 1.0),
+      color: StyleColors().blueColor,
 
       // na press btn-a
       onPressed:
