@@ -2,12 +2,8 @@ import 'package:flutter/material.dart';
 
 class StyleColors {
   Color blueColor = Color.fromRGBO(3, 54, 255, 1);
-<<<<<<< HEAD
   Color blueColor2 = Color.fromRGBO(3, 54, 255, 0.2);
 
-=======
-  Color blueColor1 = Color.fromRGBO(3, 54, 255, 0.2);
->>>>>>> 71a6264540a04b1c25df2283e738cc8804700da0
   Color textColorGray80 = Color.fromRGBO(0, 0, 0, 0.8);
   Color textColorGray60 = Color.fromRGBO(0, 0, 0, 0.6);
   Color textColorGray50 = Color.fromRGBO(0, 0, 0, 0.5);
