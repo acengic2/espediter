@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/snackBar.dart';
+import 'package:spediter/screens/companyScreens/companyInfo/components/hardCodedPart.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
@@ -532,12 +533,12 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                     ),
                                   ),
 
-                                  /// BUTTOON
                                   Container(
                                     margin: EdgeInsets.only(
                                       left: 16.0,
                                       right: 16.0,
                                       top: 8,
+                                      bottom: 16
                                     ),
                                     height: 50,
                                     child: ConstrainedBox(
@@ -617,55 +618,12 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
               }),
                                     ),
                                   ),
-                                  Divider1(thickness:8,height: 8,),
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                      top: 16,
-                                      bottom: 16,
-                                      left: 16,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          "Kontakt mail",
-                                          style: TextStyle(
-                                              fontFamily: 'Roboto',
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        Text("support@esped.com"),
-                                        Divider1(height: 1,thickness: 1,),
-                                        Text(
-                                          "Kontakt telefon",
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                              fontFamily: 'Roboto',
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        Text("062 667-266"),
-                                        Divider1(height: 1,thickness: 1,),
-                                        GestureDetector(
-                                          onTap: () {
-                                            _signOut();
-                                          },
-                                          child: Container(
-                                            height: 30,
-                                            margin: EdgeInsets.only(top: 6),
-                                            child: Text(
-                                              "Odjava",
-                                              style: TextStyle(
-                                                  fontFamily: 'Roboto',
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+
+                                  Divider1(
+                                    thickness: 8,
+                                    height: 8,
                                   ),
+                                  HardCodedPart()
                                 ],
                               ),
                             )
@@ -702,13 +660,6 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
     }
   }
 
-  void _signOut() async {
-    await FirebaseAuth.instance.signOut();
-    Future<FirebaseUser> Function() user = FirebaseAuth.instance.currentUser;
-    print(user);
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => Login()));
-  }
    //  funckija za update todo
   updateData(DocumentSnapshot docID) async {
     await db.collection('Company').document(docID.documentID).updateData({

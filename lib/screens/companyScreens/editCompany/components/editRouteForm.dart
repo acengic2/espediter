@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_container/responsive_container.dart';
+import 'package:spediter/components/destinationCircles.dart';
+import 'package:spediter/components/destinationLines.dart';
 import 'package:spediter/components/inderdestination.dart';
 import 'package:spediter/components/snackBar.dart';
 import 'package:spediter/components/vehicle.dart';
@@ -281,27 +283,11 @@ class _EditRouteFormState extends State<EditRouteForm> {
                           child: Row(children: <Widget>[
                             Expanded(
                                 flex: 1,
-                                child: Container(
-                                  margin: EdgeInsets.only(bottom: 10.0),
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: <Widget>[
-                                      Container(
-                                        child: Icon(
-                                          Icons.brightness_1,
-                                          color: StyleColors().blueColor,
-                                          size: 15.0,
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Icon(
-                                          Icons.brightness_1,
-                                          color: StyleColors().blueColor2,
-                                          size: 30.0,
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                child: Column(
+                                  children: <Widget>[
+                                    DestinationCircle(largeCircle: StyleColors().blueColor2, smallCircle: StyleColors().blueColor),
+                                    DestinationLine(),
+                                  ],
                                 )),
                             Expanded(
                                 flex: 9,
@@ -373,29 +359,11 @@ class _EditRouteFormState extends State<EditRouteForm> {
                           child: Row(children: <Widget>[
                             Expanded(
                                 flex: 1,
-                                child: Container(
-                                  margin: EdgeInsets.only(bottom: 10.0),
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: <Widget>[
-                                      Container(
-                                        child: Icon(
-                                          Icons.brightness_1,
-                                          color:
-                                              StyleColors().destinationCircle1,
-                                          size: 15.0,
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Icon(
-                                          Icons.brightness_1,
-                                          color:
-                                              StyleColors().destinationCircle2,
-                                          size: 30.0,
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                child: Column(
+                                  children: <Widget>[
+                                    DestinationLine(),
+                                    DestinationCircle(largeCircle: StyleColors().destinationCircle2, smallCircle: StyleColors().destinationCircle1,),
+                                  ],
                                 )),
                             Expanded(
                                 flex: 9,
