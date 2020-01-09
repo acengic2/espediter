@@ -7,6 +7,8 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_container/responsive_container.dart';
+import 'package:spediter/components/destinationCircles.dart';
+import 'package:spediter/components/destinationLines.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/inderdestination.dart';
 import 'package:spediter/components/vehicle.dart';
@@ -253,44 +255,8 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                                 flex: 1,
                                 child: Column(
                                   children: <Widget>[
-                                    Container(
-                                      //smargin: EdgeInsets.only(bottom: 10.0),
-                                      child: Stack(
-                                        alignment: Alignment.center,
-                                        children: <Widget>[
-                                          Container(
-                                              height: 20,
-                                              width: 20,
-                                              margin: EdgeInsets.only(
-                                                  right: 8, left: 16)),
-                                          Container(
-                                            height: 16,
-                                            width: 16,
-                                            child: Icon(
-                                              Icons.brightness_1,
-                                              color: StyleColors().blueColor,
-                                              size: 10.0,
-                                            ),
-                                          ),
-                                          Container(
-                                            child: Icon(
-                                              Icons.brightness_1,
-                                              color: StyleColors().blueColor,
-                                              size: 20.0,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(left: 0),
-                                      height: 12,
-                                      width: 0,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: StyleColors()
-                                                  .textColorGray12)),
-                                    )
+                                    DestinationCircle(largeCircle: StyleColors().blueColor1, smallCircle: StyleColors().blueColor),
+                                    DestinationLine(),
                                   ],
                                 )),
                             Expanded(
@@ -364,46 +330,8 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                                 flex: 1,
                                 child: Column(
                                   children: <Widget>[
-                                    Container(
-                                      margin: EdgeInsets.only(left: 0),
-                                      height: 12,
-                                      width: 0,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: StyleColors()
-                                                  .textColorGray12)),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(bottom: 10.0),
-                                      child: Stack(
-                                        alignment: Alignment.center,
-                                        children: <Widget>[
-                                          Container(
-                                              height: 20,
-                                              width: 20,
-                                              margin: EdgeInsets.only(
-                                                  right: 8, left: 16)),
-                                          Container(
-                                            height: 16,
-                                            width: 16,
-                                            child: Icon(
-                                              Icons.brightness_1,
-                                              color: StyleColors()
-                                                  .destinationCircle1,
-                                              size: 10.0,
-                                            ),
-                                          ),
-                                          Container(
-                                            child: Icon(
-                                              Icons.brightness_1,
-                                              color: StyleColors()
-                                                  .destinationCircle2,
-                                              size: 20.0,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
+                                    DestinationLine(),
+                                    DestinationCircle(largeCircle: StyleColors().destinationCircle2, smallCircle: StyleColors().destinationCircle1,),
                                   ],
                                 )),
                             Expanded(

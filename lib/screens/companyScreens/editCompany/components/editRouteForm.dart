@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_container/responsive_container.dart';
+import 'package:spediter/components/destinationCircles.dart';
+import 'package:spediter/components/destinationLines.dart';
 import 'package:spediter/components/inderdestination.dart';
 import 'package:spediter/components/vehicle.dart';
 import 'package:spediter/screens/companyScreens/createRoute/form.dart';
@@ -14,6 +16,7 @@ import 'package:spediter/screens/companyScreens/editCompany/components/btnSave.d
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
+import 'package:spediter/theme/style.dart';
 import 'package:spediter/utils/screenUtils.dart';
 
 class EditRouteForm extends StatefulWidget {
@@ -279,29 +282,11 @@ class _EditRouteFormState extends State<EditRouteForm> {
                           child: Row(children: <Widget>[
                             Expanded(
                                 flex: 1,
-                                child: Container(
-                                  margin: EdgeInsets.only(bottom: 10.0),
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: <Widget>[
-                                      Container(
-                                        child: Icon(
-                                          Icons.brightness_1,
-                                          color:
-                                              Color.fromRGBO(3, 54, 255, 1.0),
-                                          size: 15.0,
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Icon(
-                                          Icons.brightness_1,
-                                          color:
-                                              Color.fromRGBO(3, 54, 255, 0.2),
-                                          size: 30.0,
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                child: Column(
+                                  children: <Widget>[
+                                    DestinationCircle(largeCircle: StyleColors().blueColor1, smallCircle: StyleColors().blueColor),
+                                    DestinationLine(),
+                                  ],
                                 )),
                             Expanded(
                                 flex: 9,
@@ -375,29 +360,11 @@ class _EditRouteFormState extends State<EditRouteForm> {
                           child: Row(children: <Widget>[
                             Expanded(
                                 flex: 1,
-                                child: Container(
-                                  margin: EdgeInsets.only(bottom: 10.0),
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: <Widget>[
-                                      Container(
-                                        child: Icon(
-                                          Icons.brightness_1,
-                                          color:
-                                              Color.fromRGBO(174, 7, 37, 1.0),
-                                          size: 15.0,
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Icon(
-                                          Icons.brightness_1,
-                                          color:
-                                              Color.fromRGBO(174, 7, 37, 0.2),
-                                          size: 30.0,
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                child: Column(
+                                  children: <Widget>[
+                                    DestinationLine(),
+                                    DestinationCircle(largeCircle: StyleColors().destinationCircle2, smallCircle: StyleColors().destinationCircle1,),
+                                  ],
                                 )),
                             Expanded(
                                 flex: 9,
