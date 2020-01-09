@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:spediter/screens/companyScreens/createRoute/form.dart';
+import 'package:spediter/screens/companyScreens/createRoute/interdestinatonForm.dart';
 import 'package:spediter/screens/companyScreens/editCompany/components/editRouteForm.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:flutter/rendering.dart';
@@ -111,7 +111,7 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
         title: const Text('Aktivna Ruta',
             style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.8))),
       ),
-      body: EditRouteForm(),
+      body: EditRouteForm(post: post,),
     );
   }
 }

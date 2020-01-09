@@ -6,7 +6,7 @@ class TextFormF extends StatefulWidget {
   FocusNode focusNode;
   String initialValue, hintText, labelText, vars;
   int onceToast, onceBtnPressed;
-  Function areFieldsEmpty;
+  dynamic areFieldsEmpty;
   TextFormF(
       {this.initialValue,
       this.hintText,
@@ -26,14 +26,15 @@ class TextFormF extends StatefulWidget {
       vars: vars,
       onceBtnPressed: onceBtnPressed,
       onceToast: onceToast,
-      areFieldsEmpty: areFieldsEmpty);
+      areFieldsEmpty: areFieldsEmpty
+    );
 }
 
 class _TextFormFState extends State<TextFormF> {
   FocusNode focusNode;
   String initialValue, hintText, labelText, vars;
   int onceToast, onceBtnPressed;
-  Function areFieldsEmpty;
+  dynamic areFieldsEmpty;
   _TextFormFState(
       {this.initialValue,
       this.hintText,
@@ -72,6 +73,7 @@ class _TextFormFState extends State<TextFormF> {
             onceBtnPressed = 0;
             areFieldsEmpty();
           });
+          
         },
       ),
     );
