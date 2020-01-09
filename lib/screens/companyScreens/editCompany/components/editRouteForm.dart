@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
@@ -7,10 +9,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_container/responsive_container.dart';
 import 'package:spediter/components/inderdestination.dart';
+import 'package:spediter/components/snackBar.dart';
 import 'package:spediter/components/vehicle.dart';
 import 'package:spediter/screens/companyScreens/createRoute/form.dart';
-import 'package:spediter/screens/companyScreens/editCompany/components/btnFinish.dart';
-import 'package:spediter/screens/companyScreens/editCompany/components/btnSave.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
@@ -816,7 +817,54 @@ class _EditRouteFormState extends State<EditRouteForm> {
                           constraints: const BoxConstraints(
                             minWidth: double.infinity,
                           ),
-                          child: ButtonSave(),
+                          child: RaisedButton(
+                              disabledColor: Color.fromRGBO(219, 219, 219, 1),
+                              disabledTextColor: Color.fromRGBO(0, 0, 0, 1),
+                              color: Color.fromRGBO(3, 54, 255, 1),
+                              textColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                              child: Text(
+                                'SAČUVAJ PROMJENE',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: 'Roboto',
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              onPressed: _isBtnDisabled
+                                  ? null
+                                  : () {
+                                      FocusScopeNode currentFocus =
+                                          FocusScope.of(context);
+                                      if (!currentFocus.hasPrimaryFocus) {
+                                        currentFocus.unfocus();
+                                      }
+
+                                      /// VALIDACIJA POLJA
+                                      if (percentageVar < 0 ||
+                                          percentageVar > 100) {
+                                        if (onceToast == 0) {
+                                          SnackBar1(
+                                              message:
+                                                  'Unesite broj od 0 do 100');
+
+                                          onceToast = 1;
+                                          Timer(Duration(seconds: 2), () {
+                                            onceToast = 0;
+                                          });
+                                        }
+                                      } else {
+                                        if (onceBtnPressed == 0) {
+                                          updateData(widget.post);
+                                          onceBtnPressed = 1;
+                                          _isBtnDisabled = true;
+                                        }
+                                        // validateDatesAndTimes(context);
+
+                                      }
+                                    }),
                         ),
                       ),
 
@@ -833,7 +881,31 @@ class _EditRouteFormState extends State<EditRouteForm> {
                           constraints: const BoxConstraints(
                             minWidth: double.infinity,
                           ),
-                          child: ButtonFinishRoute(),
+                          child: RaisedButton(
+                              disabledColor: Color.fromRGBO(219, 219, 219, 1),
+                              disabledTextColor: Color.fromRGBO(0, 0, 0, 1),
+                              color: Color.fromRGBO(174, 7, 37, 1),
+                              textColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                              child: Text(
+                                'ZAVRŠITE RUTU',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: 'Roboto',
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              onPressed: () {
+                                if (onceBtnPressed == 0) {
+                                  // ubacujemo u FinishedRoutes
+                                  finishedData();
+                                  // brisemo iz Rute
+                                  deleteData(widget.post);
+                                  onceBtnPressed = 1;
+                                }
+                              }),
                         ),
                       ),
                     ],
@@ -996,5 +1068,59 @@ class _EditRouteFormState extends State<EditRouteForm> {
       }
     });
     return true;
+  }
+
+  updateData(DocumentSnapshot doc) async {
+    await db.collection('Rute').document(doc.documentID).updateData({
+      'availability': '$percentageVar',
+      'capacity': '$capacityVar',
+      'ending_destination': '$endingDestination',
+      'starting_destination': '$startingDestination',
+      // 'interdestination': '$listOfInterdestinations',
+      'arrival_date': '$formatted2',
+      'arrival_time': '$t11',
+      'departure_time': '$t22',
+      'departure_date': '$formatted',
+      'dimensions': '$dimensionsVar',
+      'goods': '$goodsVar',
+      'vehicle': '$vehicleVar',
+      'user_id': '$userID',
+      'timestamp': '$dateOfSubmit',
+    });
+  }
+
+  finishedData() async {
+    DocumentReference ref = await db.collection('FinishedRoutes').add({
+      'availability': '$percentageVar',
+      'capacity': '$capacityVar',
+      'ending_destination': '$endingDestination',
+      'starting_destination': '$startingDestination',
+      // 'interdestination': '$listOfInterdestinations',
+      'arrival_date': '$formatted2',
+      'arrival_time': '$t11',
+      'departure_time': '$t22',
+      'departure_date': '$formatted',
+      'dimensions': '$dimensionsVar',
+      'goods': '$goodsVar',
+      'vehicle': '$vehicleVar',
+      'user_id': '$userID',
+      'timestamp': '$dateOfSubmit',
+    });
+    setState(() => id = ref.documentID);
+  }
+
+  // funkcija koja brise iz Rute
+  //potrebno joj je proslijediti doc.ID
+  void deleteData(DocumentSnapshot doc) async {
+    await db.collection('Rute').document(doc.documentID).delete();
+    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+      if (docs.documents.isNotEmpty) {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ListOfRoutes(userID: userID)));
+      } else {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => NoRoutes()));
+      }
+    });
   }
 }
