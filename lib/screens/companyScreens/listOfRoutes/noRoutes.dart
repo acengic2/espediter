@@ -2,16 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/components/bottomAppBar.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/components/floatingActionButton.dart';
-
+import 'package:spediter/theme/style.dart';
 import '../createRoute/createRouteScreen.dart';
 
 void main() => runApp(NoRoutes());
 
-const blueColor = Color.fromRGBO(3, 54, 255, 1);
-const textColorGray80 = Color.fromRGBO(0, 0, 0, 0.8);
-const textColorGray60 = Color.fromRGBO(0, 0, 0, 0.6);
-
-const noRoutesString = "Trenutno nemate nikakvih ruta. Molimo vas da kreirate rutu.";
+const noRoutesString =
+    "Trenutno nemate nikakvih ruta. Molimo vas da kreirate rutu.";
 
 class NoRoutes extends StatelessWidget {
   // This widget is the root of your application.
@@ -55,29 +52,30 @@ class _NoRoutesScreenPageState extends State<NoRoutesScreenPage> {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: <
-                    Widget>[
-              Text(
-                'Nemate ruta',
-                style: TextStyle(
-                    fontSize: 16, fontFamily: "Roboto", color: textColorGray80),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 8.0, bottom: 16.0),
-                child: Container(
-                  width: 328,
-                  child: Text(
-                 noRoutesString ,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontFamily: "Roboto",
-                      color: textColorGray60),
-                ),
-                )
-              ),
-              ButtonTheme(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Nemate ruta',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: "Roboto",
+                        color: StyleColors().textColorGray80),
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(top: 8.0, bottom: 16.0),
+                      child: Container(
+                        width: 328,
+                        child: Text(
+                          noRoutesString,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontFamily: "Roboto",
+                              color: StyleColors().textColorGray60),
+                        ),
+                      )),
+                  ButtonTheme(
                     minWidth: 154.0,
                     height: 36.0,
                     child: RaisedButton.icon(
@@ -99,10 +97,10 @@ class _NoRoutesScreenPageState extends State<NoRoutesScreenPage> {
                             fontFamily: "Roboto",
                             color: Colors.white),
                       ),
-                      color: blueColor,
+                      color: StyleColors().blueColor,
                     ),
                   )
-            ]),
+                ]),
           ),
         ),
       ),

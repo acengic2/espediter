@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Logo extends StatelessWidget {
-
   final String imagePath = 'assets/img/Logo.png';
   final String logoText = "e-Špediter";
-  
+
   @override
   Widget build(BuildContext context) {
     return Row(

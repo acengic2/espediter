@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:spediter/screens/singIn/components/form.dart';
 import 'package:spediter/screens/singIn/components/logo.dart';
 
-
 void main() => runApp(Login());
 
 class Login extends StatefulWidget {
@@ -13,7 +12,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
- 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -36,16 +34,16 @@ class _LoginState extends State<Login> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       // Logo and Headline
-                        Logo(),
+                      Logo(),
                       // column -> forma za popunjavanje email-a i passworda
-                        FormLogIn(),
+                      FormLogIn(),
                     ],
                   ),
                 ),
               ),
             ],
           ),
-        ),//  detektor klika za zatvaranje tastature
+        ), //  detektor klika za zatvaranje tastature
       ),
     );
   }

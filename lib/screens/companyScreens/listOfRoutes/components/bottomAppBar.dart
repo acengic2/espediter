@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:spediter/screens/companyScreens/companyInfo.dart';
+import 'package:spediter/screens/companyScreens/companyInfo/companyInfo.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/info.dart';
 
-
 class BottomAppBar1 extends StatelessWidget {
- 
   final String userID;
   BottomAppBar1({this.userID});
 
@@ -45,11 +43,11 @@ class BottomAppBar1 extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Info(userID: userID)),
+                    MaterialPageRoute(
+                        builder: (context) => Info(userID: userID)),
                   );
                 },
                 icon: Icon(
-                    
                   Icons.info_outline,
                 ),
               ),

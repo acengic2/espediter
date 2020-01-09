@@ -5,10 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:spediter/components/divider.dart';
+import 'package:spediter/screens/companyScreens/companyInfo/components/btnSaveInfo.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
 import 'package:spediter/screens/singIn/signIn.dart';
+import 'package:spediter/theme/style.dart';
 import 'package:spediter/utils/screenUtils.dart';
 import 'package:flutter/rendering.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
@@ -71,13 +74,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
   final db = Firestore.instance;
 
   /// fokusi
-  ///
-  /// fokus za procenat
-  /// fokus za dostupnost
-  /// fokus za robu
-  /// fokus za dimenzije
-  /// fokus za pocetnu destinaciju
-  /// fokus za krajnju destinaciju
+
   var focusImage = new FocusNode();
   var focusName = new FocusNode();
   var focusAbout = new FocusNode();
@@ -90,21 +87,13 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
   int onceToast = 0, onceBtnPressed = 0;
 
   /// Stringovi
-  ///
-  /// companyID
-  /// user id
-  /// id
-  /// medjudestinacija
-  /// roba,dimenzije,odabraniDatumPolaska,odabraniDatumDolaska,krajnja destinacija,pocetna destinacija
-  /// vrijemeDolaska,vrijemePolaska, odabranoVozilo,
-  /// procenat i kapacitet
   String userUid;
   String id;
   String phone,
       webPage,
       location,
       companyName,
-      urlLogo, 
+      urlLogo,
       companyDescription,
       mail;
   String phoneLast,
@@ -144,7 +133,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
   /// provjeravamo da li company ima rute ili ne i na osnovu toga ih
   /// redirectamo na [NoRoutes] ili na [ListOfRoutes]
   bool myInterceptor(bool stopDefaultButtonEvent) {
-    CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ListOfRoutes(
@@ -209,7 +198,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
           icon: Icon(Icons.clear),
           onPressed: () {
             /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
-            CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+            CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
               if (docs.documents.isNotEmpty) {
                 imaliRuta = true;
                 Navigator.push(
@@ -288,7 +277,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                           labelText: 'Url Profilne Slike',
                                           labelStyle: TextStyle(
                                               color:
-                                                  Color.fromRGBO(0, 0, 0, 0.5)),
+                                                  StyleColors().textColorGray5),
                                           hasFloatingPlaceholder: true,
                                           border: OutlineInputBorder(
                                               borderRadius:
@@ -569,117 +558,11 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                       constraints: const BoxConstraints(
                                         minWidth: double.infinity,
                                       ),
-                                      child: RaisedButton(
-                                          disabledColor:
-                                              Color.fromRGBO(219, 219, 219, 1),
-                                          disabledTextColor:
-                                              Color.fromRGBO(0, 0, 0, 1),
-                                          color: Color.fromRGBO(3, 54, 255, 1),
-                                          textColor: Colors.white,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                          ),
-                                          child: Text(
-                                            'SAČUVAJ PROMJENE',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontFamily: 'Roboto',
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          onPressed: _isBtnDisabled
-                                              ? null
-                                              : () {
-                                                  FocusScopeNode currentFocus =
-                                                      FocusScope.of(context);
-                                                  if (!currentFocus
-                                                      .hasPrimaryFocus) {
-                                                    currentFocus.unfocus();
-
-                                                    if (urlLogoLast == null) {
-                                                      urlLogoLast = urlLogo;
-                                                    }
-                                                    if (companyNameLast ==
-                                                        null) {
-                                                      companyNameLast =
-                                                          companyName;
-                                                    }
-                                                    if (companyDescriptionLast ==
-                                                        null) {
-                                                      companyDescriptionLast =
-                                                          companyDescription;
-                                                    }
-                                                    if (mailLast == null) {
-                                                      mailLast = mail;
-                                                    }
-                                                    if (phoneLast == null) {
-                                                      phoneLast = phone;
-                                                    }
-                                                    if (webPageLast == null) {
-                                                      webPageLast = webPage;
-                                                    }
-                                                    if (locationLast == null) {
-                                                      locationLast = location;
-                                                    }
-
-                                                    if (companyDescriptionLast ==
-                                                            '' ||
-                                                        mailLast == '' ||
-                                                        locationLast == '' ||
-                                                        companyNameLast == '' ||
-                                                        urlLogoLast == '' ||
-                                                        phoneLast == '' ||
-                                                        webPageLast == '') {
-                                                      if (onceToast == 0) {
-                                                        final snackBar =
-                                                            SnackBar(
-                                                          duration: Duration(
-                                                              seconds: 2),
-                                                          behavior:
-                                                              SnackBarBehavior
-                                                                  .floating,
-                                                          backgroundColor:
-                                                              Color.fromRGBO(28,
-                                                                  28, 28, 1.0),
-                                                          content: Text(
-                                                              'Sva polja moraju biti popunjena.'),
-                                                          action:
-                                                              SnackBarAction(
-                                                            label: 'Undo',
-                                                            onPressed: () {},
-                                                          ),
-                                                        );
-                                                        Scaffold.of(context)
-                                                            .showSnackBar(
-                                                                snackBar);
-                                                        onceToast = 1;
-                                                        Timer(
-                                                            Duration(
-                                                                seconds: 2),
-                                                            () {
-                                                          onceToast = 0;
-                                                        });
-                                                      }
-                                                    } else {
-                                                      if (onceBtnPressed == 0) {
-                                                        updateData(snapshot
-                                                            .data[index]
-                                                            .documentID);
-
-                                                         _isBtnDisabled = true;
-                                                         onceBtnPressed = 1;
-
-                                                      }
-                                                    }
-                                                  }
-                                                }),
+                                      child: ButtonSaveInfo(
+                                          post: snapshot.data[index]),
                                     ),
                                   ),
-                                  Divider(
-                                    thickness: 8,
-                                    color: Color.fromRGBO(0, 0, 0, 0.03),
-                                  ),
+                                  Divider1(thickness:8,height: 8,),
                                   Container(
                                     margin: EdgeInsets.only(
                                       top: 16,
@@ -698,10 +581,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                               fontWeight: FontWeight.w500),
                                         ),
                                         Text("support@esped.com"),
-                                        Divider(
-                                          thickness: 1,
-                                          color: Color.fromRGBO(0, 0, 0, 0.12),
-                                        ),
+                                        Divider1(height: 1,thickness: 1,),
                                         Text(
                                           "Kontakt telefon",
                                           textAlign: TextAlign.right,
@@ -711,10 +591,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                               fontWeight: FontWeight.w500),
                                         ),
                                         Text("062 667-266"),
-                                        Divider(
-                                          thickness: 1,
-                                          color: Color.fromRGBO(0, 0, 0, 0.12),
-                                        ),
+                                        Divider1(height: 1,thickness: 1,),
                                         GestureDetector(
                                           onTap: () {
                                             _signOut();
@@ -734,134 +611,6 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                       ],
                                     ),
                                   ),
-
-                                  // Container(
-                                  //   margin:
-                                  //       EdgeInsets.only(top: 16, bottom: 16),
-                                  //   height: 8,
-                                  //   decoration: BoxDecoration(
-                                  //       border: Border(
-                                  //     top: BorderSide(
-                                  //         width: 1,
-                                  //         color: Color.fromRGBO(0, 0, 0, 0.12)),
-                                  //     bottom: BorderSide(
-                                  //         width: 1,
-                                  //         color: Color.fromRGBO(0, 0, 0, 0.12)),
-                                  //   )),
-                                  //   child: Divider(
-                                  //     thickness: 8,
-                                  //     color: Color.fromRGBO(0, 0, 0, 0.03),
-                                  //   ),
-                                  // ),
-                                  // Container(
-                                  //     alignment: Alignment(-1.0, 0.0),
-                                  //     height: 56,
-                                  //     child: Column(
-                                  //       crossAxisAlignment:
-                                  //           CrossAxisAlignment.start,
-                                  //       children: <Widget>[
-                                  //         Container(
-                                  //           margin: EdgeInsets.only(
-                                  //               top: 8, left: 16),
-                                  //           //height: 21,
-                                  //           //width: 89,
-                                  //           child: Text(
-                                  //             'Kontakt mail',
-                                  //             style: TextStyle(
-                                  //                 fontFamily: 'Roboto',
-                                  //                 fontSize: 16,
-                                  //                 fontWeight: FontWeight.w400),
-                                  //           ),
-                                  //         ),
-                                  //         Container(
-                                  //           margin: EdgeInsets.only(
-                                  //               bottom: 10, left: 16),
-                                  //           //height: 19,
-                                  //           //width: 130,
-                                  //           child: Text(
-                                  //             'support@ešped.com',
-                                  //             style: TextStyle(
-                                  //                 fontFamily: 'Roboto',
-                                  //                 fontSize: 14,
-                                  //                 fontWeight: FontWeight.w400),
-                                  //           ),
-                                  //         ),
-                                  //       ],
-                                  //     )),
-                                  // Divider(
-                                  //   thickness: 1,
-                                  //   color: Color.fromRGBO(0, 0, 0, 0.12),
-                                  // ),
-                                  // Container(
-                                  //     alignment: Alignment(-1.0, 0.0),
-                                  //     height: 56,
-                                  //     child: Column(
-                                  //       crossAxisAlignment:
-                                  //           CrossAxisAlignment.start,
-                                  //       children: <Widget>[
-                                  //         Container(
-                                  //           margin: EdgeInsets.only(
-                                  //               top: 8, left: 16),
-                                  //           //height: 21,
-                                  //           //width: 89,
-                                  //           child: Text(
-                                  //             'Kontakt telefon',
-                                  //             style: TextStyle(
-                                  //                 fontFamily: 'Roboto',
-                                  //                 fontSize: 16,
-                                  //                 fontWeight: FontWeight.w400),
-                                  //           ),
-                                  //         ),
-                                  //         Container(
-                                  //           margin: EdgeInsets.only(
-                                  //               bottom: 10, left: 16),
-                                  //           //height: 19,
-                                  //           //width: 130,
-                                  //           child: Text(
-                                  //             '062 667-266',
-                                  //             style: TextStyle(
-                                  //                 fontFamily: 'Roboto',
-                                  //                 fontSize: 14,
-                                  //                 fontWeight: FontWeight.w400),
-                                  //           ),
-                                  //         ),
-                                  //       ],
-                                  //     )),
-                                  // Divider(
-                                  //   thickness: 1,
-                                  //   color: Color.fromRGBO(0, 0, 0, 0.12),
-                                  // ),
-                                  // GestureDetector(
-                                  //   onTap: () {
-                                  //     print('ODJAVAAAAAAAAAAA');
-                                  //     _signOut();
-                                  //   },
-                                  //   child: Container(
-                                  //     alignment: Alignment(-1.0, 0.0),
-                                  //     height: 56,
-                                  //     child: Container(
-                                  //       margin: EdgeInsets.only(
-                                  //           top: 17, left: 15, bottom: 18),
-                                  //       //height: 21,
-                                  //       // width: 89,
-
-                                  //       child: Column(
-                                  //         children: <Widget>[
-                                  //           Center(
-                                  //             child: Text(
-                                  //               'Odjava',
-                                  //               style: TextStyle(
-                                  //                   fontFamily: 'Roboto',
-                                  //                   fontSize: 16,
-                                  //                   fontWeight:
-                                  //                       FontWeight.w400),
-                                  //             ),
-                                  //           ),
-                                  //         ],
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ),
                                 ],
                               ),
                             )
@@ -893,36 +642,15 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
         (phoneLast == null || phoneLast == '' || phoneLast == phone) &&
         (webPageLast == null || webPageLast == '' || webPageLast == webPage)) {
       _isBtnDisabled = true;
-      // } else if ((locationLast != location || mailLast != mail || companyDescriptionLast != companyDescription
-      //             || companyNameLast != companyName || urlLogoLast != urlLogo || phoneLast != phone || webPageLast != webPage) &&
-      //     (mailLast == null || mailLast == '' || locationLast == '' || locationLast == null || companyNameLast == '' || companyNameLast == null
-      //     || urlLogoLast == '' || urlLogoLast == null || phoneLast == null || phoneLast == '' || webPageLast == null || webPageLast == ''
-      //     || companyDescriptionLast == null || companyDescriptionLast == '')){
-      //   _isBtnDisabled = true;
     } else {
       _isBtnDisabled = false;
     }
   }
 
-  //  funckija za update todo
-  updateData(String docID) async {
-    await db.collection('Company').document(docID).updateData({
-      'company_description': '$companyDescriptionLast',
-      'company_name': '$companyNameLast',
-      'email': '$mailLast',
-      'location': '$locationLast',
-      'phone': '$phoneLast',
-      'url_logo': '$urlLogoLast',
-      'webpage': '$webPageLast',
-    });
-    _isBtnDisabled = true;
-    print('Update uspjesan');
-  }
-
   void _signOut() async {
     await FirebaseAuth.instance.signOut();
     Future<FirebaseUser> Function() user = FirebaseAuth.instance.currentUser;
-    //print('$user');
+    print(user);
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => Login()));
   }

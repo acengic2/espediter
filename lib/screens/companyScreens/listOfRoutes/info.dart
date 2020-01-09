@@ -6,19 +6,9 @@ import 'package:flutter/rendering.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
-import 'listOfRoutesRef.dart';
 
 void main() => runApp(Info());
 
-/// varijable
-///
-/// varijable u kojoj smo spremili boje
-/// plava
-/// crna sa 80% opacity
-/// crna sa 60^ opacity
-const blueColor = Color.fromRGBO(3, 54, 255, 1);
-const textColorGray80 = Color.fromRGBO(0, 0, 0, 0.8);
-const textColorGray60 = Color.fromRGBO(0, 0, 0, 0.6);
 
 // instanca na NoRoutes screen
 NoRoutes noRoutes = new NoRoutes();
@@ -54,7 +44,6 @@ class InfoPage extends StatefulWidget {
   final String userID;
   InfoPage({this.userID});
 
-
   @override
   _InfoPageState createState() => _InfoPageState(userID: userID);
 }
@@ -85,29 +74,32 @@ class _InfoPageState extends State<InfoPage> {
             color: Colors.black,
             icon: Icon(Icons.clear),
             onPressed: () {
-               /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
-            CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-              if (docs.documents.isNotEmpty) {
-                print('NOT EMPRY');
-                imaliRuta = true;
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ListOfRoutes(userID: userID,)),
-                );
-              } else {
-                print('EMPTU');
-                imaliRuta = false;
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => NoRoutes()));
-              }
-            });
+              /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
+              CompanyRoutes()
+                  .getCompanyRoutes(userID)
+                  .then((QuerySnapshot docs) {
+                if (docs.documents.isNotEmpty) {
+                  imaliRuta = true;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ListOfRoutes(
+                              userID: userID,
+                            )),
+                  );
+                } else {
+                  imaliRuta = false;
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => NoRoutes()));
+                }
+              });
             },
           ),
           title: const Text('Info',
               style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.8))),
         ),
         body:
-          
+
             /// GestureDetector na osnovu kojeg zavaramo tastaturu na klik izvan njenog prostora
             Builder(
                 builder: (context) => new GestureDetector(
@@ -251,4 +243,3 @@ class _InfoPageState extends State<InfoPage> {
                     )));
   }
 }
-

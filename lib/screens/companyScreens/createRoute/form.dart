@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import './inderdestination.dart';
+import 'package:spediter/components/inderdestination.dart';
+import 'package:spediter/theme/style.dart';
 
 typedef OnDelete();
 typedef OnAdd();
@@ -41,7 +42,7 @@ class _UserFormState extends State<InterdestinationForm> {
                     width: 0,
                     decoration: BoxDecoration(
                         border:
-                            Border.all(color: Color.fromRGBO(0, 0, 0, 0.12))),
+                            Border.all(color: StyleColors().textColorGray12)),
                   ),
                   Container(
                     child: Stack(
@@ -56,14 +57,14 @@ class _UserFormState extends State<InterdestinationForm> {
                           width: 16,
                           child: Icon(
                             Icons.brightness_1,
-                            color: Color.fromRGBO(0, 0, 0, 0.5),
+                            color: StyleColors().textColorGray5,
                             size: 10.0,
                           ),
                         ),
                         Container(
                           child: Icon(
                             Icons.brightness_1,
-                            color: Color.fromRGBO(0, 0, 0, 0.2),
+                            color: StyleColors().textColorGray2,
                             size: 20.0,
                           ),
                         )
@@ -76,7 +77,7 @@ class _UserFormState extends State<InterdestinationForm> {
                     width: 0,
                     decoration: BoxDecoration(
                         border:
-                            Border.all(color: Color.fromRGBO(0, 0, 0, 0.12))),
+                            Border.all(color: StyleColors().textColorGray2)),
                   )
                 ],
               )),
@@ -103,16 +104,16 @@ class _UserFormState extends State<InterdestinationForm> {
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(4.0)),
                           borderSide:
-                              BorderSide(color: Color.fromRGBO(0, 0, 0, 0.12)),
+                              BorderSide(color: StyleColors().textColorGray12),
                         ),
                         focusedBorder: OutlineInputBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(4.0)),
                             borderSide: BorderSide(
-                                color: Color.fromRGBO(0, 0, 0, 0.12))),
+                                color: StyleColors().textColorGray12)),
                         labelText: 'Dodaj među destinaciju',
                         labelStyle:
-                            TextStyle(color: Color.fromRGBO(0, 0, 0, 0.5)),
+                            TextStyle(color: StyleColors().textColorGray5),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0))),
                   ))),

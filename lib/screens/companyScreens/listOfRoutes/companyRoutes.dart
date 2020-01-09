@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CompanyRutes {
+class CompanyRoutes {
   // getCompanyRoutes
   //
   // metoda koja prima [id] (userID) i koja filtrira kroz kolekciju ruta
@@ -14,7 +14,7 @@ class CompanyRutes {
         .getDocuments();
   }
 
-getCompanyFinishedRoutes(String id) {
+  getCompanyFinishedRoutes(String id) {
     return Firestore.instance
         .collection('FinishedRoutes')
         .where('user_id', isEqualTo: id)

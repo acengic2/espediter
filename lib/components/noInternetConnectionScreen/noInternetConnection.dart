@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:spediter/screens/noInternetConnectionScreen/components/btnVratiteSe.dart';
-import 'package:spediter/screens/noInternetConnectionScreen/components/textTryAgain.dart';
+import 'package:spediter/components/noInternetConnectionScreen/components/btnVratiteSe.dart';
+import 'package:spediter/components/noInternetConnectionScreen/components/textTryAgain.dart';
 
 void main() => runApp(NoInternetConnectionSrceen());
-
-
-
 
 class NoInternetConnectionSrceen extends StatelessWidget {
   @override
@@ -31,8 +28,11 @@ class _NoInternetConnectionPageState extends State<NoInternetConnectionPage2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:Row(children: <Widget>[TryAgain(),
-      BtnVratiteSe(),],) 
-    );
+        body: Row(
+      children: <Widget>[
+        TryAgain(),
+        BtnVratiteSe(),
+      ],
+    ));
   }
 }

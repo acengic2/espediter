@@ -5,15 +5,13 @@ import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:spediter/screens/companyScreens/createRoute/createRouteScreen.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
+import 'package:spediter/theme/style.dart';
 
 
 
 
 void main() => runApp(ListOfUsersRoutes());
 
-const blueColor = Color.fromRGBO(3, 54, 255, 1);
-const textColorGray80 = Color.fromRGBO(0, 0, 0, 0.8);
-const textColorGray60 = Color.fromRGBO(0, 0, 0, 0.6);
 
 final leftSection = new Container();
 final middleSection = new Container();
@@ -23,7 +21,7 @@ class ListOfUsersRoutes extends StatelessWidget {
   /// id trenutne rute [id],
   /// id kompanije [userID]
 
-  String userID;
+  final String userID;
   ListOfUsersRoutes({this.userID});
   
   
@@ -42,7 +40,7 @@ class ListOfUsersRoutesPage extends StatefulWidget {
   /// id kompanije [userID]
  
  
-  String userID;
+  final String userID;
   ListOfUsersRoutesPage({ this.userID});
 
   @override
@@ -65,7 +63,7 @@ class _ListOfUsersRoutesPageState extends State<ListOfUsersRoutesPage> {
     super.initState();
  
     
-    CompanyRutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
            if(docs.documents.isNotEmpty){
              print('NOT EMPRY');
 
@@ -89,7 +87,7 @@ class _ListOfUsersRoutesPageState extends State<ListOfUsersRoutesPage> {
           //u future se poziva metoda iz klase CompanyRoutes koja prima id
           //builder vraca context i snapshot koji koristimo kako bi mapirali kroz info
            child: FutureBuilder<QuerySnapshot>(
-             future: CompanyRutes().getCompanyRoutes(userID),
+             future: CompanyRoutes().getCompanyRoutes(userID),
               builder: (context, snapshot) {
                 print('DOVDJE');
                 print(userID);
@@ -155,7 +153,7 @@ class _ListOfUsersRoutesPageState extends State<ListOfUsersRoutesPage> {
             },
             tooltip: '+',
             child: Icon(Icons.add),
-            backgroundColor: blueColor,
+            backgroundColor: StyleColors().blueColor,
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
@@ -176,7 +174,7 @@ class _ListOfUsersRoutesPageState extends State<ListOfUsersRoutesPage> {
         margin: EdgeInsets.only(top: 8, bottom: 16),
         decoration: new BoxDecoration(
           shape: BoxShape.rectangle,
-          color: blueColor,
+          color: StyleColors().blueColor,
           borderRadius: BorderRadius.all(Radius.circular(1.0)),
         ),
         child: Padding(

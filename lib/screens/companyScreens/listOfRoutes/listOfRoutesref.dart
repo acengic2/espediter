@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:spediter/screens/companyScreens/createRoute/editRoutes.dart';
+import 'package:spediter/screens/companyScreens/editCompany/editRoutes.dart';
 
 
 
@@ -83,10 +83,14 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
     //     resizeToAvoidBottomPadding: false,
     //     body: Center(
     //       child: 
-          return 
+          return Column(
+           
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(top: 16.0, bottom: 0.0),
+          
+        ),
           Container(
-           
-           
             child: FutureBuilder(
               future: getPosts(userID) ,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -237,20 +241,14 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                         ],
                       );
 
-                      return GestureDetector(  
+                      return GestureDetector(
                         onTap: () => Navigator.of(context).push(
                             MaterialPageRoute(
                                 builder: (context) =>
                                     EditRoute(post: snapshot.data[index], userID: userID))),
-
                         child: Card(
-                           
-  
                           child: Padding(
-  
-                            padding: const EdgeInsets.only(
-  
-                                top: 16, bottom: 4, left: 8, right: 8),
+                            padding: const EdgeInsets.all(8.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
@@ -316,7 +314,7 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
             ),
           
           
-          );
+          )]);
   }
 
 

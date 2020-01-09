@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spediter/screens/companyScreens/createRoute/createRouteScreen.dart';
-
-
+import 'package:spediter/theme/style.dart';
 
 class FloatingActionButton1 extends StatelessWidget {
   final String buttonText = "VRATITE SE";
@@ -19,7 +18,7 @@ class FloatingActionButton1 extends StatelessWidget {
         },
         tooltip: tooltip,
         child: icon,
-        backgroundColor: blueColor,
+        backgroundColor: StyleColors().blueColor,
       ),
     );
   }
