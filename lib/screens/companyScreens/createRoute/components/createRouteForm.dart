@@ -320,7 +320,7 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                                           labelText: 'Startna destinacija',
                                           labelStyle: TextStyle(
                                               color:
-                                                  StyleColors().textColorGray5),
+                                                  StyleColors().textColorGray50),
                                           border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(5.0))),
@@ -434,7 +434,7 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                                           labelText: 'Krajnja destinacija',
                                           labelStyle: TextStyle(
                                               color:
-                                                  StyleColors().textColorGray5),
+                                                  StyleColors().textColorGray50),
                                           border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(5.0))),
@@ -594,7 +594,7 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                               labelText: 'Popunjenost u procentima',
                               hintText: '0 - 100',
                               labelStyle: TextStyle(
-                                  color: StyleColors().textColorGray5),
+                                  color: StyleColors().textColorGray50),
                               hasFloatingPlaceholder: true,
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5.0))),
@@ -636,7 +636,7 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                               labelText: 'Kapacitet u tonama',
                               hintText: '1.5',
                               labelStyle: TextStyle(
-                                  color: StyleColors().textColorGray5),
+                                  color: StyleColors().textColorGray50),
                               hasFloatingPlaceholder: true,
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5.0))),
@@ -687,7 +687,7 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                               style: TextStyle(
                                   fontSize: 16,
                                   fontFamily: "Roboto",
-                                  color: StyleColors().textColorGray5),
+                                  color: StyleColors().textColorGray50),
                               isExpanded: true,
                               items: _dropdownMenuItems,
                               underline: Container(color: Colors.white),
@@ -718,7 +718,7 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                                       color: StyleColors().textColorGray12)),
                               labelText: 'Vrsta robe',
                               labelStyle: TextStyle(
-                                  color: StyleColors().textColorGray5),
+                                  color: StyleColors().textColorGray50),
                               hasFloatingPlaceholder: true,
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5.0))),
@@ -755,7 +755,7 @@ class _CreateRouteFormState extends State<CreateRouteForm> {
                               labelText: 'Dimenzije',
                               hintText: '16m x 2.5m x 3m',
                               labelStyle: TextStyle(
-                                  color: StyleColors().textColorGray5),
+                                  color: StyleColors().textColorGray50),
                               hasFloatingPlaceholder: true,
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5.0))),

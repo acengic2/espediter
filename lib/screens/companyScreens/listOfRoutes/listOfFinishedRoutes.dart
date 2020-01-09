@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:spediter/screens/singIn/components/form.dart';
+import 'package:spediter/theme/style.dart';
 
 String capacityString;
 
@@ -13,9 +14,6 @@ String capacityString;
 /// plava
 /// crna sa 80% opacity
 /// crna sa 60^ opacity
-const greyColor = Color.fromRGBO(219, 219, 219, 1);
-const textColorGray80 = Color.fromRGBO(0, 0, 0, 0.8);
-const textColorGray60 = Color.fromRGBO(0, 0, 0, 0.6);
 
 /// desni,lijevi,srednji kontejner za prikaz informacija o aktivnim rutama
 final leftSection = new Container();
@@ -102,7 +100,7 @@ class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
                         margin: EdgeInsets.only(top: 8, bottom: 16),
                         decoration: new BoxDecoration(
                           shape: BoxShape.rectangle,
-                          color: greyColor,
+                          color: StyleColors().grayColor,
                           borderRadius: BorderRadius.all(Radius.circular(1.0)),
                         ),
                         child: Center(
@@ -131,7 +129,7 @@ class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
                             left: 4.0, right: 4.0, top: 8, bottom: 16),
                         decoration: new BoxDecoration(
                           shape: BoxShape.rectangle,
-                          color: greyColor,
+                          color: StyleColors().grayColor,
                           borderRadius: BorderRadius.all(Radius.circular(1.0)),
                           border: new Border.all(
                             color: Colors.black.withOpacity(0.12),

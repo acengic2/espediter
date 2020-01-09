@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spediter/components/snackBar.dart';
+import 'package:spediter/theme/style.dart';
 
 class ButtonSaveInfo extends StatefulWidget {
   DocumentSnapshot post;
@@ -67,9 +68,9 @@ class _ButtonSaveInfoState extends State<ButtonSaveInfo> {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-        disabledColor: Color.fromRGBO(219, 219, 219, 1),
-        disabledTextColor: Color.fromRGBO(0, 0, 0, 1),
-        color: Color.fromRGBO(3, 54, 255, 1),
+        disabledColor: StyleColors().grayColor,
+        disabledTextColor: Colors.black,
+        color: StyleColors().blueColor,
         textColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4.0),

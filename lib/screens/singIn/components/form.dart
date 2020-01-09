@@ -4,6 +4,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:spediter/components/snackBar.dart';
 import 'package:spediter/screens/singIn/components/btnLogin.dart';
+import 'package:spediter/theme/style.dart';
 
 class FormLogIn extends StatefulWidget {
   @override
@@ -50,7 +51,7 @@ class _FormState extends State<FormLogIn> {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4.0)),
                         borderSide:
-                            BorderSide(color: Color.fromRGBO(0, 0, 0, 0.12)),
+                            BorderSide(color: StyleColors().textColorGray12),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4.0)),
@@ -61,7 +62,7 @@ class _FormState extends State<FormLogIn> {
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4.0)),
                         borderSide:
-                            BorderSide(color: Color.fromRGBO(3, 54, 255, 1.0)),
+                            BorderSide(color: StyleColors().blueColor),
                       ),
                       labelText: 'email',
                       hasFloatingPlaceholder: true,
@@ -133,7 +134,7 @@ class _FormState extends State<FormLogIn> {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4.0)),
                         borderSide:
-                            BorderSide(color: Color.fromRGBO(0, 0, 0, 0.12)),
+                            BorderSide(color: StyleColors().textColorGray12),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4.0)),
@@ -144,7 +145,7 @@ class _FormState extends State<FormLogIn> {
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4.0)),
                         borderSide:
-                            BorderSide(color: Color.fromRGBO(3, 54, 255, 1.0)),
+                            BorderSide(color: StyleColors().blueColor),
                       ),
                       labelText: 'lozinka',
                       hasFloatingPlaceholder: true,
