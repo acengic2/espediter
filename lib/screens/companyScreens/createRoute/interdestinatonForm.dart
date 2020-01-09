@@ -23,11 +23,11 @@ class InterdestinationForm extends StatefulWidget {
   @override
   _UserFormState createState() => state;
 
-  bool isValid() => state.validate();
-}
+  // bool isValid() => state.validate();
+}  
 
 class _UserFormState extends State<InterdestinationForm> {
-  final form = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -104,9 +104,9 @@ class _UserFormState extends State<InterdestinationForm> {
   }
 
   ///form validator
-  bool validate() {
-    var valid = form.currentState.validate();
-    if (valid) form.currentState.save();
-    return valid;
-  }
+  // bool validate() {
+  //   var valid = form.currentState.validate();
+  //   if (valid) form.currentState.save();
+  //   return valid;
+  // }
 }

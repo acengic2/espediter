@@ -6,6 +6,8 @@ class FloatingActionButton1 extends StatelessWidget {
   final String buttonText = "VRATITE SE";
   final String tooltip = "+";
   final Icon icon = Icon(Icons.add);
+   
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,7 +15,7 @@ class FloatingActionButton1 extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => CreateRoute(userID: userID)),
+            MaterialPageRoute(builder: (context) => CreateRoute()),
           );
         },
         tooltip: tooltip,

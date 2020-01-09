@@ -609,7 +609,6 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                   } else {
                     if (onceBtnPressed == 0) {
                       updateData(widget.post);
-
                       _isBtnDisabled = true;
                       onceBtnPressed = 1;
                     }

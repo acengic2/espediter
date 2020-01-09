@@ -88,9 +88,7 @@ class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
                     /// DATUM
 
                     String date = snapshot.data[index].data['arrival_date'];
-
                     String dateReversed = date.split('/').reversed.join();
-
                     String arrivalDate = DateFormat("d MMM")
                         .format(DateTime.parse(dateReversed));
 
@@ -143,7 +141,7 @@ class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
                               text: new TextSpan(
                                 children: <TextSpan>[
                                   new TextSpan(
-                                    text: arrivalDate,
+                                    text:arrivalDate,
                                     style: new TextStyle(
                                       fontSize: 14.0,
                                       color: Colors.black.withOpacity(1.0),
