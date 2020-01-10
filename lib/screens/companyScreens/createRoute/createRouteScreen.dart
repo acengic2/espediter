@@ -13,11 +13,9 @@ import 'package:responsive_container/responsive_container.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/inderdestination.dart';
 import 'package:spediter/components/loadingScreens/loadingRoutes.dart';
-import 'package:spediter/components/textFormFields.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
-
 
 import 'package:spediter/utils/screenUtils.dart';
 
@@ -26,8 +24,6 @@ import 'package:flutter/rendering.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 
 import 'interdestinatonForm.dart';
-
-
 
 void main() => runApp(CreateRoute());
 
@@ -45,7 +41,6 @@ const textColorGray60 = Color.fromRGBO(0, 0, 0, 0.6);
 NoRoutes noRoutes = new NoRoutes();
 
 class CreateRoute extends StatelessWidget {
-
   String userID;
   CreateRoute({this.userID});
   // This widget is the root of your application.
@@ -76,7 +71,8 @@ class CreateRouteScreenPage extends StatefulWidget {
   CreateRouteScreenPage({Key key, this.userID}) : super(key: key);
 
   @override
-  _CreateRouteScreenPageState createState() => _CreateRouteScreenPageState(userID: userID);
+  _CreateRouteScreenPageState createState() =>
+      _CreateRouteScreenPageState(userID: userID);
 }
 
 class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
@@ -214,8 +210,10 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
     CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
         print('NOT EMPRY');
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => ListOfRoutes(userID: userID,)));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ListOfRoutes(
+                  userID: userID,
+                )));
       } else {
         print('EMPTU');
 
@@ -237,7 +235,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
     super.initState();
     getUserid();
     onceToast = 0;
-    BackButtonInterceptor.add(myInterceptor);
+    // BackButtonInterceptor.add(myInterceptor);
   }
 
   ///dispose back btn-a nakon njegovog koristenja
@@ -286,7 +284,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
     }
 
     validateDatesAndTimes(BuildContext context) {
-       t11 = DateFormat.Hm().format(t1);
+      t11 = DateFormat.Hm().format(t1);
       t22 = DateFormat.Hm().format(t2);
       DateTime now = DateTime.now();
       selectedDateP = new DateTime(
@@ -455,7 +453,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
           onceBtnPressed = 1;
         }
       }
-     
     }
 
     /// RESPONSIVE
@@ -485,7 +482,8 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                 imaliRuta = true;
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ListOfRoutes(userID: userID)),
+                  MaterialPageRoute(
+                      builder: (context) => ListOfRoutes(userID: userID)),
                 );
               } else {
                 print('EMPTU');
@@ -968,7 +966,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                       }
                                     },
                                     onChanged: (input) {
-                                      t1 = input; 
+                                      t1 = input;
                                       onceToast = 0;
                                       onceBtnPressed = 0;
                                       areFieldsEmpty();
@@ -1248,8 +1246,8 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                               onceToast = 0;
                                             });
                                           }
-                                        }else{
-                                        validateDatesAndTimes(context);
+                                        } else {
+                                          validateDatesAndTimes(context);
                                         }
                                       }),
                           ),
@@ -1264,9 +1262,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
         ),
         // ),]
       ),
-      
     );
-    
   }
 
   ///on save forms
@@ -1288,7 +1284,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
   }
 
 // funckija koja provjerava da li su polja prazna i enable/disable btn
- void areFieldsEmpty() {
+  void areFieldsEmpty() {
     if ((percentageVar != null) &&
         (dimensionsVar != '' && dimensionsVar != null) &&
         (capacityVar != null && capacityVar != '') &&
@@ -1305,8 +1301,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
       _isBtnDisabled = true;
     }
   }
-
-  
 
   // funkcija koja snima informacije u bazu
   createData() async {
@@ -1326,7 +1320,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
       'user_id': '$userID',
       'timestamp': '$dateOfSubmit',
     });
-    setState(() => id = ref.documentID) ;
+    setState(() => id = ref.documentID);
     print(ref.documentID);
     print('Unos uspjesan');
 
@@ -1334,7 +1328,10 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => ShowLoadingRoutes(userID: userID, id: id,)),
+          builder: (context) => ShowLoadingRoutes(
+                userID: userID,
+                id: id,
+              )),
     );
   }
 
