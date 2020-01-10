@@ -292,14 +292,16 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                       Divider1(height: 1, thickness: 1)
                     ],
                   );
-                },
-              );
-            } else {
-              return SizedBox();
-            }
-          },
-        ),
-      )
-    ]);
+                } else {
+                  return SizedBox(
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                }
+              },
+            ),
+         
+          
+          )]);
+
   }
 }

@@ -24,10 +24,10 @@ NoRoutes noRoutes = new NoRoutes();
 
 class CompanyInfo extends StatelessWidget {
   // This widget is the root of your application.
- 
+
   final String userID;
 
-  CompanyInfo({ this.userID});
+  CompanyInfo({this.userID});
 
   @override
   Widget build(BuildContext context) {
@@ -46,27 +46,24 @@ class CompanyInfo extends StatelessWidget {
         const Locale('bs'), // Bosnian
         const Locale('en'), // English
       ],
-      home: CompanyInfoPage( userID: userID),
+      home: CompanyInfoPage(userID: userID),
     );
   }
 }
 
 class CompanyInfoPage extends StatefulWidget {
-
   final String userID;
 
-  CompanyInfoPage({ this.userID});
+  CompanyInfoPage({this.userID});
 
   @override
-  _CompanyInfoPageState createState() =>
-      _CompanyInfoPageState( userID: userID);
+  _CompanyInfoPageState createState() => _CompanyInfoPageState(userID: userID);
 }
 
 class _CompanyInfoPageState extends State<CompanyInfoPage> {
- 
   final String userID;
 
-  _CompanyInfoPageState({ this.userID});
+  _CompanyInfoPageState({this.userID});
 
   /// key za formu
   final _formKey = GlobalKey<FormState>();
@@ -124,47 +121,13 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
     });
   }
 
-  /// metoda pomocu koje uzimamo ID od trenutno logovane kompanije/usera
-  ///
-  /// ulazimo u [Auth] dio firebase i na osnovu toga izvlacimo sve info o user u nasem slucaju kompaniji
-  /// nakon cega dohvatamo kolekciju [LoggedUsers] i uzimamo [user.uid] i spremamo ga u varijablu [userID]
-
-  /// bool f-ja koju smo ubacili u [BackButtonInterceptor], koja mora vratiti true ili false.
-  /// u kojoj na klik back btn-a
-  /// provjeravamo da li company ima rute ili ne i na osnovu toga ih
-  /// redirectamo na [NoRoutes] ili na [ListOfRoutes]
-  // bool myInterceptor(bool stopDefaultButtonEvent) {
-  //   CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-  //     if (docs.documents.isNotEmpty) {
-  //       Navigator.of(context).push(MaterialPageRoute(
-  //           builder: (context) => ListOfRoutes(
-  //                 userID: userID,
-  //               )));
-  //     } else {
-  //       Navigator.of(context)
-  //           .push(MaterialPageRoute(builder: (context) => NoRoutes()));
-  //     }
-  //   });
-  //   // Do some stuff.
-  //   return true;
-  // }
-
   /// initState metoda - lifecycle metoda koja se izvrsi prije nego se load-a sam screen
   /// u njoj pozivamo metodu [getUserID()] , setamo [Toast] counter na 0,
   /// ubacujemo u dropdown listu [_dropdownMenuItems] vozila,
-  /// aktiviramo [BackButtonInterceptor] i dodajemo mu f-ju [myInterceptor]
   @override
   void initState() {
     super.initState();
     onceToast = 0;
-    // BackButtonInterceptor.add(myInterceptor);
-  }
-
-  ///dispose back btn-a nakon njegovog koristenja
-  @override
-  void dispose() {
-    // BackButtonInterceptor.remove(myInterceptor);
-    super.dispose();
   }
 
   Future getPosts(String id) async {
@@ -266,17 +229,19 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4.0)),
                                             borderSide: BorderSide(
-                                                color: StyleColors().textColorGray12),
+                                                color: StyleColors()
+                                                    .textColorGray12),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(4.0)),
                                               borderSide: BorderSide(
-                                                  color: StyleColors().textColorGray12)),
+                                                  color: StyleColors()
+                                                      .textColorGray12)),
                                           labelText: 'Url Profilne Slike',
                                           labelStyle: TextStyle(
-                                              color:
-                                                  StyleColors().textColorGray50),
+                                              color: StyleColors()
+                                                  .textColorGray50),
                                           hasFloatingPlaceholder: true,
                                           border: OutlineInputBorder(
                                               borderRadius:
@@ -306,17 +271,19 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4.0)),
                                             borderSide: BorderSide(
-                                                color: StyleColors().textColorGray12),
+                                                color: StyleColors()
+                                                    .textColorGray12),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(4.0)),
                                               borderSide: BorderSide(
-                                                  color: StyleColors().textColorGray12)),
+                                                  color: StyleColors()
+                                                      .textColorGray12)),
                                           labelText: 'Korisničko Ime',
                                           labelStyle: TextStyle(
-                                              color:
-                                                  StyleColors().textColorGray50),
+                                              color: StyleColors()
+                                                  .textColorGray50),
                                           hasFloatingPlaceholder: true,
                                           border: OutlineInputBorder(
                                               borderRadius:
@@ -347,17 +314,19 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4.0)),
                                             borderSide: BorderSide(
-                                                color: StyleColors().textColorGray12),
+                                                color: StyleColors()
+                                                    .textColorGray12),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(4.0)),
                                               borderSide: BorderSide(
-                                                  color: StyleColors().textColorGray12)),
+                                                  color: StyleColors()
+                                                      .textColorGray12)),
                                           labelText: 'Kratki Opis',
                                           labelStyle: TextStyle(
-                                              color:
-                                                  StyleColors().textColorGray50),
+                                              color: StyleColors()
+                                                  .textColorGray50),
                                           hasFloatingPlaceholder: true,
                                           border: OutlineInputBorder(
                                               borderRadius:
@@ -387,17 +356,19 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4.0)),
                                             borderSide: BorderSide(
-                                                color: StyleColors().textColorGray12),
+                                                color: StyleColors()
+                                                    .textColorGray12),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(4.0)),
                                               borderSide: BorderSide(
-                                                  color: StyleColors().textColorGray12)),
+                                                  color: StyleColors()
+                                                      .textColorGray12)),
                                           labelText: 'Mail',
                                           labelStyle: TextStyle(
-                                              color:
-                                                  StyleColors().textColorGray50),
+                                              color: StyleColors()
+                                                  .textColorGray50),
                                           hasFloatingPlaceholder: true,
                                           border: OutlineInputBorder(
                                               borderRadius:
@@ -427,17 +398,19 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4.0)),
                                             borderSide: BorderSide(
-                                                color: StyleColors().textColorGray12),
+                                                color: StyleColors()
+                                                    .textColorGray12),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(4.0)),
                                               borderSide: BorderSide(
-                                                  color: StyleColors().textColorGray12)),
+                                                  color: StyleColors()
+                                                      .textColorGray12)),
                                           labelText: 'Telefon',
                                           labelStyle: TextStyle(
-                                              color:
-                                                  StyleColors().textColorGray50),
+                                              color: StyleColors()
+                                                  .textColorGray50),
                                           hasFloatingPlaceholder: true,
                                           border: OutlineInputBorder(
                                               borderRadius:
@@ -467,17 +440,19 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4.0)),
                                             borderSide: BorderSide(
-                                                color: StyleColors().textColorGray12),
+                                                color: StyleColors()
+                                                    .textColorGray12),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(4.0)),
                                               borderSide: BorderSide(
-                                                  color: StyleColors().textColorGray12)),
+                                                  color: StyleColors()
+                                                      .textColorGray12)),
                                           labelText: 'Web Stranica',
                                           labelStyle: TextStyle(
-                                              color:
-                                                  StyleColors().textColorGray50),
+                                              color: StyleColors()
+                                                  .textColorGray50),
                                           hasFloatingPlaceholder: true,
                                           border: OutlineInputBorder(
                                               borderRadius:
@@ -507,17 +482,19 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4.0)),
                                             borderSide: BorderSide(
-                                                color: StyleColors().textColorGray12),
+                                                color: StyleColors()
+                                                    .textColorGray12),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(4.0)),
                                               borderSide: BorderSide(
-                                                  color: StyleColors().textColorGray12)),
+                                                  color: StyleColors()
+                                                      .textColorGray12)),
                                           labelText: 'Lokacija',
                                           labelStyle: TextStyle(
-                                              color:
-                                                  StyleColors().textColorGray50),
+                                              color: StyleColors()
+                                                  .textColorGray50),
                                           hasFloatingPlaceholder: true,
                                           border: OutlineInputBorder(
                                               borderRadius:
@@ -535,86 +512,100 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
 
                                   Container(
                                     margin: EdgeInsets.only(
-                                      left: 16.0,
-                                      right: 16.0,
-                                      top: 8,
-                                      bottom: 16
-                                    ),
+                                        left: 16.0,
+                                        right: 16.0,
+                                        top: 8,
+                                        bottom: 16),
                                     height: 50,
                                     child: ConstrainedBox(
                                       constraints: const BoxConstraints(
                                         minWidth: double.infinity,
                                       ),
-                                      child:RaisedButton(
-        disabledColor: Color.fromRGBO(219, 219, 219, 1),
-        disabledTextColor: Color.fromRGBO(0, 0, 0, 1),
-        color: Color.fromRGBO(3, 54, 255, 1),
-        textColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4.0),
-        ),
-        child: Text(
-          'SAČUVAJ PROMJENE',
-          style: TextStyle(
-            fontSize: 14,
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        onPressed: _isBtnDisabled
-            ? null
-            : () {
-                FocusScopeNode currentFocus = FocusScope.of(context);
-                if (!currentFocus.hasPrimaryFocus) {
-                  currentFocus.unfocus();
+                                      child: RaisedButton(
+                                          disabledColor:
+                                              Color.fromRGBO(219, 219, 219, 1),
+                                          disabledTextColor:
+                                              Color.fromRGBO(0, 0, 0, 1),
+                                          color: Color.fromRGBO(3, 54, 255, 1),
+                                          textColor: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(4.0),
+                                          ),
+                                          child: Text(
+                                            'SAČUVAJ PROMJENE',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontFamily: 'Roboto',
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          onPressed: _isBtnDisabled
+                                              ? null
+                                              : () {
+                                                  FocusScopeNode currentFocus =
+                                                      FocusScope.of(context);
+                                                  if (!currentFocus
+                                                      .hasPrimaryFocus) {
+                                                    currentFocus.unfocus();
 
-                  if (urlLogoLast == null) {
-                    urlLogoLast = urlLogo;
-                  }
-                  if (companyNameLast == null) {
-                    companyNameLast = companyName;
-                  }
-                  if (companyDescriptionLast == null) {
-                    companyDescriptionLast = companyDescription;
-                  }
-                  if (mailLast == null) {
-                    mailLast = mail;
-                  }
-                  if (phoneLast == null) {
-                    phoneLast = phone;
-                  }
-                  if (webPageLast == null) {
-                    webPageLast = webPage;
-                  }
-                  if (locationLast == null) {
-                    locationLast = location;
-                  }
+                                                    if (urlLogoLast == null) {
+                                                      urlLogoLast = urlLogo;
+                                                    }
+                                                    if (companyNameLast ==
+                                                        null) {
+                                                      companyNameLast =
+                                                          companyName;
+                                                    }
+                                                    if (companyDescriptionLast ==
+                                                        null) {
+                                                      companyDescriptionLast =
+                                                          companyDescription;
+                                                    }
+                                                    if (mailLast == null) {
+                                                      mailLast = mail;
+                                                    }
+                                                    if (phoneLast == null) {
+                                                      phoneLast = phone;
+                                                    }
+                                                    if (webPageLast == null) {
+                                                      webPageLast = webPage;
+                                                    }
+                                                    if (locationLast == null) {
+                                                      locationLast = location;
+                                                    }
 
-                  if (companyDescriptionLast == '' ||
-                      mailLast == '' ||
-                      locationLast == '' ||
-                      companyNameLast == '' ||
-                      urlLogoLast == '' ||
-                      phoneLast == '' ||
-                      webPageLast == '') {
-                    if (onceToast == 0) {
+                                                    if (companyDescriptionLast ==
+                                                            '' ||
+                                                        mailLast == '' ||
+                                                        locationLast == '' ||
+                                                        companyNameLast == '' ||
+                                                        urlLogoLast == '' ||
+                                                        phoneLast == '' ||
+                                                        webPageLast == '') {
+                                                      if (onceToast == 0) {
+                                                        SnackBar1(
+                                                            message:
+                                                                'Sva polja moraju biti popunjena.');
 
-                      SnackBar1(message: 'Sva polja moraju biti popunjena.');
-            
-                      onceToast = 1;
-                      Timer(Duration(seconds: 2), () {
-                        onceToast = 0;
-                      });
-                    }
-                  } else {
-                    if (onceBtnPressed == 0) {
-                      updateData(snapshot.data[index]);
-                      _isBtnDisabled = true;
-                      onceBtnPressed = 1;
-                    }
-                  }
-                }
-              }),
+                                                        onceToast = 1;
+                                                        Timer(
+                                                            Duration(
+                                                                seconds: 2),
+                                                            () {
+                                                          onceToast = 0;
+                                                        });
+                                                      }
+                                                    } else {
+                                                      if (onceBtnPressed == 0) {
+                                                        updateData(snapshot
+                                                            .data[index]);
+                                                        _isBtnDisabled = true;
+                                                        onceBtnPressed = 1;
+                                                      }
+                                                    }
+                                                  }
+                                                }),
                                     ),
                                   ),
 
@@ -631,7 +622,9 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                       },
                     );
                   } else {
-                    return SizedBox();
+                    return SizedBox(
+                      child: Center(child: CircularProgressIndicator()),
+                    );
                   }
                 })),
       ),
@@ -659,7 +652,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
     }
   }
 
-   //  funckija za update todo
+  //  funckija za update todo
   updateData(DocumentSnapshot doc) async {
     await db.collection('Company').document(doc.documentID).updateData({
       'company_description': '$companyDescriptionLast',

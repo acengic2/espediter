@@ -67,8 +67,7 @@ class _FormState extends State<FormLogIn> {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                        borderSide:
-                            BorderSide(color: StyleColors().blueColor),
+                        borderSide: BorderSide(color: StyleColors().blueColor),
                       ),
                       labelText: 'email',
                       hasFloatingPlaceholder: true,
@@ -82,9 +81,17 @@ class _FormState extends State<FormLogIn> {
 
                     if (input == '') {
                       if (onceToast == 0) {
-                        SnackBar1(
-                          message: 'Email polje je prazno',
+                        final snackBar = SnackBar(
+                          duration: Duration(seconds: 2),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+                          content: Text('Email polje je prazno'),
+                          action: SnackBarAction(
+                            label: 'Undo',
+                            onPressed: () {},
+                          ),
                         );
+                        Scaffold.of(context).showSnackBar(snackBar);
                         onceToast = 1;
                       }
                       return '';
@@ -94,9 +101,17 @@ class _FormState extends State<FormLogIn> {
 
                     else if (!EmailValidator.validate(input, true)) {
                       if (onceToast == 0) {
-                        SnackBar1(
-                          message: 'Email nije validan',
+                        final snackBar = SnackBar(
+                          duration: Duration(seconds: 2),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+                          content: Text('Email nije validan'),
+                          action: SnackBarAction(
+                            label: 'Undo',
+                            onPressed: () {},
+                          ),
                         );
+                        Scaffold.of(context).showSnackBar(snackBar);
                         onceToast = 1;
                       }
                       return '';
@@ -106,9 +121,17 @@ class _FormState extends State<FormLogIn> {
 
                     else if (userExist != 'User postoji') {
                       if (onceToast == 0) {
-                        SnackBar1(
-                          message: 'User sa unesenim emailom ne postoji',
+                        final snackBar = SnackBar(
+                          duration: Duration(seconds: 2),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+                          content: Text('User sa unesenim emailm ne postoji'),
+                          action: SnackBarAction(
+                            label: 'Undo',
+                            onPressed: () {},
+                          ),
                         );
+                        Scaffold.of(context).showSnackBar(snackBar);
                         onceToast = 1;
                       }
                       return '';
@@ -150,8 +173,7 @@ class _FormState extends State<FormLogIn> {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                        borderSide:
-                            BorderSide(color: StyleColors().blueColor),
+                        borderSide: BorderSide(color: StyleColors().blueColor),
                       ),
                       labelText: 'lozinka',
                       hasFloatingPlaceholder: true,
@@ -165,7 +187,17 @@ class _FormState extends State<FormLogIn> {
 
                     if (input == '') {
                       if (onceToast == 0) {
-                        SnackBar1(message: 'Password polje je prazno');
+                        final snackBar = SnackBar(
+                          duration: Duration(seconds: 2),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+                          content: Text('Password polje je prazno'),
+                          action: SnackBarAction(
+                            label: 'Undo',
+                            onPressed: () {},
+                          ),
+                        );
+                        Scaffold.of(context).showSnackBar(snackBar);
                         onceToast = 1;
                       }
                       return '';
@@ -175,8 +207,18 @@ class _FormState extends State<FormLogIn> {
 
                     else if (input.length < 6) {
                       if (onceToast == 0) {
-                        SnackBar1(
-                            message: 'Password mora biti veći od 6 karaktera');
+                        final snackBar = SnackBar(
+                          duration: Duration(seconds: 2),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+                          content:
+                              Text('Password mora biti veci od 6 karaktera'),
+                          action: SnackBarAction(
+                            label: 'Undo',
+                            onPressed: () {},
+                          ),
+                        );
+                        Scaffold.of(context).showSnackBar(snackBar);
                         onceToast = 1;
                       }
                       return '';
@@ -186,11 +228,22 @@ class _FormState extends State<FormLogIn> {
 
                     else if (passExist != 'Pass postoji') {
                       if (onceToast == 0) {
-                        SnackBar1(message: 'Password nije tačan');
+                        final snackBar = SnackBar(
+                          duration: Duration(seconds: 2),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+                          content: Text('Password nije tacan'),
+                          action: SnackBarAction(
+                            label: 'Undo',
+                            onPressed: () {},
+                          ),
+                        );
+                        Scaffold.of(context).showSnackBar(snackBar);
                         onceToast = 1;
                       }
                       return '';
                     }
+                    return null;
                   },
 
                   //  setanje state-a
@@ -261,10 +314,18 @@ class _FormState extends State<FormLogIn> {
 
                         if (_email == '' && _password == '') {
                           if (onceToast == 0) {
-                            SnackBar1(message: 'Oba polja su prazna');
-
+                            final snackBar = SnackBar(
+                              duration: Duration(seconds: 2),
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: StyleColors().snackBar,
+                              content: Text('Oba polja su prazna'),
+                              action: SnackBarAction(
+                                label: 'Undo',
+                                onPressed: () {},
+                              ),
+                            );
+                            Scaffold.of(context).showSnackBar(snackBar);
                             onceToast = 1;
-
                             Timer(Duration(seconds: 2), () {
                               onceToast = 0;
                             });
@@ -401,10 +462,9 @@ class _FormState extends State<FormLogIn> {
   /// cjelokupna metoda upisa je umotana u try-catch blok
   /// catch-amo error ukoliko ga ima i printamo u konzolu
   signIn(_email, _password, userExist) async {
-     
     final _formState = _formKey.currentState;
     if (_formState.validate()) {
-        print('OVDJE SAM');
+      print('OVDJE SAM');
       try {
         AuthResult result = await _auth.signInWithEmailAndPassword(
             email: _email, password: _password);

@@ -18,7 +18,8 @@ class SnackBar1 extends StatelessWidget {
       ),
     );
     Scaffold.of(context).showSnackBar(snackBar);
-
+ 
     return snackBar;
+  
   }
 }

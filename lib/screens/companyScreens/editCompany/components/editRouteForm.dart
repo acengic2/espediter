@@ -120,14 +120,13 @@ class _EditRouteFormState extends State<EditRouteForm> {
   /// initState metoda - lifecycle metoda koja se izvrsi prije nego se load-a sam screen
   /// u njoj pozivamo metodu [getUserID()] , setamo [Toast] counter na 0,
   /// ubacujemo u dropdown listu [_dropdownMenuItems] vozila,
-  /// aktiviramo [BackButtonInterceptor] i dodajemo mu f-ju [myInterceptor]
+
   @override
   void initState() {
     _dropdownMenuItems = buildDropdownMenuItems(_vehicle);
     super.initState();
     getUserid();
     onceToast = 0;
-    // BackButtonInterceptor.add(myInterceptor);
     populateTheVariables();
     _textController.addListener(() {
       setState(() {});
@@ -797,9 +796,18 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                       if (percentageVar < 0 ||
                                           percentageVar > 100) {
                                         if (onceToast == 0) {
-                                          SnackBar1(
-                                              message:
-                                                  'Unesite broj od 0 do 100');
+                                           final snackBar = SnackBar(
+              duration: Duration(seconds: 2),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+              content: Text(
+                  'Unesite broj od 0 do 100'),
+              action: SnackBarAction(
+                label: 'Undo',
+                onPressed: () {},
+              ),
+            );
+            Scaffold.of(context).showSnackBar(snackBar);
 
                                           onceToast = 1;
                                           Timer(Duration(seconds: 2), () {
