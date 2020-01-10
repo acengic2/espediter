@@ -1,141 +1,3 @@
-// import 'dart:core';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/material.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:flutter_localizations/flutter_localizations.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:spediter/screens/companyScreens/createRoute/components/createRouteForm.dart';
-// import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
-// import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
-// import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
-// import 'package:flutter/rendering.dart';
-
-// import '../listOfRoutes/listOfFinishedRoutes.dart';
-// import 'interdestinatonForm.dart';
-
-// void main() => runApp(CreateRoute());
-
-// String userID;
-
-// // instanca na NoRoutes screen
-// NoRoutes noRoutes = new NoRoutes();
-
-// class CreateRoute extends StatefulWidget {
-// String userID;
-// CreateRoute({this.userID});
-
-//   // This widget is the root of your applicatio
-//   @override
-//   _CreateRouteState createState() => _CreateRouteState(userID: userID);
-// }
-
-// class _CreateRouteState extends State<CreateRoute> {
-//   String userID;
-//   _CreateRouteState({this.userID});
-//   @override
-//   void initState() {
-//     // getUserid();
-//     super.initState();
-//   }
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'Kreiraj Rutu',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       localizationsDelegates: [
-//         // ... lokalizacija jezika
-//         GlobalMaterialLocalizations.delegate,
-//         GlobalWidgetsLocalizations.delegate,
-//       ],
-//       supportedLocales: [
-//         const Locale('bs'), // Bosnian
-//         const Locale('en'), // English
-//       ],
-//       home: CreateRouteScreenPage(userID: userID),
-//     );
-//   }
-// }
-
-// class CreateRouteScreenPage extends StatefulWidget {
-//   String userID;
-//   CreateRouteScreenPage({this.userID});
-
-//   @override
-//   _CreateRouteScreenPageState createState() => _CreateRouteScreenPageState(userID: userID);
-// }
-
-// class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
-//   String userID;
-//    _CreateRouteScreenPageState({this.userID});
-//   /// lista medjudestinacija
-//   List<InterdestinationForm> interdestinations = [];
-
-//   // /// counteri za [Toast] i za [Button]
-//   int onceToast = 0, onceBtnPressed = 0;
-
-  
-//   bool imaliRuta = true;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     /// RESPONSIVE
-//     double defaultScreenWidth = 400.0;
-//     double defaultScreenHeight = 810.0;
-//     ScreenUtil.instance = ScreenUtil(
-//       width: defaultScreenWidth,
-//       height: defaultScreenHeight,
-//       allowFontScaling: true,
-//     )..init(context);
-
-//     return Scaffold(
-//         resizeToAvoidBottomPadding: false,
-//         appBar: AppBar(
-//           /// u appBaru kreiramo X iconicu na osnovu koje izlazimo iz [CreateRoutes] i idemo na [ListOfRoutes]
-//           backgroundColor: Colors.white,
-//           leading: IconButton(
-//             color: Colors.black,
-//             icon: Icon(Icons.clear),
-//             onPressed: () {
-//               /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
-//               CompanyRoutes()
-//                   .getCompanyRoutes(userID)
-//                   .then((QuerySnapshot docs) {
-//                 if (docs.documents.isNotEmpty) {
-//                   imaliRuta = true;
-//                   Navigator.push(
-//                     context,
-//                     MaterialPageRoute(
-//                         builder: (context) => ListOfRoutes(userID: userID)),
-//                   );
-//                 } else {
-//                   imaliRuta = false;
-//                   Navigator.of(context).push(
-//                       MaterialPageRoute(builder: (context) => NoRoutes()));
-//                 }
-//               });
-//             },
-//           ),
-//           title: const Text('Kreiranje Rute',
-//               style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.8))),
-//         ),
-//         body: CreateRouteForm());
-//   }
-
-//   // getUserid() async {
-//   //   final FirebaseAuth _auth = FirebaseAuth.instance;
-//   //   final FirebaseUser user = await _auth.currentUser();    Firestore.instance
-//   //       .collection('LoggedUsers')
-//   //       .document(user.uid)
-//   //       .snapshots()
-//   //       .toString();
-//   //   userID = user.uid;
-//   // }
-// }
-
-
 import 'dart:async';
 import 'dart:core';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -151,6 +13,7 @@ import 'package:responsive_container/responsive_container.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/inderdestination.dart';
 import 'package:spediter/components/loadingScreens/loadingRoutes.dart';
+import 'package:spediter/components/textFormFields.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
@@ -365,7 +228,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
   }
 
   /// initState metoda - lifecycle metoda koja se izvrsi prije nego se load-a sam screen
-  /// u njoj pozivamo metodu [getUserID()] , setamo [Toast] counter na 0,
+  /// u njoj pozivamo metodu [getUserID()] , seta mo [Toast] counter na 0,
   /// ubacujemo u dropdown listu [_dropdownMenuItems] vozila,
   /// aktiviramo [BackButtonInterceptor] i dodajemo mu f-ju [myInterceptor]
   @override
@@ -1425,11 +1288,11 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
   }
 
 // funckija koja provjerava da li su polja prazna i enable/disable btn
-  areFieldsEmpty() {
+ void areFieldsEmpty() {
     if ((percentageVar != null) &&
         (dimensionsVar != '' && dimensionsVar != null) &&
         (capacityVar != null && capacityVar != '') &&
-        (goodsVar != '' && goodsVar != null) &&
+        //(goodsVar != '' && goodsVar != null) &&
         (endingDestination != '' && endingDestination != null) &&
         (startingDestination != '' && startingDestination != null) &&
         (selectedDateD != null) &&

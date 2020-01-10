@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(TextFormF());
 
+typedef AreFieldsEmpty();
+
 class TextFormF extends StatefulWidget {
-  FocusNode focusNode;
-  String initialValue, hintText, labelText, vars;
-  int onceToast, onceBtnPressed;
-  dynamic areFieldsEmpty;
-  TextFormF(
+ final FocusNode focusNode;
+ final String initialValue, hintText, labelText, vars;
+ final int onceToast, onceBtnPressed;
+ 
+      TextFormF(
       {this.initialValue,
       this.hintText,
       this.onceToast,
-      this.areFieldsEmpty,
+      
       this.focusNode,
       this.labelText,
       this.onceBtnPressed,
@@ -26,7 +28,7 @@ class TextFormF extends StatefulWidget {
       vars: vars,
       onceBtnPressed: onceBtnPressed,
       onceToast: onceToast,
-      areFieldsEmpty: areFieldsEmpty
+     
     );
 }
 
@@ -34,12 +36,12 @@ class _TextFormFState extends State<TextFormF> {
   FocusNode focusNode;
   String initialValue, hintText, labelText, vars;
   int onceToast, onceBtnPressed;
-  dynamic areFieldsEmpty;
+ 
   _TextFormFState(
       {this.initialValue,
       this.hintText,
       this.onceToast,
-      this.areFieldsEmpty,
+      
       this.focusNode,
       this.labelText,
       this.onceBtnPressed,
@@ -71,11 +73,14 @@ class _TextFormFState extends State<TextFormF> {
             vars = input;
             onceToast = 0;
             onceBtnPressed = 0;
-            areFieldsEmpty();
+            
           });
           
         },
       ),
     );
   }
+  
 }
+
+

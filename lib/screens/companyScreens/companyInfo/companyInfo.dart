@@ -24,10 +24,10 @@ NoRoutes noRoutes = new NoRoutes();
 
 class CompanyInfo extends StatelessWidget {
   // This widget is the root of your application.
-  final DocumentSnapshot post;
+ 
   final String userID;
 
-  CompanyInfo({this.post, this.userID});
+  CompanyInfo({ this.userID});
 
   @override
   Widget build(BuildContext context) {
@@ -46,27 +46,27 @@ class CompanyInfo extends StatelessWidget {
         const Locale('bs'), // Bosnian
         const Locale('en'), // English
       ],
-      home: CompanyInfoPage(post: post, userID: userID),
+      home: CompanyInfoPage( userID: userID),
     );
   }
 }
 
 class CompanyInfoPage extends StatefulWidget {
-  final DocumentSnapshot post;
+
   final String userID;
 
-  CompanyInfoPage({this.post, this.userID});
+  CompanyInfoPage({ this.userID});
 
   @override
   _CompanyInfoPageState createState() =>
-      _CompanyInfoPageState(post: post, userID: userID);
+      _CompanyInfoPageState( userID: userID);
 }
 
 class _CompanyInfoPageState extends State<CompanyInfoPage> {
-  final DocumentSnapshot post;
+ 
   final String userID;
 
-  _CompanyInfoPageState({this.post, this.userID});
+  _CompanyInfoPageState({ this.userID});
 
   /// key za formu
   final _formKey = GlobalKey<FormState>();
@@ -133,21 +133,21 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
   /// u kojoj na klik back btn-a
   /// provjeravamo da li company ima rute ili ne i na osnovu toga ih
   /// redirectamo na [NoRoutes] ili na [ListOfRoutes]
-  bool myInterceptor(bool stopDefaultButtonEvent) {
-    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-      if (docs.documents.isNotEmpty) {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ListOfRoutes(
-                  userID: userID,
-                )));
-      } else {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => NoRoutes()));
-      }
-    });
-    // Do some stuff.
-    return true;
-  }
+  // bool myInterceptor(bool stopDefaultButtonEvent) {
+  //   CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+  //     if (docs.documents.isNotEmpty) {
+  //       Navigator.of(context).push(MaterialPageRoute(
+  //           builder: (context) => ListOfRoutes(
+  //                 userID: userID,
+  //               )));
+  //     } else {
+  //       Navigator.of(context)
+  //           .push(MaterialPageRoute(builder: (context) => NoRoutes()));
+  //     }
+  //   });
+  //   // Do some stuff.
+  //   return true;
+  // }
 
   /// initState metoda - lifecycle metoda koja se izvrsi prije nego se load-a sam screen
   /// u njoj pozivamo metodu [getUserID()] , setamo [Toast] counter na 0,
@@ -157,13 +157,13 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
   void initState() {
     super.initState();
     onceToast = 0;
-    BackButtonInterceptor.add(myInterceptor);
+    // BackButtonInterceptor.add(myInterceptor);
   }
 
   ///dispose back btn-a nakon njegovog koristenja
   @override
   void dispose() {
-    BackButtonInterceptor.remove(myInterceptor);
+    // BackButtonInterceptor.remove(myInterceptor);
     super.dispose();
   }
 
@@ -608,7 +608,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                     }
                   } else {
                     if (onceBtnPressed == 0) {
-                      updateData(widget.post);
+                      updateData(snapshot.data[index]);
                       _isBtnDisabled = true;
                       onceBtnPressed = 1;
                     }
@@ -660,8 +660,8 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
   }
 
    //  funckija za update todo
-  updateData(DocumentSnapshot docID) async {
-    await db.collection('Company').document(docID.documentID).updateData({
+  updateData(DocumentSnapshot doc) async {
+    await db.collection('Company').document(doc.documentID).updateData({
       'company_description': '$companyDescriptionLast',
       'company_name': '$companyNameLast',
       'email': '$mailLast',
