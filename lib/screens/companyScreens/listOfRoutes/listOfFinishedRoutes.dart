@@ -205,7 +205,9 @@ class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
                   },
                 ));
           } else {
-            return SizedBox();
+            return SizedBox(
+                      child: Center(child: CircularProgressIndicator()),
+                    );
           }
         },
       ),
