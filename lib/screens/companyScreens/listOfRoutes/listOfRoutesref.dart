@@ -190,9 +190,9 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                       final rightSection = new Stack(
                         children: <Widget>[
                           Container(
-                            width: 142.0,
+                            width: 
 
-                            // ScreenUtil.instance.setWidth(142.0),
+                            ScreenUtil.instance.setWidth(142.0),
                             height: 32,
                             margin: EdgeInsets.only(
                                 top: 8, bottom: 16, left: 0.0, right: 1.0),
