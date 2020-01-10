@@ -1,6 +1,4 @@
-
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:spediter/components/divider.dart';
@@ -40,7 +38,7 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
                   Column(
                     children: <Widget>[
                       ListOfRoutesRef(userID: userID),
-                      Divider1(),
+                      Divider1(thickness: 8, height: 8),
                       ListOfFinishedRoutes(userID: userID),
                     ],
                   )

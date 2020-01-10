@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:responsive_container/responsive_container.dart';
 import 'package:spediter/components/destinationCircles.dart';
 import 'package:spediter/components/destinationLines.dart';
+import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/inderdestination.dart';
 import 'package:spediter/components/snackBar.dart';
 import 'package:spediter/components/vehicle.dart';
@@ -539,20 +540,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                       ),
 
                       /// DIVIDER
-                      Container(
-                        height: 8,
-                        decoration: BoxDecoration(
-                            border: Border(
-                          top: BorderSide(
-                              width: 1, color: StyleColors().textColorGray12),
-                          bottom: BorderSide(
-                              width: 1, color: StyleColors().textColorGray12),
-                        )),
-                        child: Divider(
-                          thickness: 8,
-                          color: StyleColors().textColorGray3,
-                        ),
-                      ),
+                      Divider1(thickness: 8, height: 8),
 
                       /// Popunjenost u procentimaaaaaaaaaaaaaaaaa
                       Container(
