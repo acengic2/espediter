@@ -4,12 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:spediter/components/divider.dart';
 import 'package:spediter/screens/companyScreens/editCompany/editRoutes.dart';
 
-
-
 void main() => runApp(ListOfRoutesRef());
-
 
 String capacityString;
 
@@ -48,8 +46,8 @@ getUserid() async {
 }
 
 class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
-   String userID;
-   _ListOfRoutesRefState({this.userID});
+  String userID;
+  _ListOfRoutesRefState({this.userID});
 
   @override
   void initState() {
@@ -69,184 +67,170 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
   @override
   Widget build(BuildContext context) {
     double defaultScreenWidth = 400.0;
-      double defaultScreenHeight = 810.0;
-      ScreenUtil.instance = ScreenUtil(
-        width: defaultScreenWidth,
-        height: defaultScreenHeight,
-        allowFontScaling: true,
-      )..init(context);
+    double defaultScreenHeight = 810.0;
+    ScreenUtil.instance = ScreenUtil(
+      width: defaultScreenWidth,
+      height: defaultScreenHeight,
+      allowFontScaling: true,
+    )..init(context);
 
-     
-    // MaterialApp(
-    //   debugShowCheckedModeBanner: false,
-    //   home: Scaffold(
-    //     resizeToAvoidBottomPadding: false,
-    //     body: Center(
-    //       child: 
-          return Column(
-           
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 16.0, bottom: 0.0),
-          
-        ),
-          Container(
-            child: FutureBuilder(
-              future: getPosts(userID) ,
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.hasData) {
-                  return 
-                   ListView.builder(
-                    shrinkWrap: true,
-                    physics: ClampingScrollPhysics(),
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (context, index) {
-                      /// DATUM
-                      String date = snapshot.data[index].data['departure_date'];
-                      String dateReversed = date.split('/').reversed.join();
-                      String departureDate = DateFormat("d MMM")
-                          .format(DateTime.parse(dateReversed));
+    return Column(children: <Widget>[
+      Padding(
+        padding: EdgeInsets.only(top: 16.0, bottom: 0.0),
+      ),
+      Container(
+        child: FutureBuilder(
+          future: getPosts(userID),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: ClampingScrollPhysics(),
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  /// DATUM
+                  String date = snapshot.data[index].data['departure_date'];
+                  String dateReversed = date.split('/').reversed.join();
+                  String departureDate =
+                      DateFormat("d MMM").format(DateTime.parse(dateReversed));
 
-                      // KAPACITET
-                      capacityString = snapshot.data[index].data['capacity'];
+                  // KAPACITET
+                  capacityString = snapshot.data[index].data['capacity'];
 
-                      final leftSection = new Container(
-                          height: 32,
-                          width: 62,
-                          margin: EdgeInsets.only(top: 8, bottom: 16),
-                          decoration: new BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            color: blueColor,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(1.0)),
+                  final leftSection = new Container(
+                      height: 32,
+                      width: 62,
+                      margin: EdgeInsets.only(top: 8, bottom: 16),
+                      decoration: new BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: blueColor,
+                        borderRadius: BorderRadius.all(Radius.circular(1.0)),
+                      ),
+                      child: Center(
+                          child: Padding(
+                        padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                        child: new RichText(
+                          text: new TextSpan(
+                            children: <TextSpan>[
+                              new TextSpan(
+                                  text: departureDate,
+                                  style: new TextStyle(
+                                    fontSize: ScreenUtil.instance.setSp(13.0),
+                                    color: Colors.white,
+                                    fontFamily: "Roboto",
+                                  )),
+                            ],
                           ),
-                          child: Center(
-                              child: Padding(
-                            padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                            child: new RichText(
-                              text: new TextSpan(
+                        ),
+                      )));
+
+                  ///middle section u koji spremamo kapacitet
+                  final middleSection = new Container(
+                      height: 32,
+                      width: 110,
+                      margin: EdgeInsets.only(
+                          left: 4.0, right: 4.0, top: 8, bottom: 16),
+                      decoration: new BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(1.0)),
+                        border: new Border.all(
+                          color: Colors.black.withOpacity(0.12),
+                          width: 1,
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          new RichText(
+                            text: new TextSpan(
+                              children: <TextSpan>[
+                                new TextSpan(
+                                    text: 'Kapacitet: ',
+                                    style: new TextStyle(
+                                      fontSize: 14.0,
+                                      color: Colors.black.withOpacity(0.6),
+                                      fontFamily: "Roboto",
+                                    )),
+                                new TextSpan(
+                                  text: ('$capacityString t'),
+                                  style: new TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14.0,
+                                    color: Colors.black.withOpacity(1.0),
+                                    fontFamily: "Roboto",
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ));
+
+                  /// DOSTUPNOST
+                  String availability =
+                      snapshot.data[index].data['availability'];
+
+                  final rightSection = new Stack(
+                    children: <Widget>[
+                      Container(
+                        width: ScreenUtil.instance.setWidth(142.0),
+                        height: 32,
+                        margin: EdgeInsets.only(
+                            top: 8, bottom: 16, left: 0.0, right: 1.0),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 1.0,
+                                color: Colors.black.withOpacity(0.12)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(1.0))),
+                      ),
+                      Container(
+                          margin: EdgeInsets.only(top: 9),
+                          child: LinearPercentIndicator(
+                            padding: EdgeInsets.only(left: 1),
+                            width: ScreenUtil.instance.setWidth(141.0),
+                            lineHeight: 30.0,
+                            percent: (double.parse(availability)) / 100,
+                            center: RichText(
+                              text: TextSpan(
                                 children: <TextSpan>[
-                                  new TextSpan(
-                                      text: departureDate,
-                                      style: new TextStyle(
+                                  TextSpan(
+                                      text: 'Popunjenost: ',
+                                      style: TextStyle(
+                                          fontFamily: 'Roboto',
+                                          // fontSize: ScreenUtil.instance
+                                          //     .setSp(12.0),
+                                          color:
+                                              Colors.black.withOpacity(0.6))),
+                                  TextSpan(
+                                    text: availability + ' %',
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto',
                                         fontSize:
-                                            ScreenUtil.instance.setSp(13.0),
-                                        color: Colors.white,
-                                        fontFamily: "Roboto",
-                                      )),
+                                            ScreenUtil.instance.setSp(12.0),
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black.withOpacity(0.8)),
+                                  ),
                                 ],
                               ),
                             ),
-                          )));
+                            linearStrokeCap: LinearStrokeCap.butt,
+                            backgroundColor: Colors.white,
+                            progressColor: Color.fromRGBO(3, 54, 255, 0.12),
+                          ))
+                    ],
+                  );
 
-                      ///middle section u koji spremamo kapacitet
-                      final middleSection = new Container(
-                          height: 32,
-                          width: 110,
-                          margin: EdgeInsets.only(
-                              left: 4.0, right: 4.0, top: 8, bottom: 16),
-                          decoration: new BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            color: Colors.white,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(1.0)),
-                            border: new Border.all(
-                              color: Colors.black.withOpacity(0.12),
-                              width: 1,
-                            ),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              new RichText(
-                                text: new TextSpan(
-                                  children: <TextSpan>[
-                                    new TextSpan(
-                                        text: 'Kapacitet: ',
-                                        style: new TextStyle(
-                                          fontSize: 14.0,
-                                          color: Colors.black.withOpacity(0.6),
-                                          fontFamily: "Roboto",
-                                        )),
-                                    new TextSpan(
-                                      text: ('$capacityString t'),
-                                      style: new TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14.0,
-                                        color: Colors.black.withOpacity(1.0),
-                                        fontFamily: "Roboto",
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ));
-
-                      /// DOSTUPNOST
-                      String availability =
-                          snapshot.data[index].data['availability'];
-
-                      final rightSection = new Stack(
-                        children: <Widget>[
-                          Container(
-                            width: 
-
-                            ScreenUtil.instance.setWidth(142.0),
-                            height: 32,
-                            margin: EdgeInsets.only(
-                                top: 8, bottom: 16, left: 0.0, right: 1.0),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 1.0,
-                                    color: Colors.black.withOpacity(0.12)),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(1.0))),
-                          ),
-                          Container(
-                              margin: EdgeInsets.only(top: 9),
-                              child: LinearPercentIndicator(
-                                padding: EdgeInsets.only(left: 1),
-                                width: ScreenUtil.instance.setWidth(141.0),
-                                lineHeight: 30.0,
-                                percent: (double.parse(availability)) / 100 ,
-                                center: RichText(
-                                  text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                          text: 'Popunjenost: ',
-                                          style: TextStyle(
-                                              fontFamily: 'Roboto',
-                                              // fontSize: ScreenUtil.instance
-                                              //     .setSp(12.0),
-                                              color: Colors.black
-                                                  .withOpacity(0.6))),
-                                      TextSpan(
-                                        text: availability + ' %',
-                                        style: TextStyle(
-                                            fontFamily: 'Roboto',
-                                            fontSize:
-                                                ScreenUtil.instance.setSp(12.0),
-                                            fontWeight: FontWeight.bold,
-                                            color:
-                                                Colors.black.withOpacity(0.8)),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                linearStrokeCap: LinearStrokeCap.butt,
-                                backgroundColor: Colors.white,
-                                progressColor: Color.fromRGBO(3, 54, 255, 0.12),
-                              ))
-                        ],
-                      );
-
-                      return GestureDetector(
+                  return Column(
+                    children: <Widget>[
+                      GestureDetector(
                         onTap: () => Navigator.of(context).push(
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    EditRoute(post: snapshot.data[index], userID: userID))),
-                        child: Card(
+                                builder: (context) => EditRoute(
+                                    post: snapshot.data[index],
+                                    userID: userID))),
+                        child: Container(
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
@@ -304,18 +288,18 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                             ),
                           ),
                         ),
-                      );
-                    },
+                      ),
+                      Divider1(height: 1, thickness: 1)
+                    ],
                   );
-                } else {
-                  return SizedBox();
-                }
-              },
-            ),
-          
-          
-          )]);
+                },
+              );
+            } else {
+              return SizedBox();
+            }
+          },
+        ),
+      )
+    ]);
   }
-
-
 }

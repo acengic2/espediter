@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:spediter/components/divider.dart';
 import 'package:spediter/screens/singIn/components/form.dart';
 import 'package:spediter/theme/style.dart';
 
@@ -21,7 +22,7 @@ final middleSection = new Container();
 final rightSection = new Container();
 
 class ListOfFinishedRoutes extends StatefulWidget {
- final String userID;
+  final String userID;
   ListOfFinishedRoutes({this.userID});
 
   @override
@@ -141,7 +142,7 @@ class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
                               text: new TextSpan(
                                 children: <TextSpan>[
                                   new TextSpan(
-                                    text:arrivalDate,
+                                    text: arrivalDate,
                                     style: new TextStyle(
                                       fontSize: 14.0,
                                       color: Colors.black.withOpacity(1.0),
@@ -154,53 +155,59 @@ class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
                           ],
                         )); //Middle section Container
 
-                    return Card(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 16, bottom: 4, left: 8, right: 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            new RichText(
-                              text: new TextSpan(
-                                children: <TextSpan>[
-                                  new TextSpan(
-                                      text:
-                                          '${snapshot.data[index].data['starting_destination']}, ',
-                                      style: new TextStyle(
+                    return Column(
+                      children: <Widget>[
+                        Container(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 16, bottom: 4, left: 8, right: 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                new RichText(
+                                  text: new TextSpan(
+                                    children: <TextSpan>[
+                                      new TextSpan(
+                                          text:
+                                              '${snapshot.data[index].data['starting_destination']}, ',
+                                          style: new TextStyle(
+                                            fontSize: 20.0,
+                                            color:
+                                                Colors.black.withOpacity(0.8),
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "Roboto",
+                                          )),
+                                      new TextSpan(
+                                          style: new TextStyle(
                                         fontSize: 20.0,
-                                        color: Colors.black.withOpacity(0.8),
-                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black.withOpacity(0.6),
                                         fontFamily: "Roboto",
                                       )),
-                                  new TextSpan(
-                                      style: new TextStyle(
-                                    fontSize: 20.0,
-                                    color: Colors.black.withOpacity(0.6),
-                                    fontFamily: "Roboto",
-                                  )),
-                                  new TextSpan(
-                                    text:
-                                        ('${snapshot.data[index].data['ending_destination']}'),
-                                    style: new TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20.0,
-                                      color: Colors.black.withOpacity(0.8),
-                                      fontFamily: "Roboto",
-                                    ),
+                                      new TextSpan(
+                                        text:
+                                            ('${snapshot.data[index].data['ending_destination']}'),
+                                        style: new TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20.0,
+                                          color: Colors.black.withOpacity(0.8),
+                                          fontFamily: "Roboto",
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ),
-                            Row(
-                              children: <Widget>[
-                                leftSection,
-                                middleSection,
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    leftSection,
+                                    middleSection,
+                                  ],
+                                )
                               ],
-                            )
-                          ],
+                            ),
+                          ),
                         ),
-                      ),
+                        Divider1(height: 1, thickness: 1)
+                      ],
                     );
                   },
                 ));
