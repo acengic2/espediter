@@ -308,7 +308,9 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                     },
                   );
                 } else {
-                  return SizedBox();
+                  return SizedBox(
+                      child: Center(child: CircularProgressIndicator()),
+                    );
                 }
               },
             ),
