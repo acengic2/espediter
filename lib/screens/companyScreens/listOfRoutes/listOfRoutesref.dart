@@ -225,6 +225,7 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                   return Column(
                     children: <Widget>[
                       GestureDetector(
+                          behavior: HitTestBehavior.opaque,
                         onTap: () => Navigator.of(context).push(
                             MaterialPageRoute(
                                 builder: (context) => EditRoute(
