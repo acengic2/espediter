@@ -164,7 +164,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                 padding: EdgeInsets.only(left: 4.0, right: 4.0),
                                 child: DateTimeField(
                                   initialValue: DateTime.parse(
-                                                widget.post.data['departure_date']),
+                                      widget.post.data['departure_date']),
                                   textCapitalization: TextCapitalization.words,
                                   style: TextStyle(
                                       fontSize:
@@ -285,7 +285,9 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                 flex: 1,
                                 child: Column(
                                   children: <Widget>[
-                                    DestinationCircle(largeCircle: StyleColors().blueColor2, smallCircle: StyleColors().blueColor),
+                                    DestinationCircle(
+                                        largeCircle: StyleColors().blueColor2,
+                                        smallCircle: StyleColors().blueColor),
                                     DestinationLine(),
                                   ],
                                 )),
@@ -306,17 +308,19 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4.0)),
                                             borderSide: BorderSide(
-                                                color: StyleColors().textColorGray12),
+                                                color: StyleColors()
+                                                    .textColorGray12),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(4.0)),
                                               borderSide: BorderSide(
-                                                  color: StyleColors().textColorGray12)),
+                                                  color: StyleColors()
+                                                      .textColorGray12)),
                                           labelText: 'Startna destinacija',
                                           labelStyle: TextStyle(
-                                              color:
-                                                  StyleColors().textColorGray50),
+                                              color: StyleColors()
+                                                  .textColorGray50),
                                           border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(5.0))),
@@ -362,7 +366,12 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                 child: Column(
                                   children: <Widget>[
                                     DestinationLine(),
-                                    DestinationCircle(largeCircle: StyleColors().destinationCircle2, smallCircle: StyleColors().destinationCircle1,),
+                                    DestinationCircle(
+                                      largeCircle:
+                                          StyleColors().destinationCircle2,
+                                      smallCircle:
+                                          StyleColors().destinationCircle1,
+                                    ),
                                   ],
                                 )),
                             Expanded(
@@ -383,17 +392,19 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4.0)),
                                             borderSide: BorderSide(
-                                                color: StyleColors().textColorGray12),
+                                                color: StyleColors()
+                                                    .textColorGray12),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(4.0)),
                                               borderSide: BorderSide(
-                                                  color: StyleColors().textColorGray12)),
+                                                  color: StyleColors()
+                                                      .textColorGray12)),
                                           labelText: 'Krajnja destinacija',
                                           labelStyle: TextStyle(
-                                              color:
-                                                  StyleColors().textColorGray50),
+                                              color: StyleColors()
+                                                  .textColorGray50),
                                           border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(5.0))),
@@ -797,18 +808,20 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                       if (percentageVar < 0 ||
                                           percentageVar > 100) {
                                         if (onceToast == 0) {
-                                           final snackBar = SnackBar(
-              duration: Duration(seconds: 2),
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-              content: Text(
-                  'Unesite broj od 0 do 100'),
-              action: SnackBarAction(
-                label: 'Undo',
-                onPressed: () {},
-              ),
-            );
-            Scaffold.of(context).showSnackBar(snackBar);
+                                          final snackBar = SnackBar(
+                                            duration: Duration(seconds: 2),
+                                            behavior: SnackBarBehavior.floating,
+                                            backgroundColor:
+                                                Color.fromRGBO(28, 28, 28, 1.0),
+                                            content: Text(
+                                                'Unesite broj od 0 do 100'),
+                                            action: SnackBarAction(
+                                              label: 'Undo',
+                                              onPressed: () {},
+                                            ),
+                                          );
+                                          Scaffold.of(context)
+                                              .showSnackBar(snackBar);
 
                                           onceToast = 1;
                                           Timer(Duration(seconds: 2), () {
