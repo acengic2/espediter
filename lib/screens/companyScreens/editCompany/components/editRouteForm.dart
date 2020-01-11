@@ -540,6 +540,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                       ),
 
                       /// DIVIDER
+                      Divider1(thickness: 1, height: 1),
                       Divider1(thickness: 8, height: 8),
 
                       /// Popunjenost u procentimaaaaaaaaaaaaaaaaa
