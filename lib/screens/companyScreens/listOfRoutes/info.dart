@@ -91,7 +91,7 @@ class _InfoPageState extends State<InfoPage> {
                 } else {
                   imaliRuta = false;
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => NoRoutes()));
+                      MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
                 }
               });
             },

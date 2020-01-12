@@ -218,7 +218,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
         print('EMPTU');
 
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => NoRoutes()));
+            .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
       }
     });
     // Do some stuff.
@@ -489,7 +489,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                 print('EMPTU');
                 imaliRuta = false;
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => NoRoutes()));
+                    .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
               }
             });
           },
