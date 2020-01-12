@@ -172,7 +172,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
               } else {
                 imaliRuta = false;
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => NoRoutes()));
+                    .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
               }
             });
           },

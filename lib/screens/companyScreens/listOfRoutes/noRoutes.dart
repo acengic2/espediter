@@ -10,31 +10,37 @@ void main() => runApp(NoRoutes());
 const noRoutesString =
     "Trenutno nemate nikakvih ruta. Molimo vas da kreirate rutu.";
 
-class NoRoutes extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Ruta|Prazno',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: NoRoutesScreenPage(title: 'Rute|Prazno'),
-    );
-  }
-}
+class NoRoutes extends StatefulWidget {
+  final String userID;
 
-class NoRoutesScreenPage extends StatefulWidget {
-  NoRoutesScreenPage({Key key, this.title}) : super(key: key);
-
-  final String title;
+  //konstruktor koji prima info i signIn screen-a i smjesta ih u varijable instancirane iznad
+  NoRoutes({Key key, this.userID}) : super(key: key);
 
   @override
-  _NoRoutesScreenPageState createState() => _NoRoutesScreenPageState();
+  _NoRoutesScreenPageState createState() =>
+      _NoRoutesScreenPageState(userID: userID);
 }
 
-class _NoRoutesScreenPageState extends State<NoRoutesScreenPage> {
+// class NoRoutes extends StatelessWidget {
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       title: 'Ruta|Prazno',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: NoRoutesScreenPage(title: 'Rute|Prazno'),
+//     );
+//   }
+// }
+
+class _NoRoutesScreenPageState extends State<NoRoutes> {
+  final String userID;
+
+  _NoRoutesScreenPageState({this.userID});
+
   Future getPosts(String id) async {
     var firestore = Firestore.instance;
     QuerySnapshot qn = await firestore
@@ -104,7 +110,7 @@ class _NoRoutesScreenPageState extends State<NoRoutesScreenPage> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar1(),
+      bottomNavigationBar: BottomAppBar1(userID: userID),
       floatingActionButton: FloatingActionButton1(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
