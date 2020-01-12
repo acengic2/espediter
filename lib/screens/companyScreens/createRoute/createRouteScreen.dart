@@ -41,7 +41,7 @@ const textColorGray60 = Color.fromRGBO(0, 0, 0, 0.6);
 NoRoutes noRoutes = new NoRoutes();
 
 class CreateRoute extends StatelessWidget {
-  String userID;
+  final String userID;
   CreateRoute({this.userID});
   // This widget is the root of your application.
   @override
@@ -67,7 +67,7 @@ class CreateRoute extends StatelessWidget {
 }
 
 class CreateRouteScreenPage extends StatefulWidget {
-  String userID;
+  final String userID;
   CreateRouteScreenPage({Key key, this.userID}) : super(key: key);
 
   @override
