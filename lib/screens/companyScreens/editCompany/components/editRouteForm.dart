@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
@@ -478,14 +477,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                   },
                                   onChanged: (input) {
                                     endDateCompare = input;
-                                    selectedDateP = new DateTime(
-                                        selectedDateP.year,
-                                        selectedDateP.month,
-                                        selectedDateP.day);
-                                    selectedDateD = new DateTime(
-                                        selectedDateD.year,
-                                        selectedDateD.month,
-                                        selectedDateD.day);
                                     onceToast = 0;
                                     onceBtnPressed = 0;
                                     areFieldsEmpty();
@@ -634,7 +625,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                 capacityDouble = capacityDouble / 10.0;
                               }
                               capacityVar = capacityDouble.toString();
-
                               onceToast = 0;
                               onceBtnPressed = 0;
                               areFieldsEmpty();
@@ -831,7 +821,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                         if (onceBtnPressed == 0) {
                                           updateData(widget.post);
                                           onceBtnPressed = 1;
-                                          _isBtnDisabled = true;
                                         }
                                         // validateDatesAndTimes(context);
 
@@ -1036,7 +1025,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                 )));
       } else {
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => NoRoutes()));
+            .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
       }
     });
     return true;
@@ -1058,6 +1047,23 @@ class _EditRouteFormState extends State<EditRouteForm> {
       'vehicle': '$vehicleVar',
       'user_id': '$userID',
       'timestamp': '$dateOfSubmit',
+    });
+    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+      if (docs.documents.isNotEmpty) {
+        print('NOT EMPRY');
+        imaliRuta = true;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ListOfRoutes(
+                    userID: userID,
+                  )),
+        );
+      } else {
+        imaliRuta = false;
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
+      }
     });
   }
 
@@ -1091,7 +1097,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
             builder: (context) => ListOfRoutes(userID: userID)));
       } else {
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => NoRoutes()));
+            .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
       }
     });
   }
