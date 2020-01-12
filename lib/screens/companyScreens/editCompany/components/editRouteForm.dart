@@ -12,7 +12,6 @@ import 'package:spediter/components/destinationCircles.dart';
 import 'package:spediter/components/destinationLines.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/inderdestination.dart';
-import 'package:spediter/components/snackBar.dart';
 import 'package:spediter/components/vehicle.dart';
 import 'package:spediter/screens/companyScreens/createRoute/interdestinatonForm.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';

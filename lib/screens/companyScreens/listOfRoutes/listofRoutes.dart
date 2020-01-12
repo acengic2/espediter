@@ -29,8 +29,9 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: onWillPop,
-       child:  Scaffold(
+        onWillPop: onWillPop,
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
           body: CustomScrollView(
             slivers: <Widget>[
               SliverList(
@@ -51,12 +52,12 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
           floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         ));
   }
-  
+
   DateTime currentBackPressTime;
- 
+
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
-    if (currentBackPressTime == null || 
+    if (currentBackPressTime == null ||
         now.difference(currentBackPressTime) > Duration(seconds: 2)) {
       currentBackPressTime = now;
       print('sakljdgsgadsgadgsad');
@@ -64,6 +65,4 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
     }
     return Future.value(true);
   }
-
 }
-

@@ -3,7 +3,7 @@ import 'package:spediter/theme/style.dart';
 
 class Divider1 extends StatelessWidget {
 
-  double thickness, height;
+  final double thickness, height;
   Divider1({this.thickness, this.height});
   @override
   Widget build(BuildContext context) {

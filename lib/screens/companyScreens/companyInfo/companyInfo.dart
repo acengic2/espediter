@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:core';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -11,11 +10,9 @@ import 'package:spediter/screens/companyScreens/companyInfo/components/hardCoded
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
-import 'package:spediter/screens/singIn/signIn.dart';
 import 'package:spediter/theme/style.dart';
 import 'package:spediter/utils/screenUtils.dart';
 import 'package:flutter/rendering.dart';
-import 'package:back_button_interceptor/back_button_interceptor.dart';
 
 void main() => runApp(CompanyInfo());
 
