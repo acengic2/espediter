@@ -5,6 +5,7 @@ import 'package:spediter/components/loadingScreens/loading.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
+
 class SignInMethods {
   /// SIGNIN metoda
   ///
@@ -33,16 +34,18 @@ class SignInMethods {
         FirebaseUser user = result.user;
         String userEmail = user.email;
         userID = user.uid;
+        
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) =>
                 ShowLoading(user: user, email: userEmail, userID: userID)));
+      
       } catch (e) {
         err = e.message;
       }
     }
   }
 
-   /// provjera emaila
+  /// provjera emaila
   ///
   /// ovdje nam se nalazi logika za provjeru email-a,
   /// odnosno da li user zaista postoji u bazi
@@ -77,8 +80,7 @@ class SignInMethods {
     final List<DocumentSnapshot> documents = result.documents;
     return documents.length == 1;
   }
-
-  
-
+   
+     
 
 }
