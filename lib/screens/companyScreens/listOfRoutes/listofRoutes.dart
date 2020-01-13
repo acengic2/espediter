@@ -152,5 +152,4 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
         .getDocuments();
     return qn.documents;
   }
-   
 }

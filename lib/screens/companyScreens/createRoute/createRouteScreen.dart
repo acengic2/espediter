@@ -11,11 +11,14 @@ import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:responsive_container/responsive_container.dart';
 import 'package:spediter/components/crud/firebaseCrud.dart';
+import 'package:spediter/components/destinationCircles.dart';
+import 'package:spediter/components/destinationLines.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/inderdestination.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
+import 'package:spediter/theme/style.dart';
 
 import 'package:spediter/utils/screenUtils.dart';
 
@@ -173,8 +176,15 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
 
  
   
-
   
+
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
+      }
+    });
+    // Do some stuff.
+    return true;
+  }
 
   /// initState metoda - lifecycle metoda koja se izvrsi prije nego se load-a sam screen
   /// u njoj pozivamo metodu [getUserID()] , seta mo [Toast] counter na 0,
@@ -269,7 +279,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                 print('EMPTU');
                 imaliRuta = false;
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => NoRoutes()));
+                    .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
               }
             });
           },
@@ -433,46 +443,10 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                   flex: 1,
                                   child: Column(
                                     children: <Widget>[
-                                      Container(
-                                        //smargin: EdgeInsets.only(bottom: 10.0),
-                                        child: Stack(
-                                          alignment: Alignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                                height: 20,
-                                                width: 20,
-                                                margin: EdgeInsets.only(
-                                                    right: 8, left: 16)),
-                                            Container(
-                                              height: 16,
-                                              width: 16,
-                                              child: Icon(
-                                                Icons.brightness_1,
-                                                color: Color.fromRGBO(
-                                                    3, 54, 255, 1.0),
-                                                size: 10.0,
-                                              ),
-                                            ),
-                                            Container(
-                                              child: Icon(
-                                                Icons.brightness_1,
-                                                color: Color.fromRGBO(
-                                                    3, 54, 255, 0.2),
-                                                size: 20.0,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 0),
-                                        height: 12,
-                                        width: 0,
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: Color.fromRGBO(
-                                                    0, 0, 0, 0.12))),
-                                      )
+                                     DestinationCircle(
+                                        largeCircle: StyleColors().blueColor2,
+                                        smallCircle: StyleColors().blueColor),
+                                    DestinationLine(),
                                     ],
                                   )),
                               Expanded(
@@ -547,46 +521,13 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                   flex: 1,
                                   child: Column(
                                     children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(left: 0),
-                                        height: 12,
-                                        width: 0,
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: Color.fromRGBO(
-                                                    0, 0, 0, 0.12))),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(bottom: 10.0),
-                                        child: Stack(
-                                          alignment: Alignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                                height: 20,
-                                                width: 20,
-                                                margin: EdgeInsets.only(
-                                                    right: 8, left: 16)),
-                                            Container(
-                                              height: 16,
-                                              width: 16,
-                                              child: Icon(
-                                                Icons.brightness_1,
-                                                color: Color.fromRGBO(
-                                                    174, 7, 37, 1.0),
-                                                size: 10.0,
-                                              ),
-                                            ),
-                                            Container(
-                                              child: Icon(
-                                                Icons.brightness_1,
-                                                color: Color.fromRGBO(
-                                                    174, 7, 37, 0.2),
-                                                size: 20.0,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
+                                       DestinationLine(),
+                                    DestinationCircle(
+                                      largeCircle:
+                                          StyleColors().destinationCircle2,
+                                      smallCircle:
+                                          StyleColors().destinationCircle1,
+                                    ),
                                     ],
                                   )),
                               Expanded(
@@ -737,7 +678,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                       );
                                       setState(() {
                                         timeD = time1.toString();
-                                        // if(timeD == def)
                                       });
                                       if (timeD == 'null') {
                                         timeD = '';

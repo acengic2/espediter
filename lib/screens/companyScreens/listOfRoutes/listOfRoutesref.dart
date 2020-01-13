@@ -64,7 +64,6 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                   physics: ClampingScrollPhysics(),
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
-
                     /// DATUM
                     String date = snapshot.data[index].data['departure_date'];
                     String dateReversed = date.split('/').reversed.join();
@@ -195,7 +194,7 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                               linearStrokeCap: LinearStrokeCap.butt,
                               backgroundColor: Colors.white,
                               progressColor: Color.fromRGBO(3, 54, 255, 0.12),
-                            )) 
+                            ))
                       ],
                     );
 
@@ -205,6 +204,7 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                           onTap: () => Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => EditRoute(
+
                                       post: snapshot.data[index], 
                                       userID: userID))),
                           child: Container(
@@ -278,6 +278,7 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
             }
           },
         ),
+
       ),
     ]);
   }
@@ -290,5 +291,6 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
         .orderBy('timestamp', descending: true)
         .getDocuments();
     return qn.documents;
+
   }
 }

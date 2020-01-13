@@ -2,30 +2,21 @@ import 'dart:async';
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spediter/components/crud/firebaseCrud.dart';
 import 'package:spediter/components/divider.dart';
-import 'package:spediter/components/snackBar.dart';
 import 'package:spediter/screens/companyScreens/companyInfo/components/hardCodedPart.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
-import 'package:spediter/screens/singIn/signIn.dart';
 import 'package:spediter/theme/style.dart';
 import 'package:spediter/utils/screenUtils.dart';
 import 'package:flutter/rendering.dart';
 
 void main() => runApp(CompanyInfo());
 
-// instanca na NoRoutes screen
-NoRoutes noRoutes = new NoRoutes();
-
 class CompanyInfo extends StatelessWidget {
-  // This widget is the root of your application.
-
   final String userID;
-
   CompanyInfo({this.userID});
 
   @override
@@ -36,15 +27,6 @@ class CompanyInfo extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      localizationsDelegates: [
-        // ... lokalizacija jezika
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: [
-        const Locale('bs'), // Bosnian
-        const Locale('en'), // English
-      ],
       home: CompanyInfoPage(userID: userID),
     );
   }
@@ -52,7 +34,6 @@ class CompanyInfo extends StatelessWidget {
 
 class CompanyInfoPage extends StatefulWidget {
   final String userID;
-
   CompanyInfoPage({this.userID});
 
   @override
@@ -61,7 +42,6 @@ class CompanyInfoPage extends StatefulWidget {
 
 class _CompanyInfoPageState extends State<CompanyInfoPage> {
   final String userID;
-
   _CompanyInfoPageState({this.userID});
 
   /// key za formu
@@ -69,8 +49,6 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
 
   /// instanca za bazu
   final db = Firestore.instance;
-
-  /// fokusi
 
   var focusImage = new FocusNode();
   var focusName = new FocusNode();
@@ -173,8 +151,8 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                 );
               } else {
                 imaliRuta = false;
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => NoRoutes()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => NoRoutes(userID: userID)));
               }
             });
           },
@@ -583,10 +561,27 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                                         phoneLast == '' ||
                                                         webPageLast == '') {
                                                       if (onceToast == 0) {
-                                                        SnackBar1(
-                                                            message:
-                                                                'Sva polja moraju biti popunjena.');
-
+                                                        final snackBar =
+                                                            SnackBar(
+                                                          duration: Duration(
+                                                              seconds: 2),
+                                                          behavior:
+                                                              SnackBarBehavior
+                                                                  .floating,
+                                                          backgroundColor:
+                                                              Color.fromRGBO(28,
+                                                                  28, 28, 1.0),
+                                                          content: Text(
+                                                              'Sva polja moraju biti popunjena.'),
+                                                          action:
+                                                              SnackBarAction(
+                                                            label: 'Undo',
+                                                            onPressed: () {},
+                                                          ),
+                                                        );
+                                                        Scaffold.of(context)
+                                                            .showSnackBar(
+                                                                snackBar);
                                                         onceToast = 1;
                                                         Timer(
                                                             Duration(
@@ -617,7 +612,9 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                                 }),
                                     ),
                                   ),
-
+                                  Divider1(
+                                    thickness: 1, height: 1,
+                                  ),
                                   Divider1(
                                     thickness: 8,
                                     height: 8,

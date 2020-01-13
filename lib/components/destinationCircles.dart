@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DestinationCircle extends StatelessWidget {
-  Color largeCircle, smallCircle;
+  final Color largeCircle, smallCircle;
   DestinationCircle({this.largeCircle, this.smallCircle});
   @override
   Widget build(BuildContext context) {

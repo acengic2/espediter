@@ -92,11 +92,11 @@ class _EditRouteFormState extends State<EditRouteForm> {
   String t11;
   String t22;
 
+  double capacityDouble;
+
   /// DateTime tip datuma (radi validacije)
   DateTime selectedDateP;
   DateTime selectedDateD;
-  DateTime startDateCompare;
-  DateTime endDateCompare;
   DateTime t1;
   DateTime t2;
 
@@ -181,13 +181,16 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                   ),
                                   format: format,
                                   onShowPicker: (context, currentValue) async {
-                                    final DateTime picked =
+                                    DateTime picked =
                                         await showDatePicker(
                                             locale: Locale('bs'),
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(2018),
                                             lastDate: DateTime(2100));
+                                            if (picked == null) {
+                                        picked = DateTime.now();
+                                      }
 
                                     setState(() {
                                       selectedDateP = picked;
@@ -208,7 +211,8 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                     return selectedDateP;
                                   },
                                   onChanged: (input) {
-                                    startDateCompare = input;
+                                    print(formatted);
+                                    print(selectedDateP);
                                     onceToast = 0;
                                     onceBtnPressed = 0;
                                     areFieldsEmpty();
@@ -448,13 +452,16 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                   ),
                                   format: format,
                                   onShowPicker: (context, currentValue) async {
-                                    final DateTime picked =
+                                    DateTime picked =
                                         await showDatePicker(
                                             locale: Locale('bs'),
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(2018),
                                             lastDate: DateTime(2100));
+                                            if (picked == null) {
+                                        picked = DateTime.now();
+                                      }
                                     setState(() {
                                       selectedDateD = picked;
                                       if (selectedDateD == null) {
@@ -475,15 +482,14 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                     return selectedDateD;
                                   },
                                   onChanged: (input) {
-                                    endDateCompare = input;
-                                    selectedDateP = new DateTime(
-                                        selectedDateP.year,
-                                        selectedDateP.month,
-                                        selectedDateP.day);
-                                    selectedDateD = new DateTime(
-                                        selectedDateD.year,
-                                        selectedDateD.month,
-                                        selectedDateD.day);
+                                    // selectedDateP = new DateTime(
+                                    // selectedDateP.year,
+                                    // selectedDateP.month,
+                                    // selectedDateP.day);
+                                    // selectedDateD = new DateTime(
+                                    // selectedDateD.year,
+                                    // selectedDateD.month,
+                                    // selectedDateD.day);
                                     onceToast = 0;
                                     onceBtnPressed = 0;
                                     areFieldsEmpty();
@@ -526,7 +532,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                     );
                                     setState(() {
                                       timeD = time1.toString();
-                                      // if(timeD == def)
                                     });
                                     if (timeD == 'null') {
                                       timeD = '';
@@ -548,6 +553,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                       ),
 
                       /// DIVIDER
+                      Divider1(thickness: 1, height: 1),
                       Divider1(thickness: 8, height: 8),
 
                       /// Popunjenost u procentimaaaaaaaaaaaaaaaaa
@@ -625,13 +631,14 @@ class _EditRouteFormState extends State<EditRouteForm> {
                           onChanged: (input) {
                             setState(() {
                               capacityVar = input;
-
-                              double capacityDouble = double.parse(capacityVar);
+                              if(capacityVar.contains(',')) {
+                                capacityVar = capacityVar.replaceFirst(',', '.');
+                              }
+                              capacityDouble = double.parse(capacityVar);
                               if (capacityDouble >= 10) {
                                 capacityDouble = capacityDouble / 10.0;
                               }
                               capacityVar = capacityDouble.toString();
-
                               onceToast = 0;
                               onceBtnPressed = 0;
                               areFieldsEmpty();
@@ -663,7 +670,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                             padding:
                                 const EdgeInsets.only(left: 10.0, top: 5.0),
                             child: DropdownButton(
-                              // JUSUF - Izbacio ubacio hint i disabledHint:
                               hint: Text(widget.post.data['vehicle']),
                               disabledHint: Text('Vrsta Vozila'),
                               value: _selectedVehicle,
@@ -824,6 +830,26 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                             onceToast = 0;
                                           });
                                         }
+                                      } else if(capacityDouble < 0.0 || capacityDouble > 7.0) {
+                                        final snackBar = SnackBar(
+                                            duration: Duration(seconds: 2),
+                                            behavior: SnackBarBehavior.floating,
+                                            backgroundColor:
+                                                Color.fromRGBO(28, 28, 28, 1.0),
+                                            content: Text(
+                                                'Unesite broj od 0.0 do 7.0'),
+                                            action: SnackBarAction(
+                                              label: 'Undo',
+                                              onPressed: () {},
+                                            ),
+                                          );
+                                          Scaffold.of(context)
+                                              .showSnackBar(snackBar);
+
+                                          onceToast = 1;
+                                          Timer(Duration(seconds: 2), () {
+                                            onceToast = 0;
+                                          });
                                       } else {
                                         if (onceBtnPressed == 0) {
                                           FirebaseCrud().updateData(
@@ -842,9 +868,8 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                               userID,
                                               dateOfSubmit);
                                           onceBtnPressed = 1;
-                                          _isBtnDisabled = true;
                                         }
-                                        // validateDatesAndTimes(context);
+                                        //validateDatesAndTimes(context);
 
                                       }
                                     }),
