@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_container/responsive_container.dart';
+import 'package:spediter/components/crud/firebaseCrud.dart';
 import 'package:spediter/components/destinationCircles.dart';
 import 'package:spediter/components/destinationLines.dart';
 import 'package:spediter/components/divider.dart';
@@ -14,8 +14,6 @@ import 'package:spediter/components/inderdestination.dart';
 import 'package:spediter/components/vehicle.dart';
 import 'package:spediter/screens/companyScreens/createRoute/interdestinatonForm.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
 import 'package:spediter/theme/style.dart';
 import 'package:spediter/utils/screenUtils.dart';
 
@@ -138,6 +136,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
         onTap: () {
           FocusScope.of(context).requestFocus(new FocusNode());
           onceToast = 0;
+
         },
         child: ListView(
           children: <Widget>[
@@ -853,7 +852,21 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                           });
                                       } else {
                                         if (onceBtnPressed == 0) {
-                                          updateData(widget.post);
+                                          FirebaseCrud().updateData(
+                                              widget.post,
+                                              percentageVar,
+                                              capacityVar,
+                                              endingDestination,
+                                              startingDestination,
+                                              formatted,
+                                              formatted2,
+                                              t11,
+                                              t22,
+                                              dimensionsVar,
+                                              goodsVar,
+                                              vehicleVar,
+                                              userID,
+                                              dateOfSubmit);
                                           onceBtnPressed = 1;
                                         }
                                         //validateDatesAndTimes(context);
@@ -895,9 +908,23 @@ class _EditRouteFormState extends State<EditRouteForm> {
                               onPressed: () {
                                 if (onceBtnPressed == 0) {
                                   // ubacujemo u FinishedRoutes
-                                  finishedData();
+                                  FirebaseCrud().finishedData(
+                                      percentageVar,
+                                      capacityVar,
+                                      endingDestination,
+                                      startingDestination,
+                                      formatted,
+                                      formatted2,
+                                      t11,
+                                      t22,
+                                      dimensionsVar,
+                                      goodsVar,
+                                      vehicleVar,
+                                      userID,
+                                      dateOfSubmit);
                                   // brisemo iz Rute
-                                  deleteData(widget.post);
+                                  FirebaseCrud()
+                                      .deleteData(widget.post, userID, context);
                                   onceBtnPressed = 1;
                                 }
                               }),
@@ -993,7 +1020,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
   ///dispose back btn-a nakon njegovog koristenja
   @override
   void dispose() {
-    BackButtonInterceptor.remove(myInterceptor);
     super.dispose();
     _textController.dispose();
   }
@@ -1044,95 +1070,5 @@ class _EditRouteFormState extends State<EditRouteForm> {
       items.add(DropdownMenuItem(value: vehicle, child: Text(vehicle.name)));
     }
     return items;
-  }
-
-  /// bool f-ja koju smo ubacili u [BackButtonInterceptor], koja mora vratiti true ili false.
-  /// u kojoj na klik back btn-a
-  /// provjeravamo da li company ima rute ili ne i na osnovu toga ih
-  /// redirectamo na [NoRoutes] ili na [ListOfRoutes]
-  bool myInterceptor(bool stopDefaultButtonEvent) {
-    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-      if (docs.documents.isNotEmpty) {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ListOfRoutes(
-                  userID: userID,
-                )));
-      } else {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
-      }
-    });
-    return true;
-  }
-
-  updateData(DocumentSnapshot doc) async {
-    await db.collection('Rute').document(doc.documentID).updateData({
-      'availability': '$percentageVar',
-      'capacity': '$capacityVar',
-      'ending_destination': '$endingDestination',
-      'starting_destination': '$startingDestination',
-      // 'interdestination': '$listOfInterdestinations',
-      'arrival_date': '$formatted2',
-      'arrival_time': '$t11',
-      'departure_time': '$t22',
-      'departure_date': '$formatted',
-      'dimensions': '$dimensionsVar',
-      'goods': '$goodsVar',
-      'vehicle': '$vehicleVar',
-      'user_id': '$userID',
-      'timestamp': '$dateOfSubmit',
-    });
-    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-      if (docs.documents.isNotEmpty) {
-        print('NOT EMPRY');
-        imaliRuta = true;
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ListOfRoutes(
-                    userID: userID,
-                  )),
-        );
-      } else {
-        imaliRuta = false;
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
-      }
-    });
-  }
-
-  finishedData() async {
-    DocumentReference ref = await db.collection('FinishedRoutes').add({
-      'availability': '$percentageVar',
-      'capacity': '$capacityVar',
-      'ending_destination': '$endingDestination',
-      'starting_destination': '$startingDestination',
-      // 'interdestination': '$listOfInterdestinations',
-      'arrival_date': '$formatted2',
-      'arrival_time': '$t11',
-      'departure_time': '$t22',
-      'departure_date': '$formatted',
-      'dimensions': '$dimensionsVar',
-      'goods': '$goodsVar',
-      'vehicle': '$vehicleVar',
-      'user_id': '$userID',
-      'timestamp': '$dateOfSubmit',
-    });
-    setState(() => id = ref.documentID);
-  }
-
-  // funkcija koja brise iz Rute
-  //potrebno joj je proslijediti doc.ID
-  void deleteData(DocumentSnapshot doc) async {
-    await db.collection('Rute').document(doc.documentID).delete();
-    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-      if (docs.documents.isNotEmpty) {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ListOfRoutes(userID: userID)));
-      } else {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
-      }
-    });
   }
 }
