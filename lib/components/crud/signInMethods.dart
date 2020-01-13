@@ -27,7 +27,6 @@ class SignInMethods {
     ) async {
     final _formState = _formKey.currentState;
     if (_formState.validate()) {
-      print('OVDJE SAM');
       try {
         AuthResult result = await _auth.signInWithEmailAndPassword(
             email: _email, password: _password);
@@ -78,5 +77,8 @@ class SignInMethods {
     final List<DocumentSnapshot> documents = result.documents;
     return documents.length == 1;
   }
+
+  
+
 
 }

@@ -603,8 +603,8 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                                                 phoneLast,
                                                                 urlLogoLast,
                                                                 webPageLast,
-                                                                _isBtnDisabled);
-                                                        _isBtnDisabled = true;
+                                                                userID,
+                                                                context);
                                                         onceBtnPressed = 1;
                                                       }
                                                     }

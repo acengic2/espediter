@@ -1,9 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:spediter/components/divider.dart';
+import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/singIn/components/form.dart';
 import 'package:spediter/theme/style.dart';
 
@@ -25,31 +26,16 @@ class ListOfFinishedRoutes extends StatefulWidget {
   final String userID;
   ListOfFinishedRoutes({this.userID});
 
+
   @override
   _ListOfFinishedRoutesState createState() =>
       _ListOfFinishedRoutesState(userID: userID);
 }
 
-// getUserid() async {
-//   final FirebaseAuth _auth = FirebaseAuth.instance;
-//   final FirebaseUser user = await _auth.currentUser();
-
-//   Firestore.instance
-//       .collection('LoggedUsers')
-//       .document(user.uid)
-//       .snapshots()
-//       .toString();
-//   userID = user.uid;
-// }
-
 class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
   String userID;
   _ListOfFinishedRoutesState({this.userID});
-  @override
-  void initState() {
-    //getUserid();
-    super.initState();
-  }
+
 
   Future getPosts(String id) async {
     var firestore = Firestore.instance;
@@ -59,6 +45,13 @@ class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
         .orderBy('timestamp', descending: true)
         .getDocuments();
     return qn.documents;
+  }
+
+  @override
+  void initState() {
+    print(userID);
+    print(id);
+    super.initState();
   }
 
   @override
