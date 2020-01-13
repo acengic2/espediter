@@ -5,6 +5,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spediter/components/crud/signInMethods.dart';
+import 'package:spediter/components/loadingScreens/loading.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
 
 import '../../../theme/style.dart';
@@ -22,7 +23,7 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 var _focusNode = new FocusNode();
 var focusNode = new FocusNode();
 
-String _email = '', _password = '', userExist, passExist, id, userID;
+String _email = '', _password = '', userExist, passExist, id, userID, rola;
 int onceToast = 0, onceBtnPressed = 0;
 
 class _FormState extends State<FormLogIn> {
@@ -448,7 +449,10 @@ class _FormState extends State<FormLogIn> {
                     },
                   ), //FutureBuilder
                 ], //<Widget>
-              ), //Column
+              ),
+              
+             
+               //Column
             ], //<Widget>
           ), //Column
         )
@@ -456,7 +460,6 @@ class _FormState extends State<FormLogIn> {
     ); //FORM
   }
 
-  
 
   
 }

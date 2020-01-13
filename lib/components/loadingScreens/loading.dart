@@ -6,8 +6,11 @@ import 'package:spediter/components/loadingScreens/components/loadingComponent.d
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
+import 'package:spediter/screens/userScreens/usersHome.dart';
 
 void main() => runApp(ShowLoading());
+
+String rola;
 
 class ShowLoading extends StatefulWidget {
   /// Varijable
@@ -19,11 +22,19 @@ class ShowLoading extends StatefulWidget {
   final String userID;
 
   //konstruktor koji prima info i signIn screen-a i smjesta ih u varijable instancirane iznad
-  ShowLoading({Key key, this.user, this.email, this.userID}) : super(key: key);
+  ShowLoading({
+    Key key,
+    this.user,
+    this.email,
+    this.userID,
+  }) : super(key: key);
 
   @override
-  _ShowLoading createState() =>
-      _ShowLoading(user: user, email: email, userID: userID);
+  _ShowLoading createState() => _ShowLoading(
+        user: user,
+        email: email,
+        userID: userID,
+      );
 }
 
 class _ShowLoading extends State<ShowLoading> {
@@ -45,20 +56,61 @@ class _ShowLoading extends State<ShowLoading> {
   final FirebaseUser user;
   String userID;
 
-  _ShowLoading({this.user, this.email, this.userID});
+  _ShowLoading({
+    this.user,
+    this.email,
+    this.userID,
+  });
 
 // init state f-ja koja se izvrsava prije nego se bilo sta ucita sa ovog screena
 // u njoj se aktivira [loadData()] f-ja
   @override
   void initState() {
-    super.initState();
     loadData();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LoadingComponent(text1, text2),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          LoadingComponent(text1, text2),
+          Container(
+                          width: 0,
+                          height: 0,
+                          child: FutureBuilder(
+                            future: getPostsLogged(userID),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                return ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: ClampingScrollPhysics(),
+                                    itemCount: snapshot.data.length,
+                                    itemBuilder: (context, index) {
+                                      setState(() {
+                                        rola = snapshot.data[index].data['role'];
+                                        print(rola);
+                                      });
+
+                                      return Container(
+                                        width: 0,
+                                        height: 0,
+                                      );
+                                    });
+                              }
+                              return Container(
+                                width: 0,
+                                height: 0,
+                              );
+                            },
+                          ),
+                        ),
+        ],
+      ),
     );
   }
 
@@ -77,7 +129,17 @@ class _ShowLoading extends State<ShowLoading> {
         .snapshots()
         .toString();
     usID = user.uid;
+  }
 
+  Future getPostsLogged(String id) async {
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore
+        .collection('LoggedUsers')
+        .where('user_id', isEqualTo: id)
+        .limit(1)
+        .getDocuments();
+
+    return qn.documents;
   }
 
   /// metoda koja provjerava rolu, odnosno ulogu logovanog user-a
@@ -88,7 +150,7 @@ class _ShowLoading extends State<ShowLoading> {
   /// query gdje je role == 'company'
   /// limitiramo pretraguna 1 dokument
   checkForRole() {
-    checkForID(); 
+    checkForID();
     return Firestore.instance
         .collection('LoggedUsers')
         .where('role', isEqualTo: 'company')
@@ -109,16 +171,22 @@ class _ShowLoading extends State<ShowLoading> {
   /// na [NoRoutes] ili na [ListOfRoutes]
   onDoneLoading() async {
     checkForRole();
-    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+    if (rola == 'company') {
+      CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ListOfRoutes(
                   userID: user.uid,
                 )));
       } else {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
       }
     });
+    } else {
+       Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => UsersHome()));
+    }
+    
   }
 }
