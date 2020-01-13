@@ -3,6 +3,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:spediter/components/crud/firebaseCrud.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/screens/companyScreens/companyInfo/components/hardCodedPart.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
@@ -69,8 +70,8 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
       companyName,
       urlLogo,
       companyDescription,
-      mail;
-  String phoneLast,
+      mail,
+      phoneLast,
       webPageLast,
       locationLast,
       companyNameLast,
@@ -591,8 +592,19 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                                       }
                                                     } else {
                                                       if (onceBtnPressed == 0) {
-                                                        updateData(snapshot
-                                                            .data[index]);
+                                                        FirebaseCrud()
+                                                            .updateDataCompanyInfo(
+                                                                snapshot.data[
+                                                                    index],
+                                                                companyDescriptionLast,
+                                                                companyNameLast,
+                                                                mailLast,
+                                                                locationLast,
+                                                                phoneLast,
+                                                                urlLogoLast,
+                                                                webPageLast,
+                                                                _isBtnDisabled);
+                                                        _isBtnDisabled = true;
                                                         onceBtnPressed = 1;
                                                       }
                                                     }
@@ -617,7 +629,12 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                     );
                   } else {
                     return SizedBox(
-                      child: Center(child: CircularProgressIndicator()),
+                      child: Center(
+                          child: CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                          StyleColors().progressBar,
+                        ),
+                      )),
                     );
                   }
                 })),
@@ -644,34 +661,5 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
     } else {
       _isBtnDisabled = false;
     }
-  }
-
-  //  funckija za update todo
-  updateData(DocumentSnapshot doc) async {
-    await db.collection('Company').document(doc.documentID).updateData({
-      'company_description': '$companyDescriptionLast',
-      'company_name': '$companyNameLast',
-      'email': '$mailLast',
-      'location': '$locationLast',
-      'phone': '$phoneLast',
-      'url_logo': '$urlLogoLast',
-      'webpage': '$webPageLast',
-    });
-    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-      if (docs.documents.isNotEmpty) {
-        imaliRuta = true;
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ListOfRoutes(
-                    userID: userID,
-                  )),
-        );
-      } else {
-        imaliRuta = false;
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
-      }
-    });
   }
 }

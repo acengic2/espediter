@@ -10,18 +10,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:responsive_container/responsive_container.dart';
+import 'package:spediter/components/crud/firebaseCrud.dart';
+import 'package:spediter/components/destinationCircles.dart';
+import 'package:spediter/components/destinationLines.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/inderdestination.dart';
-import 'package:spediter/components/loadingScreens/loadingRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
+import 'package:spediter/theme/style.dart';
 
 import 'package:spediter/utils/screenUtils.dart';
 
 import 'package:flutter/rendering.dart';
-
-import 'package:back_button_interceptor/back_button_interceptor.dart';
 
 import 'interdestinatonForm.dart';
 
@@ -37,8 +38,6 @@ const blueColor = Color.fromRGBO(3, 54, 255, 1);
 const textColorGray80 = Color.fromRGBO(0, 0, 0, 0.8);
 const textColorGray60 = Color.fromRGBO(0, 0, 0, 0.6);
 
-// instanca na NoRoutes screen
-NoRoutes noRoutes = new NoRoutes();
 
 class CreateRoute extends StatelessWidget {
   final String userID;
@@ -160,7 +159,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
   DateTime t2;
 
   /// Timestamp var [unos u bazu zbog ordera ispisa]
-  int dateOfSubmit = DateTime.now().millisecondsSinceEpoch;
+  int dateOfSubmit = DateTime.now().millisecondsSinceEpoch; 
 
   /// counteri za velicinu ekrana (responsive)
   /// i za postojanje ruta kod kompanije
@@ -175,56 +174,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
   /// counter da li je btn diiseblan ili ne
   bool _isBtnDisabled = true;
 
-  /// metoda koja provjerava da li je aktivan counter za screen aktivan
-  setScreenSize() {
-    if (!_screenUtilActive)
-      Constant.setScreenAwareConstant(context);
-    else
-      Constant.setDefaultSize(context);
-    setState(() {
-      _screenUtilActive = !_screenUtilActive;
-    });
-  }
-
-  /// metoda pomocu koje uzimamo ID od trenutno logovane kompanije/usera
-  ///
-  /// ulazimo u [Auth] dio firebase i na osnovu toga izvlacimo sve info o user u nasem slucaju kompaniji
-  /// nakon cega dohvatamo kolekciju [LoggedUsers] i uzimamo [user.uid] i spremamo ga u varijablu [userID]
-  getUserid() async {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-    final FirebaseUser user = await _auth.currentUser();
-
-    Firestore.instance
-        .collection('LoggedUsers')
-        .document(user.uid)
-        .snapshots()
-        .toString();
-    userID = user.uid;
-  }
-
-  /// bool f-ja koju smo ubacili u [BackButtonInterceptor], koja mora vratiti true ili false.
-  /// u kojoj na klik back btn-a
-  /// provjeravamo da li company ima rute ili ne i na osnovu toga ih
-  /// redirectamo na [NoRoutes] ili na [ListOfRoutes]
-  bool myInterceptor(bool stopDefaultButtonEvent) {
-    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-      if (docs.documents.isNotEmpty) {
-        print('NOT EMPRY');
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ListOfRoutes(
-                  userID: userID,
-                )));
-      } else {
-        print('EMPTU');
-
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
-      }
-    });
-    // Do some stuff.
-    return true;
-  }
-
   /// initState metoda - lifecycle metoda koja se izvrsi prije nego se load-a sam screen
   /// u njoj pozivamo metodu [getUserID()] , seta mo [Toast] counter na 0,
   /// ubacujemo u dropdown listu [_dropdownMenuItems] vozila,
@@ -236,14 +185,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
     getUserid();
     onceToast = 0;
     // BackButtonInterceptor.add(myInterceptor);
-  }
-
-  ///dispose back btn-a nakon njegovog koristenja
-  @override
-  void dispose() {
-    BackButtonInterceptor.remove(myInterceptor);
-    print('Ovdje sam ');
-    super.dispose();
   }
 
   /// lista vozila
@@ -283,177 +224,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
       });
     }
 
-    validateDatesAndTimes(BuildContext context) {
-      t11 = DateFormat.Hm().format(t1);
-      t22 = DateFormat.Hm().format(t2);
-      DateTime now = DateTime.now();
-      selectedDateP = new DateTime(
-          selectedDateP.year, selectedDateP.month, selectedDateP.day);
-      selectedDateD = new DateTime(
-          selectedDateD.year, selectedDateD.month, selectedDateD.day);
-      if (selectedDateD.isBefore(selectedDateP)) {
-        print('Datum dolaska ne može biti manji od datuma polaska.');
-        if (onceToast == 0) {
-          final snackBar = SnackBar(
-            duration: Duration(seconds: 2),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-            content: Text('Datum polaska ne može biti veći od datuma dolaska.'),
-            action: SnackBarAction(
-              label: 'Undo',
-              onPressed: () {},
-            ),
-          );
-          Scaffold.of(context).showSnackBar(snackBar);
-          onceToast = 1;
-          Timer(Duration(seconds: 2), () {
-            onceToast = 0;
-          });
-        }
-      } else if (selectedDateP.isAtSameMomentAs(selectedDateD)) {
-        if (DateFormat.Hm().format(t2).compareTo(DateFormat.Hm().format(t1)) >
-            0) {
-          print(
-              'Vrijeme polaska ne može biti veće od vremena dolaska, ako su datumi jednaki.');
-          if (onceToast == 0) {
-            final snackBar = SnackBar(
-              duration: Duration(seconds: 2),
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-              content: Text(
-                  'Vrijeme polaska ne može biti veće od vremena dolaska, ako su datumi jednaki.'),
-              action: SnackBarAction(
-                label: 'Undo',
-                onPressed: () {},
-              ),
-            );
-            Scaffold.of(context).showSnackBar(snackBar);
-            onceToast = 1;
-            Timer(Duration(seconds: 2), () {
-              onceToast = 0;
-            });
-          }
-        } else if (DateFormat.Hm()
-                .format(t2)
-                .compareTo(DateFormat.Hm().format(t1)) ==
-            0) {
-          print('Datumi i vremena ne mogu biti jednaki.');
-          if (onceToast == 0) {
-            final snackBar = SnackBar(
-              duration: Duration(seconds: 2),
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-              content: Text('Datumi i vremena ne mogu biti jednaki.'),
-              action: SnackBarAction(
-                label: 'Undo',
-                onPressed: () {},
-              ),
-            );
-            Scaffold.of(context).showSnackBar(snackBar);
-            onceToast = 1;
-            Timer(Duration(seconds: 2), () {
-              onceToast = 0;
-            });
-          }
-        } else {
-          print('Validacija ispravna');
-          if (onceBtnPressed == 0) {
-            print('btn kreiraj');
-            onSave();
-            createData();
-            onceBtnPressed = 1;
-          }
-        }
-      } else if (selectedDateD
-          .isBefore(DateTime(now.year, now.month, now.day))) {
-        print('Datum dolaska ne može biti manji od današnjeg datuma.');
-        if (onceToast == 0) {
-          final snackBar = SnackBar(
-            duration: Duration(seconds: 2),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-            content:
-                Text('Datum dolaska ne može biti manji od današnjeg datuma.'),
-            action: SnackBarAction(
-              label: 'Undo',
-              onPressed: () {},
-            ),
-          );
-          Scaffold.of(context).showSnackBar(snackBar);
-          onceToast = 1;
-          Timer(Duration(seconds: 2), () {
-            onceToast = 0;
-          });
-        }
-      } else if (selectedDateD
-          .isAtSameMomentAs(DateTime(now.year, now.month, now.day))) {
-        if (DateFormat.Hm()
-                .format(t1)
-                .compareTo(DateFormat.Hm().format(DateTime.now())) <
-            0) {
-          print(
-              'Vrijeme dolaska ne može biti manji od trenutnog vremena, ako je datum dolaska jednako današnjem datumu.');
-          if (onceToast == 0) {
-            final snackBar = SnackBar(
-              duration: Duration(seconds: 2),
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-              content: Text(
-                  'Datum dolaska je jednak današnjem datumu, ali vrijeme dolaska ne može biti manje od trenutnog vremena.'),
-              action: SnackBarAction(
-                label: 'Undo',
-                onPressed: () {},
-              ),
-            );
-            Scaffold.of(context).showSnackBar(snackBar);
-            onceToast = 1;
-            Timer(Duration(seconds: 2), () {
-              onceToast = 0;
-            });
-          }
-        } else if (DateFormat.Hm()
-                .format(t1)
-                .compareTo(DateFormat.Hm().format(DateTime.now())) ==
-            0) {
-          print(
-              'Vrijeme dolaska ne može biti jednako trenutnom vremenu, ako je datum dolaska jednak današnjem datumu.');
-          if (onceToast == 0) {
-            final snackBar = SnackBar(
-              duration: Duration(seconds: 2),
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-              content: Text(
-                  'Datum dolaska i vrijeme dolaska ne mogu biti jednaki današnjem datumu i trenutnom vremenu.'),
-              action: SnackBarAction(
-                label: 'Undo',
-                onPressed: () {},
-              ),
-            );
-            Scaffold.of(context).showSnackBar(snackBar);
-            onceToast = 1;
-            Timer(Duration(seconds: 2), () {
-              onceToast = 0;
-            });
-          }
-        } else {
-          print('Validacija ispravna');
-          if (onceBtnPressed == 0) {
-            print('btn kreiraj');
-            onSave();
-            createData();
-            onceBtnPressed = 1;
-          }
-        }
-      } else {
-        print('Validacija ispravna');
-        if (onceBtnPressed == 0) {
-          print('btn kreiraj');
-          onSave();
-          createData();
-          onceBtnPressed = 1;
-        }
-      }
-    }
+   
 
     /// RESPONSIVE
     ///
@@ -653,46 +424,10 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                   flex: 1,
                                   child: Column(
                                     children: <Widget>[
-                                      Container(
-                                        //smargin: EdgeInsets.only(bottom: 10.0),
-                                        child: Stack(
-                                          alignment: Alignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                                height: 20,
-                                                width: 20,
-                                                margin: EdgeInsets.only(
-                                                    right: 8, left: 16)),
-                                            Container(
-                                              height: 16,
-                                              width: 16,
-                                              child: Icon(
-                                                Icons.brightness_1,
-                                                color: Color.fromRGBO(
-                                                    3, 54, 255, 1.0),
-                                                size: 10.0,
-                                              ),
-                                            ),
-                                            Container(
-                                              child: Icon(
-                                                Icons.brightness_1,
-                                                color: Color.fromRGBO(
-                                                    3, 54, 255, 0.2),
-                                                size: 20.0,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 0),
-                                        height: 12,
-                                        width: 0,
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: Color.fromRGBO(
-                                                    0, 0, 0, 0.12))),
-                                      )
+                                     DestinationCircle(
+                                        largeCircle: StyleColors().blueColor2,
+                                        smallCircle: StyleColors().blueColor),
+                                    DestinationLine(),
                                     ],
                                   )),
                               Expanded(
@@ -767,46 +502,13 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                   flex: 1,
                                   child: Column(
                                     children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(left: 0),
-                                        height: 12,
-                                        width: 0,
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: Color.fromRGBO(
-                                                    0, 0, 0, 0.12))),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(bottom: 10.0),
-                                        child: Stack(
-                                          alignment: Alignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                                height: 20,
-                                                width: 20,
-                                                margin: EdgeInsets.only(
-                                                    right: 8, left: 16)),
-                                            Container(
-                                              height: 16,
-                                              width: 16,
-                                              child: Icon(
-                                                Icons.brightness_1,
-                                                color: Color.fromRGBO(
-                                                    174, 7, 37, 1.0),
-                                                size: 10.0,
-                                              ),
-                                            ),
-                                            Container(
-                                              child: Icon(
-                                                Icons.brightness_1,
-                                                color: Color.fromRGBO(
-                                                    174, 7, 37, 0.2),
-                                                size: 20.0,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
+                                       DestinationLine(),
+                                    DestinationCircle(
+                                      largeCircle:
+                                          StyleColors().destinationCircle2,
+                                      smallCircle:
+                                          StyleColors().destinationCircle1,
+                                    ),
                                     ],
                                   )),
                               Expanded(
@@ -957,7 +659,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                       );
                                       setState(() {
                                         timeD = time1.toString();
-                                        // if(timeD == def)
                                       });
                                       if (timeD == 'null') {
                                         timeD = '';
@@ -1263,7 +964,258 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
         // ),]
       ),
     );
+   
+   
+     
   }
+
+  validateDatesAndTimes(BuildContext context) {
+      t11 = DateFormat.Hm().format(t1);
+      t22 = DateFormat.Hm().format(t2);
+      DateTime now = DateTime.now();
+     
+      selectedDateP = new DateTime(
+          selectedDateP.year, selectedDateP.month, selectedDateP.day);
+      selectedDateD = new DateTime(
+          selectedDateD.year, selectedDateD.month, selectedDateD.day);
+      if (selectedDateD.isBefore(selectedDateP)) {
+        print('Datum dolaska ne može biti manji od datuma polaska.');
+        if (onceToast == 0) {
+          final snackBar = SnackBar(
+            duration: Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+            content: Text('Datum polaska ne može biti veći od datuma dolaska.'),
+            action: SnackBarAction(
+              label: 'Undo',
+              onPressed: () {},
+            ),
+          );
+          Scaffold.of(context).showSnackBar(snackBar);
+          onceToast = 1;
+          Timer(Duration(seconds: 2), () {
+            onceToast = 0;
+          });
+        }
+      } else if (selectedDateP.isAtSameMomentAs(selectedDateD)) {
+        if (DateFormat.Hm().format(t2).compareTo(DateFormat.Hm().format(t1)) >
+            0) {
+          print(
+              'Vrijeme polaska ne može biti veće od vremena dolaska, ako su datumi jednaki.');
+          if (onceToast == 0) {
+            final snackBar = SnackBar(
+              duration: Duration(seconds: 2),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+              content: Text(
+                  'Vrijeme polaska ne može biti veće od vremena dolaska, ako su datumi jednaki.'),
+              action: SnackBarAction(
+                label: 'Undo',
+                onPressed: () {},
+              ),
+            );
+            Scaffold.of(context).showSnackBar(snackBar);
+            onceToast = 1;
+            Timer(Duration(seconds: 2), () {
+              onceToast = 0;
+            });
+          }
+        } else if (DateFormat.Hm()
+                .format(t2)
+                .compareTo(DateFormat.Hm().format(t1)) ==
+            0) {
+          print('Datumi i vremena ne mogu biti jednaki.');
+          if (onceToast == 0) {
+            final snackBar = SnackBar(
+              duration: Duration(seconds: 2),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+              content: Text('Datumi i vremena ne mogu biti jednaki.'),
+              action: SnackBarAction(
+                label: 'Undo',
+                onPressed: () {},
+              ),
+            );
+            Scaffold.of(context).showSnackBar(snackBar);
+            onceToast = 1;
+            Timer(Duration(seconds: 2), () {
+              onceToast = 0;
+            });
+          }
+        } else {
+          print('Validacija ispravna');
+          if (onceBtnPressed == 0) {
+            print('btn kreiraj');
+            onSave();
+            FirebaseCrud().createData(
+                percentageVar,
+                capacityVar,
+                endingDestination,
+                startingDestination,
+                formatted,
+                formatted2,
+                t11,
+                t22,
+                dimensionsVar,
+                goodsVar,
+                vehicleVar,
+                userID,
+                listOfInterdestinations,
+                dateOfSubmit,
+               
+                context);
+            onceBtnPressed = 1;
+          }
+        }
+      } else if (selectedDateD
+          .isBefore(DateTime(now.year, now.month, now.day))) {
+        print('Datum dolaska ne može biti manji od današnjeg datuma.');
+        if (onceToast == 0) {
+          final snackBar = SnackBar(
+            duration: Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+            content:
+                Text('Datum dolaska ne može biti manji od današnjeg datuma.'),
+            action: SnackBarAction(
+              label: 'Undo',
+              onPressed: () {},
+            ),
+          );
+          Scaffold.of(context).showSnackBar(snackBar);
+          onceToast = 1;
+          Timer(Duration(seconds: 2), () {
+            onceToast = 0;
+          });
+        }
+      } else if (selectedDateD
+          .isAtSameMomentAs(DateTime(now.year, now.month, now.day))) {
+        if (DateFormat.Hm()
+                .format(t1)
+                .compareTo(DateFormat.Hm().format(DateTime.now())) <
+            0) {
+          print(
+              'Vrijeme dolaska ne može biti manji od trenutnog vremena, ako je datum dolaska jednako današnjem datumu.');
+          if (onceToast == 0) {
+            final snackBar = SnackBar(
+              duration: Duration(seconds: 2),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+              content: Text(
+                  'Datum dolaska je jednak današnjem datumu, ali vrijeme dolaska ne može biti manje od trenutnog vremena.'),
+              action: SnackBarAction(
+                label: 'Undo',
+                onPressed: () {},
+              ),
+            );
+            Scaffold.of(context).showSnackBar(snackBar);
+            onceToast = 1;
+            Timer(Duration(seconds: 2), () {
+              onceToast = 0;
+            });
+          }
+        } else if (DateFormat.Hm()
+                .format(t1)
+                .compareTo(DateFormat.Hm().format(DateTime.now())) ==
+            0) {
+          print(
+              'Vrijeme dolaska ne može biti jednako trenutnom vremenu, ako je datum dolaska jednak današnjem datumu.');
+          if (onceToast == 0) {
+            final snackBar = SnackBar(
+              duration: Duration(seconds: 2),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+              content: Text(
+                  'Datum dolaska i vrijeme dolaska ne mogu biti jednaki današnjem datumu i trenutnom vremenu.'),
+              action: SnackBarAction(
+                label: 'Undo',
+                onPressed: () {},
+              ),
+            );
+            Scaffold.of(context).showSnackBar(snackBar);
+            onceToast = 1;
+            Timer(Duration(seconds: 2), () {
+              onceToast = 0;
+            });
+          }
+        } else {
+          print('Validacija ispravna');
+          if (onceBtnPressed == 0) {
+            print('btn kreiraj');
+            onSave();
+            FirebaseCrud().createData(
+                percentageVar,
+                capacityVar,
+                endingDestination,
+                startingDestination,
+                formatted,
+                formatted2,
+                t11,
+                t22,
+                dimensionsVar,
+                goodsVar,
+                vehicleVar,
+                userID,
+                listOfInterdestinations,
+                dateOfSubmit,
+           
+                context);
+            onceBtnPressed = 1;
+          }
+        }
+      } else {
+        print('Validacija ispravna');
+        if (onceBtnPressed == 0) {
+          print('btn kreiraj');
+          onSave();
+          FirebaseCrud().createData(
+              percentageVar,
+              capacityVar,
+              endingDestination,
+              startingDestination,
+              formatted,
+              formatted2,
+              t11,
+              t22,
+              dimensionsVar,
+              goodsVar,
+              vehicleVar,
+              userID,
+              listOfInterdestinations,
+              dateOfSubmit,
+              context);
+          onceBtnPressed = 1;
+        }
+      }
+    }
+
+   /// metoda koja provjerava da li je aktivan counter za screen aktivan
+  setScreenSize() {
+    if (!_screenUtilActive)
+      Constant.setScreenAwareConstant(context);
+    else
+      Constant.setDefaultSize(context);
+    setState(() {
+      _screenUtilActive = !_screenUtilActive;
+    });
+  }
+
+  /// metoda pomocu koje uzimamo ID od trenutno logovane kompanije/usera
+  ///
+  /// ulazimo u [Auth] dio firebase i na osnovu toga izvlacimo sve info o user u nasem slucaju kompaniji
+  /// nakon cega dohvatamo kolekciju [LoggedUsers] i uzimamo [user.uid] i spremamo ga u varijablu [userID]
+  getUserid() async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final FirebaseUser user = await _auth.currentUser();
+
+    Firestore.instance
+        .collection('LoggedUsers')
+        .document(user.uid)
+        .snapshots()
+        .toString();
+    userID = user.uid;
+  }
+
 
   ///on save forms
   void onSave() {
@@ -1300,39 +1252,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
     } else {
       _isBtnDisabled = true;
     }
-  }
-
-  // funkcija koja snima informacije u bazu
-  createData() async {
-    DocumentReference ref = await db.collection('Rute').add({
-      'availability': '$percentageVar',
-      'capacity': '$capacityVar',
-      'ending_destination': '$endingDestination',
-      'starting_destination': '$startingDestination',
-      'interdestination': '$listOfInterdestinations',
-      'arrival_date': '$formatted2',
-      'arrival_time': '$t11',
-      'departure_time': '$t22',
-      'departure_date': '$formatted',
-      'dimensions': '$dimensionsVar',
-      'goods': '$goodsVar',
-      'vehicle': '$vehicleVar',
-      'user_id': '$userID',
-      'timestamp': '$dateOfSubmit',
-    });
-    setState(() => id = ref.documentID);
-    print(ref.documentID);
-    print('Unos uspjesan');
-
-    // navigiramo do ShowLoadingRoutes i saljemo userID i id
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => ShowLoadingRoutes(
-                userID: userID,
-                id: id,
-              )),
-    );
   }
 
   /// na promjenu dropdown-a

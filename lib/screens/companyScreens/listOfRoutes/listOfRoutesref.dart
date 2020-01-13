@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/screens/companyScreens/editCompany/editRoutes.dart';
+import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 
 void main() => runApp(ListOfRoutesRef());
 
@@ -33,36 +34,11 @@ class ListOfRoutesRef extends StatefulWidget {
   _ListOfRoutesRefState createState() => _ListOfRoutesRefState(userID: userID);
 }
 
-getUserid() async {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseUser user = await _auth.currentUser();
-
-//   Firestore.instance
-//       .collection('LoggedUsers')
-//       .document(user.uid)
-//       .snapshots()
-//       .toString();
-//   userID = user.uid;
-}
-
 class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
   String userID;
   _ListOfRoutesRefState({this.userID});
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Future getPosts(String id) async {
-    var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore
-        .collection('Rute')
-        .where('user_id', isEqualTo: id)
-        .orderBy('timestamp', descending: true)
-        .getDocuments();
-    return qn.documents;
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -227,7 +203,8 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                           onTap: () => Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => EditRoute(
-                                      post: snapshot.data[index],
+
+                                      post: snapshot.data[index], 
                                       userID: userID))),
                           child: Container(
                             child: Padding(
@@ -300,7 +277,19 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
             }
           },
         ),
-      )
+
+      ),
     ]);
+  }
+
+   Future getPosts(String id) async {
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore
+        .collection('Rute')
+        .where('user_id', isEqualTo: id)
+        .orderBy('timestamp', descending: true)
+        .getDocuments();
+    return qn.documents;
+
   }
 }

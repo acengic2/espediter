@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_container/responsive_container.dart';
+import 'package:spediter/components/crud/firebaseCrud.dart';
 import 'package:spediter/components/destinationCircles.dart';
 import 'package:spediter/components/destinationLines.dart';
 import 'package:spediter/components/divider.dart';
@@ -14,8 +14,6 @@ import 'package:spediter/components/inderdestination.dart';
 import 'package:spediter/components/vehicle.dart';
 import 'package:spediter/screens/companyScreens/createRoute/interdestinatonForm.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
 import 'package:spediter/theme/style.dart';
 import 'package:spediter/utils/screenUtils.dart';
 
@@ -94,11 +92,11 @@ class _EditRouteFormState extends State<EditRouteForm> {
   String t11;
   String t22;
 
+  double capacityDouble;
+
   /// DateTime tip datuma (radi validacije)
   DateTime selectedDateP;
   DateTime selectedDateD;
-  DateTime startDateCompare;
-  DateTime endDateCompare;
   DateTime t1;
   DateTime t2;
 
@@ -138,6 +136,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
         onTap: () {
           FocusScope.of(context).requestFocus(new FocusNode());
           onceToast = 0;
+
         },
         child: ListView(
           children: <Widget>[
@@ -182,13 +181,16 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                   ),
                                   format: format,
                                   onShowPicker: (context, currentValue) async {
-                                    final DateTime picked =
+                                    DateTime picked =
                                         await showDatePicker(
                                             locale: Locale('bs'),
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(2018),
                                             lastDate: DateTime(2100));
+                                            if (picked == null) {
+                                        picked = DateTime.now();
+                                      }
 
                                     setState(() {
                                       selectedDateP = picked;
@@ -209,7 +211,8 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                     return selectedDateP;
                                   },
                                   onChanged: (input) {
-                                    startDateCompare = input;
+                                    print(formatted);
+                                    print(selectedDateP);
                                     onceToast = 0;
                                     onceBtnPressed = 0;
                                     areFieldsEmpty();
@@ -449,13 +452,16 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                   ),
                                   format: format,
                                   onShowPicker: (context, currentValue) async {
-                                    final DateTime picked =
+                                    DateTime picked =
                                         await showDatePicker(
                                             locale: Locale('bs'),
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(2018),
                                             lastDate: DateTime(2100));
+                                            if (picked == null) {
+                                        picked = DateTime.now();
+                                      }
                                     setState(() {
                                       selectedDateD = picked;
                                       if (selectedDateD == null) {
@@ -476,7 +482,14 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                     return selectedDateD;
                                   },
                                   onChanged: (input) {
-                                    endDateCompare = input;
+                                    // selectedDateP = new DateTime(
+                                    // selectedDateP.year,
+                                    // selectedDateP.month,
+                                    // selectedDateP.day);
+                                    // selectedDateD = new DateTime(
+                                    // selectedDateD.year,
+                                    // selectedDateD.month,
+                                    // selectedDateD.day);
                                     onceToast = 0;
                                     onceBtnPressed = 0;
                                     areFieldsEmpty();
@@ -519,7 +532,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                     );
                                     setState(() {
                                       timeD = time1.toString();
-                                      // if(timeD == def)
                                     });
                                     if (timeD == 'null') {
                                       timeD = '';
@@ -619,8 +631,10 @@ class _EditRouteFormState extends State<EditRouteForm> {
                           onChanged: (input) {
                             setState(() {
                               capacityVar = input;
-
-                              double capacityDouble = double.parse(capacityVar);
+                              if(capacityVar.contains(',')) {
+                                capacityVar = capacityVar.replaceFirst(',', '.');
+                              }
+                              capacityDouble = double.parse(capacityVar);
                               if (capacityDouble >= 10) {
                                 capacityDouble = capacityDouble / 10.0;
                               }
@@ -656,7 +670,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                             padding:
                                 const EdgeInsets.only(left: 10.0, top: 5.0),
                             child: DropdownButton(
-                              // JUSUF - Izbacio ubacio hint i disabledHint:
                               hint: Text(widget.post.data['vehicle']),
                               disabledHint: Text('Vrsta Vozila'),
                               value: _selectedVehicle,
@@ -817,12 +830,46 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                             onceToast = 0;
                                           });
                                         }
+                                      } else if(capacityDouble < 0.0 || capacityDouble > 7.0) {
+                                        final snackBar = SnackBar(
+                                            duration: Duration(seconds: 2),
+                                            behavior: SnackBarBehavior.floating,
+                                            backgroundColor:
+                                                Color.fromRGBO(28, 28, 28, 1.0),
+                                            content: Text(
+                                                'Unesite broj od 0.0 do 7.0'),
+                                            action: SnackBarAction(
+                                              label: 'Undo',
+                                              onPressed: () {},
+                                            ),
+                                          );
+                                          Scaffold.of(context)
+                                              .showSnackBar(snackBar);
+
+                                          onceToast = 1;
+                                          Timer(Duration(seconds: 2), () {
+                                            onceToast = 0;
+                                          });
                                       } else {
                                         if (onceBtnPressed == 0) {
-                                          updateData(widget.post);
+                                          FirebaseCrud().updateData(
+                                              widget.post,
+                                              percentageVar,
+                                              capacityVar,
+                                              endingDestination,
+                                              startingDestination,
+                                              formatted,
+                                              formatted2,
+                                              t11,
+                                              t22,
+                                              dimensionsVar,
+                                              goodsVar,
+                                              vehicleVar,
+                                              userID,
+                                              dateOfSubmit);
                                           onceBtnPressed = 1;
                                         }
-                                        // validateDatesAndTimes(context);
+                                        //validateDatesAndTimes(context);
 
                                       }
                                     }),
@@ -861,9 +908,23 @@ class _EditRouteFormState extends State<EditRouteForm> {
                               onPressed: () {
                                 if (onceBtnPressed == 0) {
                                   // ubacujemo u FinishedRoutes
-                                  finishedData();
+                                  FirebaseCrud().finishedData(
+                                      percentageVar,
+                                      capacityVar,
+                                      endingDestination,
+                                      startingDestination,
+                                      formatted,
+                                      formatted2,
+                                      t11,
+                                      t22,
+                                      dimensionsVar,
+                                      goodsVar,
+                                      vehicleVar,
+                                      userID,
+                                      dateOfSubmit);
                                   // brisemo iz Rute
-                                  deleteData(widget.post);
+                                  FirebaseCrud()
+                                      .deleteData(widget.post, userID, context);
                                   onceBtnPressed = 1;
                                 }
                               }),
@@ -959,7 +1020,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
   ///dispose back btn-a nakon njegovog koristenja
   @override
   void dispose() {
-    BackButtonInterceptor.remove(myInterceptor);
     super.dispose();
     _textController.dispose();
   }
@@ -1010,95 +1070,5 @@ class _EditRouteFormState extends State<EditRouteForm> {
       items.add(DropdownMenuItem(value: vehicle, child: Text(vehicle.name)));
     }
     return items;
-  }
-
-  /// bool f-ja koju smo ubacili u [BackButtonInterceptor], koja mora vratiti true ili false.
-  /// u kojoj na klik back btn-a
-  /// provjeravamo da li company ima rute ili ne i na osnovu toga ih
-  /// redirectamo na [NoRoutes] ili na [ListOfRoutes]
-  bool myInterceptor(bool stopDefaultButtonEvent) {
-    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-      if (docs.documents.isNotEmpty) {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ListOfRoutes(
-                  userID: userID,
-                )));
-      } else {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
-      }
-    });
-    return true;
-  }
-
-  updateData(DocumentSnapshot doc) async {
-    await db.collection('Rute').document(doc.documentID).updateData({
-      'availability': '$percentageVar',
-      'capacity': '$capacityVar',
-      'ending_destination': '$endingDestination',
-      'starting_destination': '$startingDestination',
-      // 'interdestination': '$listOfInterdestinations',
-      'arrival_date': '$formatted2',
-      'arrival_time': '$t11',
-      'departure_time': '$t22',
-      'departure_date': '$formatted',
-      'dimensions': '$dimensionsVar',
-      'goods': '$goodsVar',
-      'vehicle': '$vehicleVar',
-      'user_id': '$userID',
-      'timestamp': '$dateOfSubmit',
-    });
-    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-      if (docs.documents.isNotEmpty) {
-        print('NOT EMPRY');
-        imaliRuta = true;
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ListOfRoutes(
-                    userID: userID,
-                  )),
-        );
-      } else {
-        imaliRuta = false;
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
-      }
-    });
-  }
-
-  finishedData() async {
-    DocumentReference ref = await db.collection('FinishedRoutes').add({
-      'availability': '$percentageVar',
-      'capacity': '$capacityVar',
-      'ending_destination': '$endingDestination',
-      'starting_destination': '$startingDestination',
-      // 'interdestination': '$listOfInterdestinations',
-      'arrival_date': '$formatted2',
-      'arrival_time': '$t11',
-      'departure_time': '$t22',
-      'departure_date': '$formatted',
-      'dimensions': '$dimensionsVar',
-      'goods': '$goodsVar',
-      'vehicle': '$vehicleVar',
-      'user_id': '$userID',
-      'timestamp': '$dateOfSubmit',
-    });
-    setState(() => id = ref.documentID);
-  }
-
-  // funkcija koja brise iz Rute
-  //potrebno joj je proslijediti doc.ID
-  void deleteData(DocumentSnapshot doc) async {
-    await db.collection('Rute').document(doc.documentID).delete();
-    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-      if (docs.documents.isNotEmpty) {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ListOfRoutes(userID: userID)));
-      } else {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
-      }
-    });
   }
 }
