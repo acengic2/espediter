@@ -174,9 +174,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
   /// counter da li je btn diiseblan ili ne
   bool _isBtnDisabled = true;
 
- 
-  
-
   /// initState metoda - lifecycle metoda koja se izvrsi prije nego se load-a sam screen
   /// u njoj pozivamo metodu [getUserID()] , seta mo [Toast] counter na 0,
   /// ubacujemo u dropdown listu [_dropdownMenuItems] vozila,
@@ -188,13 +185,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
     getUserid();
     onceToast = 0;
     // BackButtonInterceptor.add(myInterceptor);
-  }
-
-  ///dispose back btn-a nakon njegovog koristenja
-  @override
-  void dispose() {
-    print('Ovdje sam ');
-    super.dispose();
   }
 
   /// lista vozila
