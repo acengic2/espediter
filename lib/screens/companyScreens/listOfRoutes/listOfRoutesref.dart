@@ -27,7 +27,7 @@ final middleSection = new Container();
 final rightSection = new Container();
 
 class ListOfRoutesRef extends StatefulWidget {
-  String userID;
+  final String userID;
   ListOfRoutesRef({this.userID});
   @override
   _ListOfRoutesRefState createState() => _ListOfRoutesRefState(userID: userID);
@@ -93,10 +93,8 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                     String dateReversed = date.split('/').reversed.join();
                     String departureDate = DateFormat("d MMM")
                         .format(DateTime.parse(dateReversed));
-
                     // KAPACITET
                     capacityString = snapshot.data[index].data['capacity'];
-
                     final leftSection = new Container(
                         height: 32,
                         width: 62,

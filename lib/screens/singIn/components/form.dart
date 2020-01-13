@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spediter/components/loadingScreens/loading.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
-import 'package:spediter/components/snackBar.dart';
 
 import '../../../theme/style.dart';
 

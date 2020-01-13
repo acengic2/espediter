@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
@@ -12,7 +11,6 @@ import 'package:spediter/components/destinationCircles.dart';
 import 'package:spediter/components/destinationLines.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/inderdestination.dart';
-import 'package:spediter/components/snackBar.dart';
 import 'package:spediter/components/vehicle.dart';
 import 'package:spediter/screens/companyScreens/createRoute/interdestinatonForm.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
@@ -164,7 +162,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                 padding: EdgeInsets.only(left: 4.0, right: 4.0),
                                 child: DateTimeField(
                                   initialValue: DateTime.parse(
-                                                widget.post.data['departure_date']),
+                                      widget.post.data['departure_date']),
                                   textCapitalization: TextCapitalization.words,
                                   style: TextStyle(
                                       fontSize:
@@ -285,7 +283,9 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                 flex: 1,
                                 child: Column(
                                   children: <Widget>[
-                                    DestinationCircle(largeCircle: StyleColors().blueColor2, smallCircle: StyleColors().blueColor),
+                                    DestinationCircle(
+                                        largeCircle: StyleColors().blueColor2,
+                                        smallCircle: StyleColors().blueColor),
                                     DestinationLine(),
                                   ],
                                 )),
@@ -306,17 +306,19 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4.0)),
                                             borderSide: BorderSide(
-                                                color: StyleColors().textColorGray12),
+                                                color: StyleColors()
+                                                    .textColorGray12),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(4.0)),
                                               borderSide: BorderSide(
-                                                  color: StyleColors().textColorGray12)),
+                                                  color: StyleColors()
+                                                      .textColorGray12)),
                                           labelText: 'Startna destinacija',
                                           labelStyle: TextStyle(
-                                              color:
-                                                  StyleColors().textColorGray50),
+                                              color: StyleColors()
+                                                  .textColorGray50),
                                           border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(5.0))),
@@ -362,7 +364,12 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                 child: Column(
                                   children: <Widget>[
                                     DestinationLine(),
-                                    DestinationCircle(largeCircle: StyleColors().destinationCircle2, smallCircle: StyleColors().destinationCircle1,),
+                                    DestinationCircle(
+                                      largeCircle:
+                                          StyleColors().destinationCircle2,
+                                      smallCircle:
+                                          StyleColors().destinationCircle1,
+                                    ),
                                   ],
                                 )),
                             Expanded(
@@ -383,17 +390,19 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(4.0)),
                                             borderSide: BorderSide(
-                                                color: StyleColors().textColorGray12),
+                                                color: StyleColors()
+                                                    .textColorGray12),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(4.0)),
                                               borderSide: BorderSide(
-                                                  color: StyleColors().textColorGray12)),
+                                                  color: StyleColors()
+                                                      .textColorGray12)),
                                           labelText: 'Krajnja destinacija',
                                           labelStyle: TextStyle(
-                                              color:
-                                                  StyleColors().textColorGray50),
+                                              color: StyleColors()
+                                                  .textColorGray50),
                                           border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(5.0))),
@@ -468,14 +477,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                   },
                                   onChanged: (input) {
                                     endDateCompare = input;
-                                    selectedDateP = new DateTime(
-                                        selectedDateP.year,
-                                        selectedDateP.month,
-                                        selectedDateP.day);
-                                    selectedDateD = new DateTime(
-                                        selectedDateD.year,
-                                        selectedDateD.month,
-                                        selectedDateD.day);
                                     onceToast = 0;
                                     onceBtnPressed = 0;
                                     areFieldsEmpty();
@@ -540,6 +541,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                       ),
 
                       /// DIVIDER
+                      Divider1(thickness: 1, height: 1),
                       Divider1(thickness: 8, height: 8),
 
                       /// Popunjenost u procentimaaaaaaaaaaaaaaaaa
@@ -623,7 +625,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                 capacityDouble = capacityDouble / 10.0;
                               }
                               capacityVar = capacityDouble.toString();
-
                               onceToast = 0;
                               onceBtnPressed = 0;
                               areFieldsEmpty();
@@ -796,18 +797,20 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                       if (percentageVar < 0 ||
                                           percentageVar > 100) {
                                         if (onceToast == 0) {
-                                           final snackBar = SnackBar(
-              duration: Duration(seconds: 2),
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-              content: Text(
-                  'Unesite broj od 0 do 100'),
-              action: SnackBarAction(
-                label: 'Undo',
-                onPressed: () {},
-              ),
-            );
-            Scaffold.of(context).showSnackBar(snackBar);
+                                          final snackBar = SnackBar(
+                                            duration: Duration(seconds: 2),
+                                            behavior: SnackBarBehavior.floating,
+                                            backgroundColor:
+                                                Color.fromRGBO(28, 28, 28, 1.0),
+                                            content: Text(
+                                                'Unesite broj od 0 do 100'),
+                                            action: SnackBarAction(
+                                              label: 'Undo',
+                                              onPressed: () {},
+                                            ),
+                                          );
+                                          Scaffold.of(context)
+                                              .showSnackBar(snackBar);
 
                                           onceToast = 1;
                                           Timer(Duration(seconds: 2), () {
@@ -818,7 +821,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                         if (onceBtnPressed == 0) {
                                           updateData(widget.post);
                                           onceBtnPressed = 1;
-                                          _isBtnDisabled = true;
                                         }
                                         // validateDatesAndTimes(context);
 
@@ -1023,7 +1025,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                 )));
       } else {
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => NoRoutes()));
+            .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
       }
     });
     return true;
@@ -1045,6 +1047,23 @@ class _EditRouteFormState extends State<EditRouteForm> {
       'vehicle': '$vehicleVar',
       'user_id': '$userID',
       'timestamp': '$dateOfSubmit',
+    });
+    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+      if (docs.documents.isNotEmpty) {
+        print('NOT EMPRY');
+        imaliRuta = true;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ListOfRoutes(
+                    userID: userID,
+                  )),
+        );
+      } else {
+        imaliRuta = false;
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
+      }
     });
   }
 
@@ -1078,7 +1097,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
             builder: (context) => ListOfRoutes(userID: userID)));
       } else {
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => NoRoutes()));
+            .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
       }
     });
   }
