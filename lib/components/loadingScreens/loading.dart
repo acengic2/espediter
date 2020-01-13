@@ -77,6 +77,7 @@ class _ShowLoading extends State<ShowLoading> {
         .snapshots()
         .toString();
     usID = user.uid;
+
   }
 
   /// metoda koja provjerava rolu, odnosno ulogu logovanog user-a
@@ -87,7 +88,7 @@ class _ShowLoading extends State<ShowLoading> {
   /// query gdje je role == 'company'
   /// limitiramo pretraguna 1 dokument
   checkForRole() {
-    checkForID();
+    checkForID(); 
     return Firestore.instance
         .collection('LoggedUsers')
         .where('role', isEqualTo: 'company')

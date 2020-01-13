@@ -201,6 +201,7 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                     return Column(
                       children: <Widget>[
                         GestureDetector(
+                          behavior: HitTestBehavior.opaque,
                           onTap: () => Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => EditRoute(
@@ -208,6 +209,7 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                                       post: snapshot.data[index], 
                                       userID: userID))),
                           child: Container(
+                              
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(

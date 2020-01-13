@@ -176,15 +176,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
 
  
   
-  
-
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
-      }
-    });
-    // Do some stuff.
-    return true;
-  }
 
   /// initState metoda - lifecycle metoda koja se izvrsi prije nego se load-a sam screen
   /// u njoj pozivamo metodu [getUserID()] , seta mo [Toast] counter na 0,
