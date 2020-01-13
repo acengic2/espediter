@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:core';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:spediter/components/crud/firebaseCrud.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/snackBar.dart';
 import 'package:spediter/screens/companyScreens/companyInfo/components/hardCodedPart.dart';
@@ -15,7 +15,6 @@ import 'package:spediter/screens/singIn/signIn.dart';
 import 'package:spediter/theme/style.dart';
 import 'package:spediter/utils/screenUtils.dart';
 import 'package:flutter/rendering.dart';
-import 'package:back_button_interceptor/back_button_interceptor.dart';
 
 void main() => runApp(CompanyInfo());
 
@@ -93,8 +92,8 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
       companyName,
       urlLogo,
       companyDescription,
-      mail;
-  String phoneLast,
+      mail,
+      phoneLast,
       webPageLast,
       locationLast,
       companyNameLast,
@@ -598,8 +597,18 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                                       }
                                                     } else {
                                                       if (onceBtnPressed == 0) {
-                                                        updateData(snapshot
-                                                            .data[index]);
+                                                        FirebaseCrud()
+                                                            .updateDataCompanyInfo(
+                                                                snapshot.data[
+                                                                    index],
+                                                                companyDescriptionLast,
+                                                                companyNameLast,
+                                                                mailLast,
+                                                                locationLast,
+                                                                phoneLast,
+                                                                urlLogoLast,
+                                                                webPageLast,
+                                                                _isBtnDisabled);
                                                         _isBtnDisabled = true;
                                                         onceBtnPressed = 1;
                                                       }
@@ -623,7 +632,12 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                     );
                   } else {
                     return SizedBox(
-                      child: Center(child: CircularProgressIndicator()),
+                      child: Center(
+                          child: CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                          StyleColors().progressBar,
+                        ),
+                      )),
                     );
                   }
                 })),
@@ -650,19 +664,5 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
     } else {
       _isBtnDisabled = false;
     }
-  }
-
-  //  funckija za update todo
-  updateData(DocumentSnapshot doc) async {
-    await db.collection('Company').document(doc.documentID).updateData({
-      'company_description': '$companyDescriptionLast',
-      'company_name': '$companyNameLast',
-      'email': '$mailLast',
-      'location': '$locationLast',
-      'phone': '$phoneLast',
-      'url_logo': '$urlLogoLast',
-      'webpage': '$webPageLast',
-    });
-    _isBtnDisabled = true;
   }
 }

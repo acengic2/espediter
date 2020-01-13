@@ -4,9 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:spediter/components/loadingScreens/loading.dart';
+import 'package:spediter/components/crud/signInMethods.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
-import 'package:spediter/components/snackBar.dart';
 
 import '../../../theme/style.dart';
 
@@ -338,7 +337,14 @@ class _FormState extends State<FormLogIn> {
 
                         else {
                           if (onceBtnPressed == 0) {
-                            signIn(_email, _password, userExist);
+                            SignInMethods().signIn(
+                                                   _email, 
+                                                   _password, 
+                                                   _formKey,
+                                                   userID, 
+                                                   err, 
+                                                   context
+                                                   );
                             onceBtnPressed = 1;
                           }
                         }
@@ -356,7 +362,7 @@ class _FormState extends State<FormLogIn> {
               Column(
                 children: <Widget>[
                   FutureBuilder(
-                    future: doesPassAlreadyExist(_password),
+                    future: SignInMethods().doesPassAlreadyExist(_password),
                     builder: (context, AsyncSnapshot<bool> result) {
                       if (!result.hasData) {
                         onceToast = 0;
@@ -404,7 +410,7 @@ class _FormState extends State<FormLogIn> {
               Column(
                 children: <Widget>[
                   FutureBuilder(
-                    future: doesNameAlreadyExist(_email),
+                    future: SignInMethods().doesNameAlreadyExist(_email),
                     builder: (context, AsyncSnapshot<bool> result) {
                       if (!result.hasData) {
                         onceToast = 0;
@@ -450,69 +456,7 @@ class _FormState extends State<FormLogIn> {
     ); //FORM
   }
 
-  /// SIGNIN metoda
-  ///
-  /// metoda koja prima email i password
-  /// async metoda
-  /// ukoliko su validacije koje smo kreirali na textFormFields prosle
-  /// onda prelazimo na upis email-a i passworda u bazu [Auth dio baze]
-  /// nakon upisa povratnu informaciju spremamo u result, zatim sve informacije vezane za usera spremamo
-  /// u varijablu [FirebaseUser user], nakon cega izvlacimo ID, email, i user info
-  /// ukoliko sve ovo bude uspjesno, navigiramo na slj screen [ShowLoadingScreen]
-  /// cjelokupna metoda upisa je umotana u try-catch blok
-  /// catch-amo error ukoliko ga ima i printamo u konzolu
-  signIn(_email, _password, userExist) async {
-    final _formState = _formKey.currentState;
-    if (_formState.validate()) {
-      print('OVDJE SAM');
-      try {
-        AuthResult result = await _auth.signInWithEmailAndPassword(
-            email: _email, password: _password);
-        FirebaseUser user = result.user;
-        String userEmail = user.email;
-        userID = user.uid;
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) =>
-                ShowLoading(user: user, email: userEmail, userID: userID)));
-      } catch (e) {
-        err = e.message;
-      }
-    }
-  }
+  
 
-  /// provjera emaila
-  ///
-  /// ovdje nam se nalazi logika za provjeru email-a,
-  /// odnosno da li user zaista postoji u bazi
-  /// metoda je tipa bool
-  /// spajamo se na kolekciju [LoggedUsers], gdje postavljamo query
-  /// da li je email == unesenom email-u
-  /// limitiramo nasu pretragu na 1 document i vracamo
-  Future<bool> doesNameAlreadyExist(String name) async {
-    final QuerySnapshot result = await Firestore.instance
-        .collection('LoggedUsers')
-        .where('email', isEqualTo: name)
-        .limit(1)
-        .getDocuments();
-    final List<DocumentSnapshot> documents = result.documents;
-    return documents.length == 1;
-  }
-
-  /// provjera sifre
-  ///
-  /// ovdje nam se nalazi logika za provjeru passworda,
-  /// odnosno da li pass zaista postoji u bazi
-  /// metoda je tipa bool
-  /// spajamo se na kolekciju [LoggedUsers], gdje postavljamo query
-  /// da li je pass == unesenom passwordu
-  /// limitiramo nasu pretragu na 1 document i vracamo
-  Future<bool> doesPassAlreadyExist(String name) async {
-    final QuerySnapshot result = await Firestore.instance
-        .collection('LoggedUsers')
-        .where('password', isEqualTo: name)
-        .limit(1)
-        .getDocuments();
-    final List<DocumentSnapshot> documents = result.documents;
-    return documents.length == 1;
-  }
+  
 }
