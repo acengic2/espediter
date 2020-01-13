@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/components/bottomAppBar.dart';
@@ -21,23 +23,9 @@ class NoRoutes extends StatefulWidget {
       _NoRoutesScreenPageState(userID: userID);
 }
 
-// class NoRoutes extends StatelessWidget {
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'Ruta|Prazno',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: NoRoutesScreenPage(title: 'Rute|Prazno'),
-//     );
-//   }
-// }
-
 class _NoRoutesScreenPageState extends State<NoRoutes> {
   final String userID;
+  DateTime currentBackPressTime;
 
   _NoRoutesScreenPageState({this.userID});
 
@@ -52,67 +40,80 @@ class _NoRoutesScreenPageState extends State<NoRoutes> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      body: Container(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Nemate ruta',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: "Roboto",
-                        color: StyleColors().textColorGray80),
-                  ),
-                  Padding(
-                      padding: EdgeInsets.only(top: 8.0, bottom: 16.0),
-                      child: Container(
-                        width: 328,
-                        child: Text(
-                          noRoutesString,
-                          textAlign: TextAlign.center,
+    return WillPopScope(
+      onWillPop: _onWillPop,
+          child: Scaffold(
+        resizeToAvoidBottomPadding: false,
+        body: Container(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'Nemate ruta',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: "Roboto",
+                          color: StyleColors().textColorGray80),
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(top: 8.0, bottom: 16.0),
+                        child: Container(
+                          width: 328,
+                          child: Text(
+                            noRoutesString,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: "Roboto",
+                                color: StyleColors().textColorGray60),
+                          ),
+                        )),
+                    ButtonTheme(
+                      minWidth: 154.0,
+                      height: 36.0,
+                      child: RaisedButton.icon(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateRoute()),
+                          );
+                        },
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
+                        label: Text(
+                          "KREIRAJ RUTU",
                           style: TextStyle(
                               fontSize: 14,
                               fontFamily: "Roboto",
-                              color: StyleColors().textColorGray60),
+                              color: Colors.white),
                         ),
-                      )),
-                  ButtonTheme(
-                    minWidth: 154.0,
-                    height: 36.0,
-                    child: RaisedButton.icon(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CreateRoute()),
-                        );
-                      },
-                      icon: Icon(
-                        Icons.add,
-                        color: Colors.white,
+                        color: StyleColors().blueColor,
                       ),
-                      label: Text(
-                        "KREIRAJ RUTU",
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontFamily: "Roboto",
-                            color: Colors.white),
-                      ),
-                      color: StyleColors().blueColor,
-                    ),
-                  )
-                ]),
+                    )
+                  ]),
+            ),
           ),
         ),
+        bottomNavigationBar: BottomAppBar1(userID: userID),
+        floatingActionButton: FloatingActionButton1(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       ),
-      bottomNavigationBar: BottomAppBar1(userID: userID),
-      floatingActionButton: FloatingActionButton1(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
+  }
+  Future<bool> _onWillPop() async {
+     DateTime now = DateTime.now();
+    if (currentBackPressTime == null || 
+        now.difference(currentBackPressTime) > Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      return Future.value(false);
+    }
+    exit(0);
+    return Future.value(true);
   }
 }

@@ -22,13 +22,15 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
   String userID;
   DocumentSnapshot snapi;
   String st = '';
+  bool onlyOnce = true;
+  DateTime currentBackPressTime;
 
   _ListOfRoutesState({this.userID});
 
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
-   @override
+  @override
   void initState() {
     _onRefresh();
     super.initState();
@@ -68,7 +70,7 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
                                       setState(() {
                                         snapi = snapshot.data[index];
                                       });
-                                     
+
                                       return Container(
                                         width: 0,
                                         height: 0,
@@ -96,54 +98,48 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
   }
 
   Future<bool> _onWillPop() async {
-    return (await showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            content: new Text('Da li želite da napustite aplikaciju?'),
-            actions: <Widget>[
-              new FlatButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('Ne'),
-              ),
-              new FlatButton(
-                onPressed: () => exit(0),
-                child: new Text('Da'),
-              ),
-            ],
-          ),
-        )) ??
-        false;
+      DateTime now = DateTime.now();
+    if (currentBackPressTime == null || 
+        now.difference(currentBackPressTime) > Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      return Future.value(false);
+    }
+    exit(0);
+    return Future.value(true);
   }
-   
-    void _onRefresh() async {
+
+  void _onRefresh() async {
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000));
-    print('sfjbsakjfbsjkbfjksdbfkjsbdjf');
     //print(snapi.data);
     CompanyRoutes().deleteRouteOnDateMatch(snapi, userID, context);
-    CompanyRoutes().insertIntoFinishOnDateMatch(
-        snapi,
-        int.parse(snapi.data['availability']),
-        snapi.data['capacity'],
-        snapi.data['ending_destination'],
-        snapi.data['starting_destination'],
-        snapi.data['departure_date'],
-        snapi.data['arrival_date'],
-        snapi.data['departure_time'],
-        snapi.data['departure_time'],
-        snapi.data['dimensions'],
-        snapi.data['goods'],
-        snapi.data['vehicle'],
-        userID,
-        int.parse(snapi.data['timestamp']));
+    if (onlyOnce) {
+      CompanyRoutes().insertIntoFinishOnDateMatch(
+          snapi,
+          int.parse(snapi.data['availability']),
+          snapi.data['capacity'],
+          snapi.data['ending_destination'],
+          snapi.data['starting_destination'],
+          snapi.data['departure_date'],
+          snapi.data['arrival_date'],
+          snapi.data['departure_time'],
+          snapi.data['departure_time'],
+          snapi.data['dimensions'],
+          snapi.data['goods'],
+          snapi.data['vehicle'],
+          userID,
+          int.parse(snapi.data['timestamp']));
+          onlyOnce = false;
+    }
+
     setState(() {
-       st = 'rendered';
+      st = 'rendered';
     });
     // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
   }
 
-   Future getPosts(String id) async {
+  Future getPosts(String id) async {
     var firestore = Firestore.instance;
     QuerySnapshot qn = await firestore
         .collection('Rute')
