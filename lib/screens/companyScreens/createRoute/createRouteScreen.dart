@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:core';
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,6 +16,7 @@ import 'package:spediter/components/destinationCircles.dart';
 import 'package:spediter/components/destinationLines.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/inderdestination.dart';
+import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
@@ -916,12 +918,26 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                 ),
                                 onPressed: _isBtnDisabled
                                     ? null
-                                    : () {
+                                    : () async {
                                         FocusScopeNode currentFocus =
                                             FocusScope.of(context);
                                         if (!currentFocus.hasPrimaryFocus) {
                                           currentFocus.unfocus();
                                         }
+
+                                         try {
+                                        final result =
+                                            await InternetAddress.lookup(
+                                                'google.com');
+
+                                        if (result.isNotEmpty &&
+                                            result[0].rawAddress.isNotEmpty) {}
+                                      } on SocketException catch (_) {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NoInternetConnectionLogInSrceen()));
+                                      }
 
                                         /// VALIDACIJA POLJA
                                         if (percentageVar < 0 ||
