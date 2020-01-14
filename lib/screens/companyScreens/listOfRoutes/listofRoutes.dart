@@ -33,6 +33,7 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
   @override
   void initState() {
     _onRefresh();
+    
     super.initState();
   }
 
@@ -131,9 +132,11 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
           int.parse(snapi.data['timestamp']));
       onlyOnce = false;
     }
-    onlyOnce = true;
+     onlyOnce = true;
+
     setState(() {
       st = 'rendered';
+     
     });
     // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
