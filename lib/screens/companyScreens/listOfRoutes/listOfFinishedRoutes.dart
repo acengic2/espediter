@@ -156,7 +156,7 @@ class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
                           Container(
                             child: Padding(
                               padding: const EdgeInsets.only(
-                                  top: 16, bottom: 4, left: 8, right: 8),
+                                  top: 16, bottom: 4, left: 17, right: 8),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
@@ -194,10 +194,12 @@ class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
                                     ),
                                   ),
                                   Row(
+                                 
                                     children: <Widget>[
                                       leftSection,
                                       middleSection,
                                     ],
+                                  
                                   )
                                 ],
                               ),
