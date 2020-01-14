@@ -51,7 +51,7 @@ After some time, the application will be built on the device/emulator connected 
 		-	Colors<br/>
 		-	TextFormFields<br/>
 		-	In companyInfo, part below divider is written in new file<br/>
-		-	Folders and files are renamed
+		-	Folders and files are renamed<br/>
 	*o	Active Route Screen bugs resolved:<br/>*
 		-	Showing finished routes only of the logged user<br/>
 		-	Margins of the divider<br/>
