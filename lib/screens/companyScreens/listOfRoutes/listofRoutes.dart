@@ -99,8 +99,8 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
   }
 
   Future<bool> _onWillPop() async {
-      DateTime now = DateTime.now();
-    if (currentBackPressTime == null || 
+    DateTime now = DateTime.now();
+    if (currentBackPressTime == null ||
         now.difference(currentBackPressTime) > Duration(seconds: 2)) {
       currentBackPressTime = now;
       return Future.value(false);
@@ -130,7 +130,7 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
           snapi.data['vehicle'],
           userID,
           int.parse(snapi.data['timestamp']));
-          onlyOnce = false;
+      onlyOnce = false;
     }
      onlyOnce = true;
 

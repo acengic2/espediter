@@ -9,6 +9,8 @@ import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
 final db = Firestore.instance;
 
 class  FirebaseCrud {
+String userID;
+  FirebaseCrud({this.userID});
   /// funkcija koja brise iz Rute
   /// potrebno joj je proslijediti doc.ID, DocumentSnapshot, i BuildContext
   void deleteData(
@@ -20,7 +22,7 @@ class  FirebaseCrud {
             builder: (context) => ListOfRoutes(userID: userID)));
       } else {
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => NoRoutes()));
+            .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
       }
     });
   }
