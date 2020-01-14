@@ -69,10 +69,8 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                     String dateReversed = date.split('/').reversed.join();
                     String departureDate = DateFormat("d MMM")
                         .format(DateTime.parse(dateReversed));
-
                     // KAPACITET
                     capacityString = snapshot.data[index].data['capacity'];
-
                     final leftSection = new Container(
                         height: 32,
                         width: 62,

@@ -136,7 +136,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
         onTap: () {
           FocusScope.of(context).requestFocus(new FocusNode());
           onceToast = 0;
-
         },
         child: ListView(
           children: <Widget>[
@@ -181,16 +180,15 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                   ),
                                   format: format,
                                   onShowPicker: (context, currentValue) async {
-                                    DateTime picked =
-                                        await showDatePicker(
-                                            locale: Locale('bs'),
-                                            context: context,
-                                            initialDate: DateTime.now(),
-                                            firstDate: DateTime(2018),
-                                            lastDate: DateTime(2100));
-                                            if (picked == null) {
-                                        picked = DateTime.now();
-                                      }
+                                    DateTime picked = await showDatePicker(
+                                        locale: Locale('bs'),
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(2018),
+                                        lastDate: DateTime(2100));
+                                    if (picked == null) {
+                                      picked = DateTime.now();
+                                    }
 
                                     setState(() {
                                       selectedDateP = picked;
@@ -452,16 +450,15 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                   ),
                                   format: format,
                                   onShowPicker: (context, currentValue) async {
-                                    DateTime picked =
-                                        await showDatePicker(
-                                            locale: Locale('bs'),
-                                            context: context,
-                                            initialDate: DateTime.now(),
-                                            firstDate: DateTime(2018),
-                                            lastDate: DateTime(2100));
-                                            if (picked == null) {
-                                        picked = DateTime.now();
-                                      }
+                                    DateTime picked = await showDatePicker(
+                                        locale: Locale('bs'),
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(2018),
+                                        lastDate: DateTime(2100));
+                                    if (picked == null) {
+                                      picked = DateTime.now();
+                                    }
                                     setState(() {
                                       selectedDateD = picked;
                                       if (selectedDateD == null) {
@@ -631,8 +628,9 @@ class _EditRouteFormState extends State<EditRouteForm> {
                           onChanged: (input) {
                             setState(() {
                               capacityVar = input;
-                              if(capacityVar.contains(',')) {
-                                capacityVar = capacityVar.replaceFirst(',', '.');
+                              if (capacityVar.contains(',')) {
+                                capacityVar =
+                                    capacityVar.replaceFirst(',', '.');
                               }
                               capacityDouble = double.parse(capacityVar);
                               if (capacityDouble >= 10) {
@@ -673,7 +671,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                               hint: Text(widget.post.data['vehicle']),
                               disabledHint: Text('Vrsta Vozila'),
                               value: _selectedVehicle,
-
                               style: TextStyle(
                                   fontSize: 16,
                                   fontFamily: "Roboto",
@@ -830,27 +827,29 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                             onceToast = 0;
                                           });
                                         }
-                                      } else if(capacityDouble < 0.0 || capacityDouble > 7.0) {
-                                        final snackBar = SnackBar(
-                                            duration: Duration(seconds: 2),
-                                            behavior: SnackBarBehavior.floating,
-                                            backgroundColor:
-                                                Color.fromRGBO(28, 28, 28, 1.0),
-                                            content: Text(
-                                                'Unesite broj od 0.0 do 7.0'),
-                                            action: SnackBarAction(
-                                              label: 'Undo',
-                                              onPressed: () {},
-                                            ),
-                                          );
-                                          Scaffold.of(context)
-                                              .showSnackBar(snackBar);
+                                      }
+                                      // else if(capacityDouble < 0.0 || capacityDouble > 7.0) {
+                                      //   final snackBar = SnackBar(
+                                      //       duration: Duration(seconds: 2),
+                                      //       behavior: SnackBarBehavior.floating,
+                                      //       backgroundColor:
+                                      //           Color.fromRGBO(28, 28, 28, 1.0),
+                                      //       content: Text(
+                                      //           'Unesite broj od 0.0 do 7.0'),
+                                      //       action: SnackBarAction(
+                                      //         label: 'Undo',
+                                      //         onPressed: () {},
+                                      //       ),
+                                      //     );
+                                      //     Scaffold.of(context)
+                                      //         .showSnackBar(snackBar);
 
-                                          onceToast = 1;
-                                          Timer(Duration(seconds: 2), () {
-                                            onceToast = 0;
-                                          });
-                                      } else {
+                                      //     onceToast = 1;
+                                      //     Timer(Duration(seconds: 2), () {
+                                      //       onceToast = 0;
+                                      //     });
+                                      // }
+                                      else {
                                         if (onceBtnPressed == 0) {
                                           FirebaseCrud().updateData(
                                               widget.post,
