@@ -12,10 +12,10 @@ Get the project files, open the project from the IDE. After the device/emulator 
 After some time, the application will be built on the device/emulator connected and it will be usasble on the device.
 # Changes
 **•	V1 – Sprint 1<br/>**
-        o	User Story 1 – Log In Screen done, but having a lot of both, functional and UI bugs<br/>
-        o	User Story 2 – Create Route Screen having many bugs<br/>
+        * *o	User Story 1 – Log In Screen done, but having a lot of both, functional and UI bugs<br/>* *
+        * *o	User Story 2 – Create Route Screen having many bugs<br/>* *
 **•	V2 – Sprint 2<br/>**
-	o	User Story 1 – Log In Screen bugs resolved:<br/>
+	* *o	User Story 1 – Log In Screen bugs resolved:<br/>* *
 		-	Checking internet connection and showing No Internet Connection Screen if there is no connection<br/>
 		-	Focus and error text color of hint text<br/>
 		-	Validating password if e-mail entered is wrong<br/>
@@ -26,7 +26,7 @@ After some time, the application will be built on the device/emulator connected 
 		-	Disabled multiple click on 'PRIJAVA' button<br/>
 		-	Scroll on Log In Screen<br/>
 		-	Autocomplete in e-mail field<br/>
-	o	User Story 2 – Create Route Screen bugs resolved:<br/>
+	* *o	User Story 2 – Create Route Screen bugs resolved:<br/>* *
 		-	Redirect to List of Routes or No Routes Screen when X button in AppBar is clicked<br/>
 		-	Addin and removing fileds for interdestinations<br/>
 		-	Design and deafult value of dropdown button<br/>
@@ -41,25 +41,25 @@ After some time, the application will be built on the device/emulator connected 
 		-	Scroll on Create Route Screen<br/>
 		-	Writing interdestinations into database<br/>
 **•	V3 – Sprint 3<br/>**
-	o	User Story 1 – Create Route Screen bugs resolved:<br/>
-	o	User Story 2 – List of Routes Screen bugs resolved:<br/>
-	o	User Story 3 – Edit/Finish active route and list finished routes:<br/>
-	o	User Story 4 – View and edit Company Info:<br/>
+	* *o	User Story 1 – Create Route Screen bugs resolved:<br/>* *
+	* *o	User Story 2 – List of Routes Screen bugs resolved:<br/>* *
+	* *o	User Story 3 – Edit/Finish active route and list finished routes:<br/>* *
+	* *o	User Story 4 – View and edit Company Info:<br/>* *
 **•	V4 – Sprint 4<br/>**
-	o	Refactroing:<br/>
+	* *o	Refactroing:<br/>* *
 		-	Circles and lines on createRoute and editRoute screen<br/>
 		-	Colors<br/>
 		-	TextFormFields<br/>
 		-	In companyInfo, part below divider is written in new file<br/>
 		-	Folders and files are renamed
-	o	Active Route Screen bugs resolved:<br/>
-		-	Showing finished routes only of the logged user
-		-	Margins of the divider
-		-	Redirect to List of Routes Screen after update
-		-	Matching date and time to finish route automatically
-		-	Change of Arrival Date does not enable button on Edit Route Screen
-	o	Company Info Screen bugs resolved:<br/>
-		-	Make whole container clickable
-		-	Insert progress indicator where there is communication with database (just not to show blank screen)
-		-	Redirect to List of Routes Screen after updating info
-		-	Showing logo icon of currently logged user
+	* *o	Active Route Screen bugs resolved:<br/>* *
+		-	Showing finished routes only of the logged user<br/>
+		-	Margins of the divider<br/>
+		-	Redirect to List of Routes Screen after update<br/>
+		-	Matching date and time to finish route automatically<br/>
+		-	Change of Arrival Date does not enable button on Edit Route Screen<br/>
+	* *o	Company Info Screen bugs resolved:<br/>* *
+		-	Make whole container clickable<br/>
+		-	Insert progress indicator where there is communication with database (just not to show blank screen)<br/>
+		-	Redirect to List of Routes Screen after updating info<br/>
+		-	Showing logo icon of currently logged user<br/>
