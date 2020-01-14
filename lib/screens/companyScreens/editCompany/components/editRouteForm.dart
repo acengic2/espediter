@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,6 +12,7 @@ import 'package:spediter/components/destinationCircles.dart';
 import 'package:spediter/components/destinationLines.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/inderdestination.dart';
+import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
 import 'package:spediter/components/vehicle.dart';
 import 'package:spediter/screens/companyScreens/createRoute/interdestinatonForm.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
@@ -795,11 +797,25 @@ class _EditRouteFormState extends State<EditRouteForm> {
                               ),
                               onPressed: _isBtnDisabled
                                   ? null
-                                  : () {
+                                  : () async {
                                       FocusScopeNode currentFocus =
                                           FocusScope.of(context);
                                       if (!currentFocus.hasPrimaryFocus) {
                                         currentFocus.unfocus();
+                                      }
+
+                                      try {
+                                        final result =
+                                            await InternetAddress.lookup(
+                                                'google.com');
+
+                                        if (result.isNotEmpty &&
+                                            result[0].rawAddress.isNotEmpty) {}
+                                      } on SocketException catch (_) {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NoInternetConnectionLogInSrceen()));
                                       }
 
                                       /// VALIDACIJA POLJA
@@ -826,28 +842,28 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                             onceToast = 0;
                                           });
                                         }
-                                    }
-                                    // else if(capacityDouble < 0.0 || capacityDouble > 7.0) {
-                                    //     final snackBar = SnackBar(
-                                    //         duration: Duration(seconds: 2),
-                                    //         behavior: SnackBarBehavior.floating,
-                                    //         backgroundColor:
-                                    //             Color.fromRGBO(28, 28, 28, 1.0),
-                                    //         content: Text(
-                                    //             'Unesite broj od 0.0 do 7.0'),
-                                    //         action: SnackBarAction(
-                                    //           label: 'Undo',
-                                    //           onPressed: () {},
-                                    //         ),
-                                    //       );
-                                    //       Scaffold.of(context)
-                                    //           .showSnackBar(snackBar);
+                                      }
+                                      // else if(capacityDouble < 0.0 || capacityDouble > 7.0) {
+                                      //     final snackBar = SnackBar(
+                                      //         duration: Duration(seconds: 2),
+                                      //         behavior: SnackBarBehavior.floating,
+                                      //         backgroundColor:
+                                      //             Color.fromRGBO(28, 28, 28, 1.0),
+                                      //         content: Text(
+                                      //             'Unesite broj od 0.0 do 7.0'),
+                                      //         action: SnackBarAction(
+                                      //           label: 'Undo',
+                                      //           onPressed: () {},
+                                      //         ),
+                                      //       );
+                                      //       Scaffold.of(context)
+                                      //           .showSnackBar(snackBar);
 
-                                    //       onceToast = 1;
-                                    //       Timer(Duration(seconds: 2), () {
-                                    //         onceToast = 0;
-                                    //       });
-                                    //   }  
+                                      //       onceToast = 1;
+                                      //       Timer(Duration(seconds: 2), () {
+                                      //         onceToast = 0;
+                                      //       });
+                                      //   }
 
                                       else {
                                         if (onceBtnPressed == 0) {
