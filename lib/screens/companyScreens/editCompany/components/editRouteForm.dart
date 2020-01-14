@@ -212,7 +212,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                   },
                                   onChanged: (input) {
                                     print(formatted);
-                                    print(selectedDateP);
                                     onceToast = 0;
                                     onceBtnPressed = 0;
                                     areFieldsEmpty();
@@ -830,27 +829,29 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                             onceToast = 0;
                                           });
                                         }
-                                      } else if(capacityDouble < 0.0 || capacityDouble > 7.0) {
-                                        final snackBar = SnackBar(
-                                            duration: Duration(seconds: 2),
-                                            behavior: SnackBarBehavior.floating,
-                                            backgroundColor:
-                                                Color.fromRGBO(28, 28, 28, 1.0),
-                                            content: Text(
-                                                'Unesite broj od 0.0 do 7.0'),
-                                            action: SnackBarAction(
-                                              label: 'Undo',
-                                              onPressed: () {},
-                                            ),
-                                          );
-                                          Scaffold.of(context)
-                                              .showSnackBar(snackBar);
+                                    }
+                                    // else if(capacityDouble < 0.0 || capacityDouble > 7.0) {
+                                    //     final snackBar = SnackBar(
+                                    //         duration: Duration(seconds: 2),
+                                    //         behavior: SnackBarBehavior.floating,
+                                    //         backgroundColor:
+                                    //             Color.fromRGBO(28, 28, 28, 1.0),
+                                    //         content: Text(
+                                    //             'Unesite broj od 0.0 do 7.0'),
+                                    //         action: SnackBarAction(
+                                    //           label: 'Undo',
+                                    //           onPressed: () {},
+                                    //         ),
+                                    //       );
+                                    //       Scaffold.of(context)
+                                    //           .showSnackBar(snackBar);
 
-                                          onceToast = 1;
-                                          Timer(Duration(seconds: 2), () {
-                                            onceToast = 0;
-                                          });
-                                      } else {
+                                    //       onceToast = 1;
+                                    //       Timer(Duration(seconds: 2), () {
+                                    //         onceToast = 0;
+                                    //       });
+                                    //   }  
+                                      else {
                                         if (onceBtnPressed == 0) {
                                           FirebaseCrud().updateData(
                                               widget.post,
