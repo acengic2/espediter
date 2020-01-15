@@ -52,7 +52,7 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
 
     return Column(children: <Widget>[
       Padding(
-        padding: EdgeInsets.only(top: 16.0, bottom: 0.0),
+        padding: EdgeInsets.only(top: 16.0, bottom: 0.0, left: 20),
       ),
       Container(
         child: FutureBuilder(
@@ -207,9 +207,8 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                                       post: snapshot.data[index], 
                                       userID: userID))),
                           child: Container(
-                              
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.only(top: 16, bottom: 4, left: 17, right: 8),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
