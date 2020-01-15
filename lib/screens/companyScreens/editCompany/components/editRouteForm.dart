@@ -876,6 +876,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                               capacityVar,
                                               endingDestination,
                                               startingDestination,
+                                              inter,
                                               formatted,
                                               formatted2,
                                               t11,
@@ -973,7 +974,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
       inter = inter.substring(0, inter.length - 2);
 
       interdestinacije = inter.split(', ');
-      print(interdestinacije);
 
       return Column(
           children: interdestinacije
@@ -1055,15 +1055,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
     }
   }
 
-  List<String> returnWidget(List<String> list) {
-    List<String> list1 = new List<String>();
-    for (var i = 0; i < list.length; i++) {
-      list1.add((list[i]));
-    }
-    print(list1);
-    return list1;
-  }
-
   void onDelete(Interdestination _interdestination) {
     setState(() {
       var find = interdestinations.firstWhere(
@@ -1102,26 +1093,15 @@ class _EditRouteFormState extends State<EditRouteForm> {
             listOfInterdestinations += '${data[i].interdestinationData}, ';
           else
             listOfInterdestinations += '';
+            
         }
       // }
     }
+    inter = inter + ", " + listOfInterdestinations;
+            print(inter + " DaAAAAAaaa");
+
   }
 
-//  void onSaveInterdestination() {
-//     if (interdestinacije.length > 0) {
-//       var allValid = true;
-//       interdestinacije.forEach((form) => allValid = allValid);
-//       if (allValid) {
-//         var data = interdestinacije.map((it) => it.interdesti).toList();
-//         for (int i = 0; i < data.length; i++) {
-//           if ('${data[i].interdestinationData}' != '')
-//             listOfInterdestinations += '${data[i].interdestinationData}, ';
-//           else
-//             listOfInterdestinations += '';
-//         }
-//       }
-//     }
-//   }
   // funckija koja provjerava da li su polja prazna i enable/disable btn
   areFieldsEmpty() {
     if ((percentageVar != null) ||
