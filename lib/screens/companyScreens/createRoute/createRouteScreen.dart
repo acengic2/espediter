@@ -682,7 +682,8 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                         ),
 
                         /// DIVIDER
-                        Divider1(),
+                        Divider1(thickness: 1, height: 1,),
+                        Divider1(thickness: 8, height: 8,),
 
                         /// Popunjenost u procentimaaaaaaaaaaaaaaaaa
                         Container(
@@ -896,6 +897,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                             bottom: 56.0,
                             top: 8,
                           ),
+                          height: 50,
                           child: ConstrainedBox(
                             constraints: const BoxConstraints(
                               minWidth: double.infinity,
