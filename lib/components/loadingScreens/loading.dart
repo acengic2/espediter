@@ -79,36 +79,35 @@ class _ShowLoading extends State<ShowLoading> {
         children: <Widget>[
           LoadingComponent(text1, text2),
           Container(
+            width: 0,
+            height: 0,
+            child: FutureBuilder(
+              future: getPostsLogged(userID),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                      shrinkWrap: true,
+                      physics: ClampingScrollPhysics(),
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, index) {
+                        setState(() {
+                          rola = snapshot.data[index].data['role'];
+                          print(rola);
+                        });
+
+                        return Container(
                           width: 0,
                           height: 0,
-                          child: FutureBuilder(
-                            future: getPostsLogged(userID),
-                            builder:
-                                (BuildContext context, AsyncSnapshot snapshot) {
-                              if (snapshot.hasData) {
-                                return ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: ClampingScrollPhysics(),
-                                    itemCount: snapshot.data.length,
-                                    itemBuilder: (context, index) {
-                                      setState(() {
-                                        rola = snapshot.data[index].data['role'];
-                                        print(rola);
-                                      });
-
-                                      return Container(
-                                        width: 0,
-                                        height: 0,
-                                      );
-                                    });
-                              }
-                              return Container(
-                                width: 0,
-                                height: 0,
-                              );
-                            },
-                          ),
-                        ),
+                        );
+                      });
+                }
+                return Container(
+                  width: 0,
+                  height: 0,
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -173,20 +172,19 @@ class _ShowLoading extends State<ShowLoading> {
     checkForRole();
     if (rola == 'company') {
       CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-      if (docs.documents.isNotEmpty) {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ListOfRoutes(
-                  userID: user.uid,
-                )));
-      } else {
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
-      }
-    });
+        if (docs.documents.isNotEmpty) {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ListOfRoutes(
+                    userID: user.uid,
+                  )));
+        } else {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => NoRoutes(userID: userID)));
+        }
+      });
     } else {
-       Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => UsersHome()));
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => UsersHome()));
     }
-    
   }
 }

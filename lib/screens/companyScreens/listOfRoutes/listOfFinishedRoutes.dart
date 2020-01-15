@@ -210,12 +210,6 @@ class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
                   ));
             } else {
               return SizedBox(
-                child: Center(
-                    child: CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(
-                    StyleColors().progressBar,
-                  ),
-                )),
               );
             }
           },

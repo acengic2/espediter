@@ -132,7 +132,7 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
           int.parse(snapi.data['timestamp']));
       onlyOnce = false;
     }
-     onlyOnce = true;
+    //  onlyOnce = true;
 
     setState(() {
       st = 'rendered';
