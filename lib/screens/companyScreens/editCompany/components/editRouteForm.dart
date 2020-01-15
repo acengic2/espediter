@@ -15,6 +15,7 @@ import 'package:spediter/components/inderdestination.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
 import 'package:spediter/screens/companyScreens/createRoute/createRouteScreen.dart';
 import 'package:spediter/screens/companyScreens/createRoute/interdestinatonForm.dart';
+import 'package:spediter/screens/companyScreens/editCompany/interdestinationEditForm.dart';
 import 'package:spediter/theme/style.dart';
 import 'package:spediter/utils/screenUtils.dart';
 
@@ -977,80 +978,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
 
       return Column(
           children: interdestinacije
-              .map((item) => Container(
-                  margin: EdgeInsets.only(left: 18.0, right: 16.0),
-                  child: Row(children: <Widget>[
-                    Expanded(
-                        flex: 1,
-                        child: Column(
-                          children: <Widget>[
-                            DestinationLine(),
-                            DestinationCircle(
-                              largeCircle: StyleColors().textColorGray20,
-                              smallCircle: StyleColors().textColorGray50,
-                            ),
-                            DestinationLine(),
-                          ],
-                        )),
-                    Expanded(
-                        flex: 9,
-                        child: Container(
-                            height: 36.0,
-                            margin: EdgeInsets.only(
-                              bottom: 8,
-                              left: 12,
-                              right: 5,
-                            ),
-                            child: TextFormField(
-                              onTap: onAddForm,
-
-                              textCapitalization: TextCapitalization.sentences,
-                              initialValue: item,
-                              // focusNode: focusInterdestination,
-                              // onChanged: (val) =>
-                              //     widget.interdestination.interdestinationData = val,
-                              validator: (val) =>
-                                  val.length > 3 ? null : 'Unesite ime grada',
-                              decoration: InputDecoration(
-                                  hasFloatingPlaceholder: false,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(4.0)),
-                                    borderSide: BorderSide(
-                                        color: StyleColors().textColorGray12),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(4.0)),
-                                      borderSide: BorderSide(
-                                          color:
-                                              StyleColors().textColorGray12)),
-                                  labelText: 'Dodaj među destinaciju',
-                                  labelStyle: TextStyle(
-                                      color: StyleColors().textColorGray50),
-                                  border: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(5.0))),
-                            ))),
-                    Expanded(
-                        flex: 1,
-                        child: Container(
-                          // margin: EdgeInsets.only(
-                          //   bottom: 2.0,
-                          // ),
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: <Widget>[
-                              Container(
-                                child: IconButton(
-                                  onPressed: null,
-                                  icon: Icon(Icons.clear),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )),
-                  ])))
+              .map((item) => InterdestinationEditForm(item:item))
               .toList());
     }
   }
