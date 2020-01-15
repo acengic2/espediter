@@ -121,6 +121,7 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
           snapi.data['capacity'],
           snapi.data['ending_destination'],
           snapi.data['starting_destination'],
+        
           snapi.data['departure_date'],
           snapi.data['arrival_date'],
           snapi.data['departure_time'],

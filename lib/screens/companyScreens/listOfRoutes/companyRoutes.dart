@@ -49,7 +49,7 @@ class CompanyRoutes {
     DocumentSnapshot doc,
     int percentageVar,
     String capacityVar,
-    String endingDestination,
+    String endingDestination, 
     String startingDestination,
     String formatted,
     String formatted2,
