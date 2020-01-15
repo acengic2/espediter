@@ -12,6 +12,7 @@ import 'package:spediter/components/destinationCircles.dart';
 import 'package:spediter/components/destinationLines.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/inderdestination.dart';
+import 'package:spediter/components/inderdestination.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
 import 'package:spediter/components/vehicle.dart';
 import 'package:spediter/screens/companyScreens/createRoute/interdestinatonForm.dart';
@@ -93,6 +94,8 @@ class _EditRouteFormState extends State<EditRouteForm> {
   String capacityVar;
   String t11;
   String t22;
+  String inter;
+  List<String> interdestinacije;
 
   double capacityDouble;
 
@@ -334,6 +337,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                       },
                                     )))
                           ])),
+                      getInterdestinations(),
 
                       /// MEDJUDESTINACIJA
                       Container(
@@ -803,7 +807,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                       if (!currentFocus.hasPrimaryFocus) {
                                         currentFocus.unfocus();
                                       }
-
                                       try {
                                         final result =
                                             await InternetAddress.lookup(
@@ -956,6 +959,98 @@ class _EditRouteFormState extends State<EditRouteForm> {
       ),
       // ),]
     );
+  }
+
+  Widget getInterdestinations() {
+    inter = widget.post.data['interdestination'];
+    inter = inter.substring(0, inter.length - 2);
+    interdestinacije = inter.split(', ');
+    print(interdestinacije);
+
+    return new Column(
+        children: interdestinacije
+            .map((item) => Container(
+                margin: EdgeInsets.only(left: 18.0, right: 16.0),
+                child: Row(children: <Widget>[
+                  Expanded(
+                      flex: 1,
+                      child: Column(
+                        children: <Widget>[
+                          DestinationLine(),
+                          DestinationCircle(
+                            largeCircle: StyleColors().textColorGray20,
+                            smallCircle: StyleColors().textColorGray50,
+                          ),
+                          DestinationLine(),
+                        ],
+                      )),
+                  Expanded(
+                      flex: 9,
+                      child: Container(
+                          height: 36.0,
+                          margin: EdgeInsets.only(
+                            bottom: 8,
+                            left: 12,
+                            right: 5,
+                          ),
+                          child: TextFormField(
+                            key: UniqueKey(),
+                            // onTap: widget.Interdestination.,
+
+                            textCapitalization: TextCapitalization.sentences,
+                            initialValue: item,
+                            //   onChanged: (val) =>
+                            //       widget.interdestination.interdestinationData = val,
+                            validator: (val) =>
+                                val.length > 3 ? null : 'Unesite ime grada',
+                            decoration: InputDecoration(
+                                hasFloatingPlaceholder: false,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4.0)),
+                                  borderSide: BorderSide(
+                                      color: StyleColors().textColorGray12),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(4.0)),
+                                    borderSide: BorderSide(
+                                        color: StyleColors().textColorGray12)),
+                                labelText: 'Dodaj među destinaciju',
+                                labelStyle: TextStyle(
+                                    color: StyleColors().textColorGray50),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.0))),
+                          ))),
+                  Expanded(
+                      flex: 1,
+                      child: Container(
+                        // margin: EdgeInsets.only(
+                        //   bottom: 2.0,
+                        // ),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            Container(
+                                // child: IconButton(
+                                //   onPressed: widget.onDelete,
+                                //   icon: Icon(Icons.clear),
+                                // ),
+                                ),
+                          ],
+                        ),
+                      )),
+                ])))
+            .toList());
+  }
+
+  List<String> returnWidget(List<String> list) {
+    List<String> list1 = new List<String>();
+    for (var i = 0; i < list.length; i++) {
+      list1.add((list[i]));
+    }
+    print(list1);
+    return list1;
   }
 
   void onDelete(Interdestination _interdestination) {
