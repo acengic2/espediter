@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spediter/components/divider.dart';
-
 import '../../../singIn/signIn.dart';
 
 class HardCodedPart extends StatelessWidget {
@@ -37,9 +36,9 @@ class HardCodedPart extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(top: 9, bottom: 8),
                 child: Divider1(
-                height: 1,
-                thickness: 1,
-              ),
+                  height: 1,
+                  thickness: 1,
+                ),
               ),
               Text(
                 "Kontakt telefon",
@@ -53,26 +52,34 @@ class HardCodedPart extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(top: 9, bottom: 8),
                 child: Divider1(
-                height: 1,
-                thickness: 1,
-              ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  _signOut();
-                },
-                child: Container(
-                  height: 30,
-                  margin: EdgeInsets.only(top: 6),
-                  child: Text(
-                    "Odjava",
-                    style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500),
-                  ),
+                  height: 1,
+                  thickness: 1,
                 ),
               ),
+              Container(
+                height: 35,
+                margin: EdgeInsets.only(bottom: 0, right: 8),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minWidth: double.infinity,
+                  ),
+                  child: RaisedButton(
+                    //          elevation: 0.5,
+
+                    color: Colors.white.withOpacity(0.9),
+                    textColor: Colors.black,
+                    child: Text(
+                      'Odjava',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    onPressed: _signOut,
+                  ),
+                ),
+              )
             ],
           ),
         ),
