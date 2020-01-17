@@ -8,21 +8,33 @@ import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
 /// instanca za bazu
 final db = Firestore.instance;
 
-class  FirebaseCrud {
-String userID;
+class FirebaseCrud {
+  String userID;
   FirebaseCrud({this.userID});
+
   /// funkcija koja brise iz Rute
   /// potrebno joj je proslijediti doc.ID, DocumentSnapshot, i BuildContext
   void deleteData(
       DocumentSnapshot doc, String userID, BuildContext context) async {
     await db.collection('Rute').document(doc.documentID).delete();
-    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+    CompanyRoutes().getCompanyFinishedRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ListOfRoutes(userID: userID)));
-      } else {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
+            builder: (context) => ListOfRoutes(
+                  userID: userID,
+                )));
+      } else if (docs.documents.isEmpty) {
+        CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+          if (docs.documents.isNotEmpty) {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => ListOfRoutes(
+                      userID: userID,
+                    )));
+          } else {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => NoRoutes(userID: userID)));
+          }
+        });
       }
     });
   }
@@ -70,20 +82,26 @@ String userID;
       'user_id': '$userID',
       'timestamp': '$dateOfSubmit',
     });
+
     /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
-    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+    CompanyRoutes().getCompanyFinishedRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
-        print('NOT EMPRY');
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ListOfRoutes(userID: userID)),
-        );
-      } else {
-        print('EMPTU');
-
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ListOfRoutes(
+                  userID: userID,
+                )));
+      } else if (docs.documents.isEmpty) {
+        CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+          if (docs.documents.isNotEmpty) {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => ListOfRoutes(
+                      userID: userID,
+                    )));
+          } else {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => NoRoutes(userID: userID)));
+          }
+        });
       }
     });
   }
@@ -149,19 +167,24 @@ String userID;
     });
 
     /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
-    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+    CompanyRoutes().getCompanyFinishedRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
-        print('NOT EMPRY');
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ListOfRoutes(userID: userID)),
-        );
-      } else {
-        print('EMPTU');
-
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ListOfRoutes(
+                  userID: userID,
+                )));
+      } else if (docs.documents.isEmpty) {
+        CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+          if (docs.documents.isNotEmpty) {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => ListOfRoutes(
+                      userID: userID,
+                    )));
+          } else {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => NoRoutes(userID: userID)));
+          }
+        });
       }
     });
   }

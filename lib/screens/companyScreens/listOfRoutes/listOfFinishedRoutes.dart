@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/screens/singIn/components/form.dart';
 import 'package:spediter/theme/style.dart';
+
 String capacityString;
 
 /// varijable
@@ -24,7 +24,6 @@ class ListOfFinishedRoutes extends StatefulWidget {
   final String userID;
   ListOfFinishedRoutes({this.userID});
 
-
   @override
   _ListOfFinishedRoutesState createState() =>
       _ListOfFinishedRoutesState(userID: userID);
@@ -33,7 +32,6 @@ class ListOfFinishedRoutes extends StatefulWidget {
 class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
   String userID;
   _ListOfFinishedRoutesState({this.userID});
-
 
   Future getPosts(String id) async {
     var firestore = Firestore.instance;
@@ -53,7 +51,7 @@ class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
   }
 
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
     double defaultScreenWidth = 400.0;
     double defaultScreenHeight = 810.0;
     ScreenUtil.instance = ScreenUtil(
@@ -192,12 +190,10 @@ class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
                                     ),
                                   ),
                                   Row(
-                                 
                                     children: <Widget>[
                                       leftSection,
                                       middleSection,
                                     ],
-                                  
                                   )
                                 ],
                               ),
@@ -209,8 +205,7 @@ class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
                     },
                   ));
             } else {
-              return SizedBox(
-              );
+              return SizedBox();
             }
           },
         ),

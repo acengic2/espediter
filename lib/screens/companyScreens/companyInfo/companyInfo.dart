@@ -142,20 +142,28 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
           icon: Icon(Icons.clear),
           onPressed: () {
             /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
-            CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+            CompanyRoutes()
+                .getCompanyFinishedRoutes(userID)
+                .then((QuerySnapshot docs) {
               if (docs.documents.isNotEmpty) {
-                imaliRuta = true;
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ListOfRoutes(
-                            userID: userID,
-                          )),
-                );
-              } else {
-                imaliRuta = false;
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => NoRoutes(userID: userID)));
+                    builder: (context) => ListOfRoutes(
+                          userID: userID,
+                        )));
+              } else if (docs.documents.isEmpty) {
+                CompanyRoutes()
+                    .getCompanyRoutes(userID)
+                    .then((QuerySnapshot docs) {
+                  if (docs.documents.isNotEmpty) {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ListOfRoutes(
+                              userID: userID,
+                            )));
+                  } else {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => NoRoutes(userID: userID)));
+                  }
+                });
               }
             });
           },

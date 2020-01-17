@@ -387,7 +387,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                     child: TextFormField(
                                       initialValue: widget
                                           .post.data['ending_destination'],
-                                     onTap: onAddForm,
+                                      onTap: onAddForm,
                                       textCapitalization:
                                           TextCapitalization.sentences,
                                       decoration: InputDecoration(
@@ -978,7 +978,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
 
       return Column(
           children: interdestinacije
-              .map((item) => InterdestinationEditForm(item:item))
+              .map((item) => InterdestinationEditForm(item: item))
               .toList());
     }
   }
@@ -1010,24 +1010,21 @@ class _EditRouteFormState extends State<EditRouteForm> {
 
   ///on save forms
   void onSave() {
-
     if (interdestinations.length > 0) {
       // var allValid = true;
       // // interdestinations.forEach((form) => allValid = allValid);
       // if (allValid) {
-        var data = interdestinations.map((it) => it.interdestination).toList();
-        for (int i = 0; i < data.length; i++) {
-          if ('${data[i].interdestinationData}' != '')
-            listOfInterdestinations += '${data[i].interdestinationData}, ';
-          else
-            listOfInterdestinations += '';
-            
-        }
+      var data = interdestinations.map((it) => it.interdestination).toList();
+      for (int i = 0; i < data.length; i++) {
+        if ('${data[i].interdestinationData}' != '')
+          listOfInterdestinations += '${data[i].interdestinationData}, ';
+        else
+          listOfInterdestinations += '';
+      }
       // }
     }
     inter = inter + ", " + listOfInterdestinations;
-            print(inter + " DaAAAAAaaa");
-
+    print(inter + " DaAAAAAaaa");
   }
 
   // funckija koja provjerava da li su polja prazna i enable/disable btn
