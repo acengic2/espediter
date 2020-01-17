@@ -462,9 +462,11 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                           left: 9, bottom: 8, right: 5),
                                       height: 36,
                                       child: TextFormField(
+                                        maxLength: 32,
                                         textCapitalization:
                                             TextCapitalization.sentences,
                                         decoration: InputDecoration(
+                                          counterText: '',
                                             hasFloatingPlaceholder: false,
                                             enabledBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
@@ -543,10 +545,12 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                           left: 9, bottom: 8, right: 5),
                                       height: 36,
                                       child: TextFormField(
+                                            maxLength: 32,
                                         onTap: onAddForm,
                                         textCapitalization:
                                             TextCapitalization.sentences,
                                         decoration: InputDecoration(
+                                          counterText: '',
                                             hasFloatingPlaceholder: false,
                                             enabledBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(

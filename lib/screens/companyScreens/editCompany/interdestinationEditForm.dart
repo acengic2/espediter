@@ -72,7 +72,7 @@ class _UserFormState extends State<InterdestinationEditForm> {
                   child: TextFormField(
                     // key: UniqueKey(),
                     onTap: widget.onAdd,
-
+                    maxLength: 29,
                     textCapitalization: TextCapitalization.sentences,
                     // controller: controller,
                     initialValue: widget.item,
@@ -83,10 +83,10 @@ class _UserFormState extends State<InterdestinationEditForm> {
                     //      } else {
                     //      }
                     // },
-
                     validator: (val) =>
                         val.length > 3 ? null : 'Unesite ime grada',
                     decoration: InputDecoration(
+                      counterText: '',
                         hasFloatingPlaceholder: false,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(4.0)),
@@ -98,7 +98,7 @@ class _UserFormState extends State<InterdestinationEditForm> {
                                 BorderRadius.all(Radius.circular(4.0)),
                             borderSide: BorderSide(
                                 color: StyleColors().textColorGray12)),
-                        labelText: 'Ovdje sam!',
+                        labelText: 'Unesite interdestinaciju',
                         labelStyle:
                             TextStyle(color: StyleColors().textColorGray50),
                         border: OutlineInputBorder(
