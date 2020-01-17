@@ -15,6 +15,7 @@ import 'package:spediter/components/inderdestination.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
 import 'package:spediter/screens/companyScreens/createRoute/createRouteScreen.dart';
 import 'package:spediter/screens/companyScreens/createRoute/interdestinatonForm.dart';
+import 'package:spediter/screens/companyScreens/editCompany/interdestinationEditForm.dart';
 import 'package:spediter/theme/style.dart';
 import 'package:spediter/utils/screenUtils.dart';
 
@@ -34,7 +35,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
   _EditRouteFormState({this.post, this.userID});
 
   /// lista medjudestinacija
-  List<InterdestinationForm> interdestinations = [];
+  List<InterdestinationEditForm> interdestinations = [];
 
   /// VARIJABLE
   ///
@@ -386,7 +387,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                     child: TextFormField(
                                       initialValue: widget
                                           .post.data['ending_destination'],
-                                      onTap: onAddForm,
+                                     onTap: onAddForm,
                                       textCapitalization:
                                           TextCapitalization.sentences,
                                       decoration: InputDecoration(
@@ -876,6 +877,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                               capacityVar,
                                               endingDestination,
                                               startingDestination,
+                                              inter,
                                               formatted,
                                               formatted2,
                                               t11,
@@ -973,95 +975,12 @@ class _EditRouteFormState extends State<EditRouteForm> {
       inter = inter.substring(0, inter.length - 2);
 
       interdestinacije = inter.split(', ');
-      print(interdestinacije);
 
       return Column(
           children: interdestinacije
-              .map((item) => Container(
-                  margin: EdgeInsets.only(left: 18.0, right: 16.0),
-                  child: Row(children: <Widget>[
-                    Expanded(
-                        flex: 1,
-                        child: Column(
-                          children: <Widget>[
-                            DestinationLine(),
-                            DestinationCircle(
-                              largeCircle: StyleColors().textColorGray20,
-                              smallCircle: StyleColors().textColorGray50,
-                            ),
-                            DestinationLine(),
-                          ],
-                        )),
-                    Expanded(
-                        flex: 9,
-                        child: Container(
-                            height: 36.0,
-                            margin: EdgeInsets.only(
-                              bottom: 8,
-                              left: 12,
-                              right: 5,
-                            ),
-                            child: TextFormField(
-                              onTap: onAddForm,
-
-                              textCapitalization: TextCapitalization.sentences,
-                              initialValue: item,
-                              // focusNode: focusInterdestination,
-                              // onChanged: (val) =>
-                              //     widget.interdestination.interdestinationData = val,
-                              validator: (val) =>
-                                  val.length > 3 ? null : 'Unesite ime grada',
-                              decoration: InputDecoration(
-                                  hasFloatingPlaceholder: false,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(4.0)),
-                                    borderSide: BorderSide(
-                                        color: StyleColors().textColorGray12),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(4.0)),
-                                      borderSide: BorderSide(
-                                          color:
-                                              StyleColors().textColorGray12)),
-                                  labelText: 'Dodaj među destinaciju',
-                                  labelStyle: TextStyle(
-                                      color: StyleColors().textColorGray50),
-                                  border: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(5.0))),
-                            ))),
-                    Expanded(
-                        flex: 1,
-                        child: Container(
-                          // margin: EdgeInsets.only(
-                          //   bottom: 2.0,
-                          // ),
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: <Widget>[
-                              Container(
-                                child: IconButton(
-                                  onPressed: null,
-                                  icon: Icon(Icons.clear),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )),
-                  ])))
+              .map((item) => InterdestinationEditForm(item:item))
               .toList());
     }
-  }
-
-  List<String> returnWidget(List<String> list) {
-    List<String> list1 = new List<String>();
-    for (var i = 0; i < list.length; i++) {
-      list1.add((list[i]));
-    }
-    print(list1);
-    return list1;
   }
 
   void onDelete(Interdestination _interdestination) {
@@ -1081,7 +1000,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
   void onAddForm() {
     setState(() {
       var _interdestination = Interdestination();
-      interdestinations.add(InterdestinationForm(
+      interdestinations.add(InterdestinationEditForm(
         interdestination: _interdestination,
         onDelete: () => onDelete(_interdestination),
         onAdd: () => onAddForm(),
@@ -1102,26 +1021,15 @@ class _EditRouteFormState extends State<EditRouteForm> {
             listOfInterdestinations += '${data[i].interdestinationData}, ';
           else
             listOfInterdestinations += '';
+            
         }
       // }
     }
+    inter = inter + ", " + listOfInterdestinations;
+            print(inter + " DaAAAAAaaa");
+
   }
 
-//  void onSaveInterdestination() {
-//     if (interdestinacije.length > 0) {
-//       var allValid = true;
-//       interdestinacije.forEach((form) => allValid = allValid);
-//       if (allValid) {
-//         var data = interdestinacije.map((it) => it.interdesti).toList();
-//         for (int i = 0; i < data.length; i++) {
-//           if ('${data[i].interdestinationData}' != '')
-//             listOfInterdestinations += '${data[i].interdestinationData}, ';
-//           else
-//             listOfInterdestinations += '';
-//         }
-//       }
-//     }
-//   }
   // funckija koja provjerava da li su polja prazna i enable/disable btn
   areFieldsEmpty() {
     if ((percentageVar != null) ||
