@@ -25,9 +25,6 @@ class CompanyRoutes {
         .where('user_id', isEqualTo: id)
         .orderBy('timestamp', descending: false)
         .getDocuments();
-
-
-    
   }
 
   deleteRouteOnDateMatch(
@@ -52,7 +49,7 @@ class CompanyRoutes {
     DocumentSnapshot doc,
     int percentageVar,
     String capacityVar,
-    String endingDestination, 
+    String endingDestination,
     String startingDestination,
     String formatted,
     String formatted2,
@@ -64,7 +61,6 @@ class CompanyRoutes {
     String userID,
     int dateOfSubmit,
   ) {
-
     DateTime arrivalTime = DateTime.parse(
         doc.data['arrival_date'] + ' ' + doc.data['arrival_time']);
     arrivalTimestamp = arrivalTime.millisecondsSinceEpoch;
@@ -84,7 +80,7 @@ class CompanyRoutes {
           vehicleVar,
           userID,
           dateOfSubmit);
-          print('UNSENO');
+      print('UNSENO');
     } else {
       print('nema nista INSERT');
     }

@@ -10,7 +10,6 @@ import 'package:spediter/theme/style.dart';
 
 void main() => runApp(Info());
 
-
 // instanca na NoRoutes screen
 NoRoutes noRoutes = new NoRoutes();
 
@@ -77,21 +76,27 @@ class _InfoPageState extends State<InfoPage> {
             onPressed: () {
               /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
               CompanyRoutes()
-                  .getCompanyRoutes(userID)
+                  .getCompanyFinishedRoutes(userID)
                   .then((QuerySnapshot docs) {
                 if (docs.documents.isNotEmpty) {
-                  imaliRuta = true;
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ListOfRoutes(
-                              userID: userID,
-                            )),
-                  );
-                } else {
-                  imaliRuta = false;
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ListOfRoutes(
+                            userID: userID,
+                          )));
+                } else if (docs.documents.isEmpty) {
+                  CompanyRoutes()
+                      .getCompanyRoutes(userID)
+                      .then((QuerySnapshot docs) {
+                    if (docs.documents.isNotEmpty) {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ListOfRoutes(
+                                userID: userID,
+                              )));
+                    } else {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => NoRoutes(userID: userID)));
+                    }
+                  });
                 }
               });
             },
@@ -166,7 +171,7 @@ class _InfoPageState extends State<InfoPage> {
                                     child: Text(
                                       'Kako koristiti aplikaciju?',
                                       style: TextStyle(
-                                          color:StyleColors().textColorGray80,
+                                          color: StyleColors().textColorGray80,
                                           fontFamily: 'Roboto',
                                           fontSize: 16,
                                           fontWeight: FontWeight.w400),
