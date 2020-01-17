@@ -10,11 +10,10 @@ String izBaze;
 
 class InterdestinationEditForm extends StatefulWidget {
   final Interdestination interdestination;
- 
+
   final OnDelete onDelete;
   final String item;
   final OnAdd onAdd;
-
 
   InterdestinationEditForm({
     Key key,
@@ -28,16 +27,15 @@ class InterdestinationEditForm extends StatefulWidget {
   _UserFormState createState() => _UserFormState(item: item);
 
   // bool isValid() => state.validate();
-}  
-
+}
 
 class _UserFormState extends State<InterdestinationEditForm> {
-
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     getValues();
   }
+
   TextEditingController controller;
 
   String item;
@@ -45,7 +43,6 @@ class _UserFormState extends State<InterdestinationEditForm> {
 
   @override
   Widget build(BuildContext context) {
-
     controller = new TextEditingController(text: item);
 
     return Container(
@@ -75,17 +72,17 @@ class _UserFormState extends State<InterdestinationEditForm> {
                   child: TextFormField(
                     // key: UniqueKey(),
                     onTap: getValues,
-                    
+
                     textCapitalization: TextCapitalization.sentences,
                     controller: controller,
                     //initialValue: widget.item,
                     // onChanged: (val) => {
                     //      if (val == widget.item) {
-                              
+
                     //      } else {
                     //      }
                     // },
-                      
+
                     validator: (val) =>
                         val.length > 3 ? null : 'Unesite ime grada',
                     decoration: InputDecoration(
@@ -134,18 +131,43 @@ class _UserFormState extends State<InterdestinationEditForm> {
   //   return valid;
   // }
 
-  getPrints(){
+  getPrints() {
     String adi = controller.text;
 
     print(adi + "    ======= OVDJE SAMMMMM!!!");
   }
 
   getValues() {
-   
-      getPrints();
-      setState(() {
-        izBaze = controller.text
-        ;      });
-
+    getPrints();
+    setState(() {
+      izBaze = controller.text;
+    });
   }
 }
+
+///
+///Danis je uradio rekonstrukciju citavih crud methoda. Krenuo je ponovno od create i radio update
+///Danisov code je zipan posebno i nalazi se kod Danisa i Adija na Desktopu.
+///
+///Drugi nacin:
+///
+/// Prepisali i prepravili InterdestiancijeForm sa create. To je ovaj fail. InterdestiantionEditForm.
+/// Na editROuteForm smo zvali ovu classu i pokusali ubaciti edit. \
+/// Mislimo da je problem u controlleru tj. u initial value (item)
+/// non-stop renderuje item kada se pozove state.
+///
+/// Problem: u kupljenju interdestinacija izmedu sljedecih klasa
+///   EditRouteForm.dart
+///   InterdestinationEditForm.dart
+///
+///   koje treba da kupi iz DAO classe
+///   Interdestination.dart
+///
+///  Sta nismo probali:
+///  Nismo probali dodati delete na (X)
+///
+///
+///
+/// Kako trenutno radi:
+/// ispisuje sve interdestinacije i moguce je dodati nove
+/// nije moguce izbrisati ili editovati interdestinacije
