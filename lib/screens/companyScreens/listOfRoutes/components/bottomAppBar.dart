@@ -28,8 +28,16 @@ class BottomAppBar1 extends StatelessWidget {
             return ListView.builder(
                 shrinkWrap: true,
                 itemCount: snapshot.data.length,
-                itemBuilder: (congtext, index) {
-                  logoURL = snapshot.data[index].data['url_logo'];
+                itemBuilder: (context, index) {
+                  String url = snapshot.data[index].data['url_logo'];
+                  if (url.endsWith('.png') ||
+                      url.endsWith('.jpg') ||
+                      url.endsWith('.jpeg')) {
+                    logoURL = url;
+                  } else {
+                    logoURL =
+                        'https://f0.pngfuel.com/png/178/595/black-profile-icon-illustration-user-profile-computer-icons-login-user-avatars-png-clip-art-thumbnail.png';
+                  }
                   image = NetworkImage(logoURL);
                   return BottomAppBar(
                     child: Container(
@@ -50,6 +58,8 @@ class BottomAppBar1 extends StatelessWidget {
                                 height: 30,
                                 margin: EdgeInsets.only(left: 16.0),
                                 decoration: new BoxDecoration(
+                                  border:
+                                      Border.all(width: 1, color: Colors.black),
                                   shape: BoxShape.circle,
                                   image: new DecorationImage(
                                     fit: BoxFit.fill,
