@@ -64,8 +64,6 @@ class HardCodedPart extends StatelessWidget {
                     minWidth: double.infinity,
                   ),
                   child: RaisedButton(
-                    //          elevation: 0.5,
-
                     color: Colors.white.withOpacity(0.9),
                     textColor: Colors.black,
                     child: Text(

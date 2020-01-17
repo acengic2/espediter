@@ -14,6 +14,7 @@ import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
 import 'package:spediter/theme/style.dart';
 import 'package:spediter/utils/screenUtils.dart';
 import 'package:flutter/rendering.dart';
+import 'package:verbal_expressions/verbal_expressions.dart';
 
 void main() => runApp(CompanyInfo());
 
@@ -611,6 +612,40 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                                       }
                                                     } else {
                                                       if (onceBtnPressed == 0) {
+                                                        if (!checkUrl(
+                                                            urlLogoLast)) {
+                                                          final snackBar =
+                                                              SnackBar(
+                                                            duration: Duration(
+                                                                seconds: 2),
+                                                            behavior:
+                                                                SnackBarBehavior
+                                                                    .floating,
+                                                            backgroundColor:
+                                                                Color.fromRGBO(
+                                                                    28,
+                                                                    28,
+                                                                    28,
+                                                                    1.0),
+                                                            content: Text(
+                                                                'Niste unijeli ispravan URL slike.'),
+                                                            action:
+                                                                SnackBarAction(
+                                                              label: 'Undo',
+                                                              onPressed: () {},
+                                                            ),
+                                                          );
+                                                          Scaffold.of(context)
+                                                              .showSnackBar(
+                                                                  snackBar);
+                                                          onceToast = 1;
+                                                          Timer(
+                                                              Duration(
+                                                                  seconds: 2),
+                                                              () {
+                                                            onceToast = 0;
+                                                          });
+                                                        }
                                                         FirebaseCrud()
                                                             .updateDataCompanyInfo(
                                                                 snapshot.data[
@@ -681,5 +716,30 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
     } else {
       _isBtnDisabled = false;
     }
+  }
+
+  bool checkUrl(String url) {
+    var regex = VerbalExpression()
+      ..startOfLine()
+      ..then("http")
+      ..maybe("s")
+      ..then("://")
+      ..maybe("www.")
+      ..anythingBut(" ")
+      ..then(".png")
+      ..or(".jpg")
+      ..endOfLine();
+    var regex2 = VerbalExpression()
+      ..startOfLine()
+      ..then("http")
+      ..maybe("s")
+      ..then("://")
+      ..maybe("www.")
+      ..anythingBut(" ")
+      ..then(".jpeg")
+      ..or(".svg")
+      ..endOfLine();
+
+    return (regex.hasMatch(url) || regex2.hasMatch(url));
   }
 }
