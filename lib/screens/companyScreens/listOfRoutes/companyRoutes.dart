@@ -25,6 +25,9 @@ class CompanyRoutes {
         .where('user_id', isEqualTo: id)
         .orderBy('timestamp', descending: false)
         .getDocuments();
+
+
+    
   }
 
   deleteRouteOnDateMatch(

@@ -4,10 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:spediter/components/divider.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/singIn/components/form.dart';
 import 'package:spediter/theme/style.dart';
-
 String capacityString;
 
 /// varijable

@@ -170,19 +170,36 @@ class _ShowLoading extends State<ShowLoading> {
   /// na [NoRoutes] ili na [ListOfRoutes]
   onDoneLoading() async {
     checkForRole();
+
+    
+
     if (rola == 'company') {
-      CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+      CompanyRoutes().getCompanyFinishedRoutes(userID).then((QuerySnapshot docs) {
         if (docs.documents.isNotEmpty) {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => ListOfRoutes(
                     userID: user.uid,
                   )));
-        } else {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => NoRoutes(userID: userID)));
+        } 
+        else if (docs.documents.isEmpty){
+          CompanyRoutes()
+              .getCompanyRoutes(userID)
+              .then((QuerySnapshot docs) {
+            if (docs.documents.isNotEmpty) {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ListOfRoutes(
+                        userID: user.uid,
+                      )));
+            } 
+        else {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => NoRoutes(userID: userID)));
+            }
+          });
         }
       });
-    } else {
+    }
+     else {
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => UsersHome()));
     }

@@ -33,7 +33,7 @@ class _UserFormState extends State<InterdestinationEditForm> {
   @override
   void initState() {
     super.initState();
-    getValues();
+   // getValues();
   }
 
   TextEditingController controller;
@@ -74,9 +74,10 @@ class _UserFormState extends State<InterdestinationEditForm> {
                     onTap: getValues,
 
                     textCapitalization: TextCapitalization.sentences,
-                    controller: controller,
-                    //initialValue: widget.item,
-                    // onChanged: (val) => {
+                    // controller: controller,
+                    initialValue: widget.item,
+                    onChanged: (val) => widget.interdestination.interdestinationData = val,
+                    //(val) => {
                     //      if (val == widget.item) {
 
                     //      } else {
