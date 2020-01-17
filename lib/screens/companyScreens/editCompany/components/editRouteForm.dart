@@ -35,7 +35,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
   _EditRouteFormState({this.post, this.userID});
 
   /// lista medjudestinacija
-  List<InterdestinationForm> interdestinations = [];
+  List<InterdestinationEditForm> interdestinations = [];
 
   /// VARIJABLE
   ///
@@ -387,7 +387,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                     child: TextFormField(
                                       initialValue: widget
                                           .post.data['ending_destination'],
-                                      onTap: onAddForm,
+                                     onTap: onAddForm,
                                       textCapitalization:
                                           TextCapitalization.sentences,
                                       decoration: InputDecoration(
@@ -1000,7 +1000,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
   void onAddForm() {
     setState(() {
       var _interdestination = Interdestination();
-      interdestinations.add(InterdestinationForm(
+      interdestinations.add(InterdestinationEditForm(
         interdestination: _interdestination,
         onDelete: () => onDelete(_interdestination),
         onAdd: () => onAddForm(),

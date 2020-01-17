@@ -1,5 +1,5 @@
 class Interdestination {
   String interdestinationData;
-  Interdestination({this.interdestinationData = ''});
+  Interdestination({this.interdestinationData = 'qq'});
 }
 

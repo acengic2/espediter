@@ -6,13 +6,15 @@ import 'package:spediter/theme/style.dart';
 
 typedef OnDelete();
 typedef OnAdd();
+String izBaze;
 
 class InterdestinationEditForm extends StatefulWidget {
   final Interdestination interdestination;
-  final state = _UserFormState();
+ 
   final OnDelete onDelete;
   final String item;
   final OnAdd onAdd;
+
 
   InterdestinationEditForm({
     Key key,
@@ -23,16 +25,29 @@ class InterdestinationEditForm extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _UserFormState createState() => state;
+  _UserFormState createState() => _UserFormState(item: item);
 
   // bool isValid() => state.validate();
 }  
 
+
 class _UserFormState extends State<InterdestinationEditForm> {
 
+  @override
+  void initState() { 
+    super.initState();
+    getValues();
+  }
+  TextEditingController controller;
+
+  String item;
+  _UserFormState({this.item});
 
   @override
   Widget build(BuildContext context) {
+
+    controller = new TextEditingController(text: item);
+
     return Container(
         margin: EdgeInsets.only(left: 18.0, right: 16.0),
         child: Row(children: <Widget>[
@@ -59,11 +74,18 @@ class _UserFormState extends State<InterdestinationEditForm> {
                   ),
                   child: TextFormField(
                     // key: UniqueKey(),
-                    onTap: widget.onAdd,
+                    onTap: getValues,
+                    
                     textCapitalization: TextCapitalization.sentences,
-                    initialValue: widget.item,
-                    // onChanged: (val) =>
-                    //     widget.interdestination.interdestinationData = val,
+                    controller: controller,
+                    //initialValue: widget.item,
+                    // onChanged: (val) => {
+                    //      if (val == widget.item) {
+                              
+                    //      } else {
+                    //      }
+                    // },
+                      
                     validator: (val) =>
                         val.length > 3 ? null : 'Unesite ime grada',
                     decoration: InputDecoration(
@@ -78,7 +100,7 @@ class _UserFormState extends State<InterdestinationEditForm> {
                                 BorderRadius.all(Radius.circular(4.0)),
                             borderSide: BorderSide(
                                 color: StyleColors().textColorGray12)),
-                        labelText: 'Dodaj među destinaciju',
+                        labelText: 'Ovdje sam!',
                         labelStyle:
                             TextStyle(color: StyleColors().textColorGray50),
                         border: OutlineInputBorder(
@@ -111,4 +133,19 @@ class _UserFormState extends State<InterdestinationEditForm> {
   //   if (valid) form.currentState.save();
   //   return valid;
   // }
+
+  getPrints(){
+    String adi = controller.text;
+
+    print(adi + "    ======= OVDJE SAMMMMM!!!");
+  }
+
+  getValues() {
+   
+      getPrints();
+      setState(() {
+        izBaze = controller.text
+        ;      });
+
+  }
 }
