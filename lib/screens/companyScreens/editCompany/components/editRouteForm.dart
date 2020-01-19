@@ -164,8 +164,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                 height: 36.0,
                                 padding: EdgeInsets.only(left: 4.0, right: 4.0),
                                 child: DateTimeField(
-                                  initialValue: DateTime.parse(
-                                      widget.post.data['departure_date']),
+                                  initialValue: DateTime.parse(formatted),
                                   textCapitalization: TextCapitalization.words,
                                   style: TextStyle(
                                       fontSize:
@@ -228,10 +227,8 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                 height: 36.0,
                                 margin: EdgeInsets.only(left: 4.0, right: 4.0),
                                 child: DateTimeField(
-                                  initialValue: DateTime.parse(
-                                      widget.post.data['departure_date'] +
-                                          ' ' +
-                                          widget.post.data['departure_time']),
+                                  initialValue:
+                                      DateTime.parse(formatted + ' ' + t22),
                                   resetIcon: null,
                                   readOnly: true,
                                   style: TextStyle(
@@ -268,6 +265,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                   },
                                   onChanged: (input) {
                                     t2 = input;
+                                    t22 = DateFormat.Hm().format(t2);
                                     onceToast = 0;
                                     onceBtnPressed = 0;
                                     areFieldsEmpty();
@@ -301,8 +299,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                         left: 9, bottom: 8, right: 5),
                                     height: 36,
                                     child: TextFormField(
-                                      initialValue: widget
-                                          .post.data['starting_destination'],
+                                      initialValue: startingDestination,
                                       textCapitalization:
                                           TextCapitalization.sentences,
                                       decoration: InputDecoration(
@@ -385,8 +382,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                         left: 9, bottom: 8, right: 5),
                                     height: 36,
                                     child: TextFormField(
-                                      initialValue: widget
-                                          .post.data['ending_destination'],
+                                      initialValue: endingDestination,
                                       onTap: onAddForm,
                                       textCapitalization:
                                           TextCapitalization.sentences,
@@ -435,8 +431,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                 height: 36.0,
                                 padding: EdgeInsets.only(left: 4.0, right: 4.0),
                                 child: DateTimeField(
-                                  initialValue: DateTime.parse(
-                                      widget.post.data['arrival_date']),
+                                  initialValue: DateTime.parse(formatted2),
                                   resetIcon: null,
                                   readOnly: true,
                                   style: TextStyle(
@@ -484,14 +479,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                     return selectedDateD;
                                   },
                                   onChanged: (input) {
-                                    // selectedDateP = new DateTime(
-                                    // selectedDateP.year,
-                                    // selectedDateP.month,
-                                    // selectedDateP.day);
-                                    // selectedDateD = new DateTime(
-                                    // selectedDateD.year,
-                                    // selectedDateD.month,
-                                    // selectedDateD.day);
                                     onceToast = 0;
                                     onceBtnPressed = 0;
                                     areFieldsEmpty();
@@ -505,10 +492,8 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                 height: 36.0,
                                 margin: EdgeInsets.only(left: 4.0, right: 4.0),
                                 child: DateTimeField(
-                                  initialValue: DateTime.parse(
-                                      widget.post.data['arrival_date'] +
-                                          ' ' +
-                                          widget.post.data['arrival_time']),
+                                  initialValue:
+                                      DateTime.parse(formatted2 + ' ' + t11),
                                   resetIcon: null,
                                   readOnly: true,
                                   style: TextStyle(
@@ -543,6 +528,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                   },
                                   onChanged: (input) {
                                     t1 = input;
+                                    t11 = DateFormat.Hm().format(t1);
                                     onceToast = 0;
                                     onceBtnPressed = 0;
                                     areFieldsEmpty();
@@ -846,52 +832,10 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                           });
                                         }
                                       }
-                                      // else if(capacityDouble < 0.0 || capacityDouble > 7.0) {
-                                      //     final snackBar = SnackBar(
-                                      //         duration: Duration(seconds: 2),
-                                      //         behavior: SnackBarBehavior.floating,
-                                      //         backgroundColor:
-                                      //             Color.fromRGBO(28, 28, 28, 1.0),
-                                      //         content: Text(
-                                      //             'Unesite broj od 0.0 do 7.0'),
-                                      //         action: SnackBarAction(
-                                      //           label: 'Undo',
-                                      //           onPressed: () {},
-                                      //         ),
-                                      //       );
-                                      //       Scaffold.of(context)
-                                      //           .showSnackBar(snackBar);
-
-                                      //       onceToast = 1;
-                                      //       Timer(Duration(seconds: 2), () {
-                                      //         onceToast = 0;
-                                      //       });
-                                      //   }
-
                                       else {
                                         if (onceBtnPressed == 0) {
-                                          onSave();
-                                          FirebaseCrud().updateData(
-                                              widget.post,
-                                              percentageVar,
-                                              capacityVar,
-                                              endingDestination,
-                                              startingDestination,
-                                              inter,
-                                              formatted,
-                                              formatted2,
-                                              t11,
-                                              t22,
-                                              dimensionsVar,
-                                              goodsVar,
-                                              vehicleVar,
-                                              userID,
-                                              dateOfSubmit,
-                                              context);
-                                          onceBtnPressed = 1;
+                                          validateDatesAndTimes(context);
                                         }
-                                        //validateDatesAndTimes(context);
-
                                       }
                                     }),
                         ),
@@ -963,6 +907,121 @@ class _EditRouteFormState extends State<EditRouteForm> {
     );
   }
 
+  validateDatesAndTimes(BuildContext context) {
+    DateTime now = DateTime.now();
+    DateTime departureDateTime = DateTime.parse(formatted + ' ' + t22);
+    DateTime arrivalDateTime = DateTime.parse(formatted2 + ' ' + t11);
+    print(departureDateTime);
+    print(arrivalDateTime);
+    print(departureDateTime.isBefore(arrivalDateTime));
+    if (arrivalDateTime.isBefore(departureDateTime)) {
+      print(
+          'Datum i vrijeme dolaska ne mogu biti prije datuma i vremena polaska.');
+      if (onceToast == 0) {
+        final snackBar = SnackBar(
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+          content: Text(
+              'Datum i vrijeme dolaska ne mogu biti prije datuma i vremena polaska.'),
+          action: SnackBarAction(
+            label: 'Undo',
+            onPressed: () {},
+          ),
+        );
+        Scaffold.of(context).showSnackBar(snackBar);
+        onceToast = 1;
+        Timer(Duration(seconds: 2), () {
+          onceToast = 0;
+        });
+      }
+    } else if (departureDateTime.isAtSameMomentAs(arrivalDateTime)) {
+      print('Datumi i vremena ne mogu biti jednaki.');
+      if (onceToast == 0) {
+        final snackBar = SnackBar(
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+          content: Text('Datumi i vremena ne mogu biti jednaki.'),
+          action: SnackBarAction(
+            label: 'Undo',
+            onPressed: () {},
+          ),
+        );
+        Scaffold.of(context).showSnackBar(snackBar);
+        onceToast = 1;
+        Timer(Duration(seconds: 2), () {
+          onceToast = 0;
+        });
+      }
+    } else if (arrivalDateTime.isBefore(now)) {
+      print(
+          'Datum i vrijeme dolaska ne mogu biti prije današnjeg datuma i sadašnjeg vremena.');
+      if (onceToast == 0) {
+        final snackBar = SnackBar(
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+          content: Text(
+              'Datum i vrijeme dolaska ne mogu biti prije današnjeg datuma i sadašnjeg vremena.'),
+          action: SnackBarAction(
+            label: 'Undo',
+            onPressed: () {},
+          ),
+        );
+        Scaffold.of(context).showSnackBar(snackBar);
+        onceToast = 1;
+        Timer(Duration(seconds: 2), () {
+          onceToast = 0;
+        });
+      }
+    } else if (arrivalDateTime.isAtSameMomentAs(now)) {
+      print(
+          'Datum i vrijeme dolaska ne mogu biti jednaki današnjem datumu i sadašnjem vremenu.');
+      if (onceToast == 0) {
+        final snackBar = SnackBar(
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+          content: Text(
+              'Datum i vrijeme dolaska ne mogu biti jednaki današnjem datumu i sadašnjem vremenu.'),
+          action: SnackBarAction(
+            label: 'Undo',
+            onPressed: () {},
+          ),
+        );
+        Scaffold.of(context).showSnackBar(snackBar);
+        onceToast = 1;
+        Timer(Duration(seconds: 2), () {
+          onceToast = 0;
+        });
+      }
+    } else {
+      print('Validacija ispravna');
+      if (onceBtnPressed == 0) {
+        onSave();
+        FirebaseCrud().updateData(
+            widget.post,
+            percentageVar,
+            capacityVar,
+            endingDestination,
+            startingDestination,
+            inter,
+            formatted,
+            formatted2,
+            t11,
+            t22,
+            dimensionsVar,
+            goodsVar,
+            vehicleVar,
+            userID,
+            dateOfSubmit,
+            context);
+        onceBtnPressed = 1;
+      }
+    }
+  }
+
   Widget getInterdestinations() {
     inter = widget.post.data['interdestination'];
 
@@ -992,6 +1051,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
       if (find != null)
         interdestinations.removeAt(interdestinations.indexOf(find));
     });
+    _isBtnDisabled = false;
   }
 
   /// onAddForm f-ja pomocu koje dodajemo novu interdestinaciju
@@ -1006,6 +1066,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
         onAdd: () => onAddForm(),
       ));
     });
+    _isBtnDisabled = false;
   }
 
   ///on save forms
@@ -1052,7 +1113,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
     startingDestination = widget.post.data['starting_destination'];
     endingDestination = widget.post.data['ending_destination'];
     formatted2 = widget.post.data['arrival_date'];
-    t11 = widget.post.data['departure_time'];
+    t11 = widget.post.data['arrival_time'];
     percentageVar = int.parse(widget.post.data['availability']);
     capacityVar = widget.post.data['capacity'];
     vehicleVar = widget.post.data['vehicle'];
