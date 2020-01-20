@@ -14,7 +14,6 @@ import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/inderdestination.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
 import 'package:spediter/screens/companyScreens/createRoute/createRouteScreen.dart';
-
 import 'package:spediter/screens/companyScreens/editCompany/interdestinationEditForm.dart';
 import 'package:spediter/theme/style.dart';
 import 'package:spediter/utils/screenUtils.dart';
@@ -303,10 +302,12 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                         left: 9, bottom: 8, right: 5),
                                     height: 36,
                                     child: TextFormField(
+                                      maxLength: 29,
                                       initialValue: startingDestination,
                                       textCapitalization:
                                           TextCapitalization.sentences,
                                       decoration: InputDecoration(
+                                        counterText: '',
                                           hasFloatingPlaceholder: false,
                                           enabledBorder: OutlineInputBorder(
                                             borderRadius: BorderRadius.all(
@@ -387,11 +388,13 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                         left: 9, bottom: 8, right: 5),
                                     height: 36,
                                     child: TextFormField(
+                                      maxLength: 29,
                                       initialValue: endingDestination,
                                       onTap: onAddForm,
                                       textCapitalization:
                                           TextCapitalization.sentences,
                                       decoration: InputDecoration(
+                                        counterText: '',
                                           hasFloatingPlaceholder: false,
                                           enabledBorder: OutlineInputBorder(
                                             borderRadius: BorderRadius.all(
@@ -597,12 +600,14 @@ class _EditRouteFormState extends State<EditRouteForm> {
                         margin: EdgeInsets.only(
                             bottom: 4.5, left: 16.0, right: 16.0, top: 4.5),
                         child: TextFormField(
+                          maxLength: 3,
                           initialValue: widget.post.data['capacity'],
                           keyboardType:
                               TextInputType.numberWithOptions(decimal: true),
                           // controller: controller,
                           focusNode: focusCapacity,
                           decoration: InputDecoration(
+                            counterText: '',
                               enabledBorder: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(4.0)),
