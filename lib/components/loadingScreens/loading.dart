@@ -182,7 +182,8 @@ class _ShowLoading extends State<ShowLoading> {
       RouteAndCheck().checkAndNavigate(context, userID);
     } else {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => RouteOnClick()));
+          .push(MaterialPageRoute(builder: (context) => UsersHome(userID: userID)));
+
     }
   }
 }
