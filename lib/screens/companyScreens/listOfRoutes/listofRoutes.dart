@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:spediter/components/divider.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/components/bottomAppBar.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/components/floatingActionButton.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listOfFinishedRoutes.dart';
@@ -20,9 +19,9 @@ class ListOfRoutes extends StatefulWidget {
 
 class _ListOfRoutesState extends State<ListOfRoutes> {
   String userID;
-  DocumentSnapshot snapi;
-  String st = '';
+  var st;
   bool onlyOnce = true;
+  bool doesDataExist = false;
   DateTime currentBackPressTime;
 
   _ListOfRoutesState({this.userID});
@@ -33,7 +32,7 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
   @override
   void initState() {
     _onRefresh();
-    
+    ListOfRoutesRef(userID: userID);
     super.initState();
   }
 
@@ -43,9 +42,6 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
         onWillPop: _onWillPop,
         child: Scaffold(
           body: SmartRefresher(
-            enablePullDown: true,
-            controller: _refreshController,
-            onRefresh: _onRefresh,
             child: CustomScrollView(
               slivers: <Widget>[
                 SliverList(
@@ -55,42 +51,15 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
                         ListOfRoutesRef(userID: userID),
                         Divider1(thickness: 8, height: 8),
                         ListOfFinishedRoutes(userID: userID),
-                        Container(
-                          width: 0,
-                          height: 0,
-                          child: FutureBuilder(
-                            future: getPosts(userID),
-                            builder:
-                                (BuildContext context, AsyncSnapshot snapshot) {
-                              if (snapshot.hasData) {
-                                return ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: ClampingScrollPhysics(),
-                                    itemCount: snapshot.data.length,
-                                    itemBuilder: (context, index) {
-                                      setState(() {
-                                        snapi = snapshot.data[index];
-                                      });
-
-                                      return Container(
-                                        width: 0,
-                                        height: 0,
-                                      );
-                                    });
-                              }
-                              return Container(
-                                width: 0,
-                                height: 0,
-                              );
-                            },
-                          ),
-                        ),
                       ],
                     )
                   ]),
                 ),
               ],
             ),
+            enablePullDown: true,
+            controller: _refreshController,
+            onRefresh: _onRefresh,
           ),
           bottomNavigationBar: BottomAppBar1(userID: userID),
           floatingActionButton: FloatingActionButton1(),
@@ -112,34 +81,11 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
   void _onRefresh() async {
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000));
-    //print(snapi.data);
-    CompanyRoutes().deleteRouteOnDateMatch(snapi, userID, context);
-    if (onlyOnce) {
-      CompanyRoutes().insertIntoFinishOnDateMatch(
-          snapi,
-          int.parse(snapi.data['availability']),
-          snapi.data['capacity'],
-          snapi.data['ending_destination'],
-          snapi.data['starting_destination'],
-        
-          snapi.data['departure_date'],
-          snapi.data['arrival_date'],
-          snapi.data['departure_time'],
-          snapi.data['departure_time'],
-          snapi.data['dimensions'],
-          snapi.data['goods'],
-          snapi.data['vehicle'],
-          userID,
-          int.parse(snapi.data['timestamp']));
-      onlyOnce = false;
-    }
-    //  onlyOnce = true;
-
-    setState(() {
-      st = 'rendered';
-     
-    });
     // if failed,use refreshFailed()
+    setState(() {
+      st = UniqueKey();
+    });
+    print(st);
     _refreshController.refreshCompleted();
   }
 
