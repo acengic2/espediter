@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:spediter/components/divider.dart';
+import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
 import 'package:spediter/screens/userScreens/components/bottomAppBarUser.dart';
 import 'package:spediter/screens/userScreens/routeOnClick.dart';
 
@@ -13,7 +14,7 @@ void main() => runApp(UsersHome());
 String capacityString;
 String companyName;
 NetworkImage image;
-// String logoURL;
+DocumentSnapshot post;
 String avatarURL =
     'https://f0.pngfuel.com/png/178/595/black-profile-icon-illustration-user-profile-computer-icons-login-user-avatars-png-clip-art-thumbnail.png';
 String companyID;
@@ -72,6 +73,7 @@ class _UsersHomeState extends State<UsersHome> {
                             physics: ClampingScrollPhysics(),
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, index) {
+                              post = snapshot.data[index];
                               var logoAndName;
                               getPosts().then((data) {
                                 logoAndName = Firestore.instance
@@ -214,8 +216,6 @@ class _UsersHomeState extends State<UsersHome> {
                                                   text: 'Popunjenost: ',
                                                   style: TextStyle(
                                                       fontFamily: 'Roboto',
-                                                      // fontSize: ScreenUtil.instance
-                                                      //     .setSp(12.0),
                                                       color: Colors.black
                                                           .withOpacity(0.6))),
                                               TextSpan(
@@ -244,10 +244,27 @@ class _UsersHomeState extends State<UsersHome> {
                                 children: <Widget>[
                                   GestureDetector(
                                     behavior: HitTestBehavior.opaque,
-                                    onTap: () => Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                RouteOnClick())),
+                                    onTap: () async {
+                                      try {
+                                        final result =
+                                            await InternetAddress.lookup(
+                                                'google.com');
+
+                                        if (result.isNotEmpty &&
+                                            result[0].rawAddress.isNotEmpty) {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      RouteOnClick(
+                                                          post: post)));
+                                        }
+                                      } on SocketException catch (_) {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NoInternetConnectionLogInSrceen()));
+                                      }
+                                    },
                                     child: Container(
                                       child: Padding(
                                         padding: const EdgeInsets.only(
