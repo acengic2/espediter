@@ -39,14 +39,6 @@ class FirebaseCrud {
     });
   }
 
-  /// funkcija koja brise iz Rute na match datuma
-  /// potrebno joj je proslijediti doc.ID, DocumentSnapshot, i BuildContext
-  /// ne navigira nakon delete-a
-  void deleteDataOnMatch(
-      DocumentSnapshot doc, String userID, BuildContext context) async {
-    await db.collection('Rute').document(doc.documentID).delete();
-  }
-
   /// update Funkcija za Rute
   /// potrebno joj je proslijediti potrebne parametre
   updateData(
@@ -106,41 +98,30 @@ class FirebaseCrud {
     });
   }
 
-  /// create method for finished routes
-  /// potrebno joj je proslijediti potrebne parametre
-  finishedData(
-    int percentageVar,
-    String capacityVar,
-    String endingDestination,
-    String startingDestination,
-    String formatted,
-    String formatted2,
-    String t11,
-    String t22,
-    String dimensionsVar,
-    String goodsVar,
-    String vehicleVar,
-    String userID,
-    int dateOfSubmit,
-  ) async {
-    // DocumentReference ref =
-    await db.collection('FinishedRoutes').add({
-      'availability': '$percentageVar',
-      'capacity': '$capacityVar',
-      'ending_destination': '$endingDestination',
-      'starting_destination': '$startingDestination',
-      // 'interdestination': '$listOfInterdestinations',
-      'arrival_date': '$formatted2',
-      'arrival_time': '$t11',
-      'departure_time': '$t22',
-      'departure_date': '$formatted',
-      'dimensions': '$dimensionsVar',
-      'goods': '$goodsVar',
-      'vehicle': '$vehicleVar',
-      'user_id': '$userID',
-      'timestamp': '$dateOfSubmit',
+  finishRoute(int arrivalT, DocumentSnapshot doc, BuildContext context, String userID) async {
+     await db.collection('Rute').document(doc.documentID).updateData({
+       'arrival_timestamp': '$arrivalT',
+     });
+      CompanyRoutes().getCompanyFinishedRoutes(userID).then((QuerySnapshot docs) {
+      if (docs.documents.isNotEmpty) {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ListOfRoutes(
+                  userID: userID,
+                )));
+      } else if (docs.documents.isEmpty) {
+        CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
+          if (docs.documents.isNotEmpty) {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => ListOfRoutes(
+                      userID: userID,
+                    )));
+          } else {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => NoRoutes(userID: userID)));
+          }
+        });
+      }
     });
-    //setState(() => id = ref.documentID);
   }
 
   ///  funckija Update za CompanyInfo
@@ -205,6 +186,7 @@ class FirebaseCrud {
       String userID,
       String listOfInterdestinations,
       int dateOfSubmit,
+      int aTimestamp,
       BuildContext context) async {
     await db.collection('Rute').add({
       'availability': '$percentageVar',
@@ -221,7 +203,7 @@ class FirebaseCrud {
       'vehicle': '$vehicleVar',
       'user_id': '$userID',
       'timestamp': '$dateOfSubmit',
-      //'arrivalTimestamp':  DateTime.parse('$formatted2 $t11').millisecondsSinceEpoch,
+      'arrival_timestamp': '$aTimestamp'
     });
     // navigiramo do ShowLoadingRoutes i saljemo userID i id
     Navigator.push(
