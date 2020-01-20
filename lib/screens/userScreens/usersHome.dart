@@ -1,25 +1,21 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:spediter/components/divider.dart';
-import 'package:spediter/screens/companyScreens/editCompany/editRoutes.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/components/bottomAppBar.dart';
-import 'package:verbal_expressions/verbal_expressions.dart';
+import 'package:spediter/screens/userScreens/components/bottomAppBarUser.dart';
+import 'package:spediter/screens/userScreens/routeOnClick.dart';
 
 void main() => runApp(UsersHome());
 
 String capacityString;
 String companyName;
 NetworkImage image;
-String logoURL;
+// String logoURL;
 String avatarURL =
     'https://f0.pngfuel.com/png/178/595/black-profile-icon-illustration-user-profile-computer-icons-login-user-avatars-png-clip-art-thumbnail.png';
-// NetworkImage image = NetworkImage(
-//     'https://f0.pngfuel.com/png/178/595/black-profile-icon-illustration-user-profile-computer-icons-login-user-avatars-png-clip-art-thumbnail.png');
 String companyID;
 
 const blueColor = Color.fromRGBO(3, 54, 255, 1);
@@ -61,393 +57,321 @@ class _UsersHomeState extends State<UsersHome> {
       child: Scaffold(
         body: ListView(
           children: <Widget>[
-            Column(children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: 16.0, bottom: 0.0, left: 20),
-              ),
-              Container(
-                child: FutureBuilder(
-                  future: getPosts(),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.hasData) {
-                      return ListView.builder(
-                          shrinkWrap: true,
-                          physics: ClampingScrollPhysics(),
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (context, index) {
-                            var logoAndName;
-                            getPosts().then((data) {
-                              logoAndName = Firestore.instance
-                                  .collection('Company')
-                                  .document(data['companyID'])
-                                  .snapshots();
-                              if (logoAndName != null) {
-                                logoAndName.forEach((item) {
-                                  // String url = item.data['url_logo'];
-                                  // if (checkUrl(url)) {
-                                  //   logoURL = url;
-                                  // } else {
-                                  //   logoURL = avatarURL;
-                                  // }
-                                  logoURL = avatarURL;
-                                  image = NetworkImage(logoURL);
-                                  companyName = item.data['company_name'];
-                                });
-                              }
-                            });
+            Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top: 16.0, bottom: 0.0, left: 20),
+                ),
+                Container(
+                  child: FutureBuilder(
+                    future: getPosts(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            physics: ClampingScrollPhysics(),
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) {
+                              var logoAndName;
+                              getPosts().then((data) {
+                                logoAndName = Firestore.instance
+                                    .collection('Company')
+                                    .document(data['companyID'])
+                                    .snapshots();
+                                if (logoAndName != null) {
+                                  logoAndName.forEach((item) {
+                                    image = NetworkImage(avatarURL);
+                                    companyName = item.data['company_name'];
+                                  });
+                                }
+                              });
 
-                            /// DATUM
-                            String date =
-                                snapshot.data[index].data['departure_date'];
-                            String dateReversed =
-                                date.split('/').reversed.join();
-                            String departureDate = DateFormat("d MMM")
-                                .format(DateTime.parse(dateReversed));
-                            // KAPACITET
-                            capacityString =
-                                snapshot.data[index].data['capacity'];
-                            companyID = snapshot.data[index].data['user_id'];
-                            final leftSection = new Container(
-                                height: 32,
-                                width: 62,
-                                margin: EdgeInsets.only(top: 8, bottom: 16),
-                                decoration: new BoxDecoration(
-                                  shape: BoxShape.rectangle,
-                                  color: blueColor,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(1.0)),
-                                ),
-                                child: Center(
-                                    child: Padding(
-                                  padding:
-                                      EdgeInsets.only(left: 8.0, right: 8.0),
-                                  child: new RichText(
-                                    text: new TextSpan(
-                                      children: <TextSpan>[
-                                        new TextSpan(
-                                            text: departureDate,
-                                            style: new TextStyle(
-                                              fontSize: ScreenUtil.instance
-                                                  .setSp(13.0),
-                                              color: Colors.white,
-                                              fontFamily: "Roboto",
-                                            )),
-                                      ],
-                                    ),
+                              /// DATUM
+                              String date =
+                                  snapshot.data[index].data['departure_date'];
+                              String dateReversed =
+                                  date.split('/').reversed.join();
+                              String departureDate = DateFormat("d MMM")
+                                  .format(DateTime.parse(dateReversed));
+                              // KAPACITET
+                              capacityString =
+                                  snapshot.data[index].data['capacity'];
+                              companyID = snapshot.data[index].data['user_id'];
+                              final leftSection = new Container(
+                                  height: 32,
+                                  width: 62,
+                                  margin: EdgeInsets.only(top: 8, bottom: 16),
+                                  decoration: new BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    color: blueColor,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(1.0)),
                                   ),
-                                )));
-
-                            ///middle section u koji spremamo kapacitet
-                            final middleSection = new Container(
-                                height: 32,
-                                width: 110,
-                                margin: EdgeInsets.only(
-                                    left: 4.0, right: 4.0, top: 8, bottom: 16),
-                                decoration: new BoxDecoration(
-                                  shape: BoxShape.rectangle,
-                                  color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(1.0)),
-                                  border: new Border.all(
-                                    color: Colors.black.withOpacity(0.12),
-                                    width: 1,
-                                  ),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    new RichText(
+                                  child: Center(
+                                      child: Padding(
+                                    padding:
+                                        EdgeInsets.only(left: 8.0, right: 8.0),
+                                    child: new RichText(
                                       text: new TextSpan(
                                         children: <TextSpan>[
                                           new TextSpan(
-                                              text: 'Kapacitet: ',
+                                              text: departureDate,
                                               style: new TextStyle(
-                                                fontSize: 14.0,
-                                                color: Colors.black
-                                                    .withOpacity(0.6),
+                                                fontSize: ScreenUtil.instance
+                                                    .setSp(13.0),
+                                                color: Colors.white,
                                                 fontFamily: "Roboto",
                                               )),
-                                          new TextSpan(
-                                            text: ('$capacityString t'),
-                                            style: new TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14.0,
-                                              color:
-                                                  Colors.black.withOpacity(1.0),
-                                              fontFamily: "Roboto",
-                                            ),
-                                          ),
                                         ],
                                       ),
                                     ),
-                                  ],
-                                ));
+                                  )));
 
-                            /// DOSTUPNOST
-                            String availability =
-                                snapshot.data[index].data['availability'];
-
-                            final rightSection = new Stack(
-                              children: <Widget>[
-                                Container(
-                                  width: ScreenUtil.instance.setWidth(142.0),
+                              ///middle section u koji spremamo kapacitet
+                              final middleSection = new Container(
                                   height: 32,
+                                  width: 110,
                                   margin: EdgeInsets.only(
+                                      left: 4.0,
+                                      right: 4.0,
                                       top: 8,
-                                      bottom: 16,
-                                      left: 0.0,
-                                      right: 1.0),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 1.0,
-                                          color:
-                                              Colors.black.withOpacity(0.12)),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(1.0))),
-                                ),
-                                Container(
-                                    margin: EdgeInsets.only(top: 9),
-                                    child: LinearPercentIndicator(
-                                      padding: EdgeInsets.only(left: 1),
-                                      width:
-                                          ScreenUtil.instance.setWidth(141.0),
-                                      lineHeight: 30.0,
-                                      percent:
-                                          (double.parse(availability)) / 100,
-                                      center: RichText(
-                                        text: TextSpan(
+                                      bottom: 16),
+                                  decoration: new BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    color: Colors.white,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(1.0)),
+                                    border: new Border.all(
+                                      color: Colors.black.withOpacity(0.12),
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      new RichText(
+                                        text: new TextSpan(
                                           children: <TextSpan>[
-                                            TextSpan(
-                                                text: 'Popunjenost: ',
-                                                style: TextStyle(
-                                                    fontFamily: 'Roboto',
-                                                    // fontSize: ScreenUtil.instance
-                                                    //     .setSp(12.0),
-                                                    color: Colors.black
-                                                        .withOpacity(0.6))),
-                                            TextSpan(
-                                              text: availability + ' %',
-                                              style: TextStyle(
-                                                  fontFamily: 'Roboto',
-                                                  fontSize: ScreenUtil.instance
-                                                      .setSp(12.0),
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black
-                                                      .withOpacity(0.8)),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      linearStrokeCap: LinearStrokeCap.butt,
-                                      backgroundColor: Colors.white,
-                                      progressColor:
-                                          Color.fromRGBO(3, 54, 255, 0.12),
-                                    ))
-                              ],
-                            );
-
-                            return Column(
-                              children: <Widget>[
-                                GestureDetector(
-                                  behavior: HitTestBehavior.opaque,
-                                  onTap: () => Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) => EditRoute(
-                                              post: snapshot.data[index],
-                                              userID: userID))),
-                                  child: Container(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 16,
-                                          bottom: 4,
-                                          left: 17,
-                                          right: 8),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          // FutureBuilder(
-                                          //     future: getIDs(companyID),
-                                          //     builder: (BuildContext context2,
-                                          //         AsyncSnapshot snapshot2) {
-                                          //       if (snapshot2.hasData) {
-                                          //         return ListView.builder(
-                                          //           itemCount:
-                                          //               snapshot2.data.length,
-                                          //           itemBuilder:
-                                          //               (context2, index) {
-                                          //             String url = snapshot2
-                                          //                 .data[index]
-                                          //                 .data['url_logo'];
-                                          //             if (checkUrl(url)) {
-                                          //               logoURL = url;
-                                          //             } else {
-                                          //               logoURL = avatarURL;
-                                          //             }
-                                          //             image =
-                                          //                 NetworkImage(logoURL);
-                                          //             return Row(
-                                          //               children: <Widget>[
-                                          //                 Container(
-                                          //                     width: 30,
-                                          //                     height: 30,
-                                          //                     margin: EdgeInsets
-                                          //                         .only(
-                                          //                             left: 0.0,
-                                          //                             bottom:
-                                          //                                 6.0,
-                                          //                             right:
-                                          //                                 12.0),
-                                          //                     decoration:
-                                          //                         new BoxDecoration(
-                                          //                       border: Border.all(
-                                          //                           width: 1,
-                                          //                           color: Colors
-                                          //                               .black),
-                                          //                       shape: BoxShape
-                                          //                           .circle,
-                                          //                       image:
-                                          //                           new DecorationImage(
-                                          //                         fit: BoxFit
-                                          //                             .fill,
-                                          //                         image: image,
-                                          //                       ),
-                                          //                     )),
-                                          //                 Container(
-                                          //                   margin:
-                                          //                       EdgeInsets.only(
-                                          //                           bottom:
-                                          //                               6.0),
-                                          //                   child: Text(
-                                          //                     '${snapshot2.data[index].data['company_name']}',
-                                          //                     style: TextStyle(
-                                          //                       fontSize: 16.0,
-                                          //                       color: Colors
-                                          //                           .black
-                                          //                           .withOpacity(
-                                          //                               0.8),
-                                          //                       fontWeight:
-                                          //                           FontWeight
-                                          //                               .w400,
-                                          //                       fontFamily:
-                                          //                           "Roboto",
-                                          //                     ),
-                                          //                   ),
-                                          //                 )
-                                          //               ],
-                                          //             );
-                                          //           },
-                                          //         );
-                                          //       } else {
-                                          //         return SizedBox();
-                                          //       }
-                                          //     }),
-                                          Row(
-                                            children: <Widget>[
-                                              Container(
-                                                  width: 30,
-                                                  height: 30,
-                                                  margin: EdgeInsets.only(
-                                                      left: 0.0,
-                                                      bottom: 6.0,
-                                                      right: 12.0),
-                                                  decoration: new BoxDecoration(
-                                                    border: Border.all(
-                                                        width: 1,
-                                                        color: Colors.black),
-                                                    shape: BoxShape.circle,
-                                                    image: new DecorationImage(
-                                                      fit: BoxFit.fill,
-                                                      image: NetworkImage(avatarURL),
-                                                    ),
-                                                  )),
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    bottom: 6.0),
-                                                child: Text('Ime Kompanije',
-                                                  style: TextStyle(
-                                                    fontSize: 16.0,
-                                                    color: Colors.black
-                                                        .withOpacity(0.8),
-                                                    fontWeight: FontWeight.w400,
-                                                    fontFamily: "Roboto",
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          new RichText(
-                                            text: new TextSpan(
-                                              children: <TextSpan>[
-                                                new TextSpan(
-                                                    text:
-                                                        '${snapshot.data[index].data['starting_destination']}, ',
-                                                    style: new TextStyle(
-                                                      fontSize: 20.0,
-                                                      color: Colors.black
-                                                          .withOpacity(0.8),
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontFamily: "Roboto",
-                                                    )),
-                                                new TextSpan(
-                                                    style: new TextStyle(
-                                                  fontSize: 20.0,
+                                            new TextSpan(
+                                                text: 'Kapacitet: ',
+                                                style: new TextStyle(
+                                                  fontSize: 14.0,
                                                   color: Colors.black
                                                       .withOpacity(0.6),
                                                   fontFamily: "Roboto",
                                                 )),
-                                                new TextSpan(
-                                                    text:
-                                                        ('${snapshot.data[index].data['interdestination']}'),
-                                                    style: new TextStyle(
-                                                      fontSize: 20.0,
+                                            new TextSpan(
+                                              text: ('$capacityString t'),
+                                              style: new TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14.0,
+                                                color: Colors.black
+                                                    .withOpacity(1.0),
+                                                fontFamily: "Roboto",
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ));
+
+                              /// DOSTUPNOST
+                              String availability =
+                                  snapshot.data[index].data['availability'];
+
+                              final rightSection = new Stack(
+                                children: <Widget>[
+                                  Container(
+                                    width: ScreenUtil.instance.setWidth(142.0),
+                                    height: 32,
+                                    margin: EdgeInsets.only(
+                                        top: 8,
+                                        bottom: 16,
+                                        left: 0.0,
+                                        right: 1.0),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            width: 1.0,
+                                            color:
+                                                Colors.black.withOpacity(0.12)),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(1.0))),
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(top: 9),
+                                      child: LinearPercentIndicator(
+                                        padding: EdgeInsets.only(left: 1),
+                                        width:
+                                            ScreenUtil.instance.setWidth(141.0),
+                                        lineHeight: 30.0,
+                                        percent:
+                                            (double.parse(availability)) / 100,
+                                        center: RichText(
+                                          text: TextSpan(
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                  text: 'Popunjenost: ',
+                                                  style: TextStyle(
+                                                      fontFamily: 'Roboto',
+                                                      // fontSize: ScreenUtil.instance
+                                                      //     .setSp(12.0),
                                                       color: Colors.black
-                                                          .withOpacity(0.6),
-                                                      fontFamily: "Roboto",
-                                                    )),
-                                                new TextSpan(
-                                                  text:
-                                                      ('${snapshot.data[index].data['ending_destination']}'),
-                                                  style: new TextStyle(
+                                                          .withOpacity(0.6))),
+                                              TextSpan(
+                                                text: availability + ' %',
+                                                style: TextStyle(
+                                                    fontFamily: 'Roboto',
+                                                    fontSize: ScreenUtil
+                                                        .instance
+                                                        .setSp(12.0),
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize: 20.0,
                                                     color: Colors.black
-                                                        .withOpacity(0.8),
-                                                    fontFamily: "Roboto",
+                                                        .withOpacity(0.8)),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        linearStrokeCap: LinearStrokeCap.butt,
+                                        backgroundColor: Colors.white,
+                                        progressColor:
+                                            Color.fromRGBO(3, 54, 255, 0.12),
+                                      ))
+                                ],
+                              );
+
+                              return Column(
+                                children: <Widget>[
+                                  GestureDetector(
+                                    behavior: HitTestBehavior.opaque,
+                                    onTap: () => Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                RouteOnClick())),
+                                    child: Container(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 16,
+                                            bottom: 4,
+                                            left: 17,
+                                            right: 8),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Row(
+                                              children: <Widget>[
+                                                Container(
+                                                    width: 30,
+                                                    height: 30,
+                                                    margin: EdgeInsets.only(
+                                                        left: 0.0,
+                                                        bottom: 6.0,
+                                                        right: 12.0),
+                                                    decoration:
+                                                        new BoxDecoration(
+                                                      border: Border.all(
+                                                          width: 1,
+                                                          color: Colors.black),
+                                                      shape: BoxShape.circle,
+                                                      image:
+                                                          new DecorationImage(
+                                                        fit: BoxFit.fill,
+                                                        image: NetworkImage(
+                                                            avatarURL),
+                                                      ),
+                                                    )),
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      bottom: 6.0),
+                                                  child: Text(
+                                                    'Ime Kompanije',
+                                                    style: TextStyle(
+                                                      fontSize: 16.0,
+                                                      color: Colors.black
+                                                          .withOpacity(0.8),
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontFamily: "Roboto",
+                                                    ),
                                                   ),
-                                                ),
+                                                )
                                               ],
                                             ),
-                                          ),
-                                          Row(
-                                            children: <Widget>[
-                                              leftSection,
-                                              middleSection,
-                                              rightSection
-                                            ],
-                                          )
-                                        ],
+                                            new RichText(
+                                              text: new TextSpan(
+                                                children: <TextSpan>[
+                                                  new TextSpan(
+                                                      text:
+                                                          '${snapshot.data[index].data['starting_destination']}, ',
+                                                      style: new TextStyle(
+                                                        fontSize: 20.0,
+                                                        color: Colors.black
+                                                            .withOpacity(0.8),
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontFamily: "Roboto",
+                                                      )),
+                                                  new TextSpan(
+                                                      style: new TextStyle(
+                                                    fontSize: 20.0,
+                                                    color: Colors.black
+                                                        .withOpacity(0.6),
+                                                    fontFamily: "Roboto",
+                                                  )),
+                                                  new TextSpan(
+                                                      text:
+                                                          ('${snapshot.data[index].data['interdestination']}'),
+                                                      style: new TextStyle(
+                                                        fontSize: 20.0,
+                                                        color: Colors.black
+                                                            .withOpacity(0.6),
+                                                        fontFamily: "Roboto",
+                                                      )),
+                                                  new TextSpan(
+                                                    text:
+                                                        ('${snapshot.data[index].data['ending_destination']}'),
+                                                    style: new TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20.0,
+                                                      color: Colors.black
+                                                          .withOpacity(0.8),
+                                                      fontFamily: "Roboto",
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Row(
+                                              children: <Widget>[
+                                                leftSection,
+                                                middleSection,
+                                                rightSection
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Divider1(height: 1, thickness: 1)
-                              ],
-                            );
-                          });
-                    } else {
-                      return SizedBox(
-                        child: Center(child: CircularProgressIndicator()),
-                      );
-                    }
-                  },
+                                  Divider1(height: 1, thickness: 1)
+                                ],
+                              );
+                            });
+                      } else {
+                        return SizedBox(
+                          child: Center(child: CircularProgressIndicator()),
+                        );
+                      }
+                    },
+                  ),
                 ),
-              ),
-            ])
+              ],
+            ),
           ],
         ),
-        bottomNavigationBar: BottomAppBar1(userID: userID),
+        bottomNavigationBar: BottomAppBarUser(userID: userID),
       ),
     );
   }
@@ -470,39 +394,5 @@ class _UsersHomeState extends State<UsersHome> {
         .orderBy('timestamp', descending: true)
         .getDocuments();
     return qn.documents;
-  }
-
-  Future getIDs(String id) async {
-    var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore
-        .collection('Company')
-        .where('company_id', isEqualTo: id)
-        .getDocuments();
-    return qn.documents;
-  }
-
-  bool checkUrl(String url) {
-    var regex = VerbalExpression()
-      ..startOfLine()
-      ..then("http")
-      ..maybe("s")
-      ..then("://")
-      ..maybe("www.")
-      ..anythingBut(" ")
-      ..then(".png")
-      ..or(".jpg")
-      ..endOfLine();
-    var regex2 = VerbalExpression()
-      ..startOfLine()
-      ..then("http")
-      ..maybe("s")
-      ..then("://")
-      ..maybe("www.")
-      ..anythingBut(" ")
-      ..then(".jpeg")
-      ..or(".svg")
-      ..endOfLine();
-
-    return (regex.hasMatch(url) || regex2.hasMatch(url));
   }
 }
