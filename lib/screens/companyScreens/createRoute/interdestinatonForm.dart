@@ -56,6 +56,7 @@ class _UserFormState extends State<InterdestinationForm> {
                     right: 5,
                   ),
                   child: TextFormField(
+                    maxLength: 29,
                     key: UniqueKey(),
                     onTap: widget.onAdd,
                     textCapitalization: TextCapitalization.sentences,
@@ -65,6 +66,7 @@ class _UserFormState extends State<InterdestinationForm> {
                     validator: (val) =>
                         val.length > 3 ? null : 'Unesite ime grada',
                     decoration: InputDecoration(
+                      counterText: '',
                         hasFloatingPlaceholder: false,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(4.0)),

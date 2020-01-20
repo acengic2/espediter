@@ -6,7 +6,10 @@ import 'package:spediter/components/loadingScreens/components/loadingComponent.d
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
+import 'package:spediter/screens/userScreens/routeOnClick.dart';
 import 'package:spediter/screens/userScreens/usersHome.dart';
+
+import '../routingAndChecking.dart';
 
 void main() => runApp(ShowLoading());
 
@@ -175,31 +178,12 @@ class _ShowLoading extends State<ShowLoading> {
 
   checkForRoutes() {
     if (rola == 'company') {
-      CompanyRoutes()
-          .getCompanyFinishedRoutes(userID)
-          .then((QuerySnapshot docs) {
-        if (docs.documents.isNotEmpty) {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => ListOfRoutes(
-                    userID: user.uid,
-                  )));
-        } else if (docs.documents.isEmpty) {
-          CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-            if (docs.documents.isNotEmpty) {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ListOfRoutes(
-                        userID: user.uid,
-                      )));
-            } else {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => NoRoutes(userID: userID)));
-            }
-          });
-        }
-      });
+      /// metoda koja provjerava rute i navigira 
+      RouteAndCheck().checkAndNavigate(context, userID);
     } else {
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => UsersHome(userID: userID)));
+
     }
   }
 }

@@ -18,6 +18,7 @@ import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/inderdestination.dart';
 import 'package:spediter/components/loadingScreens/loading.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
+import 'package:spediter/components/routingAndChecking.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
@@ -148,7 +149,8 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
       timeP,
       formatted,
       formatted2,
-      timeD;
+      timeD,
+      arrivalTimestamp;
   int percentageVar;
   String capacityVar;
   String t11;
@@ -246,48 +248,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
           color: Colors.black,
           icon: Icon(Icons.clear),
           onPressed: () {
-            CompanyRoutes()
-                .getCompanyFinishedRoutes(userID)
-                .then((QuerySnapshot docs) {
-              if (docs.documents.isNotEmpty) {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ListOfRoutes(
-                          userID: userID,
-                        )));
-              } else if (docs.documents.isEmpty) {
-                CompanyRoutes()
-                    .getCompanyRoutes(userID)
-                    .then((QuerySnapshot docs) {
-                  if (docs.documents.isNotEmpty) {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ListOfRoutes(
-                              userID: userID,
-                            )));
-                  } else {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => NoRoutes(userID: userID)));
-                  }
-                });
-              }
-            });
-
-            /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
-            // CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-            //   if (docs.documents.isNotEmpty) {
-            //     print('NOT EMPRY');
-            //     imaliRuta = true;
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //           builder: (context) => ListOfRoutes(userID: userID)),
-            //     );
-            //   } else {
-            //     print('EMPTU');
-            //     imaliRuta = false;
-            //     Navigator.of(context)
-            //         .push(MaterialPageRoute(builder: (context) => NoRoutes(userID: userID)));
-            //   }
-            // });
+            RouteAndCheck().checkAndNavigate(context, userID);
           },
         ),
         title: const Text('Kreiranje Rute',
@@ -462,9 +423,11 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                           left: 9, bottom: 8, right: 5),
                                       height: 36,
                                       child: TextFormField(
+                                        maxLength: 32,
                                         textCapitalization:
                                             TextCapitalization.sentences,
                                         decoration: InputDecoration(
+                                          counterText: '',
                                             hasFloatingPlaceholder: false,
                                             enabledBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
@@ -543,10 +506,12 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                           left: 9, bottom: 8, right: 5),
                                       height: 36,
                                       child: TextFormField(
+                                            maxLength: 32,
                                         onTap: onAddForm,
                                         textCapitalization:
                                             TextCapitalization.sentences,
                                         decoration: InputDecoration(
+                                          counterText: '',
                                             hasFloatingPlaceholder: false,
                                             enabledBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
@@ -1020,6 +985,9 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
     t22 = DateFormat.Hm().format(t2);
     DateTime now = DateTime.now();
 
+    arrivalTimestamp = formatted2 + ' ' + t11;
+    int aTimestamp = DateTime.parse(arrivalTimestamp).millisecondsSinceEpoch;
+
     selectedDateP = new DateTime(
         selectedDateP.year, selectedDateP.month, selectedDateP.day);
     selectedDateD = new DateTime(
@@ -1108,6 +1076,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
               userID,
               listOfInterdestinations,
               dateOfSubmit,
+              aTimestamp,
               context);
           onceBtnPressed = 1;
         }
@@ -1202,6 +1171,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
               userID,
               listOfInterdestinations,
               dateOfSubmit,
+              aTimestamp,
               context);
           onceBtnPressed = 1;
         }
@@ -1226,6 +1196,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
             userID,
             listOfInterdestinations,
             dateOfSubmit,
+            aTimestamp,
             context);
         onceBtnPressed = 1;
       }
