@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,21 +5,11 @@ import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/screens/companyScreens/editCompany/editRoutes.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
+import 'package:spediter/theme/style.dart';
 
 void main() => runApp(ListOfRoutesRef());
 
 String capacityString;
-
-/// varijable
-///
-/// varijable u kojoj smo spremili boje
-/// plava
-/// crna sa 80% opacity
-/// crna sa 60^ opacity
-const blueColor = Color.fromRGBO(3, 54, 255, 1);
-const textColorGray80 = Color.fromRGBO(0, 0, 0, 0.8);
-const textColorGray60 = Color.fromRGBO(0, 0, 0, 0.6);
 
 /// desni,lijevi,srednji kontejner za prikaz informacija o aktivnim rutama
 final leftSection = new Container();
@@ -79,7 +68,7 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                           margin: EdgeInsets.only(top: 8, bottom: 16),
                           decoration: new BoxDecoration(
                             shape: BoxShape.rectangle,
-                            color: blueColor,
+                            color: StyleColors().blueColor,
                             borderRadius:
                                 BorderRadius.all(Radius.circular(1.0)),
                           ),
@@ -277,7 +266,10 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                         ],
                       );
                     } else {
-                      return Container(width: 0, height: 0,);
+                      return Container(
+                        width: 0,
+                        height: 0,
+                      );
                     }
                   });
             } else {

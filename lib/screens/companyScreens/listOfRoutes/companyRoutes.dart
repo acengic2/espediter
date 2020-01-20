@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:spediter/components/crud/firebaseCrud.dart';
 
 int arrivalTimestamp;
 int thisMomentTimestamp;
@@ -19,12 +17,12 @@ class CompanyRoutes {
         .getDocuments();
   }
 
-  getCompanyFinishedRoutes(String id) {
-    return Firestore.instance
-        .collection('FinishedRoutes')
-        .where('user_id', isEqualTo: id)
-        .orderBy('timestamp', descending: false)
-        .getDocuments();
-  }
+  // getCompanyFinishedRoutes(String id) {
+  //   return Firestore.instance
+  //       .collection('FinishedRoutes')
+  //       .where('user_id', isEqualTo: id)
+  //       .orderBy('timestamp', descending: false)
+  //       .getDocuments();
+  // }
 
 }

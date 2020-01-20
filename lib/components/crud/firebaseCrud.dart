@@ -17,7 +17,7 @@ class FirebaseCrud {
   void deleteData(
       DocumentSnapshot doc, String userID, BuildContext context) async {
     await db.collection('Rute').document(doc.documentID).delete();
-    CompanyRoutes().getCompanyFinishedRoutes(userID).then((QuerySnapshot docs) {
+    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ListOfRoutes(
@@ -76,7 +76,7 @@ class FirebaseCrud {
     });
 
     /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
-    CompanyRoutes().getCompanyFinishedRoutes(userID).then((QuerySnapshot docs) {
+    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ListOfRoutes(
@@ -98,11 +98,12 @@ class FirebaseCrud {
     });
   }
 
-  finishRoute(int arrivalT, DocumentSnapshot doc, BuildContext context, String userID) async {
-     await db.collection('Rute').document(doc.documentID).updateData({
-       'arrival_timestamp': '$arrivalT',
-     });
-      CompanyRoutes().getCompanyFinishedRoutes(userID).then((QuerySnapshot docs) {
+  finishRoute(int arrivalT, DocumentSnapshot doc, BuildContext context,
+      String userID) async {
+    await db.collection('Rute').document(doc.documentID).updateData({
+      'arrival_timestamp': '$arrivalT',
+    });
+    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ListOfRoutes(
@@ -148,7 +149,7 @@ class FirebaseCrud {
     });
 
     /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
-    CompanyRoutes().getCompanyFinishedRoutes(userID).then((QuerySnapshot docs) {
+    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ListOfRoutes(
@@ -187,6 +188,8 @@ class FirebaseCrud {
       String listOfInterdestinations,
       int dateOfSubmit,
       int aTimestamp,
+      String companyName1,
+      String urlLogo,
       BuildContext context) async {
     await db.collection('Rute').add({
       'availability': '$percentageVar',

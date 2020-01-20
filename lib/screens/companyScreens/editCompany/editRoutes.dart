@@ -6,11 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spediter/components/routingAndChecking.dart';
 import 'package:spediter/screens/companyScreens/createRoute/interdestinatonForm.dart';
 import 'package:spediter/screens/companyScreens/editCompany/components/editRouteForm.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:flutter/rendering.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
-import 'package:spediter/screens/singIn/components/form.dart';
 
 void main() => runApp(EditRoute());
 
@@ -96,7 +93,9 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
         title: const Text('Aktivna Ruta',
             style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.8))),
       ),
-      body: EditRouteForm(post: post,),
+      body: EditRouteForm(
+        post: post,
+      ),
     );
   }
 }

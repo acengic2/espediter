@@ -24,11 +24,9 @@ class InterdestinationForm extends StatefulWidget {
   _UserFormState createState() => state;
 
   // bool isValid() => state.validate();
-}  
+}
 
 class _UserFormState extends State<InterdestinationForm> {
-
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -66,7 +64,7 @@ class _UserFormState extends State<InterdestinationForm> {
                     validator: (val) =>
                         val.length > 3 ? null : 'Unesite ime grada',
                     decoration: InputDecoration(
-                      counterText: '',
+                        counterText: '',
                         hasFloatingPlaceholder: false,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(4.0)),

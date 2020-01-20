@@ -3,10 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spediter/components/loadingScreens/components/loadingComponent.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
-import 'package:spediter/screens/userScreens/routeOnClick.dart';
 import 'package:spediter/screens/userScreens/usersHome.dart';
 
 import '../routingAndChecking.dart';
@@ -178,12 +176,11 @@ class _ShowLoading extends State<ShowLoading> {
 
   checkForRoutes() {
     if (rola == 'company') {
-      /// metoda koja provjerava rute i navigira 
+      /// metoda koja provjerava rute i navigira
       RouteAndCheck().checkAndNavigate(context, userID);
     } else {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => UsersHome(userID: userID)));
-
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => UsersHome(userID: userID)));
     }
   }
 }

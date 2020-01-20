@@ -2,12 +2,9 @@ import 'dart:async';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spediter/components/crud/signInMethods.dart';
-import 'package:spediter/components/loadingScreens/loading.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
-
 import '../../../theme/style.dart';
 
 class FormLogIn extends StatefulWidget {
@@ -18,7 +15,6 @@ class FormLogIn extends StatefulWidget {
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 final db = Firestore.instance;
 var err;
-final FirebaseAuth _auth = FirebaseAuth.instance;
 
 var _focusNode = new FocusNode();
 var focusNode = new FocusNode();
@@ -338,14 +334,8 @@ class _FormState extends State<FormLogIn> {
 
                         else {
                           if (onceBtnPressed == 0) {
-                            SignInMethods().signIn(
-                                                   _email, 
-                                                   _password, 
-                                                   _formKey,
-                                                   userID, 
-                                                   err, 
-                                                   context
-                                                   );
+                            SignInMethods().signIn(_email, _password, _formKey,
+                                userID, err, context);
                             onceBtnPressed = 1;
                           }
                         }
@@ -449,17 +439,11 @@ class _FormState extends State<FormLogIn> {
                     },
                   ), //FutureBuilder
                 ], //<Widget>
-              ),
-              
-             
-               //Column
+              ), //Column
             ], //<Widget>
           ), //Column
         )
       ],
     ); //FORM
   }
-
-
-  
 }

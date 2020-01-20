@@ -3,7 +3,6 @@ import 'package:spediter/components/noInternetConnectionScreen/components/textTr
 
 void main() => runApp(NoInternetConnectionLogInSrceen());
 
-
 const String noConnection =
     "Nazalost nemate mreze. Rijesite problem pa pokusajte ponovno.";
 

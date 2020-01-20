@@ -295,14 +295,14 @@ class _UsersHomeState extends State<UsersHome> {
                                                           new DecorationImage(
                                                         fit: BoxFit.fill,
                                                         image: NetworkImage(
-                                                            avatarURL),
+                                                            '${snapshot.data[index].data['url_logo']}'),
                                                       ),
                                                     )),
                                                 Container(
                                                   margin: EdgeInsets.only(
                                                       bottom: 6.0),
                                                   child: Text(
-                                                    'Ime Kompanije',
+                                                    ('${snapshot.data[index].data['company_name']}'),
                                                     style: TextStyle(
                                                       fontSize: 16.0,
                                                       color: Colors.black

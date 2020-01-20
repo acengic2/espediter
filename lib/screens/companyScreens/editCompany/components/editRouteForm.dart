@@ -13,7 +13,7 @@ import 'package:spediter/components/destinationLines.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/inderdestination.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
-import 'package:spediter/screens/companyScreens/createRoute/createRouteScreen.dart';
+import 'package:spediter/components/vehicle.dart';
 import 'package:spediter/screens/companyScreens/editCompany/interdestinationEditForm.dart';
 import 'package:spediter/theme/style.dart';
 import 'package:spediter/utils/screenUtils.dart';
@@ -37,11 +37,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
   List<InterdestinationEditForm> interdestinations = [];
 
   /// VARIJABLE
-  ///
-  /// formati za datume
-  /// jezik i ispis na kartici
-  /// format za vrijeme
-  /// format za datum - upis u bazu prilikom preuzimanja
   final format = DateFormat.MMMMd('bs');
   final formatTime = DateFormat("HH:mm");
   final formatP = DateFormat('yyyy-MM-dd');
@@ -307,7 +302,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                       textCapitalization:
                                           TextCapitalization.sentences,
                                       decoration: InputDecoration(
-                                        counterText: '',
+                                          counterText: '',
                                           hasFloatingPlaceholder: false,
                                           enabledBorder: OutlineInputBorder(
                                             borderRadius: BorderRadius.all(
@@ -339,7 +334,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                       },
                                     )))
                           ])),
-                          
+
                       getInterdestinations(),
 
                       /// MEDJUDESTINACIJA
@@ -394,7 +389,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                       textCapitalization:
                                           TextCapitalization.sentences,
                                       decoration: InputDecoration(
-                                        counterText: '',
+                                          counterText: '',
                                           hasFloatingPlaceholder: false,
                                           enabledBorder: OutlineInputBorder(
                                             borderRadius: BorderRadius.all(
@@ -607,7 +602,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                           // controller: controller,
                           focusNode: focusCapacity,
                           decoration: InputDecoration(
-                            counterText: '',
+                              counterText: '',
                               enabledBorder: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(4.0)),
@@ -841,8 +836,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                             onceToast = 0;
                                           });
                                         }
-                                      }
-                                      else {
+                                      } else {
                                         if (onceBtnPressed == 0) {
                                           validateDatesAndTimes(context);
                                         }
@@ -883,7 +877,8 @@ class _EditRouteFormState extends State<EditRouteForm> {
                               onPressed: () {
                                 if (onceBtnPressed == 0) {
                                   //onSave();
-                                  FirebaseCrud().finishRoute(arrivalT, widget.post, context, userID);
+                                  FirebaseCrud().finishRoute(
+                                      arrivalT, widget.post, context, userID);
                                   onceBtnPressed = 1;
                                 }
                               }),
@@ -1051,9 +1046,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
         interdestinations.removeAt(interdestinations.indexOf(find));
     });
     _isBtnDisabled = false;
-
   }
-
 
   /// onAddForm f-ja pomocu koje dodajemo novu interdestinaciju
   ///
