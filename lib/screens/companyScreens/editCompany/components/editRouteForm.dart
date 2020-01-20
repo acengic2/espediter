@@ -14,7 +14,7 @@ import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/inderdestination.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
 import 'package:spediter/screens/companyScreens/createRoute/createRouteScreen.dart';
-import 'package:spediter/screens/companyScreens/createRoute/interdestinatonForm.dart';
+
 import 'package:spediter/screens/companyScreens/editCompany/interdestinationEditForm.dart';
 import 'package:spediter/theme/style.dart';
 import 'package:spediter/utils/screenUtils.dart';
@@ -95,6 +95,10 @@ class _EditRouteFormState extends State<EditRouteForm> {
   String t11;
   String t22;
   String inter;
+  static String datumA = '1996-03-11';
+  static String vrijemeA = '09:00';
+
+  int arrivalT = DateTime.parse(datumA + ' ' + vrijemeA).millisecondsSinceEpoch;
   List<String> interdestinacije;
 
   double capacityDouble;
@@ -337,6 +341,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                       },
                                     )))
                           ])),
+                          
                       getInterdestinations(),
 
                       /// MEDJUDESTINACIJA
@@ -928,24 +933,8 @@ class _EditRouteFormState extends State<EditRouteForm> {
                               ),
                               onPressed: () {
                                 if (onceBtnPressed == 0) {
-                                  // ubacujemo u FinishedRoutes
-                                  FirebaseCrud().finishedData(
-                                      percentageVar,
-                                      capacityVar,
-                                      endingDestination,
-                                      startingDestination,
-                                      formatted,
-                                      formatted2,
-                                      t11,
-                                      t22,
-                                      dimensionsVar,
-                                      goodsVar,
-                                      vehicleVar,
-                                      userID,
-                                      dateOfSubmit);
-                                  // brisemo iz Rute
-                                  FirebaseCrud()
-                                      .deleteData(widget.post, userID, context);
+                                  //onSave();
+                                  FirebaseCrud().finishRoute(arrivalT, widget.post, context, userID);
                                   onceBtnPressed = 1;
                                 }
                               }),
@@ -975,10 +964,15 @@ class _EditRouteFormState extends State<EditRouteForm> {
       inter = inter.substring(0, inter.length - 2);
 
       interdestinacije = inter.split(', ');
-
+      var _interdestination = Interdestination();
       return Column(
           children: interdestinacije
-              .map((item) => InterdestinationEditForm(item: item))
+              .map((item) => InterdestinationEditForm(
+                    item: item,
+                    interdestination: _interdestination,
+                    onDelete: () => onDelete(_interdestination),
+                    onAdd: () => onAddForm(),
+                  ))
               .toList());
     }
   }
@@ -992,7 +986,9 @@ class _EditRouteFormState extends State<EditRouteForm> {
       if (find != null)
         interdestinations.removeAt(interdestinations.indexOf(find));
     });
+    print('deletam');
   }
+
 
   /// onAddForm f-ja pomocu koje dodajemo novu interdestinaciju
   ///
@@ -1011,9 +1007,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
   ///on save forms
   void onSave() {
     if (interdestinations.length > 0) {
-      // var allValid = true;
-      // // interdestinations.forEach((form) => allValid = allValid);
-      // if (allValid) {
       var data = interdestinations.map((it) => it.interdestination).toList();
       for (int i = 0; i < data.length; i++) {
         if ('${data[i].interdestinationData}' != '')
@@ -1021,7 +1014,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
         else
           listOfInterdestinations += '';
       }
-      // }
     }
     inter = inter + ", " + listOfInterdestinations;
     print(inter + " DaAAAAAaaa");
