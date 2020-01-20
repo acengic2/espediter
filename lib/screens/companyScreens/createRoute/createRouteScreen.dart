@@ -19,6 +19,7 @@ import 'package:spediter/components/inderdestination.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
 import 'package:spediter/components/routingAndChecking.dart';
 import 'package:spediter/components/vehicle.dart';
+import 'package:spediter/screens/userScreens/usersHome.dart';
 import 'package:spediter/theme/style.dart';
 import 'package:spediter/utils/screenUtils.dart';
 import 'package:flutter/rendering.dart';
@@ -172,8 +173,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
   /// onDelete f-ja za interdestinacije
   @override
   Widget build(BuildContext context) {
-  
-
     /// RESPONSIVE
     ///
     /// iz klase [ScreenUtils]
@@ -426,6 +425,28 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                               ),
                             ],
                           ),
+                        ),
+
+                        FutureBuilder(
+                          future: getPosts123(userID),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (snapshot.hasData) {
+                              return ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: ClampingScrollPhysics(),
+                                  itemCount: snapshot.data.length,
+                                  itemBuilder: (context, index) {
+                                    companyName = snapshot
+                                        .data[index].data['company_name'];
+                                    urlLogo =
+                                        snapshot.data[index].data['url_logo'];
+
+                                    return SizedBox();
+                                  });
+                            }
+                            return SizedBox();
+                          },
                         ),
 
                         ///KRAJNJA DESTINACIJA
@@ -861,8 +882,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                 onPressed: _isBtnDisabled
                                     ? null
                                     : () async {
-
-                                       
                                         FocusScopeNode currentFocus =
                                             FocusScope.of(context);
                                         if (!currentFocus.hasPrimaryFocus) {
@@ -912,41 +931,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                         } else {
                                           validateDatesAndTimes(context);
                                         }
-                                       
-                                        //
-                                        ///
-                                        ///trebam izvuci iz collection Company url i name i spremiti ih u variable
-                                        ///companyName
-                                        ///urlLogo
-                                        // Firestore databaseReference = Firestore.instance;
-
-                                        // void getData() {
-                                        //   databaseReference
-                                        //       .collection("books")
-                                        //       .getDocuments()
-                                        //       .then((QuerySnapshot snapshot) {
-                                        //     snapshot.documents.forEach((f) => print('${f.data}}'));
-                                        //   });
-                                        // }
-                                    
-                                        // getData123() async {
-                                        //   return await Firestore.instance
-                                        //       .collection('Company').
-                                        //       where('user_id', isEqualTo: id)
-                                        //       .getDocuments();
-                                        // }
-
-                                        // getData123().then((val) {
-                                        //   if (val.documents.length > 0) {
-                                        //     print("OVDJE SAMMMM!!!!" +
-                                        //         val.documents[].data["company_name"]); //ovdje trebam dobar index poslati
-                                        //   } else {
-                                        //     print("Not Found");
-                                        //   }
-                                        // });
-                                        
-
-                                      
                                       }),
                           ),
                         ),
@@ -955,43 +939,39 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                   )
                 ],
               ),
-
-          
-
             ],
           ),
         ),
+
         // ),]
       ),
     );
   }
 
-    void onDelete(Interdestination _interdestination) {
-      setState(() {
-        var find = interdestinations.firstWhere(
-          (it) => it.interdestination == _interdestination,
-          orElse: () => null,
-        );
-        if (find != null)
-          interdestinations.removeAt(interdestinations.indexOf(find));
-      });
-    }
+  void onDelete(Interdestination _interdestination) {
+    setState(() {
+      var find = interdestinations.firstWhere(
+        (it) => it.interdestination == _interdestination,
+        orElse: () => null,
+      );
+      if (find != null)
+        interdestinations.removeAt(interdestinations.indexOf(find));
+    });
+  }
 
-    /// onAddForm f-ja pomocu koje dodajemo novu interdestinaciju
-    ///
-    /// setState u kojem prosljedjujemo metodu onDelete i onAdd
-    void onAddForm() {
-      setState(() {
-        var _interdestination = Interdestination();
-        interdestinations.add(InterdestinationForm(
-          interdestination: _interdestination,
-          onDelete: () => onDelete(_interdestination),
-          onAdd: () => onAddForm(),
-
-        
-        ));
-      });
-    }
+  /// onAddForm f-ja pomocu koje dodajemo novu interdestinaciju
+  ///
+  /// setState u kojem prosljedjujemo metodu onDelete i onAdd
+  void onAddForm() {
+    setState(() {
+      var _interdestination = Interdestination();
+      interdestinations.add(InterdestinationForm(
+        interdestination: _interdestination,
+        onDelete: () => onDelete(_interdestination),
+        onAdd: () => onAddForm(),
+      ));
+    });
+  }
 
   validateDatesAndTimes(BuildContext context) {
     t11 = DateFormat.Hm().format(t1);
@@ -1227,11 +1207,9 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
     QuerySnapshot qn = await firestore
         .collection('Company')
         .where('company_id', isEqualTo: id)
-        .orderBy('timestamp', descending: true)
         .getDocuments();
     return qn.documents;
   }
-
 
   /// metoda koja provjerava da li je aktivan counter za screen aktivan
   setScreenSize() {

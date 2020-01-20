@@ -4,6 +4,7 @@ import 'package:spediter/components/loadingScreens/loadingRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
+import 'package:spediter/screens/userScreens/usersHome.dart';
 
 /// instanca za bazu
 final db = Firestore.instance;
@@ -206,7 +207,9 @@ class FirebaseCrud {
       'vehicle': '$vehicleVar',
       'user_id': '$userID',
       'timestamp': '$dateOfSubmit',
-      'arrival_timestamp': '$aTimestamp'
+      'arrival_timestamp': '$aTimestamp',
+      'company_name': '$companyName',
+      'url_logo': '$urlLogo'
     });
     // navigiramo do ShowLoadingRoutes i saljemo userID i id
     Navigator.push(
