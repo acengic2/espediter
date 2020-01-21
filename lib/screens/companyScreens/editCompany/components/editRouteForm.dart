@@ -11,10 +11,8 @@ import 'package:spediter/components/crud/firebaseCrud.dart';
 import 'package:spediter/components/destinationCircles.dart';
 import 'package:spediter/components/destinationLines.dart';
 import 'package:spediter/components/divider.dart';
-//import 'package:spediter/components/inderdestination.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
 import 'package:spediter/components/vehicle.dart';
-//import 'package:spediter/screens/companyScreens/editCompany/interdestinationEditForm.dart';
 import 'package:spediter/theme/style.dart';
 import 'package:spediter/utils/screenUtils.dart';
 
@@ -27,6 +25,10 @@ class EditRouteForm extends StatefulWidget {
   @override
   _EditRouteFormState createState() => _EditRouteFormState();
 }
+
+int fieldCount = 0;
+int nextIndex = 0;
+String vrijednostiSaPolja = '';
 
 class _EditRouteFormState extends State<EditRouteForm> {
   final DocumentSnapshot post;
@@ -77,7 +79,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
       selectedDateStringD,
       endingDestination,
       startingDestination,
-      initial,
+      initialValues,
       vehicleVar,
       stringKonacnoP,
       stringKonacnoD,
@@ -104,9 +106,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
   DateTime t1;
   DateTime t2;
 
-  int fieldCount = 0;
-  int nextIndex = 0;
-  String vrijednosti = '1';
   // you must keep track of the TextEditingControllers if you want the values to persist correctly
   List<TextEditingController> controllers = <TextEditingController>[];
 
@@ -134,7 +133,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
     getUserid();
     onceToast = 0;
     populateTheVariables();
-    
   }
 
   @override
@@ -149,12 +147,10 @@ class _EditRouteFormState extends State<EditRouteForm> {
 
   @override
   Widget build(BuildContext context) {
-    
     // post.data['interdestination'];
-    List<String> jghjsf = initial.split(', ');
+    List<String> jghjsf = initialValues.split(', ');
 
     List<Widget> _buildList() {
-      print(initial);
       int i;
       // fill in keys if the list is not long enough (in case we added one)
       if (controllers.length < jghjsf.length) {
@@ -166,37 +162,94 @@ class _EditRouteFormState extends State<EditRouteForm> {
       i = 0;
       // cycle through the controllers, and recreate each, one per available controller
       return controllers.map<Widget>((TextEditingController controller) {
-        int displayNumber = i + 1;
         i++;
-        return TextField(
-          controller: controller,
-          maxLength: 20,
-          onTap: () {
-            setState(() {
-             // fieldCount++;
-              jghjsf.length++;
-            });
-          },
-          decoration: InputDecoration(
-            labelText: "Player $displayNumber",
-            counterText: "",
-            prefixIcon: const Icon(Icons.person),
-            suffixIcon: IconButton(
-              icon: Icon(Icons.clear),
-              onPressed: () {
-                // when removing a TextField, you must do two things:
-                // 1. decrement the number of controllers you should have (fieldCount)
-                // 2. actually remove this field's controller from the list of controllers
-                setState(() {
-                 
-                  jghjsf.length--;
-                  print(controller);
-                  controllers.remove(controller);
-                });
-              },
-            ),
-          ),
-        );
+        return Container(
+            margin: EdgeInsets.only(left: 18.0, right: 16.0),
+            child: Row(children: <Widget>[
+              Expanded(
+                  flex: 1,
+                  child: Column(
+                    children: <Widget>[
+                      DestinationLine(),
+                      DestinationCircle(
+                        largeCircle: StyleColors().textColorGray20,
+                        smallCircle: StyleColors().textColorGray50,
+                      ),
+                      DestinationLine(),
+                    ],
+                  )),
+              Expanded(
+                  flex: 9,
+                  child: Container(
+                      height: 36.0,
+                      margin: EdgeInsets.only(
+                        bottom: 8,
+                        left: 12,
+                        right: 5,
+                      ),
+                      child: TextFormField(
+                        // key: UniqueKey(),
+                        enableInteractiveSelection: false,
+                        onTap: () {
+                          setState(() {
+                            fieldCount++;
+                            jghjsf.length++;
+                            controllers.add(controller);      
+                          });
+                        },
+                        maxLength: 29,
+                        textCapitalization: TextCapitalization.sentences,
+                        controller: controller,
+
+                        decoration: InputDecoration(
+                            counterText: '',
+                            hasFloatingPlaceholder: false,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4.0)),
+                              borderSide: BorderSide(
+                                  color: StyleColors().textColorGray12),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4.0)),
+                                borderSide: BorderSide(
+                                    color: StyleColors().textColorGray12)),
+                            labelText: 'Unesite interdestinaciju',
+                            labelStyle:
+                                TextStyle(color: StyleColors().textColorGray50),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0))),
+                      ))),
+              Expanded(
+                  flex: 1,
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      bottom: 2.0,
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        Container(
+                          child: IconButton(
+                            onPressed: () {
+                              // when removing a TextField, you must do two things:
+                              // 1. decrement the number of controllers you should have (fieldCount)
+                              // 2. actually remove this field's controller from the list of controllers
+                              setState(() {
+                                fieldCount--;
+                                jghjsf.length--;
+                                print(controller);
+                                controllers.remove(controller);
+                              });
+                            },
+                            icon: Icon(Icons.clear),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
+            ]));
       }).toList(); // convert to a list
     }
 
@@ -404,10 +457,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                           ])),
 
                       //  getInterdestinations(),
-                      ListView(
-                        padding: EdgeInsets.all(0),
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                      Column(
                         children: children,
                       ),
 
@@ -1077,7 +1127,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
             capacityVar,
             endingDestination,
             startingDestination,
-            vrijednosti,
+            vrijednostiSaPolja,
             formatted,
             formatted2,
             t11,
@@ -1092,73 +1142,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
       }
     }
   }
-
-  // Widget getInterdestinations() {
-  //   inter = widget.post.data['interdestination'];
-
-  //   if (inter == '') {
-  //     return Container(
-  //       height: 0,
-  //       width: 0,
-  //     );
-  //   } else {
-  //     inter = inter.substring(0, inter.length - 2);
-
-  //     interdestinacije = inter.split(', ');
-  //     var _interdestination = Interdestination();
-  //     return Column(
-  //         children: interdestinacije
-  //             .map((item) => InterdestinationEditForm(
-  //                   item: item,
-  //                   interdestination: _interdestination,
-  //                   onDelete: () => onDelete(_interdestination),
-  //                   onAdd: () => onAddForm(),
-  //                 ))
-  //             .toList());
-  //   }
-  // }
-
-  // void onDelete(Interdestination _interdestination) {
-  //   setState(() {
-  //     var find = interdestinations.firstWhere(
-  //       (it) => it.interdestination == _interdestination,
-  //       orElse: () => null,
-  //     );
-  //     if (find != null)
-  //       interdestinations.removeAt(interdestinations.indexOf(find));
-  //   });
-  //   _isBtnDisabled = false;
-  // }
-
-  // /// onAddForm f-ja pomocu koje dodajemo novu interdestinaciju
-  // ///
-  // /// setState u kojem prosljedjujemo metodu onDelete i onAdd
-  // void onAddForm() {
-  //   setState(() {
-  //     var _interdestination = Interdestination();
-  //     interdestinations.add(InterdestinationEditForm(
-  //       interdestination: _interdestination,
-  //       onDelete: () => onDelete(_interdestination),
-  //       onAdd: () => onAddForm(),
-  //     ));
-  //   });
-  //   _isBtnDisabled = false;
-  // }
-
-  // ///on save forms
-  // void onSave() {
-  //   if (interdestinations.length > 0) {
-  //     var data = interdestinations.map((it) => it.interdestination).toList();
-  //     for (int i = 0; i < data.length; i++) {
-  //       if ('${data[i].interdestinationData}' != '')
-  //         listOfInterdestinations += '${data[i].interdestinationData}, ';
-  //       else
-  //         listOfInterdestinations += '';
-  //     }
-  //   }
-  //   inter = inter + ", " + listOfInterdestinations;
-  //   print(inter + " DaAAAAAaaa");
-  // }
 
   // funckija koja provjerava da li su polja prazna i enable/disable btn
   areFieldsEmpty() {
@@ -1191,7 +1174,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
     vehicleVar = widget.post.data['vehicle'];
     goodsVar = widget.post.data['goods'];
     dimensionsVar = widget.post.data['dimensions'];
-    initial = widget.post.data['interdestination'];
+    initialValues = widget.post.data['interdestination'];
   }
 
   /// na promjenu dropdown-a
@@ -1242,15 +1225,13 @@ class _EditRouteFormState extends State<EditRouteForm> {
     return items;
   }
 
-  void getV() {
-    vrijednosti = '';
-    print('sasasv' + vrijednosti);
-    //var data = controllers.map((f)=> f).toList();
+  getV() {
+    vrijednostiSaPolja = '';
     for (var i = 0; i < controllers.length; i++) {
       if (controllers[i].text != '') {
-        vrijednosti = vrijednosti + ', ' + controllers[i].text;
+        vrijednostiSaPolja = vrijednostiSaPolja + ', ' + controllers[i].text;
       }
     }
-    print(vrijednosti);
+    print(vrijednostiSaPolja);
   }
 }
