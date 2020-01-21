@@ -33,7 +33,7 @@ class _UserFormState extends State<InterdestinationEditForm> {
   @override
   void initState() {
     super.initState();
-   // getValues();
+    // getValues();
   }
 
   TextEditingController controller;
@@ -76,7 +76,8 @@ class _UserFormState extends State<InterdestinationEditForm> {
                     textCapitalization: TextCapitalization.sentences,
                     // controller: controller,
                     initialValue: widget.item,
-                    onChanged: (val) => widget.interdestination.interdestinationData = val,
+                    onChanged: (val) =>
+                        widget.interdestination.interdestinationData = val,
                     //(val) => {
                     //      if (val == widget.item) {
 
@@ -86,7 +87,7 @@ class _UserFormState extends State<InterdestinationEditForm> {
                     validator: (val) =>
                         val.length > 3 ? null : 'Unesite ime grada',
                     decoration: InputDecoration(
-                      counterText: '',
+                        counterText: '',
                         hasFloatingPlaceholder: false,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(4.0)),

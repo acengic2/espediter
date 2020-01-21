@@ -42,7 +42,7 @@ class _NoRoutesScreenPageState extends State<NoRoutes> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
-          child: Scaffold(
+      child: Scaffold(
         resizeToAvoidBottomPadding: false,
         body: Container(
           child: Center(
@@ -106,9 +106,10 @@ class _NoRoutesScreenPageState extends State<NoRoutes> {
       ),
     );
   }
+
   Future<bool> _onWillPop() async {
-     DateTime now = DateTime.now();
-    if (currentBackPressTime == null || 
+    DateTime now = DateTime.now();
+    if (currentBackPressTime == null ||
         now.difference(currentBackPressTime) > Duration(seconds: 2)) {
       currentBackPressTime = now;
       return Future.value(false);

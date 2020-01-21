@@ -4,6 +4,7 @@ import 'package:spediter/components/loadingScreens/loadingRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
+import 'package:spediter/screens/userScreens/usersHome.dart';
 
 /// instanca za bazu
 final db = Firestore.instance;
@@ -17,7 +18,7 @@ class FirebaseCrud {
   void deleteData(
       DocumentSnapshot doc, String userID, BuildContext context) async {
     await db.collection('Rute').document(doc.documentID).delete();
-    CompanyRoutes().getCompanyFinishedRoutes(userID).then((QuerySnapshot docs) {
+    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ListOfRoutes(
@@ -76,7 +77,7 @@ class FirebaseCrud {
     });
 
     /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
-    CompanyRoutes().getCompanyFinishedRoutes(userID).then((QuerySnapshot docs) {
+    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ListOfRoutes(
@@ -98,11 +99,12 @@ class FirebaseCrud {
     });
   }
 
-  finishRoute(int arrivalT, DocumentSnapshot doc, BuildContext context, String userID) async {
-     await db.collection('Rute').document(doc.documentID).updateData({
-       'arrival_timestamp': '$arrivalT',
-     });
-      CompanyRoutes().getCompanyFinishedRoutes(userID).then((QuerySnapshot docs) {
+  finishRoute(int arrivalT, DocumentSnapshot doc, BuildContext context,
+      String userID) async {
+    await db.collection('Rute').document(doc.documentID).updateData({
+      'arrival_timestamp': '$arrivalT',
+    });
+    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ListOfRoutes(
@@ -148,7 +150,7 @@ class FirebaseCrud {
     });
 
     /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
-    CompanyRoutes().getCompanyFinishedRoutes(userID).then((QuerySnapshot docs) {
+    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ListOfRoutes(
@@ -187,6 +189,8 @@ class FirebaseCrud {
       String listOfInterdestinations,
       int dateOfSubmit,
       int aTimestamp,
+      String companyName1,
+      String urlLogo,
       BuildContext context) async {
     await db.collection('Rute').add({
       'availability': '$percentageVar',
@@ -203,7 +207,9 @@ class FirebaseCrud {
       'vehicle': '$vehicleVar',
       'user_id': '$userID',
       'timestamp': '$dateOfSubmit',
-      'arrival_timestamp': '$aTimestamp'
+      'arrival_timestamp': '$aTimestamp',
+      'company_name': '$companyName',
+      'url_logo': '$urlLogo'
     });
     // navigiramo do ShowLoadingRoutes i saljemo userID i id
     Navigator.push(

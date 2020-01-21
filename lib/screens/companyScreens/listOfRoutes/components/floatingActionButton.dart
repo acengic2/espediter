@@ -6,7 +6,6 @@ class FloatingActionButton1 extends StatelessWidget {
   final String buttonText = "VRATITE SE";
   final String tooltip = "+";
   final Icon icon = Icon(Icons.add);
-   
 
   @override
   Widget build(BuildContext context) {

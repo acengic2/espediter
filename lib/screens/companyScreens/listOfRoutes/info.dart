@@ -4,8 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/rendering.dart';
 import 'package:spediter/components/routingAndChecking.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
 import 'package:spediter/theme/style.dart';
 
@@ -77,7 +75,6 @@ class _InfoPageState extends State<InfoPage> {
             onPressed: () {
               /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
               RouteAndCheck().checkAndNavigate(context, userID);
-              
             },
           ),
           title: const Text('Info',

@@ -16,31 +16,16 @@ import 'package:spediter/components/destinationCircles.dart';
 import 'package:spediter/components/destinationLines.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/inderdestination.dart';
-import 'package:spediter/components/loadingScreens/loading.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
 import 'package:spediter/components/routingAndChecking.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
+import 'package:spediter/components/vehicle.dart';
+import 'package:spediter/screens/userScreens/usersHome.dart';
 import 'package:spediter/theme/style.dart';
-
 import 'package:spediter/utils/screenUtils.dart';
-
 import 'package:flutter/rendering.dart';
-
 import 'interdestinatonForm.dart';
 
 void main() => runApp(CreateRoute());
-
-/// varijable
-///
-/// varijable u kojoj smo spremili boje
-/// plava
-/// crna sa 80% opacity
-/// crna sa 60^ opacity
-const blueColor = Color.fromRGBO(3, 54, 255, 1);
-const textColorGray80 = Color.fromRGBO(0, 0, 0, 0.8);
-const textColorGray60 = Color.fromRGBO(0, 0, 0, 0.6);
 
 class CreateRoute extends StatelessWidget {
   final String userID;
@@ -84,11 +69,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
   _CreateRouteScreenPageState({this.userID});
 
   /// VARIJABLE
-  ///
-  /// formati za datume
-  /// jezik i ispis na kartici
-  /// format za vrijeme
-  /// format za datum - upis u bazu prilikom preuzimanja
+
   final format = DateFormat.MMMMd('bs');
   final formatTime = DateFormat("HH:mm");
   final formatP = DateFormat('yyyy-MM-dd');
@@ -100,12 +81,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
   final db = Firestore.instance;
 
   /// fokusi
-  ///
-  /// fokus za procenat
-  /// fokus za dostupnost
-  /// fokus za robu
-  /// fokus za dimenzije
-  /// fokus za pocetnu destinaciju
+
   /// fokus za krajnju destinaciju
   var focusPercentage = new FocusNode();
   var focusCapacity = new FocusNode();
@@ -125,14 +101,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
   var percentageController = new MaskedTextController(mask: '000');
 
   /// Stringovi
-  ///
-  /// companyID
-  /// user id
-  /// id
-  /// medjudestinacija
-  /// roba,dimenzije,odabraniDatumPolaska,odabraniDatumDolaska,krajnja destinacija,pocetna destinacija
-  /// vrijemeDolaska,vrijemePolaska, odabranoVozilo,
-  /// procenat i kapacitet
   String userUid;
   String userID;
   String id;
@@ -150,7 +118,9 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
       formatted,
       formatted2,
       timeD,
-      arrivalTimestamp;
+      arrivalTimestamp,
+      companyName1,
+      urlLogo;
   int percentageVar;
   String capacityVar;
   String t11;
@@ -203,31 +173,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
   /// onDelete f-ja za interdestinacije
   @override
   Widget build(BuildContext context) {
-    void onDelete(Interdestination _interdestination) {
-      setState(() {
-        var find = interdestinations.firstWhere(
-          (it) => it.interdestination == _interdestination,
-          orElse: () => null,
-        );
-        if (find != null)
-          interdestinations.removeAt(interdestinations.indexOf(find));
-      });
-    }
-
-    /// onAddForm f-ja pomocu koje dodajemo novu interdestinaciju
-    ///
-    /// setState u kojem prosljedjujemo metodu onDelete i onAdd
-    void onAddForm() {
-      setState(() {
-        var _interdestination = Interdestination();
-        interdestinations.add(InterdestinationForm(
-          interdestination: _interdestination,
-          onDelete: () => onDelete(_interdestination),
-          onAdd: () => onAddForm(),
-        ));
-      });
-    }
-
     /// RESPONSIVE
     ///
     /// iz klase [ScreenUtils]
@@ -427,7 +372,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                         textCapitalization:
                                             TextCapitalization.sentences,
                                         decoration: InputDecoration(
-                                          counterText: '',
+                                            counterText: '',
                                             hasFloatingPlaceholder: false,
                                             enabledBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
@@ -482,6 +427,28 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                           ),
                         ),
 
+                        FutureBuilder(
+                          future: getPosts123(userID),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (snapshot.hasData) {
+                              return ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: ClampingScrollPhysics(),
+                                  itemCount: snapshot.data.length,
+                                  itemBuilder: (context, index) {
+                                    companyName = snapshot
+                                        .data[index].data['company_name'];
+                                    urlLogo =
+                                        snapshot.data[index].data['url_logo'];
+
+                                    return SizedBox();
+                                  });
+                            }
+                            return SizedBox();
+                          },
+                        ),
+
                         ///KRAJNJA DESTINACIJA
                         Container(
                             margin: EdgeInsets.only(left: 16.0, right: 16.0),
@@ -506,12 +473,12 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                           left: 9, bottom: 8, right: 5),
                                       height: 36,
                                       child: TextFormField(
-                                            maxLength: 32,
+                                        maxLength: 32,
                                         onTap: onAddForm,
                                         textCapitalization:
                                             TextCapitalization.sentences,
                                         decoration: InputDecoration(
-                                          counterText: '',
+                                            counterText: '',
                                             hasFloatingPlaceholder: false,
                                             enabledBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
@@ -971,13 +938,39 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                     ),
                   )
                 ],
-              )
+              ),
             ],
           ),
         ),
+
         // ),]
       ),
     );
+  }
+
+  void onDelete(Interdestination _interdestination) {
+    setState(() {
+      var find = interdestinations.firstWhere(
+        (it) => it.interdestination == _interdestination,
+        orElse: () => null,
+      );
+      if (find != null)
+        interdestinations.removeAt(interdestinations.indexOf(find));
+    });
+  }
+
+  /// onAddForm f-ja pomocu koje dodajemo novu interdestinaciju
+  ///
+  /// setState u kojem prosljedjujemo metodu onDelete i onAdd
+  void onAddForm() {
+    setState(() {
+      var _interdestination = Interdestination();
+      interdestinations.add(InterdestinationForm(
+        interdestination: _interdestination,
+        onDelete: () => onDelete(_interdestination),
+        onAdd: () => onAddForm(),
+      ));
+    });
   }
 
   validateDatesAndTimes(BuildContext context) {
@@ -1077,6 +1070,8 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
               listOfInterdestinations,
               dateOfSubmit,
               aTimestamp,
+              companyName1,
+              urlLogo,
               context);
           onceBtnPressed = 1;
         }
@@ -1172,6 +1167,8 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
               listOfInterdestinations,
               dateOfSubmit,
               aTimestamp,
+              companyName1,
+              urlLogo,
               context);
           onceBtnPressed = 1;
         }
@@ -1197,10 +1194,21 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
             listOfInterdestinations,
             dateOfSubmit,
             aTimestamp,
+            companyName1,
+            urlLogo,
             context);
         onceBtnPressed = 1;
       }
     }
+  }
+
+  Future getPosts123(String id) async {
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore
+        .collection('Company')
+        .where('company_id', isEqualTo: id)
+        .getDocuments();
+    return qn.documents;
   }
 
   /// metoda koja provjerava da li je aktivan counter za screen aktivan
@@ -1277,25 +1285,5 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
     onceBtnPressed = 0;
     areFieldsEmpty();
     FocusScope.of(context).requestFocus(focusGoods);
-  }
-}
-
-/// klasa vozila za dropdownlistu
-class Vehicle {
-  int id;
-  String name;
-  Vehicle(this.id, this.name);
-  static List<Vehicle> getVehicle() {
-    return <Vehicle>[
-      Vehicle(1, "Kiper"),
-      Vehicle(2, "Cisterna"),
-      Vehicle(3, "Kamion - kran"),
-      Vehicle(4, "Šleper sa jednom poluprikolicom"),
-      Vehicle(5, "Šleper sa dvije poluprikolice"),
-      Vehicle(6, "Šleper sa više poluprikolica"),
-      Vehicle(7, "Pick up"),
-      Vehicle(8, "Kombi"),
-      Vehicle(9, "Traktor"),
-    ];
   }
 }

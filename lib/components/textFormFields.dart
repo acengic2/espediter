@@ -5,15 +5,14 @@ void main() => runApp(TextFormF());
 typedef AreFieldsEmpty();
 
 class TextFormF extends StatefulWidget {
- final FocusNode focusNode;
- final String initialValue, hintText, labelText, vars;
- final int onceToast, onceBtnPressed;
- 
-      TextFormF(
+  final FocusNode focusNode;
+  final String initialValue, hintText, labelText, vars;
+  final int onceToast, onceBtnPressed;
+
+  TextFormF(
       {this.initialValue,
       this.hintText,
       this.onceToast,
-      
       this.focusNode,
       this.labelText,
       this.onceBtnPressed,
@@ -21,27 +20,25 @@ class TextFormF extends StatefulWidget {
 
   @override
   _TextFormFState createState() => _TextFormFState(
-      initialValue: initialValue,
-      focusNode: focusNode,
-      hintText: hintText,
-      labelText: labelText,
-      vars: vars,
-      onceBtnPressed: onceBtnPressed,
-      onceToast: onceToast,
-     
-    );
+        initialValue: initialValue,
+        focusNode: focusNode,
+        hintText: hintText,
+        labelText: labelText,
+        vars: vars,
+        onceBtnPressed: onceBtnPressed,
+        onceToast: onceToast,
+      );
 }
 
 class _TextFormFState extends State<TextFormF> {
   FocusNode focusNode;
   String initialValue, hintText, labelText, vars;
   int onceToast, onceBtnPressed;
- 
+
   _TextFormFState(
       {this.initialValue,
       this.hintText,
       this.onceToast,
-      
       this.focusNode,
       this.labelText,
       this.onceBtnPressed,
@@ -73,14 +70,9 @@ class _TextFormFState extends State<TextFormF> {
             vars = input;
             onceToast = 0;
             onceBtnPressed = 0;
-            
           });
-          
         },
       ),
     );
   }
-  
 }
-
-

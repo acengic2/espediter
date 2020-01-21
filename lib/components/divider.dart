@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:spediter/theme/style.dart';
 
 class Divider1 extends StatelessWidget {
-
   final double thickness, height;
   Divider1({this.thickness, this.height});
   @override

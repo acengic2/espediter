@@ -5,7 +5,6 @@ import 'package:spediter/components/loadingScreens/loading.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
-
 class SignInMethods {
   /// SIGNIN metoda
   ///
@@ -18,14 +17,8 @@ class SignInMethods {
   /// ukoliko sve ovo bude uspjesno, navigiramo na slj screen [ShowLoadingScreen]
   /// cjelokupna metoda upisa je umotana u try-catch blok
   /// catch-amo error ukoliko ga ima i printamo u konzolu
-  signIn(
-    String _email, 
-    String _password, 
-    GlobalKey<FormState> _formKey,
-    String userID,
-    String err,
-    BuildContext context
-    ) async {
+  signIn(String _email, String _password, GlobalKey<FormState> _formKey,
+      String userID, String err, BuildContext context) async {
     final _formState = _formKey.currentState;
     if (_formState.validate()) {
       try {
@@ -34,11 +27,10 @@ class SignInMethods {
         FirebaseUser user = result.user;
         String userEmail = user.email;
         userID = user.uid;
-        
+
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) =>
                 ShowLoading(user: user, email: userEmail, userID: userID)));
-      
       } catch (e) {
         err = e.message;
       }
@@ -80,7 +72,4 @@ class SignInMethods {
     final List<DocumentSnapshot> documents = result.documents;
     return documents.length == 1;
   }
-   
-     
-
 }
