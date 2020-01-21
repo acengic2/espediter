@@ -11,10 +11,10 @@ import 'package:spediter/components/crud/firebaseCrud.dart';
 import 'package:spediter/components/destinationCircles.dart';
 import 'package:spediter/components/destinationLines.dart';
 import 'package:spediter/components/divider.dart';
-import 'package:spediter/components/inderdestination.dart';
+//import 'package:spediter/components/inderdestination.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
 import 'package:spediter/components/vehicle.dart';
-import 'package:spediter/screens/companyScreens/editCompany/interdestinationEditForm.dart';
+//import 'package:spediter/screens/companyScreens/editCompany/interdestinationEditForm.dart';
 import 'package:spediter/theme/style.dart';
 import 'package:spediter/utils/screenUtils.dart';
 
@@ -33,15 +33,15 @@ class _EditRouteFormState extends State<EditRouteForm> {
   String userID;
   _EditRouteFormState({this.post, this.userID});
 
-  /// lista medjudestinacija
-  List<InterdestinationEditForm> interdestinations = [];
+  // /// lista medjudestinacija
+  // List<InterdestinationEditForm> interdestinations = [];
 
   /// VARIJABLE
   final format = DateFormat.MMMMd('bs');
   final formatTime = DateFormat("HH:mm");
   final formatP = DateFormat('yyyy-MM-dd');
 
-  var _textController = TextEditingController();
+  // var _textController = TextEditingController();
 
   /// key za formu
   final _formKey = GlobalKey<FormState>();
@@ -77,6 +77,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
       selectedDateStringD,
       endingDestination,
       startingDestination,
+      initial,
       vehicleVar,
       stringKonacnoP,
       stringKonacnoD,
@@ -103,6 +104,12 @@ class _EditRouteFormState extends State<EditRouteForm> {
   DateTime t1;
   DateTime t2;
 
+  int fieldCount = 0;
+  int nextIndex = 0;
+  String vrijednosti = '1';
+  // you must keep track of the TextEditingControllers if you want the values to persist correctly
+  List<TextEditingController> controllers = <TextEditingController>[];
+
   /// counteri za velicinu ekrana (responsive)
   /// i za postojanje ruta kod kompanije
   bool _screenUtilActive = true;
@@ -127,13 +134,74 @@ class _EditRouteFormState extends State<EditRouteForm> {
     getUserid();
     onceToast = 0;
     populateTheVariables();
-    _textController.addListener(() {
-      setState(() {});
-    });
+    
+  }
+
+  @override
+  void didUpdateWidget(EditRouteForm oldWidget) {
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+    
+    // post.data['interdestination'];
+    List<String> jghjsf = initial.split(', ');
+
+    List<Widget> _buildList() {
+      print(initial);
+      int i;
+      // fill in keys if the list is not long enough (in case we added one)
+      if (controllers.length < jghjsf.length) {
+        for (i = controllers.length; i < jghjsf.length; i++) {
+          controllers.add(TextEditingController(text: jghjsf[i]));
+        }
+      }
+
+      i = 0;
+      // cycle through the controllers, and recreate each, one per available controller
+      return controllers.map<Widget>((TextEditingController controller) {
+        int displayNumber = i + 1;
+        i++;
+        return TextField(
+          controller: controller,
+          maxLength: 20,
+          onTap: () {
+            setState(() {
+             // fieldCount++;
+              jghjsf.length++;
+            });
+          },
+          decoration: InputDecoration(
+            labelText: "Player $displayNumber",
+            counterText: "",
+            prefixIcon: const Icon(Icons.person),
+            suffixIcon: IconButton(
+              icon: Icon(Icons.clear),
+              onPressed: () {
+                // when removing a TextField, you must do two things:
+                // 1. decrement the number of controllers you should have (fieldCount)
+                // 2. actually remove this field's controller from the list of controllers
+                setState(() {
+                 
+                  jghjsf.length--;
+                  print(controller);
+                  controllers.remove(controller);
+                });
+              },
+            ),
+          ),
+        );
+      }).toList(); // convert to a list
+    }
+
+    List<Widget> children = _buildList();
+
     return Builder(
       builder: (context) => new GestureDetector(
         onTap: () {
@@ -335,28 +403,36 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                     )))
                           ])),
 
-                      getInterdestinations(),
+                      //  getInterdestinations(),
+                      ListView(
+                        padding: EdgeInsets.all(0),
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        children: children,
+                      ),
 
                       /// MEDJUDESTINACIJA
-                      Container(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: SizedBox(
-                                child: ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: ClampingScrollPhysics(),
-                                    addAutomaticKeepAlives: true,
-                                    itemCount: interdestinations.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return interdestinations[index];
-                                    }),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // Container(
+                      //   child: Row(
+                      //     children: <Widget>[
+                      //       Expanded(
+                      //         child: SizedBox(
+                      //           child: ListView.builder(
+                      //               shrinkWrap: true,
+                      //               physics: ClampingScrollPhysics(),
+                      //               addAutomaticKeepAlives: true,
+                      //               itemCount: interdestinations.length,
+                      //               itemBuilder:String initial = 'sdsadsadsadf, sdasfsaf';vrije
+                      //                   (BuildContext context, int index) {
+                      //                 return interdestinations[index];
+                      //               }),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+
+                      // create the list of TextFields, based off the list of TextControllers
 
                       ///KRAJNJA DESTINACIJA
                       Container(
@@ -385,7 +461,12 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                     child: TextFormField(
                                       maxLength: 29,
                                       initialValue: endingDestination,
-                                      onTap: onAddForm,
+                                      onTap: () {
+                                        setState(() {
+                                          fieldCount++;
+                                          jghjsf.length++;
+                                        });
+                                      },
                                       textCapitalization:
                                           TextCapitalization.sentences,
                                       decoration: InputDecoration(
@@ -988,14 +1069,15 @@ class _EditRouteFormState extends State<EditRouteForm> {
     } else {
       print('Validacija ispravna');
       if (onceBtnPressed == 0) {
-        onSave();
+        // onSave();
+        getV();
         FirebaseCrud().updateData(
             widget.post,
             percentageVar,
             capacityVar,
             endingDestination,
             startingDestination,
-            inter,
+            vrijednosti,
             formatted,
             formatted2,
             t11,
@@ -1011,72 +1093,72 @@ class _EditRouteFormState extends State<EditRouteForm> {
     }
   }
 
-  Widget getInterdestinations() {
-    inter = widget.post.data['interdestination'];
+  // Widget getInterdestinations() {
+  //   inter = widget.post.data['interdestination'];
 
-    if (inter == '') {
-      return Container(
-        height: 0,
-        width: 0,
-      );
-    } else {
-      inter = inter.substring(0, inter.length - 2);
+  //   if (inter == '') {
+  //     return Container(
+  //       height: 0,
+  //       width: 0,
+  //     );
+  //   } else {
+  //     inter = inter.substring(0, inter.length - 2);
 
-      interdestinacije = inter.split(', ');
-      var _interdestination = Interdestination();
-      return Column(
-          children: interdestinacije
-              .map((item) => InterdestinationEditForm(
-                    item: item,
-                    interdestination: _interdestination,
-                    onDelete: () => onDelete(_interdestination),
-                    onAdd: () => onAddForm(),
-                  ))
-              .toList());
-    }
-  }
+  //     interdestinacije = inter.split(', ');
+  //     var _interdestination = Interdestination();
+  //     return Column(
+  //         children: interdestinacije
+  //             .map((item) => InterdestinationEditForm(
+  //                   item: item,
+  //                   interdestination: _interdestination,
+  //                   onDelete: () => onDelete(_interdestination),
+  //                   onAdd: () => onAddForm(),
+  //                 ))
+  //             .toList());
+  //   }
+  // }
 
-  void onDelete(Interdestination _interdestination) {
-    setState(() {
-      var find = interdestinations.firstWhere(
-        (it) => it.interdestination == _interdestination,
-        orElse: () => null,
-      );
-      if (find != null)
-        interdestinations.removeAt(interdestinations.indexOf(find));
-    });
-    _isBtnDisabled = false;
-  }
+  // void onDelete(Interdestination _interdestination) {
+  //   setState(() {
+  //     var find = interdestinations.firstWhere(
+  //       (it) => it.interdestination == _interdestination,
+  //       orElse: () => null,
+  //     );
+  //     if (find != null)
+  //       interdestinations.removeAt(interdestinations.indexOf(find));
+  //   });
+  //   _isBtnDisabled = false;
+  // }
 
-  /// onAddForm f-ja pomocu koje dodajemo novu interdestinaciju
-  ///
-  /// setState u kojem prosljedjujemo metodu onDelete i onAdd
-  void onAddForm() {
-    setState(() {
-      var _interdestination = Interdestination();
-      interdestinations.add(InterdestinationEditForm(
-        interdestination: _interdestination,
-        onDelete: () => onDelete(_interdestination),
-        onAdd: () => onAddForm(),
-      ));
-    });
-    _isBtnDisabled = false;
-  }
+  // /// onAddForm f-ja pomocu koje dodajemo novu interdestinaciju
+  // ///
+  // /// setState u kojem prosljedjujemo metodu onDelete i onAdd
+  // void onAddForm() {
+  //   setState(() {
+  //     var _interdestination = Interdestination();
+  //     interdestinations.add(InterdestinationEditForm(
+  //       interdestination: _interdestination,
+  //       onDelete: () => onDelete(_interdestination),
+  //       onAdd: () => onAddForm(),
+  //     ));
+  //   });
+  //   _isBtnDisabled = false;
+  // }
 
-  ///on save forms
-  void onSave() {
-    if (interdestinations.length > 0) {
-      var data = interdestinations.map((it) => it.interdestination).toList();
-      for (int i = 0; i < data.length; i++) {
-        if ('${data[i].interdestinationData}' != '')
-          listOfInterdestinations += '${data[i].interdestinationData}, ';
-        else
-          listOfInterdestinations += '';
-      }
-    }
-    inter = inter + ", " + listOfInterdestinations;
-    print(inter + " DaAAAAAaaa");
-  }
+  // ///on save forms
+  // void onSave() {
+  //   if (interdestinations.length > 0) {
+  //     var data = interdestinations.map((it) => it.interdestination).toList();
+  //     for (int i = 0; i < data.length; i++) {
+  //       if ('${data[i].interdestinationData}' != '')
+  //         listOfInterdestinations += '${data[i].interdestinationData}, ';
+  //       else
+  //         listOfInterdestinations += '';
+  //     }
+  //   }
+  //   inter = inter + ", " + listOfInterdestinations;
+  //   print(inter + " DaAAAAAaaa");
+  // }
 
   // funckija koja provjerava da li su polja prazna i enable/disable btn
   areFieldsEmpty() {
@@ -1109,13 +1191,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
     vehicleVar = widget.post.data['vehicle'];
     goodsVar = widget.post.data['goods'];
     dimensionsVar = widget.post.data['dimensions'];
-  }
-
-  ///dispose back btn-a nakon njegovog koristenja
-  @override
-  void dispose() {
-    super.dispose();
-    _textController.dispose();
+    initial = widget.post.data['interdestination'];
   }
 
   /// na promjenu dropdown-a
@@ -1164,5 +1240,17 @@ class _EditRouteFormState extends State<EditRouteForm> {
       items.add(DropdownMenuItem(value: vehicle, child: Text(vehicle.name)));
     }
     return items;
+  }
+
+  void getV() {
+    vrijednosti = '';
+    print('sasasv' + vrijednosti);
+    //var data = controllers.map((f)=> f).toList();
+    for (var i = 0; i < controllers.length; i++) {
+      if (controllers[i].text != '') {
+        vrijednosti = vrijednosti + ', ' + controllers[i].text;
+      }
+    }
+    print(vrijednosti);
   }
 }
