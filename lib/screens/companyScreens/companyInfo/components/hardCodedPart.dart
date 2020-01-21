@@ -1,17 +1,14 @@
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spediter/components/divider.dart';
-import '../../../singIn/signIn.dart';
 
 class HardCodedPart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void _signOut() async {
       await FirebaseAuth.instance.signOut();
-      Future<FirebaseUser> Function() user = FirebaseAuth.instance.currentUser;
-      print(user);
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => Login()));
+      exit(0);
     }
 
     return Column(
