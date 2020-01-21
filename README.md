@@ -66,4 +66,4 @@ After some time, the application will be built on the device/emulator connected 
 **•	V4 – Sprint 4 (21.01.2020.)<br/>**
 	*o	Bugs for Edit Route Screen:<br/>*
 	*o	Bugs for Company Profile Screen:<br/>*
-	*o	Pretraga screen
+	*o	Pretraga screen:<br/>*
