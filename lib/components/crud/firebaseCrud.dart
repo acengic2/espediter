@@ -189,6 +189,7 @@ class FirebaseCrud {
       String listOfInterdestinations,
       int dateOfSubmit,
       int aTimestamp,
+      int dTimestamp,
       String companyName1,
       String urlLogo,
       BuildContext context) async {
@@ -208,6 +209,7 @@ class FirebaseCrud {
       'user_id': '$userID',
       'timestamp': '$dateOfSubmit',
       'arrival_timestamp': '$aTimestamp',
+      'departure_timestamp': '$dTimestamp',
       'company_name': '$companyName',
       'url_logo': '$urlLogo'
     });
