@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:spediter/screens/userScreens/usersHome.dart';
 
 void main() => runApp(RouteOnClick());
 
 class RouteOnClick extends StatelessWidget {
   DocumentSnapshot post;
+  String userID;
 
-  RouteOnClick({this.post});
+  RouteOnClick({this.post, this.userID});
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,11 @@ class RouteOnClick extends StatelessWidget {
           color: Colors.black,
           icon: Icon(Icons.clear),
           onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => UsersHome(
+                      userID: userID,
+                    )));
+
             /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
             // RouteAndCheck().checkAndNavigate(context, userID);
           },

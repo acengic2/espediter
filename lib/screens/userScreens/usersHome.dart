@@ -279,7 +279,7 @@ class _UsersHomeState extends State<UsersHome> {
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           RouteOnClick(
-                                                              post: post)));
+                                                              post: post, userID: userID)));
                                             }
                                           } on SocketException catch (_) {
                                             Navigator.of(context).push(
