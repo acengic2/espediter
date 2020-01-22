@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/screens/userScreens/usersHome.dart';
@@ -20,20 +21,34 @@ class RouteOnClick extends StatelessWidget {
   
     String companyName = post.data['company_name'];
     String destinacijaPolaska = post.data['starting_destination'];
+    /// Datum polaska
     String datumPolaska = post.data['departure_date'];
+      String dateReversed = datumPolaska.split('/').reversed.join();
+        String departureDate = DateFormat("d MMMM").format(DateTime.parse(dateReversed));
+        /// izvacenje dana u sedmici iz datuma
+        DateTime danDatuma = DateTime.parse(datumPolaska);
+        String danPolaska =  DateFormat('EEEE').format(danDatuma);
+
     String vrijemePolaska = post.data['departure_time'];
     String interdestinacije = post.data['interdestination'];
     String destinacijaDolaska = post.data['ending_destination'];
+    /// Datum dolaska
     String datumDolaska = post.data['arrival_date'];
+     String dateReversed1 = datumDolaska.split('/').reversed.join();
+        String departureDate1 = DateFormat("d MMMM").format(DateTime.parse(dateReversed1));
+    /// IZVLACENJE dana u sedmici iz datuma
+         DateTime danDatuma1 = DateTime.parse(datumDolaska);
+        String danDolaska =  DateFormat('EEEE').format(danDatuma1);
     String vrijemeDolaska = post.data['departure_time'];
     String kapacitet = post.data['capacity'];
     String dostupnost = post.data['availability'];
-    String vozilo = post.data['vehicle'];
+    String vozilo = post.data['vehicle']; 
     String roba = post.data['goods'];
     String dimenzije = post.data['dimensions'];
 
 
     return Scaffold(
+      
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         /// u appBaru kreiramo X iconicu na osnovu koje izlazimo iz [CreateRoutes] i idemo na [ListOfRoutes]
@@ -54,6 +69,7 @@ class RouteOnClick extends StatelessWidget {
         title:Text(companyName,
              style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.8))),
       ),
+      
       body: Column(
         children: <Widget>[
           Container(
@@ -79,7 +95,7 @@ class RouteOnClick extends StatelessWidget {
                                 fontFamily: "Roboto",
                               )),
                           new TextSpan(
-                            text: ('Sarajeva'),
+                            text: (destinacijaPolaska),
                             style: new TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 14.0,
@@ -94,16 +110,23 @@ class RouteOnClick extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(bottom: 2),
                     child: Text(
-                      'Ponedjeljak, 24. Februar',
+  
+                      /// dan polaska + datum polaska
+                        danPolaska + ', ' + departureDate,
                       style: TextStyle(
+                        
+                        locale: Locale('bs'),
                           color: Colors.white,
                           fontFamily: 'Roboto',
                           fontSize: 16,
                           fontWeight: FontWeight.w500),
+                         
+
                     ),
+
                   ),
                   Text(
-                    '14:00',
+                    vrijemePolaska,
                     style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'Roboto',
@@ -237,7 +260,7 @@ class RouteOnClick extends StatelessWidget {
                                 fontFamily: "Roboto",
                               )),
                           new TextSpan(
-                            text: ('Beograd'),
+                            text: (destinacijaDolaska),
                             style: new TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 14.0,
@@ -252,7 +275,7 @@ class RouteOnClick extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(bottom: 2),
                     child: Text(
-                      'Utorak, 25. Februar',
+                       danDolaska +  ", " + departureDate1,
                       style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'Roboto',
@@ -261,7 +284,7 @@ class RouteOnClick extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '16:00',
+                    vrijemeDolaska,
                     style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'Roboto',
@@ -302,7 +325,7 @@ class RouteOnClick extends StatelessWidget {
                                   fontFamily: "Roboto",
                                 )),
                             new TextSpan(
-                              text: ('$capacityString t'),
+                              text: (kapacitet +  ' t'),
                               style: new TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14.0,
@@ -337,7 +360,7 @@ class RouteOnClick extends StatelessWidget {
                         padding: EdgeInsets.only(left: 1),
                         width: ScreenUtil.instance.setWidth(141.0),
                         lineHeight: 30.0,
-                        percent: (double.parse('99')) / 100,
+                        percent: (double.parse(dostupnost)) / 100,
                         center: RichText(
                           text: TextSpan(
                             children: <TextSpan>[
@@ -349,7 +372,7 @@ class RouteOnClick extends StatelessWidget {
                                       //     .setSp(12.0),
                                       color: Colors.black.withOpacity(0.6))),
                               TextSpan(
-                                text: '99' + ' %',
+                                text: dostupnost + ' %',
                                 style: TextStyle(
                                     fontFamily: 'Roboto',
                                     fontSize: ScreenUtil.instance.setSp(12.0),
@@ -395,8 +418,8 @@ class RouteOnClick extends StatelessWidget {
                         )),
                   ),
                   Text(
-                    'Teretni kamion (Dvije prikolice)',
-                    style: TextStyle(
+                    vozilo,   
+                      style: TextStyle(
                       color: StyleColors().textColorGray80,
                       fontFamily: 'Roboto',
                       fontSize: 16,
@@ -430,7 +453,7 @@ class RouteOnClick extends StatelessWidget {
                         )),
                   ),
                   Text(
-                    'Tehnička oprema',
+                    roba,
                     style: TextStyle(
                       color: StyleColors().textColorGray80,
                       fontFamily: 'Roboto',
@@ -464,7 +487,7 @@ class RouteOnClick extends StatelessWidget {
                         )),
                   ),
                   Text(
-                    '16 x 2.5 x 3',
+                    dimenzije,
                     style: TextStyle(
                       color: StyleColors().textColorGray80,
                       fontFamily: 'Roboto',
