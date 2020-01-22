@@ -46,7 +46,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
   // var _textController = TextEditingController();
 
   /// key za formu
-  final _formKey = GlobalKey<FormState>();
+  static GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   /// Timestamp var [unos u bazu zbog ordera ispisa]
   int dateOfSubmit = DateTime.now().millisecondsSinceEpoch;
@@ -79,7 +79,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
       selectedDateStringD,
       endingDestination,
       startingDestination,
-      initialValues,
+     
       vehicleVar,
       stringKonacnoP,
       stringKonacnoD,
@@ -92,6 +92,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
   String t11;
   String t22;
   String inter;
+  static String  initialValues;
   static String datumA = '1996-03-11';
   static String vrijemeA = '09:00';
 
@@ -125,7 +126,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
   /// initState metoda - lifecycle metoda koja se izvrsi prije nego se load-a sam screen
   /// u njoj pozivamo metodu [getUserID()] , setamo [Toast] counter na 0,
   /// ubacujemo u dropdown listu [_dropdownMenuItems] vozila,
-
+ List<String> jghjsf;
   @override
   void initState() {
     _dropdownMenuItems = buildDropdownMenuItems(_vehicle);
@@ -133,6 +134,13 @@ class _EditRouteFormState extends State<EditRouteForm> {
     getUserid();
     onceToast = 0;
     populateTheVariables();
+    jghjsf = initialValues.split(', ');
+    fieldCount = jghjsf.length;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -148,7 +156,8 @@ class _EditRouteFormState extends State<EditRouteForm> {
   @override
   Widget build(BuildContext context) {
     // post.data['interdestination'];
-    List<String> jghjsf = initialValues.split(', ');
+   
+
 
     List<Widget> _buildList() {
       int i;
@@ -181,57 +190,29 @@ class _EditRouteFormState extends State<EditRouteForm> {
               Expanded(
                   flex: 9,
                   child: Container(
-                      height: 36.0,
-                      margin: EdgeInsets.only(
-                        bottom: 8,
-                        left: 12,
-                        right: 5,
-                      ),
-                      child: TextFormField(
-                        // key: UniqueKey(),
-                        enableInteractiveSelection: false,
-                        onTap: () {
-                          setState(() {
-                            fieldCount++;
-                            jghjsf.length++;
-                            controllers.add(controller);      
-                          });
-                        },
-                        maxLength: 29,
-                        textCapitalization: TextCapitalization.sentences,
-                        controller: controller,
-
-                        decoration: InputDecoration(
-                            counterText: '',
-                            hasFloatingPlaceholder: false,
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4.0)),
-                              borderSide: BorderSide(
-                                  color: StyleColors().textColorGray12),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4.0)),
-                                borderSide: BorderSide(
-                                    color: StyleColors().textColorGray12)),
-                            labelText: 'Unesite interdestinaciju',
-                            labelStyle:
-                                TextStyle(color: StyleColors().textColorGray50),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5.0))),
-                      ))),
-              Expanded(
-                  flex: 1,
-                  child: Container(
+                    height: 36.0,
                     margin: EdgeInsets.only(
-                      bottom: 2.0,
+                      bottom: 8,
+                      left: 12,
+                      right: 5,
                     ),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: <Widget>[
-                        Container(
-                          child: IconButton(
+                    child: TextFormField(
+                      //  key: UniqueKey(),
+
+                      enableInteractiveSelection: false,
+                      onTap: () {
+                        setState(() {
+                          fieldCount++;
+                          jghjsf.length++;
+                          //controllers.add(controller);
+                        });
+                      },
+                      maxLength: 29,
+                      textCapitalization: TextCapitalization.sentences,
+                      controller: controller,
+                      decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.clear),
                             onPressed: () {
                               // when removing a TextField, you must do two things:
                               // 1. decrement the number of controllers you should have (fieldCount)
@@ -240,14 +221,60 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                 fieldCount--;
                                 jghjsf.length--;
                                 print(controller);
+                                 controller.text = '';
+                                // controllers.remove(controller);
                                 controllers.remove(controller);
                               });
+                          
                             },
-                            icon: Icon(Icons.clear),
                           ),
-                        ),
-                      ],
+                          counterText: '',
+                          hasFloatingPlaceholder: false,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(4.0)),
+                            borderSide: BorderSide(
+                                color: StyleColors().textColorGray12),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4.0)),
+                              borderSide: BorderSide(
+                                  color: StyleColors().textColorGray12)),
+                          labelText: 'Unesite interdestinaciju',
+                          labelStyle:
+                              TextStyle(color: StyleColors().textColorGray50),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0))),
                     ),
+
+                    // Expanded(
+                    //     flex: 1,
+                    //     child: Container(
+                    //       margin: EdgeInsets.only(
+                    //         bottom: 2.0,
+                    //       ),
+                    //       child: Stack(
+                    //         alignment: Alignment.center,
+                    //         children: <Widget>[
+                    //           Container(
+                    //             child: IconButton(
+                    //               onPressed: () {
+                    //                 // when removing a TextField, you must do two things:
+                    //                 // 1. decrement the number of controllers you should have (fieldCount)
+                    //                 // 2. actually remove this field's controller from the list of controllers
+                    //                 setState(() {
+                    //                  // fieldCount--;
+                    //                   jghjsf.length--;
+                    //                   print(controller);
+                    //                   controllers.remove(controller);
+                    //                 });
+                    //               },
+                    //               icon: Icon(Icons.clear),
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       ),
                   )),
             ]));
       }).toList(); // convert to a list
@@ -268,7 +295,8 @@ class _EditRouteFormState extends State<EditRouteForm> {
               children: <Widget>[
                 /// POCETAK FORME
                 Form(
-                  key: _formKey,
+                  //key: UniqueKey(),
+                  //  key: _formKey,
                   child: Column(
                     children: <Widget>[
                       ///DATUM I VRIJEME POLASKA
@@ -457,7 +485,10 @@ class _EditRouteFormState extends State<EditRouteForm> {
                           ])),
 
                       //  getInterdestinations(),
-                      Column(
+                      ListView(
+                        padding: EdgeInsets.all(0),
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         children: children,
                       ),
 
@@ -513,7 +544,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                       initialValue: endingDestination,
                                       onTap: () {
                                         setState(() {
-                                          fieldCount++;
+                                          //fieldCount++;
                                           jghjsf.length++;
                                         });
                                       },
