@@ -68,14 +68,6 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
   }
 
   Future<bool> _onWillPop() async {
-    // DateTime now = DateTime.now();
-    // if (currentBackPressTime == null ||
-    //     now.difference(currentBackPressTime) > Duration(seconds: 2)) {
-    //   currentBackPressTime = now;
-    //   return Future.value(false);
-    // }
-    // exit(0);
-    // return Future.value(true);
      return showDialog(
       context: context,
       builder: (context) => new AlertDialog(
