@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:spediter/screens/userScreens/usersHome.dart';
+import 'package:spediter/theme/style.dart';
 
 void main() => runApp(RouteOnClick());
 
@@ -38,35 +40,55 @@ class RouteOnClick extends StatelessWidget {
           Container(
             height: 90,
             width: 380,
-            color: Colors.blue,
-            margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+            color: StyleColors().blueColor,
+            margin: EdgeInsets.only(left: 16, right: 16, top: 10),
             child: Container(
-              margin: EdgeInsets.only(left: 10, top: 5),
+              margin: EdgeInsets.only(left: 16, top: 14, bottom: 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    'Polazak iz Sarajeva',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Roboto',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 5),
+                    child: RichText(
+                      text: new TextSpan(
+                        children: <TextSpan>[
+                          new TextSpan(
+                              text: 'Polazak iz ',
+                              style: new TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.white,
+                                fontFamily: "Roboto",
+                              )),
+                          new TextSpan(
+                            text: ('Sarajeva'),
+                            style: new TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.0,
+                              color: Colors.white,
+                              fontFamily: "Roboto",
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  Text(
-                    'Ponedjeljak, 24. Februar',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Roboto',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 2),
+                    child: Text(
+                      'Ponedjeljak, 24. Februar',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Roboto',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                    ),
                   ),
                   Text(
                     '14:00',
                     style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'Roboto',
-                        fontSize: 19,
+                        fontSize: 20,
                         fontWeight: FontWeight.w400),
                   ),
                 ],
@@ -74,78 +96,150 @@ class RouteOnClick extends StatelessWidget {
             ),
           ),
           Container(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(width: 0.5, color: StyleColors().borderGray),
+              ),
+              color: StyleColors().textColorGray12,
+            ),
             height: 42,
             width: 380,
-            color: Colors.grey,
             margin: EdgeInsets.only(
-              left: 10,
-              right: 10,
+              left: 16,
+              right: 16,
             ),
             child: Container(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.only(left: 16, top: 11, bottom: 11),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[Text('Zvornik')],
+                children: <Widget>[
+                  new RichText(
+                    text: new TextSpan(
+                      children: <TextSpan>[
+                        new TextSpan(
+                            text: 'Zvornik',
+                            style: new TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.black,
+                                fontFamily: "Roboto",
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(width: 0.5, color: StyleColors().borderGray),
+              ),
+              color: StyleColors().textColorGray12,
+            ),
+            height: 43,
+            width: 380,
+            margin: EdgeInsets.only(
+              left: 16,
+              right: 16,
+            ),
+            child: Container(
+              padding: EdgeInsets.only(left: 16, top: 11, bottom: 11),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  new RichText(
+                    text: new TextSpan(
+                      children: <TextSpan>[
+                        new TextSpan(
+                            text: 'Loznica ',
+                            style: new TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.black,
+                                fontFamily: "Roboto",
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  )
+                ],
               ),
             ),
           ),
           Container(
             height: 43,
             width: 380,
-            color: Colors.grey,
+            color: StyleColors().textColorGray12,
             margin: EdgeInsets.only(
-              left: 10,
-              right: 10,
+              left: 16,
+              right: 16,
             ),
             child: Container(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.only(left: 16, top: 11, bottom: 11),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[Text('Loznica')],
-              ),
-            ),
-          ),
-          Container(
-            height: 43,
-            width: 380,
-            color: Colors.grey,
-            margin: EdgeInsets.only(
-              left: 10,
-              right: 10,
-            ),
-            child: Container(
-              padding: EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[Text('Šabac')],
+                children: <Widget>[
+                  new RichText(
+                    text: new TextSpan(
+                      children: <TextSpan>[
+                        new TextSpan(
+                            text: 'Sabac',
+                            style: new TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.black,
+                                fontFamily: "Roboto",
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  )
+                ],
               ),
             ),
           ),
           Container(
             height: 90,
             width: 380,
-            color: Colors.red,
-            margin: EdgeInsets.only(left: 10, right: 10),
+            color: StyleColors().destinationCircle1,
+            margin: EdgeInsets.only(left: 16, right: 16),
             child: Container(
-              margin: EdgeInsets.only(left: 10, top: 5),
+              margin: EdgeInsets.only(left: 16, top: 5, right: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    'Zadnja destinacija Beograd',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Roboto',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400),
+                  Padding(
+                    padding: EdgeInsets.only(top: 6, bottom: 6),
+                    child: RichText(
+                      text: new TextSpan(
+                        children: <TextSpan>[
+                          new TextSpan(
+                              text: 'Zadnja destinacija ',
+                              style: new TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.white,
+                                fontFamily: "Roboto",
+                              )),
+                          new TextSpan(
+                            text: ('Beograd'),
+                            style: new TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.0,
+                              color: Colors.white,
+                              fontFamily: "Roboto",
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  Text(
-                    'Utorak, 25. Februar',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Roboto',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 2),
+                    child: Text(
+                      'Utorak, 25. Februar',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Roboto',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                    ),
                   ),
                   Text(
                     '16:00',
