@@ -261,14 +261,19 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                           lastDate: DateTime(2100));
                                       if (picked == null) {
                                         picked = DateTime.now();
+                                        _isBtnDisabled = false;
                                       }
 
                                       setState(() {
                                         selectedDateP = picked;
                                         if (selectedDateP == null) {
                                           selectedDateP = DateTime.now();
+                                          _isBtnDisabled = false;
+
                                         } else {
                                           selectedDateP = picked;
+                                          _isBtnDisabled = false;
+
                                         }
                                       });
                                       setState(() {
@@ -276,8 +281,10 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                             formatP.format(selectedDateP);
                                         if (selectedDateP == null) {
                                           selectedDateP = DateTime.now();
+                                          _isBtnDisabled = false;
                                         } else {
                                           selectedDateP = picked;
+                                          _isBtnDisabled = false;
                                         }
                                       });
                                       return selectedDateP;
@@ -287,6 +294,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                       print(selectedDateP);
                                       onceToast = 0;
                                       onceBtnPressed = 0;
+                                      _isBtnDisabled = false;
                                       areFieldsEmpty();
                                     },
                                   ),
@@ -327,10 +335,13 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                       );
                                       setState(() {
                                         timeP = time.toString();
+                                        _isBtnDisabled = false;
                                       });
                                       if (timeP == 'null') {
                                         timeP = '';
+                                        _isBtnDisabled = false;
                                       } else if (timeP != 'null') {
+                                        _isBtnDisabled = false;
                                         return DateTimeField.convert(time);
                                       }
                                     },
@@ -338,6 +349,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                       t2 = input;
                                       onceToast = 0;
                                       onceBtnPressed = 0;
+                                      _isBtnDisabled = false;
                                       areFieldsEmpty();
                                     },
                                   ),
@@ -553,13 +565,16 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                           lastDate: DateTime(2100));
                                       if (picked == null) {
                                         picked = DateTime.now();
+                                        _isBtnDisabled = false;
                                       }
                                       setState(() {
                                         selectedDateD = picked;
                                         if (selectedDateD == null) {
                                           selectedDateD = DateTime.now();
+                                          _isBtnDisabled = false;
                                         } else {
                                           selectedDateD = picked;
+                                          _isBtnDisabled = false;
                                         }
                                       });
                                       setState(() {
@@ -567,8 +582,10 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                             formatP.format(selectedDateD);
                                         if (selectedDateD == null) {
                                           selectedDateD = DateTime.now();
+                                          _isBtnDisabled = false;
                                         } else {
                                           selectedDateD = picked;
+                                          _isBtnDisabled = false;
                                         }
                                       });
                                       return selectedDateD;
@@ -578,6 +595,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                       print(selectedDateD);
                                       onceToast = 0;
                                       onceBtnPressed = 0;
+                                      _isBtnDisabled = false;
                                       areFieldsEmpty();
                                     },
                                   ),
@@ -616,10 +634,13 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                       );
                                       setState(() {
                                         timeD = time1.toString();
+                                        _isBtnDisabled = false;
                                       });
                                       if (timeD == 'null') {
                                         timeD = '';
+                                        _isBtnDisabled = false;
                                       } else if (timeD != 'null') {
+                                        _isBtnDisabled = false;
                                         return DateTimeField.convert(time1);
                                       }
                                     },
@@ -627,6 +648,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                       t1 = input;
                                       onceToast = 0;
                                       onceBtnPressed = 0;
+                                      _isBtnDisabled = false;
                                       areFieldsEmpty();
                                     },
                                   ),
