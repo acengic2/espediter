@@ -35,18 +35,13 @@ class _EditRouteFormState extends State<EditRouteForm> {
   String userID;
   _EditRouteFormState({this.post, this.userID});
 
-  // /// lista medjudestinacija
-  // List<InterdestinationEditForm> interdestinations = [];
-
   /// VARIJABLE
   final format = DateFormat.MMMMd('bs');
   final formatTime = DateFormat("HH:mm");
   final formatP = DateFormat('yyyy-MM-dd');
 
-  // var _textController = TextEditingController();
-
   /// key za formu
-  final _formKey = GlobalKey<FormState>();
+  static GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   /// Timestamp var [unos u bazu zbog ordera ispisa]
   int dateOfSubmit = DateTime.now().millisecondsSinceEpoch;
@@ -66,8 +61,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
   /// counteri za [Toast] i za [Button]
   int onceToast = 0, onceBtnPressed = 0;
 
-  // var percentageController = new MaskedTextController(mask: '000');
-
   /// Stringovi
   String userUid;
 
@@ -79,7 +72,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
       selectedDateStringD,
       endingDestination,
       startingDestination,
-      initialValues,
       vehicleVar,
       stringKonacnoP,
       stringKonacnoD,
@@ -92,6 +84,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
   String t11;
   String t22;
   String inter;
+  static String  initialValues;
   static String datumA = '1996-03-11';
   static String vrijemeA = '09:00';
 
@@ -125,7 +118,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
   /// initState metoda - lifecycle metoda koja se izvrsi prije nego se load-a sam screen
   /// u njoj pozivamo metodu [getUserID()] , setamo [Toast] counter na 0,
   /// ubacujemo u dropdown listu [_dropdownMenuItems] vozila,
-
+ List<String> jghjsf;
   @override
   void initState() {
     _dropdownMenuItems = buildDropdownMenuItems(_vehicle);
@@ -133,6 +126,13 @@ class _EditRouteFormState extends State<EditRouteForm> {
     getUserid();
     onceToast = 0;
     populateTheVariables();
+    jghjsf = initialValues.split(', ');
+    fieldCount = jghjsf.length;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -147,9 +147,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
 
   @override
   Widget build(BuildContext context) {
-    // post.data['interdestination'];
-    List<String> jghjsf = initialValues.split(', ');
-
     List<Widget> _buildList() {
       int i;
       // fill in keys if the list is not long enough (in case we added one)
@@ -181,73 +178,69 @@ class _EditRouteFormState extends State<EditRouteForm> {
               Expanded(
                   flex: 9,
                   child: Container(
-                      height: 36.0,
-                      margin: EdgeInsets.only(
-                        bottom: 8,
-                        left: 12,
-                        right: 5,
-                      ),
-                      child: TextFormField(
-                        // key: UniqueKey(),
-                        enableInteractiveSelection: false,
-                        onTap: () {
-                          setState(() {
-                            fieldCount++;
-                            jghjsf.length++;
-                            controllers.add(controller);      
-                          });
-                        },
-                        maxLength: 29,
-                        textCapitalization: TextCapitalization.sentences,
-                        controller: controller,
-
-                        decoration: InputDecoration(
-                            counterText: '',
-                            hasFloatingPlaceholder: false,
-                            enabledBorder: OutlineInputBorder(
+                    height: 36.0,
+                    margin: EdgeInsets.only(
+                      bottom: 8,
+                      left: 12,
+                      right: 5,
+                    ),
+                    child: TextFormField(
+                      enableInteractiveSelection: false,
+                      onTap: () {
+                        setState(() {
+                          fieldCount++;
+                          jghjsf.length++;
+                        });
+                      },
+                      maxLength: 29,
+                      textCapitalization: TextCapitalization.sentences,
+                      controller: controller,
+                      decoration: InputDecoration(
+                          counterText: '',
+                          hasFloatingPlaceholder: false,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(4.0)),
+                            borderSide: BorderSide(
+                                color: StyleColors().textColorGray12),
+                          ),
+                          focusedBorder: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(4.0)),
                               borderSide: BorderSide(
-                                  color: StyleColors().textColorGray12),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4.0)),
-                                borderSide: BorderSide(
-                                    color: StyleColors().textColorGray12)),
-                            labelText: 'Unesite interdestinaciju',
-                            labelStyle:
-                                TextStyle(color: StyleColors().textColorGray50),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5.0))),
-                      ))),
-              Expanded(
-                  flex: 1,
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      bottom: 2.0,
-                    ),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: <Widget>[
-                        Container(
-                          child: IconButton(
-                            onPressed: () {
-                              // when removing a TextField, you must do two things:
-                              // 1. decrement the number of controllers you should have (fieldCount)
-                              // 2. actually remove this field's controller from the list of controllers
-                              setState(() {
-                                fieldCount--;
-                                jghjsf.length--;
-                                print(controller);
-                                controllers.remove(controller);
-                              });
-                            },
-                            icon: Icon(Icons.clear),
+                                  color: StyleColors().textColorGray12)),
+                          labelText: 'Unesite interdestinaciju',
+                          labelStyle:
+                              TextStyle(color: StyleColors().textColorGray50),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0))),
+                    ))),
+
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            bottom: 2.0,
                           ),
-                        ),
-                      ],
-                    ),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: <Widget>[
+                              Container(
+                                child: IconButton(
+                                  onPressed: () {
+                                    // when removing a TextField, you must do two things:
+                                    // 1. decrement the number of controllers you should have (fieldCount)
+                                    // 2. actually remove this field's controller from the list of controllers
+                                    setState(() {
+                                      jghjsf.length--;
+                                      controllers.remove(controller);
+                                    });
+                                  },
+                                  icon: Icon(Icons.clear),
+                                ),
+                              ),
+                            ],
+                          ),
                   )),
             ]));
       }).toList(); // convert to a list
@@ -268,7 +261,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
               children: <Widget>[
                 /// POCETAK FORME
                 Form(
-                  key: _formKey,
                   child: Column(
                     children: <Widget>[
                       ///DATUM I VRIJEME POLASKA
@@ -332,7 +324,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                     return selectedDateP;
                                   },
                                   onChanged: (input) {
-                                    print(formatted);
                                     onceToast = 0;
                                     onceBtnPressed = 0;
                                     areFieldsEmpty();
@@ -353,7 +344,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                   style: TextStyle(
                                       fontSize:
                                           ScreenUtil.instance.setSp(15.0)),
-                                  //textAlign: TextAlign.center,
                                   decoration: InputDecoration(
                                     hintText: "Vrijeme polaska",
                                     contentPadding: EdgeInsets.fromLTRB(
@@ -367,7 +357,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                   ),
                                   format: formatTime,
                                   onShowPicker: (context, currentValue) async {
-                                    // currentValue = DateTime.now();s
                                     final time = await showTimePicker(
                                       context: context,
                                       initialTime: TimeOfDay.fromDateTime(
@@ -457,32 +446,12 @@ class _EditRouteFormState extends State<EditRouteForm> {
                           ])),
 
                       //  getInterdestinations(),
-                      Column(
+                      ListView(
+                        padding: EdgeInsets.all(0),
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         children: children,
                       ),
-
-                      /// MEDJUDESTINACIJA
-                      // Container(
-                      //   child: Row(
-                      //     children: <Widget>[
-                      //       Expanded(
-                      //         child: SizedBox(
-                      //           child: ListView.builder(
-                      //               shrinkWrap: true,
-                      //               physics: ClampingScrollPhysics(),
-                      //               addAutomaticKeepAlives: true,
-                      //               itemCount: interdestinations.length,
-                      //               itemBuilder:String initial = 'sdsadsadsadf, sdasfsaf';vrije
-                      //                   (BuildContext context, int index) {
-                      //                 return interdestinations[index];
-                      //               }),
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-
-                      // create the list of TextFields, based off the list of TextControllers
 
                       ///KRAJNJA DESTINACIJA
                       Container(
@@ -513,7 +482,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                       initialValue: endingDestination,
                                       onTap: () {
                                         setState(() {
-                                          fieldCount++;
                                           jghjsf.length++;
                                         });
                                       },
@@ -685,7 +653,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                         child: TextFormField(
                           keyboardType:
                               TextInputType.numberWithOptions(decimal: false),
-                          // controller: controllerAvail,
                           initialValue: widget.post.data['availability'],
                           focusNode: focusPercentage,
                           decoration: InputDecoration(
@@ -730,7 +697,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                           initialValue: widget.post.data['capacity'],
                           keyboardType:
                               TextInputType.numberWithOptions(decimal: true),
-                          // controller: controller,
                           focusNode: focusCapacity,
                           decoration: InputDecoration(
                               counterText: '',
@@ -1007,7 +973,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                               ),
                               onPressed: () {
                                 if (onceBtnPressed == 0) {
-                                  //onSave();
                                   FirebaseCrud().finishRoute(
                                       arrivalT, widget.post, context, userID);
                                   onceBtnPressed = 1;
@@ -1031,12 +996,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
     DateTime now = DateTime.now();
     DateTime departureDateTime = DateTime.parse(formatted + ' ' + t22);
     DateTime arrivalDateTime = DateTime.parse(formatted2 + ' ' + t11);
-    print(departureDateTime);
-    print(arrivalDateTime);
-    print(departureDateTime.isBefore(arrivalDateTime));
     if (arrivalDateTime.isBefore(departureDateTime)) {
-      print(
-          'Datum i vrijeme dolaska ne mogu biti prije datuma i vremena polaska.');
       if (onceToast == 0) {
         final snackBar = SnackBar(
           duration: Duration(seconds: 2),
@@ -1056,7 +1016,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
         });
       }
     } else if (departureDateTime.isAtSameMomentAs(arrivalDateTime)) {
-      print('Datumi i vremena ne mogu biti jednaki.');
       if (onceToast == 0) {
         final snackBar = SnackBar(
           duration: Duration(seconds: 2),
@@ -1075,8 +1034,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
         });
       }
     } else if (arrivalDateTime.isBefore(now)) {
-      print(
-          'Datum i vrijeme dolaska ne mogu biti prije današnjeg datuma i sadašnjeg vremena.');
       if (onceToast == 0) {
         final snackBar = SnackBar(
           duration: Duration(seconds: 2),
@@ -1096,8 +1053,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
         });
       }
     } else if (arrivalDateTime.isAtSameMomentAs(now)) {
-      print(
-          'Datum i vrijeme dolaska ne mogu biti jednaki današnjem datumu i sadašnjem vremenu.');
       if (onceToast == 0) {
         final snackBar = SnackBar(
           duration: Duration(seconds: 2),
@@ -1117,9 +1072,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
         });
       }
     } else {
-      print('Validacija ispravna');
       if (onceBtnPressed == 0) {
-        // onSave();
         getV();
         FirebaseCrud().updateData(
             widget.post,
@@ -1232,6 +1185,5 @@ class _EditRouteFormState extends State<EditRouteForm> {
         vrijednostiSaPolja = vrijednostiSaPolja + ', ' + controllers[i].text;
       }
     }
-    print(vrijednostiSaPolja);
   }
 }
