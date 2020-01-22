@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:spediter/components/divider.dart';
 import 'package:spediter/screens/userScreens/usersHome.dart';
 import 'package:spediter/theme/style.dart';
 
@@ -260,7 +261,7 @@ class RouteOnClick extends StatelessWidget {
                   height: 32,
                   width: 110,
                   margin: EdgeInsets.only(
-                      left: 16.0, right: 4.0, top:16.0, bottom: 8.0),
+                      left: 16.0, right: 4.0, bottom: 8.0, top: 9),
                   decoration: new BoxDecoration(
                     shape: BoxShape.rectangle,
                     color: Colors.white,
@@ -304,7 +305,7 @@ class RouteOnClick extends StatelessWidget {
                       width: ScreenUtil.instance.setWidth(142.0),
                       height: 32,
                       margin: EdgeInsets.only(
-                        top: 24.0,  bottom: 16, left: 0.0, right: 1.0),
+                          top: 16.0, bottom: 15, left: 0.0, right: 1.0),
                       decoration: BoxDecoration(
                           border: Border.all(
                               width: 1.0,
@@ -312,43 +313,155 @@ class RouteOnClick extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(1.0))),
                     ),
                     Container(
-                        margin: EdgeInsets.only(top: 25.0,),
-                        child: LinearPercentIndicator(
-                          padding: EdgeInsets.only(left: 1),
-                          width: ScreenUtil.instance.setWidth(141.0),
-                          lineHeight: 30.0,
-                          percent: (double.parse('99')) / 100,
-                          center: RichText(
-                            text: TextSpan(
-                              children: <TextSpan>[
-                                TextSpan(
-                                    text: 'Popunjenost: ',
-                                    style: TextStyle(
-                                        fontFamily: 'Roboto',
-                                        // fontSize: ScreenUtil.instance
-                                        //     .setSp(12.0),
-                                        color: Colors.black.withOpacity(0.6))),
-                                TextSpan(
-                                  text: '99' + ' %',
+                      margin: EdgeInsets.only(
+                        top: 17.0,
+                      ),
+                      child: LinearPercentIndicator(
+                        padding: EdgeInsets.only(left: 1),
+                        width: ScreenUtil.instance.setWidth(141.0),
+                        lineHeight: 30.0,
+                        percent: (double.parse('99')) / 100,
+                        center: RichText(
+                          text: TextSpan(
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: 'Popunjenost: ',
                                   style: TextStyle(
                                       fontFamily: 'Roboto',
-                                      fontSize: ScreenUtil.instance.setSp(12.0),
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black.withOpacity(0.8)),
-                                ),
-                              ],
-                            ),
+                                      // fontSize: ScreenUtil.instance
+                                      //     .setSp(12.0),
+                                      color: Colors.black.withOpacity(0.6))),
+                              TextSpan(
+                                text: '99' + ' %',
+                                style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                    fontSize: ScreenUtil.instance.setSp(12.0),
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black.withOpacity(0.8)),
+                              ),
+                            ],
                           ),
-                          linearStrokeCap: LinearStrokeCap.butt,
-                          backgroundColor: Colors.white,
-                          progressColor: Color.fromRGBO(3, 54, 255, 0.12),
                         ),
-                        ),
+                        linearStrokeCap: LinearStrokeCap.butt,
+                        backgroundColor: Colors.white,
+                        progressColor: Color.fromRGBO(3, 54, 255, 0.12),
+                      ),
+                    ),
                   ],
                 ),
               ),
             ],
           ),
+
+          ///////////
+
+          Container(
+            decoration: BoxDecoration(
+              border:
+                  Border.all(width: 1, color: StyleColors().textColorGray12),
+            ),
+            height: 56,
+            width: 380,
+            margin: EdgeInsets.only(left: 16, right: 16),
+            child: Container(
+              margin: EdgeInsets.only(left: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(top: 7, bottom: 2),
+                    child: Text('Vrsta vozila: ',
+                        style: new TextStyle(
+                          fontSize: 12.0,
+                          color: StyleColors().textColorGray60,
+                          fontFamily: "Roboto",
+                        )),
+                  ),
+                  Text(
+                    'Teretni kamion (Dvije prikolice)',
+                    style: TextStyle(
+                      color: StyleColors().textColorGray80,
+                      fontFamily: 'Roboto',
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+           Container(
+            decoration: BoxDecoration(
+              border:
+                  Border.all(width: 1, color: StyleColors().textColorGray12),
+            ),
+            height: 56,
+            width: 380,
+            margin: EdgeInsets.only(left: 16, right: 16, top:8),
+            child: Container(
+              margin: EdgeInsets.only(left: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(top: 7, bottom: 2),
+                    child: Text('Vrsta robe: ',
+                        style: new TextStyle(
+                          fontSize: 12.0,
+                          color: StyleColors().textColorGray60,
+                          fontFamily: "Roboto",
+                        )),
+                  ),
+                  Text(
+                    'Tehnička oprema',
+                    style: TextStyle(
+                      color: StyleColors().textColorGray80,
+                      fontFamily: 'Roboto',
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+           Container(
+            decoration: BoxDecoration(
+              border:
+                  Border.all(width: 1, color: StyleColors().textColorGray12),
+            ),
+            height: 56,
+            width: 380,
+            margin: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 14),
+            child: Container(
+              margin: EdgeInsets.only(left: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(top: 7, bottom: 2),
+                    child: Text('Dimenzije prtljažnog prostora: ',
+                        style: new TextStyle(
+                          fontSize: 12.0,
+                          color: StyleColors().textColorGray60,
+                          fontFamily: "Roboto",
+                        )),
+                  ),
+                  Text(
+                    '16 x 2.5 x 3',
+                    style: TextStyle(
+                      color: StyleColors().textColorGray80,
+                      fontFamily: 'Roboto',
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            
+          ),
+           Divider1(height: 1, thickness: 1),
+           Divider1(height: 8, thickness: 8)
         ],
       ),
     );
