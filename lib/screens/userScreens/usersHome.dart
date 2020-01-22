@@ -7,6 +7,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
 import 'package:spediter/screens/userScreens/components/bottomAppBarUser.dart';
+import 'package:spediter/screens/userScreens/components/contactPart.dart';
 import 'package:spediter/screens/userScreens/routeOnClick.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -278,8 +279,8 @@ class _UsersHomeState extends State<UsersHome> {
                                               Navigator.of(context).push(
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          RouteOnClick(
-                                                              post: post, userID: userID)));
+                                                          ContactPart(
+                                                              post: snapshot.data[index], userID: userID)));
                                             }
                                           } on SocketException catch (_) {
                                             Navigator.of(context).push(
