@@ -693,11 +693,13 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                           margin: EdgeInsets.only(
                               bottom: 4.5, left: 16.0, right: 16.0, top: 4.5),
                           child: TextFormField(
+                            maxLength: 3,
                             keyboardType:
                                 TextInputType.numberWithOptions(decimal: true),
                             controller: controller,
                             focusNode: focusCapacity,
                             decoration: InputDecoration(
+                              counterText: '',
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(4.0)),

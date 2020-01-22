@@ -11,10 +11,8 @@ import 'package:spediter/components/crud/firebaseCrud.dart';
 import 'package:spediter/components/destinationCircles.dart';
 import 'package:spediter/components/destinationLines.dart';
 import 'package:spediter/components/divider.dart';
-import 'package:spediter/components/inderdestination.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
 import 'package:spediter/components/vehicle.dart';
-import 'package:spediter/screens/companyScreens/editCompany/interdestinationEditForm.dart';
 import 'package:spediter/theme/style.dart';
 import 'package:spediter/utils/screenUtils.dart';
 
@@ -28,23 +26,22 @@ class EditRouteForm extends StatefulWidget {
   _EditRouteFormState createState() => _EditRouteFormState();
 }
 
+int fieldCount = 0;
+int nextIndex = 0;
+String vrijednostiSaPolja = '';
+
 class _EditRouteFormState extends State<EditRouteForm> {
   final DocumentSnapshot post;
   String userID;
   _EditRouteFormState({this.post, this.userID});
-
-  /// lista medjudestinacija
-  List<InterdestinationEditForm> interdestinations = [];
 
   /// VARIJABLE
   final format = DateFormat.MMMMd('bs');
   final formatTime = DateFormat("HH:mm");
   final formatP = DateFormat('yyyy-MM-dd');
 
-  var _textController = TextEditingController();
-
   /// key za formu
-  final _formKey = GlobalKey<FormState>();
+  static GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   /// Timestamp var [unos u bazu zbog ordera ispisa]
   int dateOfSubmit = DateTime.now().millisecondsSinceEpoch;
@@ -63,8 +60,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
 
   /// counteri za [Toast] i za [Button]
   int onceToast = 0, onceBtnPressed = 0;
-
-  // var percentageController = new MaskedTextController(mask: '000');
 
   /// Stringovi
   String userUid;
@@ -89,6 +84,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
   String t11;
   String t22;
   String inter;
+  static String  initialValues;
   static String datumA = '1996-03-11';
   static String vrijemeA = '09:00';
 
@@ -102,6 +98,9 @@ class _EditRouteFormState extends State<EditRouteForm> {
   DateTime selectedDateD;
   DateTime t1;
   DateTime t2;
+
+  // you must keep track of the TextEditingControllers if you want the values to persist correctly
+  List<TextEditingController> controllers = <TextEditingController>[];
 
   /// counteri za velicinu ekrana (responsive)
   /// i za postojanje ruta kod kompanije
@@ -119,7 +118,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
   /// initState metoda - lifecycle metoda koja se izvrsi prije nego se load-a sam screen
   /// u njoj pozivamo metodu [getUserID()] , setamo [Toast] counter na 0,
   /// ubacujemo u dropdown listu [_dropdownMenuItems] vozila,
-
+ List<String> jghjsf;
   @override
   void initState() {
     _dropdownMenuItems = buildDropdownMenuItems(_vehicle);
@@ -127,13 +126,128 @@ class _EditRouteFormState extends State<EditRouteForm> {
     getUserid();
     onceToast = 0;
     populateTheVariables();
-    _textController.addListener(() {
-      setState(() {});
-    });
+    jghjsf = initialValues.split(', ');
+    fieldCount = jghjsf.length;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(EditRouteForm oldWidget) {
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> _buildList() {
+      int i;
+      // fill in keys if the list is not long enough (in case we added one)
+      if (controllers.length < jghjsf.length) {
+        for (i = controllers.length; i < jghjsf.length; i++) {
+          controllers.add(TextEditingController(text: jghjsf[i]));
+        }
+      }
+
+      i = 0;
+      // cycle through the controllers, and recreate each, one per available controller
+      return controllers.map<Widget>((TextEditingController controller) {
+        i++;
+        return Container(
+            margin: EdgeInsets.only(left: 18.0, right: 16.0),
+            child: Row(children: <Widget>[
+              Expanded(
+                  flex: 1,
+                  child: Column(
+                    children: <Widget>[
+                      DestinationLine(),
+                      DestinationCircle(
+                        largeCircle: StyleColors().textColorGray20,
+                        smallCircle: StyleColors().textColorGray50,
+                      ),
+                      DestinationLine(),
+                    ],
+                  )),
+              Expanded(
+                  flex: 9,
+                  child: Container(
+                    height: 36.0,
+                    margin: EdgeInsets.only(
+                      bottom: 8,
+                      left: 12,
+                      right: 5,
+                    ),
+                    child: TextFormField(
+                      enableInteractiveSelection: false,
+                      onTap: () {
+                        setState(() {
+                          fieldCount++;
+                          jghjsf.length++;
+                        });
+                      },
+                      maxLength: 29,
+                      textCapitalization: TextCapitalization.sentences,
+                      controller: controller,
+                      decoration: InputDecoration(
+                          counterText: '',
+                          hasFloatingPlaceholder: false,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(4.0)),
+                            borderSide: BorderSide(
+                                color: StyleColors().textColorGray12),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4.0)),
+                              borderSide: BorderSide(
+                                  color: StyleColors().textColorGray12)),
+                          labelText: 'Unesite interdestinaciju',
+                          labelStyle:
+                              TextStyle(color: StyleColors().textColorGray50),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0))),
+                    ))),
+
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            bottom: 2.0,
+                          ),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: <Widget>[
+                              Container(
+                                child: IconButton(
+                                  onPressed: () {
+                                    // when removing a TextField, you must do two things:
+                                    // 1. decrement the number of controllers you should have (fieldCount)
+                                    // 2. actually remove this field's controller from the list of controllers
+                                    setState(() {
+                                      jghjsf.length--;
+                                      controllers.remove(controller);
+                                    });
+                                  },
+                                  icon: Icon(Icons.clear),
+                                ),
+                              ),
+                            ],
+                          ),
+                  )),
+            ]));
+      }).toList(); // convert to a list
+    }
+
+    List<Widget> children = _buildList();
+
     return Builder(
       builder: (context) => new GestureDetector(
         onTap: () {
@@ -147,7 +261,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
               children: <Widget>[
                 /// POCETAK FORME
                 Form(
-                  key: _formKey,
                   child: Column(
                     children: <Widget>[
                       ///DATUM I VRIJEME POLASKA
@@ -211,7 +324,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                     return selectedDateP;
                                   },
                                   onChanged: (input) {
-                                    print(formatted);
                                     onceToast = 0;
                                     onceBtnPressed = 0;
                                     areFieldsEmpty();
@@ -232,7 +344,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                   style: TextStyle(
                                       fontSize:
                                           ScreenUtil.instance.setSp(15.0)),
-                                  //textAlign: TextAlign.center,
                                   decoration: InputDecoration(
                                     hintText: "Vrijeme polaska",
                                     contentPadding: EdgeInsets.fromLTRB(
@@ -246,7 +357,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                   ),
                                   format: formatTime,
                                   onShowPicker: (context, currentValue) async {
-                                    // currentValue = DateTime.now();s
                                     final time = await showTimePicker(
                                       context: context,
                                       initialTime: TimeOfDay.fromDateTime(
@@ -335,27 +445,12 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                     )))
                           ])),
 
-                      getInterdestinations(),
-
-                      /// MEDJUDESTINACIJA
-                      Container(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: SizedBox(
-                                child: ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: ClampingScrollPhysics(),
-                                    addAutomaticKeepAlives: true,
-                                    itemCount: interdestinations.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return interdestinations[index];
-                                    }),
-                              ),
-                            ),
-                          ],
-                        ),
+                      //  getInterdestinations(),
+                      ListView(
+                        padding: EdgeInsets.all(0),
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        children: children,
                       ),
 
                       ///KRAJNJA DESTINACIJA
@@ -385,7 +480,11 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                     child: TextFormField(
                                       maxLength: 29,
                                       initialValue: endingDestination,
-                                      onTap: onAddForm,
+                                      onTap: () {
+                                        setState(() {
+                                          jghjsf.length++;
+                                        });
+                                      },
                                       textCapitalization:
                                           TextCapitalization.sentences,
                                       decoration: InputDecoration(
@@ -554,7 +653,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                         child: TextFormField(
                           keyboardType:
                               TextInputType.numberWithOptions(decimal: false),
-                          // controller: controllerAvail,
                           initialValue: widget.post.data['availability'],
                           focusNode: focusPercentage,
                           decoration: InputDecoration(
@@ -599,7 +697,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                           initialValue: widget.post.data['capacity'],
                           keyboardType:
                               TextInputType.numberWithOptions(decimal: true),
-                          // controller: controller,
                           focusNode: focusCapacity,
                           decoration: InputDecoration(
                               counterText: '',
@@ -876,7 +973,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                               ),
                               onPressed: () {
                                 if (onceBtnPressed == 0) {
-                                  //onSave();
                                   FirebaseCrud().finishRoute(
                                       arrivalT, widget.post, context, userID);
                                   onceBtnPressed = 1;
@@ -900,12 +996,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
     DateTime now = DateTime.now();
     DateTime departureDateTime = DateTime.parse(formatted + ' ' + t22);
     DateTime arrivalDateTime = DateTime.parse(formatted2 + ' ' + t11);
-    print(departureDateTime);
-    print(arrivalDateTime);
-    print(departureDateTime.isBefore(arrivalDateTime));
     if (arrivalDateTime.isBefore(departureDateTime)) {
-      print(
-          'Datum i vrijeme dolaska ne mogu biti prije datuma i vremena polaska.');
       if (onceToast == 0) {
         final snackBar = SnackBar(
           duration: Duration(seconds: 2),
@@ -925,7 +1016,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
         });
       }
     } else if (departureDateTime.isAtSameMomentAs(arrivalDateTime)) {
-      print('Datumi i vremena ne mogu biti jednaki.');
       if (onceToast == 0) {
         final snackBar = SnackBar(
           duration: Duration(seconds: 2),
@@ -944,8 +1034,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
         });
       }
     } else if (arrivalDateTime.isBefore(now)) {
-      print(
-          'Datum i vrijeme dolaska ne mogu biti prije današnjeg datuma i sadašnjeg vremena.');
       if (onceToast == 0) {
         final snackBar = SnackBar(
           duration: Duration(seconds: 2),
@@ -965,8 +1053,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
         });
       }
     } else if (arrivalDateTime.isAtSameMomentAs(now)) {
-      print(
-          'Datum i vrijeme dolaska ne mogu biti jednaki današnjem datumu i sadašnjem vremenu.');
       if (onceToast == 0) {
         final snackBar = SnackBar(
           duration: Duration(seconds: 2),
@@ -986,16 +1072,15 @@ class _EditRouteFormState extends State<EditRouteForm> {
         });
       }
     } else {
-      print('Validacija ispravna');
       if (onceBtnPressed == 0) {
-        onSave();
+        getV();
         FirebaseCrud().updateData(
             widget.post,
             percentageVar,
             capacityVar,
             endingDestination,
             startingDestination,
-            inter,
+            vrijednostiSaPolja,
             formatted,
             formatted2,
             t11,
@@ -1009,73 +1094,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
         onceBtnPressed = 1;
       }
     }
-  }
-
-  Widget getInterdestinations() {
-    inter = widget.post.data['interdestination'];
-
-    if (inter == '') {
-      return Container(
-        height: 0,
-        width: 0,
-      );
-    } else {
-      inter = inter.substring(0, inter.length - 2);
-
-      interdestinacije = inter.split(', ');
-      var _interdestination = Interdestination();
-      return Column(
-          children: interdestinacije
-              .map((item) => InterdestinationEditForm(
-                    item: item,
-                    interdestination: _interdestination,
-                    onDelete: () => onDelete(_interdestination),
-                    onAdd: () => onAddForm(),
-                  ))
-              .toList());
-    }
-  }
-
-  void onDelete(Interdestination _interdestination) {
-    setState(() {
-      var find = interdestinations.firstWhere(
-        (it) => it.interdestination == _interdestination,
-        orElse: () => null,
-      );
-      if (find != null)
-        interdestinations.removeAt(interdestinations.indexOf(find));
-    });
-    _isBtnDisabled = false;
-  }
-
-  /// onAddForm f-ja pomocu koje dodajemo novu interdestinaciju
-  ///
-  /// setState u kojem prosljedjujemo metodu onDelete i onAdd
-  void onAddForm() {
-    setState(() {
-      var _interdestination = Interdestination();
-      interdestinations.add(InterdestinationEditForm(
-        interdestination: _interdestination,
-        onDelete: () => onDelete(_interdestination),
-        onAdd: () => onAddForm(),
-      ));
-    });
-    _isBtnDisabled = false;
-  }
-
-  ///on save forms
-  void onSave() {
-    if (interdestinations.length > 0) {
-      var data = interdestinations.map((it) => it.interdestination).toList();
-      for (int i = 0; i < data.length; i++) {
-        if ('${data[i].interdestinationData}' != '')
-          listOfInterdestinations += '${data[i].interdestinationData}, ';
-        else
-          listOfInterdestinations += '';
-      }
-    }
-    inter = inter + ", " + listOfInterdestinations;
-    print(inter + " DaAAAAAaaa");
   }
 
   // funckija koja provjerava da li su polja prazna i enable/disable btn
@@ -1109,13 +1127,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
     vehicleVar = widget.post.data['vehicle'];
     goodsVar = widget.post.data['goods'];
     dimensionsVar = widget.post.data['dimensions'];
-  }
-
-  ///dispose back btn-a nakon njegovog koristenja
-  @override
-  void dispose() {
-    super.dispose();
-    _textController.dispose();
+    initialValues = widget.post.data['interdestination'];
   }
 
   /// na promjenu dropdown-a
@@ -1164,5 +1176,14 @@ class _EditRouteFormState extends State<EditRouteForm> {
       items.add(DropdownMenuItem(value: vehicle, child: Text(vehicle.name)));
     }
     return items;
+  }
+
+  getV() {
+    vrijednostiSaPolja = '';
+    for (var i = 0; i < controllers.length; i++) {
+      if (controllers[i].text != '') {
+        vrijednostiSaPolja = vrijednostiSaPolja + ', ' + controllers[i].text;
+      }
+    }
   }
 }
