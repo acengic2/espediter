@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/screens/userScreens/usersHome.dart';
@@ -13,11 +14,9 @@ class RouteOnClick extends StatelessWidget {
   String userID;
 
   RouteOnClick({this.post, this.userID});
-  
 
   @override
   Widget build(BuildContext context) {
-  
     String companyName = post.data['company_name'];
     String destinacijaPolaska = post.data['starting_destination'];
     String datumPolaska = post.data['departure_date'];
@@ -32,6 +31,53 @@ class RouteOnClick extends StatelessWidget {
     String roba = post.data['goods'];
     String dimenzije = post.data['dimensions'];
 
+    Widget _buildListInter() {
+      interdestinacije =
+          interdestinacije.substring(0, interdestinacije.length - 2);
+      List<String> listaInter = interdestinacije.split(', ');
+
+      return new Column(
+          children: listaInter
+              .map(
+                (item) => Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                          width: 0.5, color: StyleColors().borderGray),
+                    ),
+                    color: StyleColors().textColorGray12,
+                  ),
+                  height: 43,
+                  width: 380,
+                  margin: EdgeInsets.only(
+                    left: 16,
+                    right: 16,
+                  ),
+                  child: Container(
+                    padding: EdgeInsets.only(left: 16, top: 11, bottom: 11),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        new RichText(
+                          text: new TextSpan(
+                            children: <TextSpan>[
+                              new TextSpan(
+                                  text: '$item',
+                                  style: new TextStyle(
+                                      fontSize: 14.0,
+                                      color: Colors.black,
+                                      fontFamily: "Roboto",
+                                      fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              )
+              .toList());
+    }
 
     return Scaffold(
       resizeToAvoidBottomPadding: false,
@@ -51,8 +97,8 @@ class RouteOnClick extends StatelessWidget {
             // RouteAndCheck().checkAndNavigate(context, userID);
           },
         ),
-        title:Text(companyName,
-             style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.8))),
+        title: Text(companyName,
+            style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.8))),
       ),
       body: Column(
         children: <Widget>[
@@ -114,106 +160,9 @@ class RouteOnClick extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(width: 0.5, color: StyleColors().borderGray),
-              ),
-              color: StyleColors().textColorGray12,
-            ),
-            height: 42,
-            width: 380,
-            margin: EdgeInsets.only(
-              left: 16,
-              right: 16,
-            ),
-            child: Container(
-              padding: EdgeInsets.only(left: 16, top: 11, bottom: 11),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new RichText(
-                    text: new TextSpan(
-                      children: <TextSpan>[
-                        new TextSpan(
-                            text: 'Zvornik',
-                            style: new TextStyle(
-                                fontSize: 14.0,
-                                color: Colors.black,
-                                fontFamily: "Roboto",
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(width: 0.5, color: StyleColors().borderGray),
-              ),
-              color: StyleColors().textColorGray12,
-            ),
-            height: 43,
-            width: 380,
-            margin: EdgeInsets.only(
-              left: 16,
-              right: 16,
-            ),
-            child: Container(
-              padding: EdgeInsets.only(left: 16, top: 11, bottom: 11),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new RichText(
-                    text: new TextSpan(
-                      children: <TextSpan>[
-                        new TextSpan(
-                            text: 'Loznica ',
-                            style: new TextStyle(
-                                fontSize: 14.0,
-                                color: Colors.black,
-                                fontFamily: "Roboto",
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          Container(
-            height: 43,
-            width: 380,
-            color: StyleColors().textColorGray12,
-            margin: EdgeInsets.only(
-              left: 16,
-              right: 16,
-            ),
-            child: Container(
-              padding: EdgeInsets.only(left: 16, top: 11, bottom: 11),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new RichText(
-                    text: new TextSpan(
-                      children: <TextSpan>[
-                        new TextSpan(
-                            text: 'Sabac',
-                            style: new TextStyle(
-                                fontSize: 14.0,
-                                color: Colors.black,
-                                fontFamily: "Roboto",
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
+
+          _buildListInter(),
+
           Container(
             height: 90,
             width: 380,
@@ -407,14 +356,14 @@ class RouteOnClick extends StatelessWidget {
             ),
           ),
 
-           Container(
+          Container(
             decoration: BoxDecoration(
               border:
                   Border.all(width: 1, color: StyleColors().textColorGray12),
             ),
             height: 56,
             width: 380,
-            margin: EdgeInsets.only(left: 16, right: 16, top:8),
+            margin: EdgeInsets.only(left: 16, right: 16, top: 8),
             child: Container(
               margin: EdgeInsets.only(left: 8),
               child: Column(
@@ -441,7 +390,7 @@ class RouteOnClick extends StatelessWidget {
               ),
             ),
           ),
-           Container(
+          Container(
             decoration: BoxDecoration(
               border:
                   Border.all(width: 1, color: StyleColors().textColorGray12),
@@ -474,11 +423,9 @@ class RouteOnClick extends StatelessWidget {
                 ],
               ),
             ),
-
-            
           ),
-           Divider1(height: 1, thickness: 1),
-           Divider1(height: 8, thickness: 8)
+          Divider1(height: 1, thickness: 1),
+          Divider1(height: 8, thickness: 8)
         ],
       ),
     );
