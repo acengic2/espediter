@@ -122,6 +122,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
       companyName1,
       urlLogo;
   int percentageVar;
+  String departureTimestamp;
   String capacityVar;
   String t11;
   String t22;
@@ -982,6 +983,8 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
 
     arrivalTimestamp = formatted2 + ' ' + t11;
     int aTimestamp = DateTime.parse(arrivalTimestamp).millisecondsSinceEpoch;
+    departureTimestamp = formatted + ' ' + t22;
+    int dTimestamp = DateTime.parse(departureTimestamp).millisecondsSinceEpoch;
 
     selectedDateP = new DateTime(
         selectedDateP.year, selectedDateP.month, selectedDateP.day);
@@ -1072,6 +1075,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
               listOfInterdestinations,
               dateOfSubmit,
               aTimestamp,
+              dTimestamp,
               companyName1,
               urlLogo,
               context);
@@ -1169,6 +1173,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
               listOfInterdestinations,
               dateOfSubmit,
               aTimestamp,
+              dTimestamp,
               companyName1,
               urlLogo,
               context);
@@ -1196,6 +1201,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
             listOfInterdestinations,
             dateOfSubmit,
             aTimestamp,
+            dTimestamp,
             companyName1,
             urlLogo,
             context);
