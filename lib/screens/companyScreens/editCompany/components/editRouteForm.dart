@@ -1182,7 +1182,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
     vrijednostiSaPolja = '';
     for (var i = 0; i < controllers.length; i++) {
       if (controllers[i].text != '') {
-        vrijednostiSaPolja = vrijednostiSaPolja + ', ' + controllers[i].text;
+        vrijednostiSaPolja = vrijednostiSaPolja + controllers[i].text + ', ';
       }
     }
   }

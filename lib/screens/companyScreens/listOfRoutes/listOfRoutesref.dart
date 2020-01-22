@@ -167,8 +167,6 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                                           text: 'Popunjenost: ',
                                           style: TextStyle(
                                               fontFamily: 'Roboto',
-                                              // fontSize: ScreenUtil.instance
-                                              //     .setSp(12.0),
                                               color: Colors.black
                                                   .withOpacity(0.6))),
                                       TextSpan(
