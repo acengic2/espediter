@@ -13,9 +13,26 @@ class RouteOnClick extends StatelessWidget {
   String userID;
 
   RouteOnClick({this.post, this.userID});
+  
 
   @override
   Widget build(BuildContext context) {
+  
+    String companyName = post.data['company_name'];
+    String destinacijaPolaska = post.data['starting_destination'];
+    String datumPolaska = post.data['departure_date'];
+    String vrijemePolaska = post.data['departure_time'];
+    String interdestinacije = post.data['interdestination'];
+    String destinacijaDolaska = post.data['ending_destination'];
+    String datumDolaska = post.data['arrival_date'];
+    String vrijemeDolaska = post.data['departure_time'];
+    String kapacitet = post.data['capacity'];
+    String dostupnost = post.data['availability'];
+    String vozilo = post.data['vehicle'];
+    String roba = post.data['goods'];
+    String dimenzije = post.data['dimensions'];
+
+
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
@@ -34,8 +51,8 @@ class RouteOnClick extends StatelessWidget {
             // RouteAndCheck().checkAndNavigate(context, userID);
           },
         ),
-        title: const Text('Truck Logistic',
-            style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.8))),
+        title:Text(companyName,
+             style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.8))),
       ),
       body: Column(
         children: <Widget>[
