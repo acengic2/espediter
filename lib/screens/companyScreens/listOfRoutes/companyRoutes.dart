@@ -16,13 +16,4 @@ class CompanyRoutes {
         .orderBy('timestamp', descending: true)
         .getDocuments();
   }
-
-  // getCompanyFinishedRoutes(String id) {
-  //   return Firestore.instance
-  //       .collection('FinishedRoutes')
-  //       .where('user_id', isEqualTo: id)
-  //       .orderBy('timestamp', descending: false)
-  //       .getDocuments();
-  // }
-
 }

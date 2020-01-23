@@ -11,7 +11,6 @@ class Divider1 extends StatelessWidget {
       height: height,
       decoration: BoxDecoration(
           border: Border(
-        //top: BorderSide(width: 1, color: StyleColors().textColorGray12),
         bottom: BorderSide(width: 1, color: StyleColors().textColorGray12),
       )),
       child: Divider(

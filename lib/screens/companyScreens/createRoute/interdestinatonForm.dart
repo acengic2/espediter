@@ -22,8 +22,6 @@ class InterdestinationForm extends StatefulWidget {
 
   @override
   _UserFormState createState() => state;
-
-  // bool isValid() => state.validate();
 }
 
 class _UserFormState extends State<InterdestinationForm> {
@@ -102,11 +100,4 @@ class _UserFormState extends State<InterdestinationForm> {
               )),
         ]));
   }
-
-  ///form validator
-  // bool validate() {
-  //   var valid = form.currentState.validate();
-  //   if (valid) form.currentState.save();
-  //   return valid;
-  // }
 }

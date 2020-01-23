@@ -8,8 +8,7 @@ double screenWidth = defaultScreenWidth;
 double screenHeight = defaultScreenHeight;
 
 class Constant {
-  /*Padding & Margin Constants*/
-
+  ///Padding & Margin Constants
   static double sizeExtraSmall = 5.0;
   static double sizeDefault = 8.0;
   static double sizeSmall = 10.0;
@@ -19,7 +18,7 @@ class Constant {
   static double sizeXXL = 40.0;
   static double sizeXXXL = 50.0;
 
-  /*Screen Size dependent Constants*/
+  ///Screen Size dependent Constants
   static double screenWidthHalf = screenWidth / 2;
   static double screenWidthThird = screenWidth / 3;
   static double screenWidthFourth = screenWidth / 4;
@@ -27,18 +26,17 @@ class Constant {
   static double screenWidthSixth = screenWidth / 6;
   static double screenWidthTenth = screenWidth / 10;
 
-  /*Image Dimensions*/
-
+  ///Image Dimensions
   static double defaultIconSize = 80.0;
   static double defaultImageHeight = 120.0;
   static double snackBarHeight = 50.0;
   static double texIconSize = 30.0;
 
-  /*Default Height&Width*/
+  ///Default Height&Width
   static double defaultIndicatorHeight = 5.0;
   static double defaultIndicatorWidth = screenWidthFourth;
 
-  /*EdgeInsets*/
+  ///EdgeInsets
   static EdgeInsets spacingAllDefault = EdgeInsets.all(sizeDefault);
   static EdgeInsets spacingAllSmall = EdgeInsets.all(sizeSmall);
 
@@ -82,8 +80,7 @@ class Constant {
 
     FontSize.setScreenAwareFontSize();
 
-    /*Padding & Margin Constants*/
-
+    ///Padding & Margin Constants
     sizeExtraSmall = ScreenUtil.instance.setWidth(5.0);
     sizeDefault = ScreenUtil.instance.setWidth(8.0);
     sizeSmall = ScreenUtil.instance.setWidth(10.0);
@@ -93,12 +90,11 @@ class Constant {
     sizeXXL = ScreenUtil.instance.setWidth(40.0);
     sizeXXXL = ScreenUtil.instance.setWidth(50.0);
 
-    /*EdgeInsets*/
-
+    ///EdgeInsets
     spacingAllDefault = EdgeInsets.all(sizeDefault);
     spacingAllSmall = EdgeInsets.all(sizeSmall);
 
-    /*Screen Size dependent Constants*/
+    ///Screen Size dependent Constants
     screenWidthHalf = ScreenUtil.instance.width / 2;
     screenWidthThird = ScreenUtil.instance.width / 3;
     screenWidthFourth = ScreenUtil.instance.width / 4;
@@ -106,14 +102,13 @@ class Constant {
     screenWidthSixth = ScreenUtil.instance.width / 6;
     screenWidthTenth = ScreenUtil.instance.width / 10;
 
-    /*Image Dimensions*/
-
+    ///Image Dimensions
     defaultIconSize = ScreenUtil.instance.setWidth(80.0);
     defaultImageHeight = ScreenUtil.instance.setHeight(120.0);
     snackBarHeight = ScreenUtil.instance.setHeight(50.0);
     texIconSize = ScreenUtil.instance.setWidth(30.0);
 
-    /*Default Height&Width*/
+    ///Default Height&Width
     defaultIndicatorHeight = ScreenUtil.instance.setHeight(5.0);
     defaultIndicatorWidth = screenWidthFourth;
   }
@@ -201,4 +196,4 @@ class FontSize {
     s30 = ScreenUtil.instance.setSp(30.0);
     s36 = ScreenUtil.instance.setSp(36.0);
   }
-} 
+}

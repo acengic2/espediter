@@ -38,7 +38,6 @@ class _FormState extends State<FormLogIn> {
                 child:
 
                     // EMAIL textform field
-
                     TextFormField(
                   focusNode: focusNode,
                   autocorrect: false,
@@ -48,7 +47,6 @@ class _FormState extends State<FormLogIn> {
                   autovalidate: false,
 
                   // dekoracija fielda
-
                   decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4.0)),
@@ -71,10 +69,8 @@ class _FormState extends State<FormLogIn> {
                           borderRadius: BorderRadius.circular(5.0))),
 
                   // VALIDACIJA fielda
-
                   validator: (input) {
                     //  polje ne smije biti prazno
-
                     if (input == '') {
                       if (onceToast == 0) {
                         final snackBar = SnackBar(
@@ -94,7 +90,6 @@ class _FormState extends State<FormLogIn> {
                     }
 
                     // email mora biti validan [____@___.___]
-
                     else if (!EmailValidator.validate(input, true)) {
                       if (onceToast == 0) {
                         final snackBar = SnackBar(
@@ -114,7 +109,6 @@ class _FormState extends State<FormLogIn> {
                     }
 
                     // da li taj email stvarno postoji u bazi
-
                     else if (userExist != 'User postoji') {
                       if (onceToast == 0) {
                         final snackBar = SnackBar(
@@ -136,7 +130,6 @@ class _FormState extends State<FormLogIn> {
                   },
 
                   // na promjenu u polju setamo state
-                  // email == input
                   onChanged: (input) {
                     setState(() {
                       _email = input;
@@ -176,11 +169,9 @@ class _FormState extends State<FormLogIn> {
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0))),
 
-                  // VALIDACIJA fielda
-
+                  // VALIDACIJA field
                   validator: (input) {
                     // polje ne smije biti prazno
-
                     if (input == '') {
                       if (onceToast == 0) {
                         final snackBar = SnackBar(
@@ -200,7 +191,6 @@ class _FormState extends State<FormLogIn> {
                     }
 
                     // pass mora biti veci od 6 karaktera
-
                     else if (input.length < 6) {
                       if (onceToast == 0) {
                         final snackBar = SnackBar(
@@ -221,7 +211,6 @@ class _FormState extends State<FormLogIn> {
                     }
 
                     // da li ta sifra postoji u bazi i da li odgovara unesenom mailu
-
                     else if (passExist != 'Pass postoji') {
                       if (onceToast == 0) {
                         final snackBar = SnackBar(
@@ -242,8 +231,6 @@ class _FormState extends State<FormLogIn> {
                     return null;
                   },
 
-                  //  setanje state-a
-                  // password == input
                   onChanged: (input) {
                     setState(() {
                       _password = input;
@@ -253,7 +240,6 @@ class _FormState extends State<FormLogIn> {
               ),
 
               // container -> constrainedBox -> u kojem se nalazi button PRIJAVA
-
               Container(
                   margin: EdgeInsets.only(
                     left: 24.0,
@@ -284,7 +270,6 @@ class _FormState extends State<FormLogIn> {
                       // na press btn-a
                       onPressed:
                           // provjera internet konekcije
-
                           () async {
                         try {
                           final result =
@@ -299,15 +284,12 @@ class _FormState extends State<FormLogIn> {
                         }
 
                         // zatvaranje tastature na klik dugmeta
-
                         FocusScopeNode currentFocus = FocusScope.of(context);
-
                         if (!currentFocus.hasPrimaryFocus) {
                           currentFocus.unfocus();
                         }
 
                         // provjera da li su oba polja prazna -> email && password
-
                         if (_email == '' && _password == '') {
                           if (onceToast == 0) {
                             final snackBar = SnackBar(
@@ -331,7 +313,6 @@ class _FormState extends State<FormLogIn> {
                         // ukoliko nisu prazna izvrsi slj funkcije -> [signIn]
                         // setamo counter [onceBtnPressed] na 1 nakon jednog klika kako bi
                         // zabranili mogucnost vise klikova
-
                         else {
                           if (onceBtnPressed == 0) {
                             SignInMethods().signIn(_email, _password, _formKey,
@@ -349,7 +330,6 @@ class _FormState extends State<FormLogIn> {
               /// dok se provjerava printamo [Loading]
               /// ukoliko postoji =>  String [passExist] = Pass postoji
               /// ukoliko ne postoji =>  String [passExist] = Pass ne postoji
-
               Column(
                 children: <Widget>[
                   FutureBuilder(
@@ -380,7 +360,6 @@ class _FormState extends State<FormLogIn> {
                         passExist = 'Pass ne postoji';
                         onceToast = 0;
                         onceBtnPressed = 0;
-
                         return Container(
                           width: 0,
                           height: 0,
@@ -397,7 +376,6 @@ class _FormState extends State<FormLogIn> {
               /// dok se provjerava printamo [Loading]
               /// ukoliko postoji =>  String [userExist] = User postoji
               /// ukoliko ne postoji =>  String [userExist] = User ne postoji
-
               Column(
                 children: <Widget>[
                   FutureBuilder(

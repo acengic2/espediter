@@ -159,7 +159,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
     super.initState();
     getUserid();
     onceToast = 0;
-    // BackButtonInterceptor.add(myInterceptor);
   }
 
   /// lista vozila
@@ -270,11 +269,9 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                         if (selectedDateP == null) {
                                           selectedDateP = DateTime.now();
                                           _isBtnDisabled = false;
-
                                         } else {
                                           selectedDateP = picked;
                                           _isBtnDisabled = false;
-
                                         }
                                       });
                                       setState(() {
@@ -291,8 +288,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                       return selectedDateP;
                                     },
                                     onChanged: (input) {
-                                      print(formatted);
-                                      print(selectedDateP);
                                       onceToast = 0;
                                       onceBtnPressed = 0;
                                       _isBtnDisabled = false;
@@ -313,7 +308,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                     style: TextStyle(
                                         fontSize:
                                             ScreenUtil.instance.setSp(15.0)),
-                                    //textAlign: TextAlign.center,
                                     decoration: InputDecoration(
                                       hintText: "Vrijeme polaska",
                                       contentPadding: EdgeInsets.fromLTRB(
@@ -592,8 +586,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                       return selectedDateD;
                                     },
                                     onChanged: (input) {
-                                      print(formatted2);
-                                      print(selectedDateD);
                                       onceToast = 0;
                                       onceBtnPressed = 0;
                                       _isBtnDisabled = false;
@@ -722,7 +714,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                             controller: controller,
                             focusNode: focusCapacity,
                             decoration: InputDecoration(
-                              counterText: '',
+                                counterText: '',
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(4.0)),
@@ -742,18 +734,14 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5.0))),
                             onChanged: (input) {
-                              print(input);
                               setState(() {
                                 capacityVar = input;
-
                                 double capacityDouble =
                                     double.parse(capacityVar);
                                 if (capacityDouble >= 10) {
                                   capacityDouble = capacityDouble / 10.0;
                                 }
                                 capacityVar = capacityDouble.toString();
-
-                                print(capacityVar);
                                 onceToast = 0;
                                 onceBtnPressed = 0;
                                 areFieldsEmpty();
@@ -785,7 +773,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                               padding:
                                   const EdgeInsets.only(left: 10.0, top: 5.0),
                               child: DropdownButton(
-                                // JUSUF - Izbacio ubacio hint i disabledHint:
                                 hint: Text('Vrsta Vozila'),
                                 disabledHint: Text('Vrsta Vozila'),
                                 value: _selectedVehicle,
@@ -912,12 +899,10 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                         if (!currentFocus.hasPrimaryFocus) {
                                           currentFocus.unfocus();
                                         }
-
                                         try {
                                           final result =
                                               await InternetAddress.lookup(
                                                   'google.com');
-
                                           if (result.isNotEmpty &&
                                               result[0]
                                                   .rawAddress
@@ -967,8 +952,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
             ],
           ),
         ),
-
-        // ),]
       ),
     );
   }
@@ -1013,7 +996,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
     selectedDateD = new DateTime(
         selectedDateD.year, selectedDateD.month, selectedDateD.day);
     if (selectedDateD.isBefore(selectedDateP)) {
-      print('Datum dolaska ne može biti manji od datuma polaska.');
       if (onceToast == 0) {
         final snackBar = SnackBar(
           duration: Duration(seconds: 2),
@@ -1034,8 +1016,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
     } else if (selectedDateP.isAtSameMomentAs(selectedDateD)) {
       if (DateFormat.Hm().format(t2).compareTo(DateFormat.Hm().format(t1)) >
           0) {
-        print(
-            'Vrijeme polaska ne može biti veće od vremena dolaska, ako su datumi jednaki.');
         if (onceToast == 0) {
           final snackBar = SnackBar(
             duration: Duration(seconds: 2),
@@ -1058,7 +1038,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
               .format(t2)
               .compareTo(DateFormat.Hm().format(t1)) ==
           0) {
-        print('Datumi i vremena ne mogu biti jednaki.');
         if (onceToast == 0) {
           final snackBar = SnackBar(
             duration: Duration(seconds: 2),
@@ -1077,9 +1056,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
           });
         }
       } else {
-        print('Validacija ispravna');
         if (onceBtnPressed == 0) {
-          print('btn kreiraj');
           onSave();
           FirebaseCrud().createData(
               percentageVar,
@@ -1105,7 +1082,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
         }
       }
     } else if (selectedDateD.isBefore(DateTime(now.year, now.month, now.day))) {
-      print('Datum dolaska ne može biti manji od današnjeg datuma.');
       if (onceToast == 0) {
         final snackBar = SnackBar(
           duration: Duration(seconds: 2),
@@ -1130,8 +1106,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
               .format(t1)
               .compareTo(DateFormat.Hm().format(DateTime.now())) <
           0) {
-        print(
-            'Vrijeme dolaska ne može biti manji od trenutnog vremena, ako je datum dolaska jednako današnjem datumu.');
         if (onceToast == 0) {
           final snackBar = SnackBar(
             duration: Duration(seconds: 2),
@@ -1154,8 +1128,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
               .format(t1)
               .compareTo(DateFormat.Hm().format(DateTime.now())) ==
           0) {
-        print(
-            'Vrijeme dolaska ne može biti jednako trenutnom vremenu, ako je datum dolaska jednak današnjem datumu.');
         if (onceToast == 0) {
           final snackBar = SnackBar(
             duration: Duration(seconds: 2),
@@ -1175,9 +1147,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
           });
         }
       } else {
-        print('Validacija ispravna');
         if (onceBtnPressed == 0) {
-          print('btn kreiraj');
           onSave();
           FirebaseCrud().createData(
               percentageVar,
@@ -1203,9 +1173,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
         }
       }
     } else {
-      print('Validacija ispravna');
       if (onceBtnPressed == 0) {
-        print('btn kreiraj');
         onSave();
         FirebaseCrud().createData(
             percentageVar,
@@ -1275,7 +1243,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
       interdestinations.forEach((form) => allValid = allValid);
       if (allValid) {
         var data = interdestinations.map((it) => it.interdestination).toList();
-        print(data.length);
         for (int i = 0; i < data.length; i++) {
           if ('${data[i].interdestinationData}' != '')
             listOfInterdestinations += '${data[i].interdestinationData}, ';

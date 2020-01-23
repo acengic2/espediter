@@ -94,7 +94,6 @@ class _ListOfRoutesState extends State<ListOfRoutes> {
     setState(() {
       st = UniqueKey();
     });
-    print(st);
     _refreshController.refreshCompleted();
   }
 

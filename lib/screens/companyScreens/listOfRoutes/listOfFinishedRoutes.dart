@@ -7,13 +7,6 @@ import 'package:spediter/theme/style.dart';
 
 String capacityString;
 
-/// varijable
-///
-/// varijable u kojoj smo spremili boje
-/// plava
-/// crna sa 80% opacity
-/// crna sa 60^ opacity
-
 /// desni,lijevi,srednji kontejner za prikaz informacija o aktivnim rutama
 final leftSection = new Container();
 final middleSection = new Container();
@@ -103,10 +96,9 @@ class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
                                   ],
                                 ),
                               ),
-                            ))); //left section container
+                            )));
 
                         ///middle section u koji spremamo kapacitet
-
                         final middleSection = new Container(
                             height: 32,
                             width: 62,
@@ -140,7 +132,7 @@ class _ListOfFinishedRoutesState extends State<ListOfFinishedRoutes> {
                                   ),
                                 ),
                               ],
-                            )); //Middle section Container
+                            ));
 
                         return Column(
                           children: <Widget>[
