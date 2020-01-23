@@ -91,7 +91,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
   var focusEnding = new FocusNode();
 
   /// counteri za [Toast] i za [Button]
-  int onceToast = 0, onceBtnPressed = 0;
+  int onceToast = 0, onceBtnPressed = 0, fieldCount = 0, nextIndex = 0;
 
   ///maska za tone  0.0
   var controller = new MaskedTextController(
@@ -126,12 +126,16 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
   String capacityVar;
   String t11;
   String t22;
+  String vrijednostiSaPolja = '';
 
   /// DateTime tip datuma (radi validacije)
   DateTime selectedDateP;
   DateTime selectedDateD;
   DateTime t1;
   DateTime t2;
+
+  // you must keep track of the TextEditingControllers if you want the values to persist correctly
+  List<TextEditingController> controllers = <TextEditingController>[];
 
   /// Timestamp var [unos u bazu zbog ordera ispisa]
   int dateOfSubmit = DateTime.now().millisecondsSinceEpoch;
@@ -140,6 +144,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
   /// i za postojanje ruta kod kompanije
   bool _screenUtilActive = true;
   bool imaliRuta = true;
+  bool imaliInterText = true;
 
   /// DROPDOWN LISTA VOZILA
   List<Vehicle> _vehicle = Vehicle.getVehicle();
@@ -153,12 +158,28 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
   /// u njoj pozivamo metodu [getUserID()] , seta mo [Toast] counter na 0,
   /// ubacujemo u dropdown listu [_dropdownMenuItems] vozila,
   /// aktiviramo [BackButtonInterceptor] i dodajemo mu f-ju [myInterceptor]
+
   @override
   void initState() {
     _dropdownMenuItems = buildDropdownMenuItems(_vehicle);
     super.initState();
     getUserid();
     onceToast = 0;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(CreateRouteScreenPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   /// lista vozila
@@ -183,6 +204,119 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
       height: defaultScreenHeight,
       allowFontScaling: true,
     )..init(context);
+
+    List<Widget> _buildList() {
+      int i;
+      if (controllers.length < fieldCount) {
+        for (i = controllers.length; i < fieldCount; i++) {
+          controllers.add(TextEditingController());
+        }
+      }
+      i = 0;
+      // cycle through the controllers, and recreate each, one per available controller
+      return controllers.map<Widget>((TextEditingController controller) {
+        i++;
+        if (controller.text.isEmpty) {
+          imaliInterText = false;
+        } else {
+          imaliInterText = true;
+        }
+        return Container(
+            margin: EdgeInsets.only(left: 18.0, right: 16.0),
+            child: Row(children: <Widget>[
+              Expanded(
+                  flex: 1,
+                  child: Column(
+                    children: <Widget>[
+                      DestinationLine(),
+                      DestinationCircle(
+                        largeCircle: StyleColors().textColorGray20,
+                        smallCircle: StyleColors().textColorGray50,
+                      ),
+                      DestinationLine(),
+                    ],
+                  )),
+              Expanded(
+                  flex: 9,
+                  child: Container(
+                      height: 36.0,
+                      margin: EdgeInsets.only(
+                        bottom: 8,
+                        left: 12,
+                        right: 5,
+                      ),
+                      child: TextFormField(
+                        enableInteractiveSelection: false,
+                        onTap: () {
+                          if (imaliInterText) {
+                            setState(() {
+                              fieldCount++;
+                            });
+                          } else {
+                            print('nema teksta');
+                          }
+                        },
+                        onChanged: (val) {
+                          if (val.isNotEmpty) {
+                            imaliInterText = true;
+                          } else {
+                            imaliInterText = false;
+                          }
+                        },
+                        maxLength: 29,
+                        textCapitalization: TextCapitalization.sentences,
+                        controller: controller,
+                        decoration: InputDecoration(
+                            counterText: '',
+                            hasFloatingPlaceholder: false,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4.0)),
+                              borderSide: BorderSide(
+                                  color: StyleColors().textColorGray12),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4.0)),
+                                borderSide: BorderSide(
+                                    color: StyleColors().textColorGray12)),
+                            labelText: 'Unesite interdestinaciju',
+                            labelStyle:
+                                TextStyle(color: StyleColors().textColorGray50),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0))),
+                      ))),
+              Expanded(
+                  flex: 1,
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      bottom: 2.0,
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        Container(
+                          child: IconButton(
+                            onPressed: () {
+                              // when removing a TextField, you must do two things:
+                              // 1. decrement the number of controllers you should have (fieldCount)
+                              // 2. actually remove this field's controller from the list of controllers
+                              setState(() {
+                                fieldCount--;
+                                controllers.remove(controller);
+                              });
+                            },
+                            icon: Icon(Icons.clear),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
+            ]));
+      }).toList(); // convert to a list
+    }
+
+    List<Widget> children = _buildList();
 
     return Scaffold(
       resizeToAvoidBottomPadding: false,
@@ -414,24 +548,30 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                             ])),
 
                         /// MEDJUDESTINACIJA
-                        Container(
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: SizedBox(
-                                  child: ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: ClampingScrollPhysics(),
-                                      addAutomaticKeepAlives: true,
-                                      itemCount: interdestinations.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return interdestinations[index];
-                                      }),
-                                ),
-                              ),
-                            ],
-                          ),
+                        // Container(
+                        //   child: Row(
+                        //     children: <Widget>[
+                        //       Expanded(
+                        //         child: SizedBox(
+                        //           child: ListView.builder(
+                        //               shrinkWrap: true,
+                        //               physics: ClampingScrollPhysics(),
+                        //               addAutomaticKeepAlives: true,
+                        //               itemCount: interdestinations.length,
+                        //               itemBuilder:
+                        //                   (BuildContext context, int index) {
+                        //                 return interdestinations[index];
+                        //               }),
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        ListView(
+                          padding: EdgeInsets.all(0),
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          children: children,
                         ),
 
                         FutureBuilder(
@@ -481,7 +621,11 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                       height: 36,
                                       child: TextFormField(
                                         maxLength: 32,
-                                        onTap: onAddForm,
+                                        onTap: () {
+                                          setState(() {
+                                            fieldCount++;
+                                          });
+                                        },
                                         textCapitalization:
                                             TextCapitalization.sentences,
                                         decoration: InputDecoration(
@@ -1057,7 +1201,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
         }
       } else {
         if (onceBtnPressed == 0) {
-          onSave();
+           getV();
           FirebaseCrud().createData(
               percentageVar,
               capacityVar,
@@ -1071,7 +1215,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
               goodsVar,
               vehicleVar,
               userID,
-              listOfInterdestinations,
+              vrijednostiSaPolja,
               dateOfSubmit,
               aTimestamp,
               dTimestamp,
@@ -1148,7 +1292,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
         }
       } else {
         if (onceBtnPressed == 0) {
-          onSave();
+           getV();
           FirebaseCrud().createData(
               percentageVar,
               capacityVar,
@@ -1162,7 +1306,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
               goodsVar,
               vehicleVar,
               userID,
-              listOfInterdestinations,
+              vrijednostiSaPolja,
               dateOfSubmit,
               aTimestamp,
               dTimestamp,
@@ -1174,7 +1318,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
       }
     } else {
       if (onceBtnPressed == 0) {
-        onSave();
+       getV();
         FirebaseCrud().createData(
             percentageVar,
             capacityVar,
@@ -1188,7 +1332,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
             goodsVar,
             vehicleVar,
             userID,
-            listOfInterdestinations,
+            vrijednostiSaPolja,
             dateOfSubmit,
             aTimestamp,
             dTimestamp,
@@ -1282,5 +1426,14 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
     onceBtnPressed = 0;
     areFieldsEmpty();
     FocusScope.of(context).requestFocus(focusGoods);
+  }
+
+   getV() {
+    vrijednostiSaPolja = '';
+    for (var i = 0; i < controllers.length; i++) {
+      if (controllers[i].text != '') {
+        vrijednostiSaPolja = vrijednostiSaPolja + controllers[i].text + ', ';
+      }
+    }
   }
 }
