@@ -193,6 +193,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                             setState(() {
                               fieldCount++;
                               jghjsf.length++;
+                              _isBtnDisabled = false;
                             });
                           } else {
                             print('nema teksta');
@@ -204,6 +205,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                           } else {
                             imaliInterText = false;
                           }
+                          _isBtnDisabled = false;
                         },
                         maxLength: 29,
                         textCapitalization: TextCapitalization.sentences,

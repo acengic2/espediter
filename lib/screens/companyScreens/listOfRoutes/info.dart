@@ -131,9 +131,7 @@ class _InfoPageState extends State<InfoPage> {
                                             itemBuilder: (context, index) {
                                               rola = snapshot
                                                   .data[index].data['role'];
-                                              print(
-                                                  'ROLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' +
-                                                      rola);
+                                              
                                               return SizedBox();
                                             });
                                       }

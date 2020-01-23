@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/theme/style.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -38,6 +39,14 @@ class _ContactPartState extends State<ContactPart> {
 
   @override
   Widget build(BuildContext context) {
+    double defaultScreenWidth = 400.0;
+    double defaultScreenHeight = 810.0;
+    ScreenUtil.instance = ScreenUtil(
+      width: defaultScreenWidth,
+      height: defaultScreenHeight,
+      allowFontScaling: true,
+    )..init(context);
+
     return FutureBuilder(
       future: getCompanyInfo(companyID),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -79,6 +88,7 @@ class _ContactPartState extends State<ContactPart> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Container(
+                                width: ScreenUtil.instance.setSp(150.0),
                                 margin: EdgeInsets.only(left: 8.0),
                                 child: Text(
                                   ('$companyName'),
@@ -91,7 +101,7 @@ class _ContactPartState extends State<ContactPart> {
                                 ),
                               ),
                               Container(
-                                width: 280,
+                                width: ScreenUtil.instance.setSp(200.0),
                                 margin: EdgeInsets.only(left: 8.0, top: 6.0),
                                 child: Text(
                                   ('$companyDescription'),
@@ -107,8 +117,10 @@ class _ContactPartState extends State<ContactPart> {
                           )
                         ],
                       ),
+
+                      //phone
                       Container(
-                        width: 400,
+                      width: 400,
                         height: 172,
                         margin: EdgeInsets.only(top: 8.0),
                         decoration: BoxDecoration(
@@ -124,7 +136,7 @@ class _ContactPartState extends State<ContactPart> {
                                 _launchCall('$companyPhone');
                               },
                               child: Container(
-                                  width: 400,
+                                  width: ScreenUtil.instance.setSp( 400.0),
                                   height: 56,
                                   child: Row(
                                     crossAxisAlignment:
@@ -245,7 +257,7 @@ class _ContactPartState extends State<ContactPart> {
                                 _launchURL('$companyWeb');
                               },
                               child: Container(
-                                  width: 400,
+                                   width: ScreenUtil.instance.setSp(400.0),
                                   height: 56,
                                   child: Row(
                                     crossAxisAlignment:
