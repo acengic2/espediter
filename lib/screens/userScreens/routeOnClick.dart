@@ -56,13 +56,13 @@ class _RouteOnClickState extends State<RouteOnClick> {
   @override
   Widget build(BuildContext context) {
 
-
      final format = DateFormat.MMMMd('bs');
      final dayFormat = DateFormat.EEEE('bs');
 
   
     String companyName = widget.post.data['company_name'];
     String destinacijaPolaska = widget.post.data['starting_destination'];
+
     /// Datum polaska
     String datumPolaska = widget.post.data['departure_date'];
       String dateReversed = datumPolaska.split('/').reversed.join();
@@ -88,6 +88,60 @@ class _RouteOnClickState extends State<RouteOnClick> {
     String roba = widget.post.data['goods'];
     String dimenzije = widget.post.data['dimensions'];
 
+    Widget _buildListInter() {
+      if (interdestinacije != '') {
+        interdestinacije =
+            interdestinacije.substring(0, interdestinacije.length - 2);
+        List<String> listaInter = interdestinacije.split(', ');
+
+        return new Column(
+            children: listaInter
+                .map(
+                  (item) => Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                            width: 0.5, color: StyleColors().borderGray),
+                      ),
+                      color: StyleColors().textColorGray12,
+                    ),
+                    height: 43,
+                    width: 380,
+                    margin: EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                    ),
+                    child: Container(
+                      padding: EdgeInsets.only(left: 16, top: 11, bottom: 11),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          new RichText(
+                            text: new TextSpan(
+                              children: <TextSpan>[
+                                new TextSpan(
+                                    text: '$item',
+                                    style: new TextStyle(
+                                        fontSize: 14.0,
+                                        color: Colors.black,
+                                        fontFamily: "Roboto",
+                                        fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+                .toList());
+      } else {
+        return Container(
+          height: 0,
+          width: 0,
+        );
+      }
+    }
 
     return Scaffold(
       
@@ -108,8 +162,8 @@ class _RouteOnClickState extends State<RouteOnClick> {
             // RouteAndCheck().checkAndNavigate(context, userID);
           },
         ),
-        title:Text(companyName,
-             style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.8))),
+        title: Text(companyName,
+            style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.8))),
       ),
       
       body: Column(
@@ -179,106 +233,9 @@ class _RouteOnClickState extends State<RouteOnClick> {
               ),
             ),
           ),
-          Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(width: 0.5, color: StyleColors().borderGray),
-              ),
-              color: StyleColors().textColorGray12,
-            ),
-            height: 42,
-            width: 380,
-            margin: EdgeInsets.only(
-              left: 16,
-              right: 16,
-            ),
-            child: Container(
-              padding: EdgeInsets.only(left: 16, top: 11, bottom: 11),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new RichText(
-                    text: new TextSpan(
-                      children: <TextSpan>[
-                        new TextSpan(
-                            text: 'Zvornik',
-                            style: new TextStyle(
-                                fontSize: 14.0,
-                                color: Colors.black,
-                                fontFamily: "Roboto",
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(width: 0.5, color: StyleColors().borderGray),
-              ),
-              color: StyleColors().textColorGray12,
-            ),
-            height: 43,
-            width: 380,
-            margin: EdgeInsets.only(
-              left: 16,
-              right: 16,
-            ),
-            child: Container(
-              padding: EdgeInsets.only(left: 16, top: 11, bottom: 11),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new RichText(
-                    text: new TextSpan(
-                      children: <TextSpan>[
-                        new TextSpan(
-                            text: 'Loznica ',
-                            style: new TextStyle(
-                                fontSize: 14.0,
-                                color: Colors.black,
-                                fontFamily: "Roboto",
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          Container(
-            height: 43,
-            width: 380,
-            color: StyleColors().textColorGray12,
-            margin: EdgeInsets.only(
-              left: 16,
-              right: 16,
-            ),
-            child: Container(
-              padding: EdgeInsets.only(left: 16, top: 11, bottom: 11),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new RichText(
-                    text: new TextSpan(
-                      children: <TextSpan>[
-                        new TextSpan(
-                            text: 'Sabac',
-                            style: new TextStyle(
-                                fontSize: 14.0,
-                                color: Colors.black,
-                                fontFamily: "Roboto",
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
+
+          _buildListInter(),
+
           Container(
             height: 90,
             width: 380,
@@ -472,14 +429,14 @@ class _RouteOnClickState extends State<RouteOnClick> {
             ),
           ),
 
-           Container(
+          Container(
             decoration: BoxDecoration(
               border:
                   Border.all(width: 1, color: StyleColors().textColorGray12),
             ),
             height: 56,
             width: 380,
-            margin: EdgeInsets.only(left: 16, right: 16, top:8),
+            margin: EdgeInsets.only(left: 16, right: 16, top: 8),
             child: Container(
               margin: EdgeInsets.only(left: 8),
               child: Column(
@@ -506,7 +463,7 @@ class _RouteOnClickState extends State<RouteOnClick> {
               ),
             ),
           ),
-           Container(
+          Container(
             decoration: BoxDecoration(
               border:
                   Border.all(width: 1, color: StyleColors().textColorGray12),
@@ -539,11 +496,9 @@ class _RouteOnClickState extends State<RouteOnClick> {
                 ],
               ),
             ),
-
-            
           ),
-           Divider1(height: 1, thickness: 1),
-           Divider1(height: 8, thickness: 8)
+          Divider1(height: 1, thickness: 1),
+          Divider1(height: 8, thickness: 8)
         ],
       ),
     );
