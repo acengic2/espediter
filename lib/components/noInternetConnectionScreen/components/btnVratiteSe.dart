@@ -6,7 +6,9 @@ class BtnVratiteSe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pop(context);
+      },
       color: Colors.white,
       child: Text(
         buttonText,

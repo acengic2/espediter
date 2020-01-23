@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spediter/components/loadingScreens/loadingRoutes.dart';
@@ -92,9 +94,10 @@ class FirebaseCrud {
       'url_logo': '$urlLogoLast',
       'webpage': '$webPageLast',
     });
+    Timer(Duration(seconds: 2), () {
+       RouteAndCheck().checkAndNavigate(context, userID);
+    });
 
-    /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
-     RouteAndCheck().checkAndNavigate(context, userID);
   }
 
   updateDataUserInfo(DocumentSnapshot doc, String userNameLast, String mailLast,
@@ -104,10 +107,13 @@ class FirebaseCrud {
       'mail': '$mailLast',
       'url_logo': '$urlLogoLast',
     });
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => UsersHome(
-              userID: userID,
-            )));
+
+    Timer(Duration(seconds: 2), () {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => UsersHome(
+                userID: userID,
+              )));
+    });
   }
 
   // funkcija koja snima informacije u bazu
