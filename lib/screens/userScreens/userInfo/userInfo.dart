@@ -7,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spediter/components/crud/firebaseCrud.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
-import 'package:spediter/components/routingAndChecking.dart';
 import 'package:spediter/screens/companyScreens/companyInfo/components/hardCodedPart.dart';
 import 'package:spediter/screens/userScreens/usersHome.dart';
 import 'package:spediter/theme/style.dart';

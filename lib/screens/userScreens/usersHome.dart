@@ -63,7 +63,6 @@ class _UsersHomeState extends State<UsersHome> {
       width: defaultScreenWidth,
       height: defaultScreenHeight,
       allowFontScaling: true,
-      
     )..init(context);
 
     return WillPopScope(
@@ -87,8 +86,6 @@ class _UsersHomeState extends State<UsersHome> {
                               physics: ClampingScrollPhysics(),
                               itemCount: snapshot.data.length,
                               itemBuilder: (context, index) {
-                                
-
                                 int time = int.parse(snapshot
                                     .data[index].data['arrival_timestamp']);
 
@@ -288,7 +285,8 @@ class _UsersHomeState extends State<UsersHome> {
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           RouteOn(
-                                                              post: snapshot.data[index],
+                                                              post: snapshot
+                                                                  .data[index],
                                                               userID: userID)));
                                             }
                                           } on SocketException catch (_) {

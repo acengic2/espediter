@@ -5,15 +5,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:spediter/components/divider.dart';
+import 'package:spediter/screens/singIn/components/form.dart';
+import 'package:spediter/screens/userScreens/components/contactPart.dart';
 import 'package:spediter/screens/userScreens/usersHome.dart';
 import 'package:spediter/theme/style.dart';
 
 void main() => runApp(RouteOnClick());
 
-
-
 class RouteOn extends StatelessWidget {
-   String userID;
+  String userID;
   DocumentSnapshot post;
   RouteOn({this.post, this.userID});
 
@@ -35,11 +35,10 @@ class RouteOn extends StatelessWidget {
         const Locale('bs', null), // Bosnian
         const Locale('en'), // English
       ],
-      home: RouteOnClick(post: post,userID: userID),
+      home: RouteOnClick(post: post, userID: userID),
     );
   }
 }
-
 
 class RouteOnClick extends StatefulWidget {
   DocumentSnapshot post;
@@ -49,42 +48,43 @@ class RouteOnClick extends StatefulWidget {
 
   @override
   _RouteOnClickState createState() => _RouteOnClickState();
-
 }
 
 class _RouteOnClickState extends State<RouteOnClick> {
   @override
   Widget build(BuildContext context) {
+    final format = DateFormat.MMMMd('bs');
+    final dayFormat = DateFormat.EEEE('bs');
 
-     final format = DateFormat.MMMMd('bs');
-     final dayFormat = DateFormat.EEEE('bs');
-
-  
     String companyName = widget.post.data['company_name'];
     String destinacijaPolaska = widget.post.data['starting_destination'];
+    String companyID = widget.post.data['user_id'];
 
     /// Datum polaska
     String datumPolaska = widget.post.data['departure_date'];
-      String dateReversed = datumPolaska.split('/').reversed.join();
-        String departureDate =  format.format(DateTime.parse(dateReversed));
-        /// izvacenje dana u sedmici iz datuma
-        DateTime danDatuma = DateTime.parse(datumPolaska);
-        String danPolaska =  dayFormat.format(danDatuma);
+    String dateReversed = datumPolaska.split('/').reversed.join();
+    String departureDate = format.format(DateTime.parse(dateReversed));
+
+    /// izvacenje dana u sedmici iz datuma
+    DateTime danDatuma = DateTime.parse(datumPolaska);
+    String danPolaska = dayFormat.format(danDatuma);
 
     String vrijemePolaska = widget.post.data['departure_time'];
     String interdestinacije = widget.post.data['interdestination'];
     String destinacijaDolaska = widget.post.data['ending_destination'];
+
     /// Datum dolaska
     String datumDolaska = widget.post.data['arrival_date'];
-     String dateReversed1 = datumDolaska.split('/').reversed.join();
-        String departureDate1 =  format.format(DateTime.parse(dateReversed1));
+    String dateReversed1 = datumDolaska.split('/').reversed.join();
+    String departureDate1 = format.format(DateTime.parse(dateReversed1));
+
     /// IZVLACENJE dana u sedmici iz datuma
-         DateTime danDatuma1 = DateTime.parse(datumDolaska);
-        String danDolaska =  dayFormat.format(danDatuma1);
+    DateTime danDatuma1 = DateTime.parse(datumDolaska);
+    String danDolaska = dayFormat.format(danDatuma1);
     String vrijemeDolaska = widget.post.data['departure_time'];
     String kapacitet = widget.post.data['capacity'];
     String dostupnost = widget.post.data['availability'];
-    String vozilo = widget.post.data['vehicle']; 
+    String vozilo = widget.post.data['vehicle'];
     String roba = widget.post.data['goods'];
     String dimenzije = widget.post.data['dimensions'];
 
@@ -144,7 +144,6 @@ class _RouteOnClickState extends State<RouteOnClick> {
     }
 
     return Scaffold(
-      
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         /// u appBaru kreiramo X iconicu na osnovu koje izlazimo iz [CreateRoutes] i idemo na [ListOfRoutes]
@@ -165,8 +164,9 @@ class _RouteOnClickState extends State<RouteOnClick> {
         title: Text(companyName,
             style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.8))),
       ),
-      
-      body: Column(
+      body: ListView(
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
         children: <Widget>[
           Container(
             height: 90,
@@ -206,20 +206,15 @@ class _RouteOnClickState extends State<RouteOnClick> {
                   Padding(
                     padding: EdgeInsets.only(bottom: 2),
                     child: Text(
-  
                       /// dan polaska + datum polaska
-                        danPolaska + ', ' + departureDate,
+                      danPolaska + ', ' + departureDate,
                       style: TextStyle(
-                        
-                        locale: Locale('bs'),
+                          locale: Locale('bs'),
                           color: Colors.white,
                           fontFamily: 'Roboto',
                           fontSize: 16,
                           fontWeight: FontWeight.w500),
-                         
-
                     ),
-
                   ),
                   Text(
                     vrijemePolaska,
@@ -274,7 +269,7 @@ class _RouteOnClickState extends State<RouteOnClick> {
                   Padding(
                     padding: EdgeInsets.only(bottom: 2),
                     child: Text(
-                       danDolaska +  ", " + departureDate1,
+                      danDolaska + ", " + departureDate1,
                       style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'Roboto',
@@ -324,7 +319,7 @@ class _RouteOnClickState extends State<RouteOnClick> {
                                   fontFamily: "Roboto",
                                 )),
                             new TextSpan(
-                              text: (kapacitet +  ' t'),
+                              text: (kapacitet + ' t'),
                               style: new TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14.0,
@@ -417,8 +412,8 @@ class _RouteOnClickState extends State<RouteOnClick> {
                         )),
                   ),
                   Text(
-                    vozilo,   
-                      style: TextStyle(
+                    vozilo,
+                    style: TextStyle(
                       color: StyleColors().textColorGray80,
                       fontFamily: 'Roboto',
                       fontSize: 16,
@@ -498,7 +493,8 @@ class _RouteOnClickState extends State<RouteOnClick> {
             ),
           ),
           Divider1(height: 1, thickness: 1),
-          Divider1(height: 8, thickness: 8)
+          Divider1(height: 8, thickness: 8),
+          ContactPart(post: post, userID: userID, companyID: companyID)
         ],
       ),
     );

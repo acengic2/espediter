@@ -176,13 +176,13 @@ class FirebaseCrud {
       String urlLogoLast, String userID, BuildContext context) async {
     await db.collection('Users').document(doc.documentID).updateData({
       'username': '$userNameLast',
-      'mmail': '$mailLast',
+      'mail': '$mailLast',
       'url_logo': '$urlLogoLast',
     });
     Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => UsersHome(
-                  userID: userID,
-                )));
+        builder: (context) => UsersHome(
+              userID: userID,
+            )));
   }
 
   // funkcija koja snima informacije u bazu
