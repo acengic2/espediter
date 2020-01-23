@@ -626,11 +626,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                                               Duration(
                                                                   seconds: 2),
                                                               () {
-                                                            onceToast = 0;
-                                                          });
-                                                        }
-                                                        FirebaseCrud()
-                                                            .updateDataCompanyInfo(
+                                                            FirebaseCrud().updateDataCompanyInfo(
                                                                 snapshot.data[
                                                                     index],
                                                                 companyDescriptionLast,
@@ -642,7 +638,25 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                                                 webPageLast,
                                                                 userID,
                                                                 context);
-                                                        onceBtnPressed = 1;
+                                                            onceBtnPressed = 1;
+                                                            onceToast = 0;
+                                                          });
+                                                        } else {
+                                                          FirebaseCrud()
+                                                              .updateDataCompanyInfo(
+                                                                  snapshot.data[
+                                                                      index],
+                                                                  companyDescriptionLast,
+                                                                  companyNameLast,
+                                                                  mailLast,
+                                                                  locationLast,
+                                                                  phoneLast,
+                                                                  urlLogoLast,
+                                                                  webPageLast,
+                                                                  userID,
+                                                                  context);
+                                                          onceBtnPressed = 1;
+                                                        }
                                                       }
                                                     }
                                                   }

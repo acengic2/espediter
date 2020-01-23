@@ -133,6 +133,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
             style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.8))),
       ),
       body:
+
           /// GestureDetector na osnovu kojeg zavaramo tastaturu na klik izvan njenog prostora
           Builder(
         builder: (context) => new GestureDetector(
@@ -415,19 +416,30 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                                               Duration(
                                                                   seconds: 2),
                                                               () {
+                                                            FirebaseCrud()
+                                                                .updateDataUserInfo(
+                                                                    snapshot.data[
+                                                                        index],
+                                                                    userNameLast,
+                                                                    mailLast,
+                                                                    urlLogoLast,
+                                                                    userID,
+                                                                    context);
+                                                            onceBtnPressed = 1;
                                                             onceToast = 0;
                                                           });
+                                                        } else {
+                                                          FirebaseCrud()
+                                                                .updateDataUserInfo(
+                                                                    snapshot.data[
+                                                                        index],
+                                                                    userNameLast,
+                                                                    mailLast,
+                                                                    urlLogoLast,
+                                                                    userID,
+                                                                    context);
+                                                          onceBtnPressed = 1;
                                                         }
-                                                        FirebaseCrud()
-                                                            .updateDataUserInfo(
-                                                                snapshot.data[
-                                                                    index],
-                                                                userNameLast,
-                                                                mailLast,
-                                                                urlLogoLast,
-                                                                userID,
-                                                                context);
-                                                        onceBtnPressed = 1;
                                                       }
                                                     }
                                                   }
