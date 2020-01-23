@@ -706,7 +706,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                         margin: EdgeInsets.only(
                             bottom: 4.5, left: 16.0, right: 16.0, top: 4.5),
                         child: TextFormField(
-                          maxLength: 3,
+                          maxLength: 2,
                           initialValue: widget.post.data['capacity'],
                           keyboardType:
                               TextInputType.numberWithOptions(decimal: true),
@@ -725,7 +725,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                   borderSide: BorderSide(
                                       color: StyleColors().textColorGray12)),
                               labelText: 'Kapacitet u tonama',
-                              hintText: '1.5',
+                              hintText: '15',
                               labelStyle: TextStyle(
                                   color: StyleColors().textColorGray50),
                               hasFloatingPlaceholder: true,
@@ -738,11 +738,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                 capacityVar =
                                     capacityVar.replaceFirst(',', '.');
                               }
-                              capacityDouble = double.parse(capacityVar);
-                              if (capacityDouble >= 10) {
-                                capacityDouble = capacityDouble / 10.0;
-                              }
-                              capacityVar = capacityDouble.toString();
                               onceToast = 0;
                               onceBtnPressed = 0;
                               areFieldsEmpty();
