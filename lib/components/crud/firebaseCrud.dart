@@ -172,6 +172,19 @@ class FirebaseCrud {
     });
   }
 
+  updateDataUserInfo(DocumentSnapshot doc, String userNameLast, String mailLast,
+      String urlLogoLast, String userID, BuildContext context) async {
+    await db.collection('Users').document(doc.documentID).updateData({
+      'username': '$userNameLast',
+      'mail': '$mailLast',
+      'url_logo': '$urlLogoLast',
+    });
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => UsersHome(
+              userID: userID,
+            )));
+  }
+
   // funkcija koja snima informacije u bazu
   createData(
       int percentageVar,
@@ -189,6 +202,7 @@ class FirebaseCrud {
       String listOfInterdestinations,
       int dateOfSubmit,
       int aTimestamp,
+      int dTimestamp,
       String companyName1,
       String urlLogo,
       BuildContext context) async {
@@ -208,6 +222,7 @@ class FirebaseCrud {
       'user_id': '$userID',
       'timestamp': '$dateOfSubmit',
       'arrival_timestamp': '$aTimestamp',
+      'departure_timestamp': '$dTimestamp',
       'company_name': '$companyName',
       'url_logo': '$urlLogo'
     });

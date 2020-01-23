@@ -23,4 +23,6 @@ class StyleColors {
 
   Color blackWithOpacity80 = Colors.black.withOpacity(0.8);
 
+  Color borderGray = Color.fromRGBO(112, 112, 112, 1.0);
+
 }

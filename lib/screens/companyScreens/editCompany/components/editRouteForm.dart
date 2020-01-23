@@ -26,8 +26,6 @@ class EditRouteForm extends StatefulWidget {
   _EditRouteFormState createState() => _EditRouteFormState();
 }
 
-int fieldCount = 0;
-int nextIndex = 0;
 String vrijednostiSaPolja = '';
 
 class _EditRouteFormState extends State<EditRouteForm> {
@@ -59,7 +57,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
   var focusInterdestination = new FocusNode();
 
   /// counteri za [Toast] i za [Button]
-  int onceToast = 0, onceBtnPressed = 0;
+  int onceToast = 0, onceBtnPressed = 0, fieldCount = 0, nextIndex = 0;
 
   /// Stringovi
   String userUid;
@@ -84,7 +82,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
   String t11;
   String t22;
   String inter;
-  static String  initialValues;
+  static String initialValues;
   static String datumA = '1996-03-11';
   static String vrijemeA = '09:00';
 
@@ -106,6 +104,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
   /// i za postojanje ruta kod kompanije
   bool _screenUtilActive = true;
   bool imaliRuta = true;
+  bool imaliInterText = true;
 
   /// DROPDOWN LISTA VOZILA
   List<Vehicle> _vehicle = Vehicle.getVehicle();
@@ -118,7 +117,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
   /// initState metoda - lifecycle metoda koja se izvrsi prije nego se load-a sam screen
   /// u njoj pozivamo metodu [getUserID()] , setamo [Toast] counter na 0,
   /// ubacujemo u dropdown listu [_dropdownMenuItems] vozila,
- List<String> jghjsf;
+  List<String> jghjsf;
   @override
   void initState() {
     _dropdownMenuItems = buildDropdownMenuItems(_vehicle);
@@ -155,11 +154,15 @@ class _EditRouteFormState extends State<EditRouteForm> {
           controllers.add(TextEditingController(text: jghjsf[i]));
         }
       }
-
       i = 0;
       // cycle through the controllers, and recreate each, one per available controller
       return controllers.map<Widget>((TextEditingController controller) {
         i++;
+        if (controller.text.isEmpty) {
+          imaliInterText = false;
+        } else {
+          imaliInterText = true;
+        }
         return Container(
             margin: EdgeInsets.only(left: 18.0, right: 16.0),
             child: Row(children: <Widget>[
@@ -178,69 +181,74 @@ class _EditRouteFormState extends State<EditRouteForm> {
               Expanded(
                   flex: 9,
                   child: Container(
-                    height: 36.0,
-                    margin: EdgeInsets.only(
-                      bottom: 8,
-                      left: 12,
-                      right: 5,
-                    ),
-                    child: TextFormField(
-                      enableInteractiveSelection: false,
-                      onTap: () {
-                        setState(() {
-                          fieldCount++;
-                          jghjsf.length++;
-                        });
-                      },
-                      maxLength: 29,
-                      textCapitalization: TextCapitalization.sentences,
-                      controller: controller,
-                      decoration: InputDecoration(
-                          counterText: '',
-                          hasFloatingPlaceholder: false,
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(4.0)),
-                            borderSide: BorderSide(
-                                color: StyleColors().textColorGray12),
-                          ),
-                          focusedBorder: OutlineInputBorder(
+                      height: 36.0,
+                      margin: EdgeInsets.only(
+                        bottom: 8,
+                        left: 12,
+                        right: 5,
+                      ),
+                      child: TextFormField(
+                        enableInteractiveSelection: false,
+                        onTap: () {
+                          if (imaliInterText) {
+                            
+                              setState(() {
+                              fieldCount++;
+                              jghjsf.length++;
+                            });
+                              
+                          } else {
+                           print('nema teksta');
+                         }
+                        },
+                        maxLength: 29,
+                        textCapitalization: TextCapitalization.sentences,
+                        controller: controller,
+                        decoration: InputDecoration(
+                            counterText: '',
+                            hasFloatingPlaceholder: false,
+                            enabledBorder: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(4.0)),
                               borderSide: BorderSide(
-                                  color: StyleColors().textColorGray12)),
-                          labelText: 'Unesite interdestinaciju',
-                          labelStyle:
-                              TextStyle(color: StyleColors().textColorGray50),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0))),
-                    ))),
-
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          margin: EdgeInsets.only(
-                            bottom: 2.0,
+                                  color: StyleColors().textColorGray12),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4.0)),
+                                borderSide: BorderSide(
+                                    color: StyleColors().textColorGray12)),
+                            labelText: 'Unesite interdestinaciju',
+                            labelStyle:
+                                TextStyle(color: StyleColors().textColorGray50),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0))),
+                      ))),
+              Expanded(
+                  flex: 1,
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      bottom: 2.0,
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        Container(
+                          child: IconButton(
+                            onPressed: () {
+                              // when removing a TextField, you must do two things:
+                              // 1. decrement the number of controllers you should have (fieldCount)
+                              // 2. actually remove this field's controller from the list of controllers
+                              setState(() {
+                                jghjsf.length--;
+                                controllers.remove(controller);
+                              });
+                            },
+                            icon: Icon(Icons.clear),
                           ),
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: <Widget>[
-                              Container(
-                                child: IconButton(
-                                  onPressed: () {
-                                    // when removing a TextField, you must do two things:
-                                    // 1. decrement the number of controllers you should have (fieldCount)
-                                    // 2. actually remove this field's controller from the list of controllers
-                                    setState(() {
-                                      jghjsf.length--;
-                                      controllers.remove(controller);
-                                    });
-                                  },
-                                  icon: Icon(Icons.clear),
-                                ),
-                              ),
-                            ],
-                          ),
+                        ),
+                      ],
+                    ),
                   )),
             ]));
       }).toList(); // convert to a list
@@ -1182,7 +1190,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
     vrijednostiSaPolja = '';
     for (var i = 0; i < controllers.length; i++) {
       if (controllers[i].text != '') {
-        vrijednostiSaPolja = vrijednostiSaPolja + ', ' + controllers[i].text;
+        vrijednostiSaPolja = vrijednostiSaPolja + controllers[i].text + ', ';
       }
     }
   }
