@@ -38,7 +38,9 @@ class TryAgain extends StatelessWidget {
                 minWidth: 154.0,
                 height: 36.0,
                 child: RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   color: StyleColors().blueColor,
                   child: Text(
                     buttonText,

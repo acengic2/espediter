@@ -189,11 +189,15 @@ class _EditRouteFormState extends State<EditRouteForm> {
                       ),
                       child: TextFormField(
                         enableInteractiveSelection: false,
+                        onChanged: (input) {
+                          _isBtnDisabled = false;
+                        },
                         onTap: () {
                           if (imaliInterText) {
                             setState(() {
                               fieldCount++;
                               jghjsf.length++;
+                              _isBtnDisabled = false;
                             });
                           } else {
                             print('nema teksta');
