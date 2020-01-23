@@ -62,6 +62,7 @@ class _UsersHomeState extends State<UsersHome> {
       width: defaultScreenWidth,
       height: defaultScreenHeight,
       allowFontScaling: true,
+      
     )..init(context);
 
     return WillPopScope(
@@ -285,7 +286,7 @@ class _UsersHomeState extends State<UsersHome> {
                                               Navigator.of(context).push(
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          RouteOnClick(
+                                                          RouteOn(
                                                               post: snapshot.data[index],
                                                               userID: userID)));
                                             }

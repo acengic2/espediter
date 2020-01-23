@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -9,40 +10,83 @@ import 'package:spediter/theme/style.dart';
 
 void main() => runApp(RouteOnClick());
 
-class RouteOnClick extends StatelessWidget {
+
+
+class RouteOn extends StatelessWidget {
+   String userID;
+  DocumentSnapshot post;
+  RouteOn({this.post, this.userID});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Kreiraj Rutu',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      localizationsDelegates: [
+        // ... lokalizacija jezika
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('bs', null), // Bosnian
+        const Locale('en'), // English
+      ],
+      home: RouteOnClick(post: post,userID: userID),
+    );
+  }
+}
+
+
+class RouteOnClick extends StatefulWidget {
   DocumentSnapshot post;
   String userID;
 
   RouteOnClick({this.post, this.userID});
 
   @override
+  _RouteOnClickState createState() => _RouteOnClickState();
+
+}
+
+class _RouteOnClickState extends State<RouteOnClick> {
+  @override
   Widget build(BuildContext context) {
-    String companyName = post.data['company_name'];
-    String destinacijaPolaska = post.data['starting_destination'];
+
+     final format = DateFormat.MMMMd('bs');
+     final dayFormat = DateFormat.EEEE('bs');
+
+  
+    String companyName = widget.post.data['company_name'];
+    String destinacijaPolaska = widget.post.data['starting_destination'];
+
     /// Datum polaska
-    String datumPolaska = post.data['departure_date'];
+    String datumPolaska = widget.post.data['departure_date'];
       String dateReversed = datumPolaska.split('/').reversed.join();
-        String departureDate = DateFormat("d MMMM").format(DateTime.parse(dateReversed));
+        String departureDate =  format.format(DateTime.parse(dateReversed));
         /// izvacenje dana u sedmici iz datuma
         DateTime danDatuma = DateTime.parse(datumPolaska);
-        String danPolaska =  DateFormat('EEEE').format(danDatuma);
+        String danPolaska =  dayFormat.format(danDatuma);
 
-    String vrijemePolaska = post.data['departure_time'];
-    String interdestinacije = post.data['interdestination'];
-    String destinacijaDolaska = post.data['ending_destination'];
+    String vrijemePolaska = widget.post.data['departure_time'];
+    String interdestinacije = widget.post.data['interdestination'];
+    String destinacijaDolaska = widget.post.data['ending_destination'];
     /// Datum dolaska
-    String datumDolaska = post.data['arrival_date'];
+    String datumDolaska = widget.post.data['arrival_date'];
      String dateReversed1 = datumDolaska.split('/').reversed.join();
-        String departureDate1 = DateFormat("d MMMM").format(DateTime.parse(dateReversed1));
+        String departureDate1 =  format.format(DateTime.parse(dateReversed1));
     /// IZVLACENJE dana u sedmici iz datuma
          DateTime danDatuma1 = DateTime.parse(datumDolaska);
-        String danDolaska =  DateFormat('EEEE').format(danDatuma1);
-    String vrijemeDolaska = post.data['departure_time'];
-    String kapacitet = post.data['capacity'];
-    String dostupnost = post.data['availability'];
-    String vozilo = post.data['vehicle']; 
-    String roba = post.data['goods'];
-    String dimenzije = post.data['dimensions'];
+        String danDolaska =  dayFormat.format(danDatuma1);
+    String vrijemeDolaska = widget.post.data['departure_time'];
+    String kapacitet = widget.post.data['capacity'];
+    String dostupnost = widget.post.data['availability'];
+    String vozilo = widget.post.data['vehicle']; 
+    String roba = widget.post.data['goods'];
+    String dimenzije = widget.post.data['dimensions'];
 
     Widget _buildListInter() {
       if (interdestinacije != '') {
@@ -111,7 +155,7 @@ class RouteOnClick extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => UsersHome(
-                      userID: userID,
+                      userID: widget.userID,
                     )));
 
             /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
