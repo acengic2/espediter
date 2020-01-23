@@ -32,51 +32,58 @@ class RouteOnClick extends StatelessWidget {
     String dimenzije = post.data['dimensions'];
 
     Widget _buildListInter() {
-      interdestinacije =
-          interdestinacije.substring(0, interdestinacije.length - 2);
-      List<String> listaInter = interdestinacije.split(', ');
+      if (interdestinacije != '') {
+        interdestinacije =
+            interdestinacije.substring(0, interdestinacije.length - 2);
+        List<String> listaInter = interdestinacije.split(', ');
 
-      return new Column(
-          children: listaInter
-              .map(
-                (item) => Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                          width: 0.5, color: StyleColors().borderGray),
+        return new Column(
+            children: listaInter
+                .map(
+                  (item) => Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                            width: 0.5, color: StyleColors().borderGray),
+                      ),
+                      color: StyleColors().textColorGray12,
                     ),
-                    color: StyleColors().textColorGray12,
-                  ),
-                  height: 43,
-                  width: 380,
-                  margin: EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                  ),
-                  child: Container(
-                    padding: EdgeInsets.only(left: 16, top: 11, bottom: 11),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        new RichText(
-                          text: new TextSpan(
-                            children: <TextSpan>[
-                              new TextSpan(
-                                  text: '$item',
-                                  style: new TextStyle(
-                                      fontSize: 14.0,
-                                      color: Colors.black,
-                                      fontFamily: "Roboto",
-                                      fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                        )
-                      ],
+                    height: 43,
+                    width: 380,
+                    margin: EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                    ),
+                    child: Container(
+                      padding: EdgeInsets.only(left: 16, top: 11, bottom: 11),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          new RichText(
+                            text: new TextSpan(
+                              children: <TextSpan>[
+                                new TextSpan(
+                                    text: '$item',
+                                    style: new TextStyle(
+                                        fontSize: 14.0,
+                                        color: Colors.black,
+                                        fontFamily: "Roboto",
+                                        fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              )
-              .toList());
+                )
+                .toList());
+      } else {
+        return Container(
+          height: 0,
+          width: 0,
+        );
+      }
     }
 
     return Scaffold(
