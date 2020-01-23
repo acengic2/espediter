@@ -1,4 +1,4 @@
- import 'dart:io';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,7 +10,6 @@ import 'package:spediter/screens/userScreens/components/bottomAppBarUser.dart';
 import 'package:spediter/screens/userScreens/components/contactPart.dart';
 import 'package:spediter/screens/userScreens/routeOnClick.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 
 void main() => runApp(UsersHome());
 
@@ -42,19 +41,18 @@ class UsersHome extends StatefulWidget {
 
 class _UsersHomeState extends State<UsersHome> {
   final String userID;
-   var st;
+  var st;
   DateTime currentBackPressTime;
 
   _UsersHomeState({this.userID});
 
-    RefreshController _refreshController =
+  RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
   @override
-  void initState() { 
+  void initState() {
     _onRefresh();
     super.initState();
-    
   }
 
   @override
@@ -65,13 +63,14 @@ class _UsersHomeState extends State<UsersHome> {
       width: defaultScreenWidth,
       height: defaultScreenHeight,
       allowFontScaling: true,
+      
     )..init(context);
 
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
         body: SmartRefresher(
-                  child: ListView(
+          child: ListView(
             children: <Widget>[
               Column(
                 children: <Widget>[
@@ -88,10 +87,13 @@ class _UsersHomeState extends State<UsersHome> {
                               physics: ClampingScrollPhysics(),
                               itemCount: snapshot.data.length,
                               itemBuilder: (context, index) {
+                                
+
                                 int time = int.parse(snapshot
                                     .data[index].data['arrival_timestamp']);
 
-                                if (time > DateTime.now().millisecondsSinceEpoch) {
+                                if (time >
+                                    DateTime.now().millisecondsSinceEpoch) {
                                   post = snapshot.data[index];
                                   var logoAndName;
                                   getPosts().then((data) {
@@ -108,8 +110,8 @@ class _UsersHomeState extends State<UsersHome> {
                                   });
 
                                   /// DATUM
-                                  String date =
-                                      snapshot.data[index].data['departure_date'];
+                                  String date = snapshot
+                                      .data[index].data['departure_date'];
                                   String dateReversed =
                                       date.split('/').reversed.join();
                                   String departureDate = DateFormat("d MMM")
@@ -122,7 +124,8 @@ class _UsersHomeState extends State<UsersHome> {
                                   final leftSection = new Container(
                                       height: 32,
                                       width: 62,
-                                      margin: EdgeInsets.only(top: 8, bottom: 16),
+                                      margin:
+                                          EdgeInsets.only(top: 8, bottom: 16),
                                       decoration: new BoxDecoration(
                                         shape: BoxShape.rectangle,
                                         color: blueColor,
@@ -139,7 +142,8 @@ class _UsersHomeState extends State<UsersHome> {
                                               new TextSpan(
                                                   text: departureDate,
                                                   style: new TextStyle(
-                                                    fontSize: ScreenUtil.instance
+                                                    fontSize: ScreenUtil
+                                                        .instance
                                                         .setSp(13.0),
                                                     color: Colors.white,
                                                     fontFamily: "Roboto",
@@ -240,7 +244,8 @@ class _UsersHomeState extends State<UsersHome> {
                                                       style: TextStyle(
                                                           fontFamily: 'Roboto',
                                                           color: Colors.black
-                                                              .withOpacity(0.6))),
+                                                              .withOpacity(
+                                                                  0.6))),
                                                   TextSpan(
                                                     text: availability + ' %',
                                                     style: TextStyle(
@@ -256,10 +261,11 @@ class _UsersHomeState extends State<UsersHome> {
                                                 ],
                                               ),
                                             ),
-                                            linearStrokeCap: LinearStrokeCap.butt,
+                                            linearStrokeCap:
+                                                LinearStrokeCap.butt,
                                             backgroundColor: Colors.white,
-                                            progressColor:
-                                                Color.fromRGBO(3, 54, 255, 0.12),
+                                            progressColor: Color.fromRGBO(
+                                                3, 54, 255, 0.12),
                                           ))
                                     ],
                                   );
@@ -275,12 +281,15 @@ class _UsersHomeState extends State<UsersHome> {
                                                     'google.com');
 
                                             if (result.isNotEmpty &&
-                                                result[0].rawAddress.isNotEmpty) {
+                                                result[0]
+                                                    .rawAddress
+                                                    .isNotEmpty) {
                                               Navigator.of(context).push(
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          ContactPart(
-                                                              post: snapshot.data[index], userID: userID)));
+                                                          RouteOn(
+                                                              post: snapshot.data[index],
+                                                              userID: userID)));
                                             }
                                           } on SocketException catch (_) {
                                             Navigator.of(context).push(
@@ -315,7 +324,8 @@ class _UsersHomeState extends State<UsersHome> {
                                                               width: 1,
                                                               color:
                                                                   Colors.black),
-                                                          shape: BoxShape.circle,
+                                                          shape:
+                                                              BoxShape.circle,
                                                           image:
                                                               new DecorationImage(
                                                             fit: BoxFit.fill,
@@ -349,10 +359,12 @@ class _UsersHomeState extends State<UsersHome> {
                                                           style: new TextStyle(
                                                             fontSize: 20.0,
                                                             color: Colors.black
-                                                                .withOpacity(0.8),
+                                                                .withOpacity(
+                                                                    0.8),
                                                             fontWeight:
                                                                 FontWeight.bold,
-                                                            fontFamily: "Roboto",
+                                                            fontFamily:
+                                                                "Roboto",
                                                           )),
                                                       new TextSpan(
                                                           style: new TextStyle(
@@ -367,8 +379,10 @@ class _UsersHomeState extends State<UsersHome> {
                                                           style: new TextStyle(
                                                             fontSize: 20.0,
                                                             color: Colors.black
-                                                                .withOpacity(0.6),
-                                                            fontFamily: "Roboto",
+                                                                .withOpacity(
+                                                                    0.6),
+                                                            fontFamily:
+                                                                "Roboto",
                                                           )),
                                                       new TextSpan(
                                                         text:
@@ -414,18 +428,16 @@ class _UsersHomeState extends State<UsersHome> {
               ),
             ],
           ),
-           enablePullDown: true,
-            controller: _refreshController,
-            onRefresh: _onRefresh,
+          enablePullDown: true,
+          controller: _refreshController,
+          onRefresh: _onRefresh,
         ),
         bottomNavigationBar: BottomAppBarUser(userID: userID),
       ),
     );
-
-    
   }
-  
- void _onRefresh() async {
+
+  void _onRefresh() async {
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
@@ -437,14 +449,32 @@ class _UsersHomeState extends State<UsersHome> {
   }
 
   Future<bool> _onWillPop() async {
-    DateTime now = DateTime.now();
-    if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime) > Duration(seconds: 2)) {
-      currentBackPressTime = now;
-      return Future.value(false);
-    }
-    exit(0);
-    return Future.value(true);
+    // DateTime now = DateTime.now();
+    // if (currentBackPressTime == null ||
+    //     now.difference(currentBackPressTime) > Duration(seconds: 2)) {
+    //   currentBackPressTime = now;
+    //   return Future.value(false);
+    // }
+    // exit(0);
+    // return Future.value(true);
+    return showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Da li ste sigurni?'),
+            content: new Text('Da li želite napustiti aplikaciju?'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('Ne'),
+              ),
+              new FlatButton(
+                onPressed: () => exit(0),
+                child: new Text('Da'),
+              ),
+            ],
+          ),
+        ) ??
+        true;
   }
 
   Future getPosts() async {

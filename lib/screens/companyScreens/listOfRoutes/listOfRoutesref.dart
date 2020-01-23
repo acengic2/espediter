@@ -16,6 +16,7 @@ final leftSection = new Container();
 final middleSection = new Container();
 final rightSection = new Container();
 
+
 class ListOfRoutesRef extends StatefulWidget {
   final String userID;
   ListOfRoutesRef({this.userID});
@@ -167,8 +168,6 @@ class _ListOfRoutesRefState extends State<ListOfRoutesRef> {
                                           text: 'Popunjenost: ',
                                           style: TextStyle(
                                               fontFamily: 'Roboto',
-                                              // fontSize: ScreenUtil.instance
-                                              //     .setSp(12.0),
                                               color: Colors.black
                                                   .withOpacity(0.6))),
                                       TextSpan(
