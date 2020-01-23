@@ -88,7 +88,7 @@ class _ContactPartState extends State<ContactPart> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Container(
-                                width: ScreenUtil.instance.setSp(150.0),
+                                width: ScreenUtil.instance.setSp(280.0),
                                 margin: EdgeInsets.only(left: 8.0),
                                 child: Text(
                                   ('$companyName'),
@@ -101,7 +101,7 @@ class _ContactPartState extends State<ContactPart> {
                                 ),
                               ),
                               Container(
-                                width: ScreenUtil.instance.setSp(200.0),
+                                width: ScreenUtil.instance.setSp(280.0),
                                 margin: EdgeInsets.only(left: 8.0, top: 6.0),
                                 child: Text(
                                   ('$companyDescription'),
@@ -120,7 +120,7 @@ class _ContactPartState extends State<ContactPart> {
 
                       //phone
                       Container(
-                      width: 400,
+                      width: ScreenUtil.instance.setSp( 360.0),
                         height: 172,
                         margin: EdgeInsets.only(top: 8.0),
                         decoration: BoxDecoration(
@@ -169,7 +169,8 @@ class _ContactPartState extends State<ContactPart> {
                                             ),
                                           ),
                                           Container(
-                                            width: 280,
+                                                                              width: ScreenUtil.instance.setSp( 200.0),
+
                                             margin: EdgeInsets.only(top: 2.0),
                                             child: Text(
                                               ('Telefon'),
@@ -230,7 +231,7 @@ class _ContactPartState extends State<ContactPart> {
                                             ),
                                           ),
                                           Container(
-                                            width: 280,
+                                             width: ScreenUtil.instance.setSp( 200.0),
                                             margin: EdgeInsets.only(top: 2.0),
                                             child: Text(
                                               ('Mail'),
@@ -290,7 +291,7 @@ class _ContactPartState extends State<ContactPart> {
                                             ),
                                           ),
                                           Container(
-                                            width: 280,
+                                             width: ScreenUtil.instance.setSp( 200.0),
                                             margin: EdgeInsets.only(
                                                 top: 2.0, bottom: 7.0),
                                             child: Text(
