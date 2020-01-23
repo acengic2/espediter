@@ -55,7 +55,7 @@ class RouteOnClick extends StatelessWidget {
                       right: 16,
                     ),
                     child: Container(
-                      padding: EdgeInsets.only(left: 16, top: 11, bottom: 11),
+                      padding: EdgeInsets.only(left: 8, top: 11, bottom: 11),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -115,7 +115,7 @@ class RouteOnClick extends StatelessWidget {
             color: StyleColors().blueColor,
             margin: EdgeInsets.only(left: 16, right: 16, top: 10),
             child: Container(
-              margin: EdgeInsets.only(left: 16, top: 14, bottom: 5),
+              margin: EdgeInsets.only(left: 8, top: 14, bottom: 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -176,7 +176,7 @@ class RouteOnClick extends StatelessWidget {
             color: StyleColors().destinationCircle1,
             margin: EdgeInsets.only(left: 16, right: 16),
             child: Container(
-              margin: EdgeInsets.only(left: 16, top: 5, right: 16),
+              margin: EdgeInsets.only(left: 8, top: 5, right: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
