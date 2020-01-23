@@ -38,9 +38,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
   final formatTime = DateFormat("HH:mm");
   final formatP = DateFormat('yyyy-MM-dd');
 
-  /// key za formu
-  static GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   /// Timestamp var [unos u bazu zbog ordera ispisa]
   int dateOfSubmit = DateTime.now().millisecondsSinceEpoch;
 
@@ -148,7 +145,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
   Widget build(BuildContext context) {
     List<Widget> _buildList() {
       int i;
-      // fill in keys if the list is not long enough (in case we added one)
       if (controllers.length < jghjsf.length) {
         for (i = controllers.length; i < jghjsf.length; i++) {
           controllers.add(TextEditingController(text: jghjsf[i]));
@@ -191,15 +187,13 @@ class _EditRouteFormState extends State<EditRouteForm> {
                         enableInteractiveSelection: false,
                         onTap: () {
                           if (imaliInterText) {
-                            
-                              setState(() {
+                            setState(() {
                               fieldCount++;
                               jghjsf.length++;
                             });
-                              
                           } else {
-                           print('nema teksta');
-                         }
+                            print('nema teksta');
+                          }
                         },
                         maxLength: 29,
                         textCapitalization: TextCapitalization.sentences,
@@ -453,7 +447,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                     )))
                           ])),
 
-                      //  getInterdestinations(),
                       ListView(
                         padding: EdgeInsets.all(0),
                         shrinkWrap: true,
@@ -654,7 +647,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                       Divider1(thickness: 1, height: 1),
                       Divider1(thickness: 8, height: 8),
 
-                      /// Popunjenost u procentimaaaaaaaaaaaaaaaaa
+                      /// Popunjenost u procentima
                       Container(
                         margin: EdgeInsets.only(
                             bottom: 2, left: 16.0, right: 16.0, top: 11.5),
@@ -747,7 +740,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                       ),
 
                       /// VRSTE VOZILAAAA
-
                       ResponsiveContainer(
                         heightPercent:
                             (68.0 / MediaQuery.of(context).size.height) * 100,
@@ -996,7 +988,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
           ],
         ),
       ),
-      // ),]
     );
   }
 

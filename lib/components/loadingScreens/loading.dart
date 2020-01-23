@@ -93,7 +93,6 @@ class _ShowLoading extends State<ShowLoading> {
                       itemBuilder: (context, index) {
                         setState(() {
                           rola = snapshot.data[index].data['role'];
-                          print(rola);
                         });
 
                         return Container(
