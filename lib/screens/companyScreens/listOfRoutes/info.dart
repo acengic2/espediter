@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/rendering.dart';
 import 'package:spediter/components/routingAndChecking.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
+import 'package:spediter/screens/userScreens/usersHome.dart';
 import 'package:spediter/theme/style.dart';
 
 void main() => runApp(Info());
@@ -60,6 +61,7 @@ class _InfoPageState extends State<InfoPage> {
   String userUid;
 
   String id;
+  String rola;
 
   bool imaliRuta = true;
 
@@ -74,7 +76,14 @@ class _InfoPageState extends State<InfoPage> {
             icon: Icon(Icons.clear),
             onPressed: () {
               /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
-              RouteAndCheck().checkAndNavigate(context, userID);
+              if (rola == 'user') {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => UsersHome(
+                          userID: userID,
+                        )));
+              } else {
+                RouteAndCheck().checkAndNavigate(context, userID);
+              }
             },
           ),
           title: const Text('Info',
@@ -109,6 +118,27 @@ class _InfoPageState extends State<InfoPage> {
                                           fontSize: 16,
                                           fontWeight: FontWeight.w400),
                                     ),
+                                  ),
+                                  FutureBuilder(
+                                    future: getPosts(userID),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot snapshot) {
+                                      if (snapshot.hasData) {
+                                        return ListView.builder(
+                                            shrinkWrap: true,
+                                            physics: ClampingScrollPhysics(),
+                                            itemCount: snapshot.data.length,
+                                            itemBuilder: (context, index) {
+                                              rola = snapshot
+                                                  .data[index].data['role'];
+                                              print(
+                                                  'ROLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' +
+                                                      rola);
+                                              return SizedBox();
+                                            });
+                                      }
+                                      return SizedBox();
+                                    },
                                   ),
                                   Container(
                                     height: 104,
@@ -224,4 +254,13 @@ class _InfoPageState extends State<InfoPage> {
                       ),
                     )));
   }
+}
+
+Future getPosts(String id) async {
+  var firestore = Firestore.instance;
+  QuerySnapshot qn = await firestore
+      .collection('LoggedUsers')
+      .where('user_id', isEqualTo: id)
+      .getDocuments();
+  return qn.documents;
 }
