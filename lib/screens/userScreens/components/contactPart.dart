@@ -22,7 +22,6 @@ class ContactPart extends StatefulWidget {
 class _ContactPartState extends State<ContactPart> {
   DocumentSnapshot post;
   String userID, companyID;
-
   String companyName;
   String companyDescription;
   String companyPhone;
@@ -39,7 +38,6 @@ class _ContactPartState extends State<ContactPart> {
 
   @override
   Widget build(BuildContext context) {
-    companyName = widget.post.data['company_name'];
     return FutureBuilder(
       future: getCompanyInfo(companyID),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -314,7 +312,6 @@ class _ContactPartState extends State<ContactPart> {
   }
 
   Future getCompanyInfo(String id) async {
-    print(id);
     var firestore = Firestore.instance;
     QuerySnapshot qn = await firestore
         .collection('Company')

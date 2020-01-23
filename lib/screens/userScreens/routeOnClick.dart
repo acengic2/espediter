@@ -228,9 +228,7 @@ class _RouteOnClickState extends State<RouteOnClick> {
               ),
             ),
           ),
-
           _buildListInter(),
-
           Container(
             height: 90,
             width: 380,
@@ -362,8 +360,6 @@ class _RouteOnClickState extends State<RouteOnClick> {
                                   text: 'Popunjenost: ',
                                   style: TextStyle(
                                       fontFamily: 'Roboto',
-                                      // fontSize: ScreenUtil.instance
-                                      //     .setSp(12.0),
                                       color: Colors.black.withOpacity(0.6))),
                               TextSpan(
                                 text: dostupnost + ' %',
@@ -386,9 +382,6 @@ class _RouteOnClickState extends State<RouteOnClick> {
               ),
             ],
           ),
-
-          ///////////
-
           Container(
             decoration: BoxDecoration(
               border:
@@ -423,7 +416,6 @@ class _RouteOnClickState extends State<RouteOnClick> {
               ),
             ),
           ),
-
           Container(
             decoration: BoxDecoration(
               border:

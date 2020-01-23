@@ -7,7 +7,6 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
 import 'package:spediter/screens/userScreens/components/bottomAppBarUser.dart';
-import 'package:spediter/screens/userScreens/components/contactPart.dart';
 import 'package:spediter/screens/userScreens/routeOnClick.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 <<<<<<< HEAD
@@ -444,23 +443,13 @@ class _UsersHomeState extends State<UsersHome> {
  void _onRefresh() async {
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000));
-    // if failed,use refreshFailed()
     setState(() {
       st = UniqueKey();
     });
-    print(st);
     _refreshController.refreshCompleted();
   }
 
   Future<bool> _onWillPop() async {
-    // DateTime now = DateTime.now();
-    // if (currentBackPressTime == null ||
-    //     now.difference(currentBackPressTime) > Duration(seconds: 2)) {
-    //   currentBackPressTime = now;
-    //   return Future.value(false);
-    // }
-    // exit(0);
-    // return Future.value(true);
     return showDialog(
           context: context,
           builder: (context) => new AlertDialog(
