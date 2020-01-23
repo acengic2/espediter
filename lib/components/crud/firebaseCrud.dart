@@ -94,10 +94,9 @@ class FirebaseCrud {
       'url_logo': '$urlLogoLast',
       'webpage': '$webPageLast',
     });
-    Timer(Duration(seconds: 2), () {
+    //Timer(Duration(seconds: 2), () {
        RouteAndCheck().checkAndNavigate(context, userID);
-    });
-
+    //});
   }
 
   updateDataUserInfo(DocumentSnapshot doc, String userNameLast, String mailLast,
@@ -108,12 +107,12 @@ class FirebaseCrud {
       'url_logo': '$urlLogoLast',
     });
 
-    Timer(Duration(seconds: 2), () {
+    //Timer(Duration(seconds: 2), () {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => UsersHome(
                 userID: userID,
               )));
-    });
+    //});
   }
 
   // funkcija koja snima informacije u bazu
