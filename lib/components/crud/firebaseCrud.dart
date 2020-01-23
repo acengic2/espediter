@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spediter/components/loadingScreens/loadingRoutes.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/companyRoutes.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
-import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
 import 'package:spediter/screens/userScreens/usersHome.dart';
+
+import '../routingAndChecking.dart';
 
 /// instanca za bazu
 final db = Firestore.instance;
@@ -18,26 +17,7 @@ class FirebaseCrud {
   void deleteData(
       DocumentSnapshot doc, String userID, BuildContext context) async {
     await db.collection('Rute').document(doc.documentID).delete();
-    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-      if (docs.documents.isNotEmpty) {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ListOfRoutes(
-                  userID: userID,
-                )));
-      } else if (docs.documents.isEmpty) {
-        CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-          if (docs.documents.isNotEmpty) {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ListOfRoutes(
-                      userID: userID,
-                    )));
-          } else {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => NoRoutes(userID: userID)));
-          }
-        });
-      }
-    });
+    RouteAndCheck().checkAndNavigate(context, userID);
   }
 
   /// update Funkcija za Rute
@@ -77,53 +57,17 @@ class FirebaseCrud {
     });
 
     /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
-    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-      if (docs.documents.isNotEmpty) {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ListOfRoutes(
-                  userID: userID,
-                )));
-      } else if (docs.documents.isEmpty) {
-        CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-          if (docs.documents.isNotEmpty) {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ListOfRoutes(
-                      userID: userID,
-                    )));
-          } else {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => NoRoutes(userID: userID)));
-          }
-        });
-      }
-    });
+     RouteAndCheck().checkAndNavigate(context, userID);
   }
+
+
 
   finishRoute(int arrivalT, DocumentSnapshot doc, BuildContext context,
       String userID) async {
     await db.collection('Rute').document(doc.documentID).updateData({
       'arrival_timestamp': '$arrivalT',
     });
-    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-      if (docs.documents.isNotEmpty) {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ListOfRoutes(
-                  userID: userID,
-                )));
-      } else if (docs.documents.isEmpty) {
-        CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-          if (docs.documents.isNotEmpty) {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ListOfRoutes(
-                      userID: userID,
-                    )));
-          } else {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => NoRoutes(userID: userID)));
-          }
-        });
-      }
-    });
+    RouteAndCheck().checkAndNavigate(context, userID);
   }
 
   ///  funckija Update za CompanyInfo
@@ -150,26 +94,7 @@ class FirebaseCrud {
     });
 
     /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
-    CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-      if (docs.documents.isNotEmpty) {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ListOfRoutes(
-                  userID: userID,
-                )));
-      } else if (docs.documents.isEmpty) {
-        CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-          if (docs.documents.isNotEmpty) {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ListOfRoutes(
-                      userID: userID,
-                    )));
-          } else {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => NoRoutes(userID: userID)));
-          }
-        });
-      }
-    });
+     RouteAndCheck().checkAndNavigate(context, userID);
   }
 
   updateDataUserInfo(DocumentSnapshot doc, String userNameLast, String mailLast,
