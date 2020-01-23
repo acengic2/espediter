@@ -9,10 +9,6 @@ import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin
 import 'package:spediter/screens/userScreens/components/bottomAppBarUser.dart';
 import 'package:spediter/screens/userScreens/routeOnClick.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
 
 void main() => runApp(UsersHome());
 
