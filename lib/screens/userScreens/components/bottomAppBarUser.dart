@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:spediter/screens/companyScreens/listOfRoutes/info.dart';
+import 'package:spediter/screens/userScreens/userInfo/userInfo.dart';
+import 'package:verbal_expressions/verbal_expressions.dart';
 
 class BottomAppBarUser extends StatelessWidget {
   final String userID;
@@ -13,7 +16,7 @@ class BottomAppBarUser extends StatelessWidget {
   Future getPosts(String id) async {
     var firestore = Firestore.instance;
     QuerySnapshot qn = await firestore
-        .collection('LoggedUsers')
+        .collection('Users')
         .where('user_id', isEqualTo: id)
         .getDocuments();
     return qn.documents;
@@ -29,7 +32,13 @@ class BottomAppBarUser extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
-                  image = NetworkImage(avatarURL);
+                  String url = snapshot.data[index].data['url_logo'];
+                  if (checkUrl(url)) {
+                    logoURL = url;
+                  } else {
+                    logoURL = avatarURL;
+                  }
+                  image = NetworkImage(logoURL);
                   return BottomAppBar(
                     child: Container(
                       height: 56.0,
@@ -37,6 +46,13 @@ class BottomAppBarUser extends StatelessWidget {
                       child: Row(
                         children: <Widget>[
                           GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          UserInfo(userID: userID)));
+                            },
                             child: Container(
                                 width: 30,
                                 height: 30,
@@ -55,7 +71,13 @@ class BottomAppBarUser extends StatelessWidget {
                             margin: EdgeInsets.only(left: 4.0, bottom: 0),
                             child: IconButton(
                               iconSize: 35,
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          Info(userID: userID)));
+                              },
                               icon: Icon(
                                 Icons.info_outline,
                               ),
@@ -70,5 +92,29 @@ class BottomAppBarUser extends StatelessWidget {
             return SizedBox();
           }
         });
+  }
+  bool checkUrl(String url) {
+    var regex = VerbalExpression()
+      ..startOfLine()
+      ..then("http")
+      ..maybe("s")
+      ..then("://")
+      ..maybe("www.")
+      ..anythingBut(" ")
+      ..then(".png")
+      ..or(".jpg")
+      ..endOfLine();
+    var regex2 = VerbalExpression()
+      ..startOfLine()
+      ..then("http")
+      ..maybe("s")
+      ..then("://")
+      ..maybe("www.")
+      ..anythingBut(" ")
+      ..then(".jpeg")
+      ..or(".svg")
+      ..endOfLine();
+
+    return (regex.hasMatch(url) || regex2.hasMatch(url));
   }
 }
