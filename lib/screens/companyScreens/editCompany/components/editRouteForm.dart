@@ -188,9 +188,6 @@ class _EditRouteFormState extends State<EditRouteForm> {
                       ),
                       child: TextFormField(
                         enableInteractiveSelection: false,
-                        onChanged: (input) {
-                          _isBtnDisabled = false;
-                        },
                         onTap: () {
                           if (imaliInterText) {
                             setState(() {
@@ -208,6 +205,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                           } else {
                             imaliInterText = false;
                           }
+                          _isBtnDisabled = false;
                         },
                         maxLength: 29,
                         textCapitalization: TextCapitalization.sentences,
