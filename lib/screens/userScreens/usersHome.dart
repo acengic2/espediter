@@ -40,7 +40,7 @@ class UsersHome extends StatefulWidget {
 
 class _UsersHomeState extends State<UsersHome> {
   final String userID;
-  var st;
+   var st;
   DateTime currentBackPressTime;
 
   _UsersHomeState({this.userID});
@@ -432,9 +432,11 @@ class _UsersHomeState extends State<UsersHome> {
         bottomNavigationBar: BottomAppBarUser(userID: userID),
       ),
     );
-  }
 
-  void _onRefresh() async {
+    
+  }
+  
+ void _onRefresh() async {
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000));
     setState(() {
