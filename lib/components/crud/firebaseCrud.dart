@@ -172,6 +172,19 @@ class FirebaseCrud {
     });
   }
 
+  updateDataUserInfo(DocumentSnapshot doc, String userNameLast, String mailLast,
+      String urlLogoLast, String userID, BuildContext context) async {
+    await db.collection('Users').document(doc.documentID).updateData({
+      'username': '$userNameLast',
+      'mmail': '$mailLast',
+      'url_logo': '$urlLogoLast',
+    });
+    Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => UsersHome(
+                  userID: userID,
+                )));
+  }
+
   // funkcija koja snima informacije u bazu
   createData(
       int percentageVar,

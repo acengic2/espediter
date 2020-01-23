@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/screens/userScreens/usersHome.dart';
 import 'package:spediter/theme/style.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-void main() => runApp(ContactPart());
+void main() {
+  //setupLocator();
+  runApp(ContactPart());
+}
 
 class ContactPart extends StatefulWidget {
   DocumentSnapshot post;
@@ -18,6 +22,7 @@ class ContactPart extends StatefulWidget {
 }
 
 class _ContactPartState extends State<ContactPart> {
+  //final CallsAndMessagesService _service = locator<CallsAndMessagesService>();
   DocumentSnapshot post;
   String userID;
 
@@ -30,9 +35,8 @@ class _ContactPartState extends State<ContactPart> {
   String companyURL;
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
-    
   }
 
   _ContactPartState({this.post, this.userID});
@@ -78,12 +82,6 @@ class _ContactPartState extends State<ContactPart> {
                   companyEmail = snapshot.data[index].data['email'];
                   companyWeb = snapshot.data[index].data['webpage'];
                   companyURL = snapshot.data[index].data['url_logo'];
-                  print(companyName);
-                  print(companyDescription);
-                  print(companyPhone);
-                  print(companyEmail);
-                  print(companyWeb);
-                  print(companyURL);
                   return Container(
                     margin: EdgeInsets.only(
                         top: 14.0, bottom: 16.0, left: 16.0, right: 16.0),
@@ -149,169 +147,190 @@ class _ContactPartState extends State<ContactPart> {
                                   BorderRadius.all(Radius.circular(4.0))),
                           child: Column(
                             children: <Widget>[
-                              Container(
-                                  width: 400,
-                                  height: 56,
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.all(16.0),
-                                        child: Icon(
-                                          Icons.phone,
-                                          color: StyleColors().textColorGray60,
-                                          size: 24.0,
-                                        ),
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Container(
-                                            margin: EdgeInsets.only(top: 8.0),
-                                            child: Text(
-                                              ('$companyPhone'),
-                                              style: TextStyle(
-                                                fontSize: 16.0,
-                                                color: Colors.black
-                                                    .withOpacity(0.8),
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: "Roboto",
-                                              ),
-                                            ),
+                              GestureDetector(
+                                onTap: () {
+                                  _launchCall('$companyPhone');
+                                },
+                                child: Container(
+                                    width: 400,
+                                    height: 56,
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Container(
+                                          margin: EdgeInsets.all(16.0),
+                                          child: Icon(
+                                            Icons.phone,
+                                            color:
+                                                StyleColors().textColorGray60,
+                                            size: 24.0,
                                           ),
-                                          Container(
-                                            width: 280,
-                                            margin: EdgeInsets.only(top: 2.0),
-                                            child: Text(
-                                              ('Telefon'),
-                                              style: TextStyle(
-                                                fontSize: 14.0,
-                                                color: Colors.black
-                                                    .withOpacity(0.6),
-                                                fontWeight: FontWeight.w500,
-                                                fontFamily: "Roboto",
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              margin: EdgeInsets.only(top: 8.0),
+                                              child: Text(
+                                                ('$companyPhone'),
+                                                style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  color: Colors.black
+                                                      .withOpacity(0.8),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "Roboto",
+                                                ),
                                               ),
                                             ),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  )),
+                                            Container(
+                                              width: 280,
+                                              margin: EdgeInsets.only(top: 2.0),
+                                              child: Text(
+                                                ('Telefon'),
+                                                style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  color: Colors.black
+                                                      .withOpacity(0.6),
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "Roboto",
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    )),
+                              ),
                               Container(
                                 alignment: Alignment(-1.0, 0.0),
                                 width: 344,
                                 child: Divider1(thickness: 1, height: 1),
                               ),
-                              Container(
-                                  width: 400,
-                                  height: 56,
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.all(16.0),
-                                        child: Icon(
-                                          Icons.mail,
-                                          color: StyleColors().textColorGray60,
-                                          size: 24.0,
-                                        ),
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Container(
-                                            margin: EdgeInsets.only(top: 8.0),
-                                            child: Text(
-                                              ('$companyEmail'),
-                                              style: TextStyle(
-                                                fontSize: 16.0,
-                                                color: Colors.black
-                                                    .withOpacity(0.8),
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: "Roboto",
-                                              ),
-                                            ),
+                              GestureDetector(
+                                onTap: () {
+                                  _launchMail('$companyEmail');
+                                },
+                                child: Container(
+                                    width: 400,
+                                    height: 56,
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Container(
+                                          margin: EdgeInsets.all(16.0),
+                                          child: Icon(
+                                            Icons.mail,
+                                            color:
+                                                StyleColors().textColorGray60,
+                                            size: 24.0,
                                           ),
-                                          Container(
-                                            width: 280,
-                                            margin: EdgeInsets.only(top: 2.0),
-                                            child: Text(
-                                              ('Mail'),
-                                              style: TextStyle(
-                                                fontSize: 14.0,
-                                                color: Colors.black
-                                                    .withOpacity(0.6),
-                                                fontWeight: FontWeight.w500,
-                                                fontFamily: "Roboto",
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              margin: EdgeInsets.only(top: 8.0),
+                                              child: Text(
+                                                ('$companyEmail'),
+                                                style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  color: Colors.black
+                                                      .withOpacity(0.8),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "Roboto",
+                                                ),
                                               ),
                                             ),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  )),
+                                            Container(
+                                              width: 280,
+                                              margin: EdgeInsets.only(top: 2.0),
+                                              child: Text(
+                                                ('Mail'),
+                                                style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  color: Colors.black
+                                                      .withOpacity(0.6),
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "Roboto",
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    )),
+                              ),
                               Container(
                                 width: 344,
                                 child: Divider1(thickness: 1, height: 1),
                               ),
-                              Container(
-                                  width: 400,
-                                  height: 56,
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.all(16.0),
-                                        child: Icon(
-                                          Icons.web,
-                                          color: StyleColors().textColorGray60,
-                                          size: 24.0,
-                                        ),
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Container(
-                                            margin: EdgeInsets.only(top: 8.0),
-                                            child: Text(
-                                              ('$companyWeb'),
-                                              style: TextStyle(
-                                                fontSize: 16.0,
-                                                color: Colors.black
-                                                    .withOpacity(0.8),
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: "Roboto",
-                                              ),
-                                            ),
+                              GestureDetector(
+                                onTap: () {
+                                  _launchURL('$companyWeb');
+                                },
+                                child: Container(
+                                    width: 400,
+                                    height: 56,
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Container(
+                                          margin: EdgeInsets.all(16.0),
+                                          child: Icon(
+                                            Icons.web,
+                                            color:
+                                                StyleColors().textColorGray60,
+                                            size: 24.0,
                                           ),
-                                          Container(
-                                            width: 280,
-                                            margin: EdgeInsets.only(
-                                                top: 2.0, bottom: 7.0),
-                                            child: Text(
-                                              ('Website'),
-                                              style: TextStyle(
-                                                fontSize: 14.0,
-                                                color: Colors.black
-                                                    .withOpacity(0.6),
-                                                fontWeight: FontWeight.w500,
-                                                fontFamily: "Roboto",
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              margin: EdgeInsets.only(top: 8.0),
+                                              child: Text(
+                                                ('$companyWeb'),
+                                                style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  color: Colors.black
+                                                      .withOpacity(0.8),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "Roboto",
+                                                ),
                                               ),
                                             ),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ))
+                                            Container(
+                                              width: 280,
+                                              margin: EdgeInsets.only(
+                                                  top: 2.0, bottom: 7.0),
+                                              child: Text(
+                                                ('Website'),
+                                                style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  color: Colors.black
+                                                      .withOpacity(0.6),
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "Roboto",
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    )),
+                              )
                             ],
                           ),
                         )
@@ -337,4 +356,20 @@ class _ContactPartState extends State<ContactPart> {
         .getDocuments();
     return qn.documents;
   }
+}
+
+_launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
+_launchMail(String mail) async {
+  await launch("mailto:$mail");
+}
+
+_launchCall(String phone) async {
+  await launch("tel:$phone");
 }
