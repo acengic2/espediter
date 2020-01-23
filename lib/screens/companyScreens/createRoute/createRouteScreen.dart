@@ -94,9 +94,9 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
   int onceToast = 0, onceBtnPressed = 0, fieldCount = 0, nextIndex = 0;
 
   ///maska za tone  0.0
-  var controller = new MaskedTextController(
-    mask: '0.0',
-  );
+  // var controller = new MaskedTextController(
+  //   mask: '0.0',
+  // );
 
   var percentageController = new MaskedTextController(mask: '000');
 
@@ -852,10 +852,10 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                           margin: EdgeInsets.only(
                               bottom: 4.5, left: 16.0, right: 16.0, top: 4.5),
                           child: TextFormField(
-                            maxLength: 3,
+                            maxLength: 2,
                             keyboardType:
                                 TextInputType.numberWithOptions(decimal: true),
-                            controller: controller,
+                           // controller: controller,
                             focusNode: focusCapacity,
                             decoration: InputDecoration(
                                 counterText: '',
@@ -871,7 +871,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                     borderSide: BorderSide(
                                         color: Color.fromRGBO(0, 0, 0, 0.12))),
                                 labelText: 'Kapacitet u tonama',
-                                hintText: '1.5',
+                                hintText: '12',
                                 labelStyle: TextStyle(
                                     color: Color.fromRGBO(0, 0, 0, 0.5)),
                                 hasFloatingPlaceholder: true,
@@ -880,12 +880,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                             onChanged: (input) {
                               setState(() {
                                 capacityVar = input;
-                                double capacityDouble =
-                                    double.parse(capacityVar);
-                                if (capacityDouble >= 10) {
-                                  capacityDouble = capacityDouble / 10.0;
-                                }
-                                capacityVar = capacityDouble.toString();
                                 onceToast = 0;
                                 onceBtnPressed = 0;
                                 areFieldsEmpty();
