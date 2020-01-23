@@ -10,7 +10,7 @@ import 'package:spediter/screens/userScreens/components/bottomAppBarUser.dart';
 import 'package:spediter/screens/userScreens/routeOnClick.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-void main() => runApp(UsersHome());
+// void main() => runApp(UsersHome());
 
 String capacityString;
 String companyName;
@@ -331,6 +331,7 @@ class _UsersHomeState extends State<UsersHome> {
                                                           ),
                                                         )),
                                                     Container(
+                                                      width: ScreenUtil.instance.setSp(200.0),
                                                       margin: EdgeInsets.only(
                                                           bottom: 6.0),
                                                       child: Text(
@@ -412,7 +413,7 @@ class _UsersHomeState extends State<UsersHome> {
                                     ],
                                   );
                                 }
-                              });
+                              return SizedBox(); });
                         } else {
                           return SizedBox(
                             child: Center(child: CircularProgressIndicator()),

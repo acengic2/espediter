@@ -123,8 +123,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
     onceToast = 0;
     populateTheVariables();
     if (initialValues != '') {
-        initialValues =
-            initialValues.substring(0, initialValues.length - 2);
+      initialValues = initialValues.substring(0, initialValues.length - 2);
     }
     jghjsf = initialValues.split(', ');
     fieldCount = jghjsf.length;
@@ -203,6 +202,13 @@ class _EditRouteFormState extends State<EditRouteForm> {
                             print('nema teksta');
                           }
                         },
+                        onChanged: (val) {
+                          if (val.isNotEmpty) {
+                            imaliInterText = true;
+                          } else {
+                            imaliInterText = false;
+                          }
+                        },
                         maxLength: 29,
                         textCapitalization: TextCapitalization.sentences,
                         controller: controller,
@@ -253,7 +259,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                     ),
                   )),
             ]));
-      }).toList();// convert to a list
+      }).toList(); // convert to a list
     }
 
     List<Widget> children = _buildList();

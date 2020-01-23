@@ -13,18 +13,9 @@ class RouteAndCheck {
             builder: (context) => ListOfRoutes(
                   userID: userID,
                 )));
-      } else if (docs.documents.isEmpty) {
-        CompanyRoutes().getCompanyRoutes(userID).then((QuerySnapshot docs) {
-          if (docs.documents.isNotEmpty) {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ListOfRoutes(
-                      userID: userID,
-                    )));
-          } else {
-            Navigator.of(context).push(MaterialPageRoute(
+      } else {
+          Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => NoRoutes(userID: userID)));
-          }
-        });
       }
     });
   }
