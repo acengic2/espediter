@@ -122,6 +122,10 @@ class _EditRouteFormState extends State<EditRouteForm> {
     getUserid();
     onceToast = 0;
     populateTheVariables();
+    if (initialValues != '') {
+        initialValues =
+            initialValues.substring(0, initialValues.length - 2);
+    }
     jghjsf = initialValues.split(', ');
     fieldCount = jghjsf.length;
   }
@@ -245,7 +249,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                     ),
                   )),
             ]));
-      }).toList(); // convert to a list
+      }).toList();// convert to a list
     }
 
     List<Widget> children = _buildList();
