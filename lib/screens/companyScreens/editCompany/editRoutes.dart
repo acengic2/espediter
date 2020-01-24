@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spediter/components/routingAndChecking.dart';
-import 'package:spediter/screens/companyScreens/createRoute/interdestinatonForm.dart';
 import 'package:spediter/screens/companyScreens/editCompany/components/editRouteForm.dart';
 import 'package:flutter/rendering.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
@@ -57,8 +56,6 @@ class EditRouteScreenPage extends StatefulWidget {
 }
 
 class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
-  /// lista medjudestinacija
-  List<InterdestinationForm> interdestinations = [];
   final DocumentSnapshot post;
   String userID;
 

@@ -15,7 +15,6 @@ import 'package:spediter/components/crud/firebaseCrud.dart';
 import 'package:spediter/components/destinationCircles.dart';
 import 'package:spediter/components/destinationLines.dart';
 import 'package:spediter/components/divider.dart';
-import 'package:spediter/components/inderdestination.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
 import 'package:spediter/components/routingAndChecking.dart';
 import 'package:spediter/components/vehicle.dart';
@@ -23,7 +22,6 @@ import 'package:spediter/screens/userScreens/usersHome.dart';
 import 'package:spediter/theme/style.dart';
 import 'package:spediter/utils/screenUtils.dart';
 import 'package:flutter/rendering.dart';
-import 'interdestinatonForm.dart';
 
 void main() => runApp(CreateRoute());
 
@@ -63,9 +61,6 @@ class CreateRouteScreenPage extends StatefulWidget {
 }
 
 class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
-  /// lista medjudestinacija
-  List<InterdestinationForm> interdestinations = [];
-
   _CreateRouteScreenPageState({this.userID});
 
   /// VARIJABLE
@@ -80,8 +75,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
   /// instanca za bazu
   final db = Firestore.instance;
 
-  /// fokusi
-
   /// fokus za krajnju destinaciju
   var focusPercentage = new FocusNode();
   var focusCapacity = new FocusNode();
@@ -92,11 +85,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
 
   /// counteri za [Toast] i za [Button]
   int onceToast = 0, onceBtnPressed = 0, fieldCount = 0, nextIndex = 0;
-
-  ///maska za tone  0.0
-  // var controller = new MaskedTextController(
-  //   mask: '0.0',
-  // );
 
   var percentageController = new MaskedTextController(mask: '000');
 
@@ -546,27 +534,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                         },
                                       )))
                             ])),
-
-                        /// MEDJUDESTINACIJA
-                        // Container(
-                        //   child: Row(
-                        //     children: <Widget>[
-                        //       Expanded(
-                        //         child: SizedBox(
-                        //           child: ListView.builder(
-                        //               shrinkWrap: true,
-                        //               physics: ClampingScrollPhysics(),
-                        //               addAutomaticKeepAlives: true,
-                        //               itemCount: interdestinations.length,
-                        //               itemBuilder:
-                        //                   (BuildContext context, int index) {
-                        //                 return interdestinations[index];
-                        //               }),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                         ListView(
                           padding: EdgeInsets.all(0),
                           shrinkWrap: true,
@@ -855,7 +822,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                             maxLength: 2,
                             keyboardType:
                                 TextInputType.numberWithOptions(decimal: true),
-                           // controller: controller,
                             focusNode: focusCapacity,
                             decoration: InputDecoration(
                                 counterText: '',
@@ -889,7 +855,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                         ),
 
                         /// VRSTE VOZILAAAA
-
                         ResponsiveContainer(
                           heightPercent:
                               (68.0 / MediaQuery.of(context).size.height) * 100,
@@ -1092,31 +1057,6 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
         ),
       ),
     );
-  }
-
-  void onDelete(Interdestination _interdestination) {
-    setState(() {
-      var find = interdestinations.firstWhere(
-        (it) => it.interdestination == _interdestination,
-        orElse: () => null,
-      );
-      if (find != null)
-        interdestinations.removeAt(interdestinations.indexOf(find));
-    });
-  }
-
-  /// onAddForm f-ja pomocu koje dodajemo novu interdestinaciju
-  ///
-  /// setState u kojem prosljedjujemo metodu onDelete i onAdd
-  void onAddForm() {
-    setState(() {
-      var _interdestination = Interdestination();
-      interdestinations.add(InterdestinationForm(
-        interdestination: _interdestination,
-        onDelete: () => onDelete(_interdestination),
-        onAdd: () => onAddForm(),
-      ));
-    });
   }
 
   validateDatesAndTimes(BuildContext context) {
@@ -1374,29 +1314,11 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
     userID = user.uid;
   }
 
-  ///on save forms
-  void onSave() {
-    if (interdestinations.length > 0) {
-      var allValid = true;
-      interdestinations.forEach((form) => allValid = allValid);
-      if (allValid) {
-        var data = interdestinations.map((it) => it.interdestination).toList();
-        for (int i = 0; i < data.length; i++) {
-          if ('${data[i].interdestinationData}' != '')
-            listOfInterdestinations += '${data[i].interdestinationData}, ';
-          else
-            listOfInterdestinations += '';
-        }
-      }
-    }
-  }
-
 // funckija koja provjerava da li su polja prazna i enable/disable btn
   void areFieldsEmpty() {
     if ((percentageVar != null) &&
         (dimensionsVar != '' && dimensionsVar != null) &&
         (capacityVar != null && capacityVar != '') &&
-        //(goodsVar != '' && goodsVar != null) &&
         (endingDestination != '' && endingDestination != null) &&
         (startingDestination != '' && startingDestination != null) &&
         (selectedDateD != null) &&
