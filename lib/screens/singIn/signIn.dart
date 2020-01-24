@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:spediter/screens/singIn/components/form.dart';
 import 'package:spediter/screens/singIn/components/logo.dart';
 
@@ -15,8 +16,20 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // banner za debug mode
       debugShowCheckedModeBanner: false,
+      title: 'Kreiraj Rutu',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      localizationsDelegates: [
+        // ... lokalizacija jezika
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('bs', null), // Bosnian
+        const Locale('en'), // English
+      ],
       home: Scaffold(
         // prazan prostor prilikom podizanja tastature
         resizeToAvoidBottomPadding: false,
