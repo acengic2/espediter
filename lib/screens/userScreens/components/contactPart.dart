@@ -255,7 +255,7 @@ class _ContactPartState extends State<ContactPart> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                _launchURL('$companyWeb');
+                                _launchURL('http://$companyWeb');
                               },
                               child: Container(
                                    width: ScreenUtil.instance.setSp(400.0),
@@ -280,7 +280,7 @@ class _ContactPartState extends State<ContactPart> {
                                           Container(
                                             margin: EdgeInsets.only(top: 8.0),
                                             child: Text(
-                                              ('$companyWeb'),
+                                              ('http://$companyWeb'),
                                               style: TextStyle(
                                                 fontSize: 16.0,
                                                 color: Colors.black
