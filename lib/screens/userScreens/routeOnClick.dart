@@ -13,8 +13,8 @@ import 'package:spediter/theme/style.dart';
 void main() => runApp(RouteOnClick());
 
 class RouteOn extends StatelessWidget {
-  String userID;
-  DocumentSnapshot post;
+  final String userID;
+  final DocumentSnapshot post;
   RouteOn({this.post, this.userID});
 
   // This widget is the root of your application.
@@ -41,8 +41,8 @@ class RouteOn extends StatelessWidget {
 }
 
 class RouteOnClick extends StatefulWidget {
-  DocumentSnapshot post;
-  String userID;
+final   DocumentSnapshot post;
+ final  String userID;
 
   RouteOnClick({this.post, this.userID});
 

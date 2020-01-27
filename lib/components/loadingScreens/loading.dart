@@ -6,7 +6,6 @@ import 'package:spediter/components/loadingScreens/components/loadingComponent.d
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
 import 'package:spediter/screens/userScreens/usersHome.dart';
-
 import '../routingAndChecking.dart';
 
 void main() => runApp(ShowLoading());

@@ -10,8 +10,8 @@ void main() {
 }
 
 class ContactPart extends StatefulWidget {
-  DocumentSnapshot post;
-  String userID, companyID;
+  final DocumentSnapshot post;
+  final String userID, companyID;
 
   ContactPart({this.post, this.userID, this.companyID});
 
