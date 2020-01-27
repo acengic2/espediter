@@ -20,6 +20,7 @@ DocumentSnapshot post;
 String avatarURL =
     'https://f0.pngfuel.com/png/178/595/black-profile-icon-illustration-user-profile-computer-icons-login-user-avatars-png-clip-art-thumbnail.png';
 String companyID;
+String polaziste = "";
 
 const blueColor = Color.fromRGBO(3, 54, 255, 1);
 const textColorGray80 = Color.fromRGBO(0, 0, 0, 0.8);
@@ -31,20 +32,21 @@ final middleSection = new Container();
 final rightSection = new Container();
 
 class UsersHome extends StatefulWidget {
-  final String userID;
+  final String userID, polaziste;
 
-  UsersHome({Key key, this.userID}) : super(key: key);
+
+  UsersHome({Key key, this.userID, this.polaziste}) : super(key: key);
 
   @override
-  _UsersHomeState createState() => _UsersHomeState(userID: userID);
+  _UsersHomeState createState() => _UsersHomeState(userID: userID, polaziste: polaziste);
 }
 
 class _UsersHomeState extends State<UsersHome> {
-  final String userID;
+  final String userID,polaziste;
   var st;
   DateTime currentBackPressTime;
 
-  _UsersHomeState({this.userID});
+  _UsersHomeState({this.userID,this.polaziste});
 
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
@@ -72,7 +74,7 @@ class _UsersHomeState extends State<UsersHome> {
         child: SmartRefresher(
           child: ListView(
             children: <Widget>[
-              SearchListUser(userID: userID),
+              SearchListUser(userID: userID,),
               Divider1(
                 height: 1,
                 thickness: 1,
@@ -308,7 +310,7 @@ class _UsersHomeState extends State<UsersHome> {
                                                 Navigator.of(context).push(
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            RouteOn(
+                                                            RouteOnClick(
                                                                 post: snapshot
                                                                         .data[
                                                                     index],

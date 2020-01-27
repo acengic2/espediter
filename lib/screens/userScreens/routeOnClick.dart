@@ -12,33 +12,33 @@ import 'package:spediter/theme/style.dart';
 
 void main() => runApp(RouteOnClick());
 
-class RouteOn extends StatelessWidget {
-  final String userID;
-  final DocumentSnapshot post;
-  RouteOn({this.post, this.userID});
+// class RouteOn extends StatelessWidget {
+//   final String userID;
+//   final DocumentSnapshot post;
+//   RouteOn({this.post, this.userID});
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Kreiraj Rutu',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      localizationsDelegates: [
-        // ... lokalizacija jezika
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: [
-        const Locale('bs', null), // Bosnian
-        const Locale('en'), // English
-      ],
-      home: RouteOnClick(post: post, userID: userID),
-    );
-  }
-}
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       title: 'Kreiraj Rutu',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       localizationsDelegates: [
+//         // ... lokalizacija jezika
+//         GlobalMaterialLocalizations.delegate,
+//         GlobalWidgetsLocalizations.delegate,
+//       ],
+//       supportedLocales: [
+//         const Locale('bs', null), // Bosnian
+//         const Locale('en'), // English
+//       ],
+//       home: RouteOnClick(post: post, userID: userID),
+//     );
+//   }
+// }
 
 class RouteOnClick extends StatefulWidget {
 final   DocumentSnapshot post;
