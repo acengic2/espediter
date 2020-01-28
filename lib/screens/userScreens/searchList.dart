@@ -40,6 +40,15 @@ class _SearchListUserState extends State<SearchListUser> {
   _SearchListUserState({
     this.userID,
   });
+
+  getMyData(AsyncSnapshot snapshot) async {
+    var myData = await json.decode(snapshot.data.toString());
+
+    for (var i = 0; i < myData.length; i++) {
+      citiesList.add(myData[i]['grad']);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (controlVar == 'starting') {
@@ -78,15 +87,10 @@ class _SearchListUserState extends State<SearchListUser> {
             future: DefaultAssetBundle.of(context)
                 .loadString("assets/gradovi.json"),
             builder: (context, snapshot) {
-              var myData = json.decode(snapshot.data.toString());
               citiesList = [];
-              for (var i = 0; i < myData.length; i++) {
-                citiesList.add(myData[i]['grad']);
-              }
-              return Container(
-                height: 0,
-                width: 0,
-              );
+              getMyData(snapshot);
+              return Container(height: 0, width: 0);
+
             },
           ),
         ),
@@ -303,7 +307,9 @@ class RouteSearch extends SearchDelegate<SearchListUser> {
   Widget buildLeading(BuildContext context) {
     return IconButton(
       icon: Icon(Icons.arrow_back),
-      onPressed: () {},
+      onPressed: () {
+        close(context, null);
+      },
     );
   }
 
