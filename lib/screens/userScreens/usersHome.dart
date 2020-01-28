@@ -20,7 +20,6 @@ DocumentSnapshot post;
 String avatarURL =
     'https://f0.pngfuel.com/png/178/595/black-profile-icon-illustration-user-profile-computer-icons-login-user-avatars-png-clip-art-thumbnail.png';
 String companyID;
-String polaziste = "";
 
 const blueColor = Color.fromRGBO(3, 54, 255, 1);
 const textColorGray80 = Color.fromRGBO(0, 0, 0, 0.8);
@@ -31,22 +30,43 @@ final leftSection = new Container();
 final middleSection = new Container();
 final rightSection = new Container();
 
+String startDate = '';
+String startDest = '';
+String endDest = '';
+bool filter = false;
+
 class UsersHome extends StatefulWidget {
-  final String userID, polaziste;
+  final String userID;
+  String polaziste, dolaziste, datum;
+  bool filtered;
 
-
-  UsersHome({Key key, this.userID, this.polaziste}) : super(key: key);
+  UsersHome(
+      {Key key,
+      this.userID,
+      this.polaziste,
+      this.dolaziste,
+      this.datum,
+      this.filtered})
+      : super(key: key);
 
   @override
-  _UsersHomeState createState() => _UsersHomeState(userID: userID, polaziste: polaziste);
+  _UsersHomeState createState() => _UsersHomeState(
+      userID: userID,
+      polaziste: polaziste,
+      dolaziste: dolaziste,
+      datum: datum,
+      filtered: filtered);
 }
 
 class _UsersHomeState extends State<UsersHome> {
-  final String userID,polaziste;
+  final String userID;
+  String polaziste, dolaziste, datum;
+  bool filtered;
   var st;
   DateTime currentBackPressTime;
 
-  _UsersHomeState({this.userID,this.polaziste});
+  _UsersHomeState(
+      {this.userID, this.polaziste, this.dolaziste, this.datum, this.filtered});
 
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
@@ -59,6 +79,93 @@ class _UsersHomeState extends State<UsersHome> {
 
   @override
   Widget build(BuildContext context) {
+    startDate = datum;
+    startDest = polaziste;
+    endDest = dolaziste;
+    if(filtered != null) {
+      filter = filtered;
+    }
+    Future getPosts(String datum, String polaziste, String dolaziste) async {
+      var firestore = Firestore.instance;
+      if ((datum == null || datum == '') &&
+          (polaziste == '' || polaziste == null) &&
+          (dolaziste == '' || dolaziste == null)) {
+        QuerySnapshot qn = await firestore
+            .collection('Rute')
+            .orderBy('departure_timestamp', descending: true)
+            .getDocuments();
+        return qn.documents;
+      } else if ((datum != null || datum != '') &&
+          (polaziste == '' || polaziste == null) &&
+          (dolaziste == '' || dolaziste == null)) {
+        QuerySnapshot qn = await firestore
+            .collection('Rute')
+            .where('departure_date', isEqualTo: datum)
+            .getDocuments();
+        return qn.documents;
+      } else if ((datum == null || datum == '') &&
+          (polaziste != '' || polaziste != null) &&
+          (dolaziste == '' || dolaziste == null)) {
+        QuerySnapshot qn = await firestore
+            .collection('Rute')
+            .where('starting_destination', isEqualTo: polaziste)
+            //.where('interdestination', arrayContains: polaziste)
+            //.orderBy('departure_timestamp', descending: true)
+            .getDocuments();
+        return qn.documents;
+      } else if ((datum == null || datum == '') &&
+          (polaziste == '' || polaziste == null) &&
+          (dolaziste != '' || dolaziste != null)) {
+        QuerySnapshot qn = await firestore
+            .collection('Rute')
+            .where('ending_destination', isEqualTo: dolaziste)
+            //.orderBy('departure_timestamp', descending: true)
+            .getDocuments();
+        return qn.documents;
+      } else if ((datum != null || datum != '') &&
+          (polaziste != '' || polaziste != null) &&
+          (dolaziste == '' || dolaziste == null)) {
+        QuerySnapshot qn = await firestore
+            .collection('Rute')
+            .where('departure_date', isEqualTo: datum)
+            .where('starting_destination', isEqualTo: polaziste)
+            //.where('interdestination', arrayContains: polaziste)
+            .getDocuments();
+        return qn.documents;
+      } else if ((datum != null || datum != '') &&
+          (polaziste == '' || polaziste == null) &&
+          (dolaziste != '' || dolaziste != null)) {
+        QuerySnapshot qn = await firestore
+            .collection('Rute')
+            .where('departure_date', isEqualTo: datum)
+            .where('ending_destination', isEqualTo: dolaziste)
+            .getDocuments();
+        return qn.documents;
+      } else if ((datum == null || datum == '') &&
+          (polaziste != '' || polaziste != null) &&
+          (dolaziste != '' || dolaziste != null)) {
+        QuerySnapshot qn = await firestore
+            .collection('Rute')
+            .where('starting_destination', isEqualTo: polaziste)
+            //.where('interdestination', arrayContains: polaziste)
+            .where('ending_destination', isEqualTo: dolaziste)
+            //.orderBy('departure_timestamp', descending: true)
+            .getDocuments();
+        return qn.documents;
+      } else if ((datum != null || datum != '') &&
+          (polaziste != '' || polaziste != null) &&
+          (dolaziste != '' || dolaziste != null)) {
+        QuerySnapshot qn = await firestore
+            .collection('Rute')
+            .where('departure_date', isEqualTo: datum)
+            .where('starting_destination', isEqualTo: polaziste)
+            //.where('interdestination', arrayContains: polaziste)
+            .where('ending_destination', isEqualTo: dolaziste)
+            .getDocuments();
+        return qn.documents;
+      }
+    }
+
     double defaultScreenWidth = 400.0;
     double defaultScreenHeight = 810.0;
     ScreenUtil.instance = ScreenUtil(
@@ -74,7 +181,9 @@ class _UsersHomeState extends State<UsersHome> {
         child: SmartRefresher(
           child: ListView(
             children: <Widget>[
-              SearchListUser(userID: userID,),
+              SearchListUser(
+                userID: userID,
+              ),
               Divider1(
                 height: 1,
                 thickness: 1,
@@ -93,9 +202,10 @@ class _UsersHomeState extends State<UsersHome> {
                     removeTop: true,
                     removeBottom: true,
                     child: Container(
-
                       child: FutureBuilder(
-                        future: getPosts(),
+                        future: filter
+                            ? getPosts(startDate, startDest, endDest)
+                            : getAll(),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
                           if (snapshot.hasData) {
@@ -106,19 +216,16 @@ class _UsersHomeState extends State<UsersHome> {
                                 itemBuilder: (context, index) {
                                   int time = int.parse(snapshot
                                       .data[index].data['arrival_timestamp']);
-
                                   if (time >
                                       DateTime.now().millisecondsSinceEpoch) {
                                     post = snapshot.data[index];
-
                                     var logoAndName;
-
-                                    getPosts().then((data) {
+                                    getPosts(startDate, startDest, endDest)
+                                        .then((data) {
                                       logoAndName = Firestore.instance
                                           .collection('Company')
                                           .document(data['companyID'])
                                           .snapshots();
-
                                       if (logoAndName != null) {
                                         logoAndName.forEach((item) {
                                           image = NetworkImage(avatarURL);
@@ -302,7 +409,6 @@ class _UsersHomeState extends State<UsersHome> {
                                               final result =
                                                   await InternetAddress.lookup(
                                                       'google.com');
-
                                               if (result.isNotEmpty &&
                                                   result[0]
                                                       .rawAddress
@@ -455,7 +561,7 @@ class _UsersHomeState extends State<UsersHome> {
                                       ],
                                     );
                                   }
-                                  return SizedBox();
+                                  return Container(height: 0, width: 0);
                                 });
                           } else {
                             return SizedBox(
@@ -477,6 +583,15 @@ class _UsersHomeState extends State<UsersHome> {
       ),
       bottomNavigationBar: BottomAppBarUser(userID: userID),
     );
+  }
+
+  Future getAll() async {
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore
+        .collection('Rute')
+        .orderBy('departure_timestamp', descending: true)
+        .getDocuments();
+    return qn.documents;
   }
 
   void _onRefresh() async {
@@ -507,14 +622,5 @@ class _UsersHomeState extends State<UsersHome> {
           ),
         ) ??
         true;
-  }
-
-  Future getPosts() async {
-    var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore
-        .collection('Rute')
-        .orderBy('departure_timestamp', descending: true)
-        .getDocuments();
-    return qn.documents;
   }
 }
