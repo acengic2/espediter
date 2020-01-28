@@ -42,12 +42,6 @@ class _SearchListUserState extends State<SearchListUser> {
   });
   @override
   Widget build(BuildContext context) {
-    print(
-        'PRINTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM');
-    print(initialStart);
-    print(
-        'PRINTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM');
-    print(intialEnd);
     if (controlVar == 'starting') {
       initialStart = result;
     }
@@ -81,42 +75,19 @@ class _SearchListUserState extends State<SearchListUser> {
           height: 0,
           width: 0,
           child: FutureBuilder(
-            builder: (context, snapshot) {
-              var myData = json.decode(snapshot.data.toString());
-              return new ListView.builder(
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-                addAutomaticKeepAlives: true,
-                itemBuilder: (BuildContext context, int index) {
-                  citiesList = [];
-                  // return ListTile(
-                  //   title: new Text(myData[index]['grad']),
-                  //   subtitle: new Text(myData[index]['drzava']),
-                  // );
-                  citiesList.add(myData[index]['grad']);
-                  return Container(height: 0, width: 0);
-                },
-                itemCount: myData.length,
-              );
-            },
             future: DefaultAssetBundle.of(context)
                 .loadString("assets/gradovi.json"),
-          ),
-        ),
-        Container(
-          height: 0,
-          width: 0,
-          child: FutureBuilder(
             builder: (context, snapshot) {
               var myData = json.decode(snapshot.data.toString());
-
-              for (var i = 0; i < citiesList.length; i++) {
+              citiesList = [];
+              for (var i = 0; i < myData.length; i++) {
                 citiesList.add(myData[i]['grad']);
               }
-              return Container(height: 0, width: 0);
+              return Container(
+                height: 0,
+                width: 0,
+              );
             },
-            future: DefaultAssetBundle.of(context)
-                .loadString("assets/gradovi.json"),
           ),
         ),
         Container(
@@ -132,8 +103,6 @@ class _SearchListUserState extends State<SearchListUser> {
                     initialValue:
                         (selectedDateP != null) ? selectedDateP : null,
                     textCapitalization: TextCapitalization.words,
-                    // style: TextStyle(
-                    //     fontSize: ScreenUtil.instance.setSp(15.0)),
                     resetIcon: null,
                     readOnly: true,
                     decoration: InputDecoration(
@@ -154,40 +123,24 @@ class _SearchListUserState extends State<SearchListUser> {
                           initialDate: DateTime.now(),
                           firstDate: DateTime(2018),
                           lastDate: DateTime(2100));
-
                       if (picked == null) {
                         picked = DateTime.now();
                       }
-
                       setState(() {
                         selectedDateP = picked;
-
                         if (selectedDateP == null) {
                           selectedDateP = DateTime.now();
                         } else {
                           selectedDateP = picked;
                         }
-                      });
-
-                      setState(() {
                         formatted = formatP.format(selectedDateP);
-
-                        if (selectedDateP == null) {
-                          selectedDateP = DateTime.now();
-                        } else {
-                          selectedDateP = picked;
-                        }
                       });
-                      print(
-                          'PRINTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM');
-                      print(formatted);
                       filtered = false;
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              UsersHome(userID: userID, datum: formatted, polaziste: initialStart, dolaziste: intialEnd)));
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //     builder: (context) =>
+                      //         UsersHome(userID: userID, datum: formatted, polaziste: initialStart, dolaziste: intialEnd)));
                       return selectedDateP;
                     },
-                    onChanged: (input) {},
                   ),
                 ),
               ),
@@ -300,15 +253,19 @@ class _SearchListUserState extends State<SearchListUser> {
                         },
                       )))
             ])),
-            RaisedButton(
-              child: Text('FILTRIRAJ'),
-              onPressed: () {
-                filtered = true;
-                Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          UsersHome(userID: userID, datum: formatted, polaziste: initialStart, dolaziste: intialEnd, filtered: filtered)));
-              },
-            )
+        RaisedButton(
+          child: Text('FILTRIRAJ'),
+          onPressed: () {
+            filtered = true;
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => UsersHome(
+                    userID: userID,
+                    datum: formatted,
+                    polaziste: initialStart,
+                    dolaziste: intialEnd,
+                    filtered: filtered)));
+          },
+        )
       ],
     );
   }
@@ -373,15 +330,14 @@ class RouteSearch extends SearchDelegate<SearchListUser> {
           result = suggestionList[index].toString();
           filtered = false;
           Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          UsersHome(userID: userID, datum: formatted, polaziste: initialStart, dolaziste: intialEnd)));
+              builder: (context) => UsersHome(userID: userID)));
         },
         leading: Icon(Icons.location_city),
         title: RichText(
             text: TextSpan(
                 text: suggestionList[index].substring(0, query.length),
-                style: TextStyle(
-                    color: Colors.black, fontWeight: FontWeight.bold),
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                 children: [
               TextSpan(
                 text: suggestionList[index].substring(query.length),

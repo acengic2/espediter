@@ -90,7 +90,6 @@ class _UsersHomeState extends State<UsersHome> {
       if ((datum == null || datum == '') &&
           (polaziste == '' || polaziste == null) &&
           (dolaziste == '' || dolaziste == null)) {
-        print('7. POPUNJENO: NIŠTA');
         QuerySnapshot qn = await firestore
             .collection('Rute')
             .orderBy('departure_timestamp', descending: true)
@@ -99,7 +98,6 @@ class _UsersHomeState extends State<UsersHome> {
       } else if ((datum != null || datum != '') &&
           (polaziste == '' || polaziste == null) &&
           (dolaziste == '' || dolaziste == null)) {
-        print('1. POPUNJENO: DATUM');
         QuerySnapshot qn = await firestore
             .collection('Rute')
             .where('departure_date', isEqualTo: datum)
@@ -108,7 +106,6 @@ class _UsersHomeState extends State<UsersHome> {
       } else if ((datum == null || datum == '') &&
           (polaziste != '' || polaziste != null) &&
           (dolaziste == '' || dolaziste == null)) {
-        print('4. POPUNJENO: POLAZISTE');
         QuerySnapshot qn = await firestore
             .collection('Rute')
             .where('starting_destination', isEqualTo: polaziste)
@@ -119,7 +116,6 @@ class _UsersHomeState extends State<UsersHome> {
       } else if ((datum == null || datum == '') &&
           (polaziste == '' || polaziste == null) &&
           (dolaziste != '' || dolaziste != null)) {
-        print('6. POPUNJENO: DOLAZISTE');
         QuerySnapshot qn = await firestore
             .collection('Rute')
             .where('ending_destination', isEqualTo: dolaziste)
@@ -129,7 +125,6 @@ class _UsersHomeState extends State<UsersHome> {
       } else if ((datum != null || datum != '') &&
           (polaziste != '' || polaziste != null) &&
           (dolaziste == '' || dolaziste == null)) {
-        print('2. POPUNJENO: DATUM, POLAZISTE');
         QuerySnapshot qn = await firestore
             .collection('Rute')
             .where('departure_date', isEqualTo: datum)
@@ -140,7 +135,6 @@ class _UsersHomeState extends State<UsersHome> {
       } else if ((datum != null || datum != '') &&
           (polaziste == '' || polaziste == null) &&
           (dolaziste != '' || dolaziste != null)) {
-        print('2. POPUNJENO: DATUM, DOLAZISTE');
         QuerySnapshot qn = await firestore
             .collection('Rute')
             .where('departure_date', isEqualTo: datum)
@@ -150,7 +144,6 @@ class _UsersHomeState extends State<UsersHome> {
       } else if ((datum == null || datum == '') &&
           (polaziste != '' || polaziste != null) &&
           (dolaziste != '' || dolaziste != null)) {
-        print('5. POPUNJENO: POLAZISTE, DOLAZISTE');
         QuerySnapshot qn = await firestore
             .collection('Rute')
             .where('starting_destination', isEqualTo: polaziste)
@@ -162,7 +155,6 @@ class _UsersHomeState extends State<UsersHome> {
       } else if ((datum != null || datum != '') &&
           (polaziste != '' || polaziste != null) &&
           (dolaziste != '' || dolaziste != null)) {
-        print('3. POPUNJENO: DATUM, POLAZISTE, DOLAZISTE');
         QuerySnapshot qn = await firestore
             .collection('Rute')
             .where('departure_date', isEqualTo: datum)
@@ -224,20 +216,16 @@ class _UsersHomeState extends State<UsersHome> {
                                 itemBuilder: (context, index) {
                                   int time = int.parse(snapshot
                                       .data[index].data['arrival_timestamp']);
-
                                   if (time >
                                       DateTime.now().millisecondsSinceEpoch) {
                                     post = snapshot.data[index];
-
                                     var logoAndName;
-
                                     getPosts(startDate, startDest, endDest)
                                         .then((data) {
                                       logoAndName = Firestore.instance
                                           .collection('Company')
                                           .document(data['companyID'])
                                           .snapshots();
-
                                       if (logoAndName != null) {
                                         logoAndName.forEach((item) {
                                           image = NetworkImage(avatarURL);
@@ -421,7 +409,6 @@ class _UsersHomeState extends State<UsersHome> {
                                               final result =
                                                   await InternetAddress.lookup(
                                                       'google.com');
-
                                               if (result.isNotEmpty &&
                                                   result[0]
                                                       .rawAddress
@@ -608,14 +595,6 @@ class _UsersHomeState extends State<UsersHome> {
   }
 
   void _onRefresh() async {
-    print('DATUUUUUUUUUUUUUUUMMMMMMMMMMMMMMMMM');
-    print(datum);
-    print(
-        'POLAZIŠTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE');
-    print(polaziste);
-    print(
-        'DOLAZISTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE');
-    print(dolaziste);
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000));
     setState(() {
