@@ -16,6 +16,7 @@ String result;
 String controlVar = '';
 String initialStart = '';
 String intialEnd = '';
+bool filtered = false;
 
 class SearchListUser extends StatefulWidget {
   final String userID;
@@ -180,6 +181,7 @@ class _SearchListUserState extends State<SearchListUser> {
                       print(
                           'PRINTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM');
                       print(formatted);
+                      filtered = false;
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
                               UsersHome(userID: userID, datum: formatted, polaziste: initialStart, dolaziste: intialEnd)));
@@ -235,6 +237,7 @@ class _SearchListUserState extends State<SearchListUser> {
                                 borderRadius: BorderRadius.circular(5.0))),
                         onTap: () {
                           controlVar = 'starting';
+                          filtered = false;
                           FocusScope.of(context).requestFocus(FocusNode());
                           showSearch(
                               context: context,
@@ -289,6 +292,7 @@ class _SearchListUserState extends State<SearchListUser> {
                                 borderRadius: BorderRadius.circular(5.0))),
                         onTap: () {
                           controlVar = 'ending';
+                          filtered = false;
                           FocusScope.of(context).requestFocus(FocusNode());
                           showSearch(
                               context: context,
@@ -296,6 +300,15 @@ class _SearchListUserState extends State<SearchListUser> {
                         },
                       )))
             ])),
+            RaisedButton(
+              child: Text('FILTRIRAJ'),
+              onPressed: () {
+                filtered = true;
+                Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          UsersHome(userID: userID, datum: formatted, polaziste: initialStart, dolaziste: intialEnd, filtered: filtered)));
+              },
+            )
       ],
     );
   }
@@ -358,6 +371,7 @@ class RouteSearch extends SearchDelegate<SearchListUser> {
       itemBuilder: (context, index) => ListTile(
         onTap: () {
           result = suggestionList[index].toString();
+          filtered = false;
           Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) =>
                           UsersHome(userID: userID, datum: formatted, polaziste: initialStart, dolaziste: intialEnd)));

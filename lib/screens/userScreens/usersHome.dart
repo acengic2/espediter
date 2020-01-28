@@ -33,26 +33,40 @@ final rightSection = new Container();
 String startDate = '';
 String startDest = '';
 String endDest = '';
+bool filter = false;
 
 class UsersHome extends StatefulWidget {
   final String userID;
   String polaziste, dolaziste, datum;
+  bool filtered;
 
-  UsersHome({Key key, this.userID, this.polaziste, this.dolaziste, this.datum})
+  UsersHome(
+      {Key key,
+      this.userID,
+      this.polaziste,
+      this.dolaziste,
+      this.datum,
+      this.filtered})
       : super(key: key);
 
   @override
   _UsersHomeState createState() => _UsersHomeState(
-      userID: userID, polaziste: polaziste, dolaziste: dolaziste, datum: datum);
+      userID: userID,
+      polaziste: polaziste,
+      dolaziste: dolaziste,
+      datum: datum,
+      filtered: filtered);
 }
 
 class _UsersHomeState extends State<UsersHome> {
   final String userID;
   String polaziste, dolaziste, datum;
+  bool filtered;
   var st;
   DateTime currentBackPressTime;
 
-  _UsersHomeState({this.userID, this.polaziste, this.dolaziste, this.datum});
+  _UsersHomeState(
+      {this.userID, this.polaziste, this.dolaziste, this.datum, this.filtered});
 
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
@@ -68,12 +82,15 @@ class _UsersHomeState extends State<UsersHome> {
     startDate = datum;
     startDest = polaziste;
     endDest = dolaziste;
+    if(filtered != null) {
+      filter = filtered;
+    }
     Future getPosts(String datum, String polaziste, String dolaziste) async {
       var firestore = Firestore.instance;
       if ((datum == null || datum == '') &&
           (polaziste == '' || polaziste == null) &&
           (dolaziste == '' || dolaziste == null)) {
-            print('7. POPUNJENO: NIŠTA');
+        print('7. POPUNJENO: NIŠTA');
         QuerySnapshot qn = await firestore
             .collection('Rute')
             .orderBy('departure_timestamp', descending: true)
@@ -82,7 +99,7 @@ class _UsersHomeState extends State<UsersHome> {
       } else if ((datum != null || datum != '') &&
           (polaziste == '' || polaziste == null) &&
           (dolaziste == '' || dolaziste == null)) {
-            print('1. POPUNJENO: DATUM');
+        print('1. POPUNJENO: DATUM');
         QuerySnapshot qn = await firestore
             .collection('Rute')
             .where('departure_date', isEqualTo: datum)
@@ -91,7 +108,7 @@ class _UsersHomeState extends State<UsersHome> {
       } else if ((datum == null || datum == '') &&
           (polaziste != '' || polaziste != null) &&
           (dolaziste == '' || dolaziste == null)) {
-            print('4. POPUNJENO: POLAZISTE');
+        print('4. POPUNJENO: POLAZISTE');
         QuerySnapshot qn = await firestore
             .collection('Rute')
             .where('starting_destination', isEqualTo: polaziste)
@@ -102,7 +119,7 @@ class _UsersHomeState extends State<UsersHome> {
       } else if ((datum == null || datum == '') &&
           (polaziste == '' || polaziste == null) &&
           (dolaziste != '' || dolaziste != null)) {
-            print('6. POPUNJENO: DOLAZISTE');
+        print('6. POPUNJENO: DOLAZISTE');
         QuerySnapshot qn = await firestore
             .collection('Rute')
             .where('ending_destination', isEqualTo: dolaziste)
@@ -112,7 +129,7 @@ class _UsersHomeState extends State<UsersHome> {
       } else if ((datum != null || datum != '') &&
           (polaziste != '' || polaziste != null) &&
           (dolaziste == '' || dolaziste == null)) {
-            print('2. POPUNJENO: DATUM, POLAZISTE');
+        print('2. POPUNJENO: DATUM, POLAZISTE');
         QuerySnapshot qn = await firestore
             .collection('Rute')
             .where('departure_date', isEqualTo: datum)
@@ -123,7 +140,7 @@ class _UsersHomeState extends State<UsersHome> {
       } else if ((datum != null || datum != '') &&
           (polaziste == '' || polaziste == null) &&
           (dolaziste != '' || dolaziste != null)) {
-            print('2. POPUNJENO: DATUM, DOLAZISTE');
+        print('2. POPUNJENO: DATUM, DOLAZISTE');
         QuerySnapshot qn = await firestore
             .collection('Rute')
             .where('departure_date', isEqualTo: datum)
@@ -133,7 +150,7 @@ class _UsersHomeState extends State<UsersHome> {
       } else if ((datum == null || datum == '') &&
           (polaziste != '' || polaziste != null) &&
           (dolaziste != '' || dolaziste != null)) {
-            print('5. POPUNJENO: POLAZISTE, DOLAZISTE');
+        print('5. POPUNJENO: POLAZISTE, DOLAZISTE');
         QuerySnapshot qn = await firestore
             .collection('Rute')
             .where('starting_destination', isEqualTo: polaziste)
@@ -145,7 +162,7 @@ class _UsersHomeState extends State<UsersHome> {
       } else if ((datum != null || datum != '') &&
           (polaziste != '' || polaziste != null) &&
           (dolaziste != '' || dolaziste != null)) {
-            print('3. POPUNJENO: DATUM, POLAZISTE, DOLAZISTE');
+        print('3. POPUNJENO: DATUM, POLAZISTE, DOLAZISTE');
         QuerySnapshot qn = await firestore
             .collection('Rute')
             .where('departure_date', isEqualTo: datum)
@@ -194,7 +211,9 @@ class _UsersHomeState extends State<UsersHome> {
                     removeBottom: true,
                     child: Container(
                       child: FutureBuilder(
-                        future: getPosts(startDate, startDest, endDest),
+                        future: filter
+                            ? getPosts(startDate, startDest, endDest)
+                            : getAll(),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
                           if (snapshot.hasData) {
@@ -577,6 +596,15 @@ class _UsersHomeState extends State<UsersHome> {
       ),
       bottomNavigationBar: BottomAppBarUser(userID: userID),
     );
+  }
+
+  Future getAll() async {
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore
+        .collection('Rute')
+        .orderBy('departure_timestamp', descending: true)
+        .getDocuments();
+    return qn.documents;
   }
 
   void _onRefresh() async {
