@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:spediter/components/destinationCircles.dart';
 import 'package:spediter/components/destinationLines.dart';
+import 'package:spediter/components/divider.dart';
 import 'package:spediter/screens/userScreens/usersHome.dart';
 import 'package:spediter/theme/style.dart';
 
@@ -90,7 +91,6 @@ class _SearchListUserState extends State<SearchListUser> {
               citiesList = [];
               getMyData(snapshot);
               return Container(height: 0, width: 0);
-
             },
           ),
         ),
@@ -295,9 +295,15 @@ class RouteSearch extends SearchDelegate<SearchListUser> {
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(Icons.clear),
+        icon: Icon(Icons.search),
         onPressed: () {
-          query = '';
+          result = query;
+          if(result.isNotEmpty) {
+            result = result.substring(0, 1).toUpperCase() + result.substring(1, result.length);
+          }
+          filtered = false;
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => UsersHome(userID: userID)));
         },
       ),
     ];
@@ -305,11 +311,9 @@ class RouteSearch extends SearchDelegate<SearchListUser> {
 
   @override
   Widget buildLeading(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.arrow_back),
-      onPressed: () {
-        close(context, null);
-      },
+    return DestinationCircle(
+      largeCircle: StyleColors().textColorGray20,
+      smallCircle: StyleColors().textColorGray50,
     );
   }
 
@@ -323,6 +327,10 @@ class RouteSearch extends SearchDelegate<SearchListUser> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    bool isRecent = true;
+    if (query.isNotEmpty) {
+      isRecent = false;
+    }
     final suggestionList = query.isEmpty
         ? listOfRecent
         : citiesList.where((p) => p.toLowerCase().startsWith(query)).toList();
@@ -331,25 +339,56 @@ class RouteSearch extends SearchDelegate<SearchListUser> {
       shrinkWrap: true,
       physics: ClampingScrollPhysics(),
       addAutomaticKeepAlives: true,
-      itemBuilder: (context, index) => ListTile(
-        onTap: () {
-          result = suggestionList[index].toString();
-          filtered = false;
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => UsersHome(userID: userID)));
-        },
-        leading: Icon(Icons.location_city),
-        title: RichText(
-            text: TextSpan(
-                text: suggestionList[index].substring(0, query.length),
-                style:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-                children: [
-              TextSpan(
-                text: suggestionList[index].substring(query.length),
-                style: TextStyle(color: Colors.grey),
+      itemBuilder: (context, index) => DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(width: 1, color: StyleColors().textColorGray12),
+          ),
+        ),
+        child: ListTile(
+          onTap: () {
+            result = suggestionList[index].toString();
+            filtered = false;
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => UsersHome(userID: userID)));
+          },
+          leading: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              Container(
+                child: isRecent
+                    ? Icon(
+                        Icons.schedule,
+                        color: Colors.black,
+                        size: 15.0,
+                      )
+                    : Icon(
+                        Icons.gps_fixed,
+                        color: Colors.black,
+                        size: 15.0,
+                      ),
+              ),
+              Container(
+                child: Icon(
+                  Icons.brightness_1,
+                  color: StyleColors().textColorGray20,
+                  size: 30.0,
+                ),
               )
-            ])),
+            ],
+          ),
+          title: RichText(
+              text: TextSpan(
+                  text: suggestionList[index].substring(0, query.length),
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                  children: [
+                TextSpan(
+                  text: suggestionList[index].substring(query.length),
+                  style: TextStyle(color: Colors.grey),
+                )
+              ])),
+        ),
       ),
       itemCount: suggestionList.length,
     );
