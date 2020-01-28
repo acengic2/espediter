@@ -82,7 +82,7 @@ class _UsersHomeState extends State<UsersHome> {
     startDate = datum;
     startDest = polaziste;
     endDest = dolaziste;
-    if(filtered != null) {
+    if (filtered != null) {
       filter = filtered;
     }
     Future getPosts(String datum, String polaziste, String dolaziste) async {
@@ -561,8 +561,15 @@ class _UsersHomeState extends State<UsersHome> {
                                       ],
                                     );
                                   }
-                                  return Container(height: 0, width: 0);
-                                });
+                                    return Container(height: 0, width: 0);
+                                }
+                                );
+                          } else if(!snapshot.hasData || snapshot.data.documents == 0) { 
+                            return Center(
+                              child: Container(
+                                child: Text('Nema rez'),
+                              ),
+                            );
                           } else {
                             return SizedBox(
                               child: Center(child: CircularProgressIndicator()),
