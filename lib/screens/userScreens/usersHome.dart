@@ -9,9 +9,9 @@ import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin
 import 'package:spediter/screens/userScreens/components/bottomAppBarUser.dart';
 import 'package:spediter/screens/userScreens/routeOnClick.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:spediter/screens/userScreens/searchService.dart';
+import 'package:spediter/screens/userScreens/searchList.dart';
 
-// void main() => runApp(UsersHome());
+void main() => runApp(UsersHome());
 
 String capacityString;
 String companyName;
@@ -30,124 +30,569 @@ final leftSection = new Container();
 final middleSection = new Container();
 final rightSection = new Container();
 
+String startDate = '';
+String startDest = '';
+String endDest = '';
+bool filter = false;
+
 class UsersHome extends StatefulWidget {
   final String userID;
+  String polaziste, dolaziste, datum;
+  bool filtered;
 
-  UsersHome({Key key, this.userID}) : super(key: key);
+  UsersHome(
+      {Key key,
+      this.userID,
+      this.polaziste,
+      this.dolaziste,
+      this.datum,
+      this.filtered})
+      : super(key: key);
 
   @override
-  _UsersHomeState createState() => _UsersHomeState(userID: userID);
+  _UsersHomeState createState() => _UsersHomeState(
+      userID: userID,
+      polaziste: polaziste,
+      dolaziste: dolaziste,
+      datum: datum,
+      filtered: filtered);
 }
 
 class _UsersHomeState extends State<UsersHome> {
   final String userID;
+  String polaziste, dolaziste, datum;
+  bool filtered;
   var st;
   DateTime currentBackPressTime;
-  Icon _searchIcon = new Icon(Icons.search);
-  Widget _appBarTitle = new Text('Pretraga');
-  bool existOr = false;
-  bool removeOr = false;
 
-  void _searchPressed() {
-    setState(() {
-      if (this._searchIcon.icon == Icons.search) {
-        this._searchIcon = new Icon(Icons.close);
-        this._appBarTitle = new TextField(
-          onChanged: (val) {
-            initiateSearch(val);
-            // initiateSearch1(val);
-            existOr = true;
-            removeOr = true;
-          },
-          decoration: new InputDecoration(
-            prefixIcon: new Icon(Icons.search),
-            hintText: 'Pretrazi rute',
-          ),
-        );
-      } else {
-        this._searchIcon = new Icon(Icons.search);
-        this._appBarTitle = new Text('Pretraga...');
-      }
-    });
+  _UsersHomeState(
+      {this.userID, this.polaziste, this.dolaziste, this.datum, this.filtered});
+
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  @override
+  void initState() {
+    _onRefresh();
+    super.initState();
   }
 
-  Widget _buildBar(BuildContext context) {
-    return new AppBar(
-      centerTitle: true,
-      title: _appBarTitle,
-      leading: new IconButton(
-        icon: _searchIcon,
-        onPressed: () => _searchPressed(),
+  @override
+  Widget build(BuildContext context) {
+    startDate = datum;
+    startDest = polaziste;
+    endDest = dolaziste;
+    if(filtered != null) {
+      filter = filtered;
+    }
+    Future getPosts(String datum, String polaziste, String dolaziste) async {
+      var firestore = Firestore.instance;
+      if ((datum == null || datum == '') &&
+          (polaziste == '' || polaziste == null) &&
+          (dolaziste == '' || dolaziste == null)) {
+        QuerySnapshot qn = await firestore
+            .collection('Rute')
+            .orderBy('departure_timestamp', descending: true)
+            .getDocuments();
+        return qn.documents;
+      } else if ((datum != null || datum != '') &&
+          (polaziste == '' || polaziste == null) &&
+          (dolaziste == '' || dolaziste == null)) {
+        QuerySnapshot qn = await firestore
+            .collection('Rute')
+            .where('departure_date', isEqualTo: datum)
+            .getDocuments();
+        return qn.documents;
+      } else if ((datum == null || datum == '') &&
+          (polaziste != '' || polaziste != null) &&
+          (dolaziste == '' || dolaziste == null)) {
+        QuerySnapshot qn = await firestore
+            .collection('Rute')
+            .where('starting_destination', isEqualTo: polaziste)
+            //.where('interdestination', arrayContains: polaziste)
+            //.orderBy('departure_timestamp', descending: true)
+            .getDocuments();
+        return qn.documents;
+      } else if ((datum == null || datum == '') &&
+          (polaziste == '' || polaziste == null) &&
+          (dolaziste != '' || dolaziste != null)) {
+        QuerySnapshot qn = await firestore
+            .collection('Rute')
+            .where('ending_destination', isEqualTo: dolaziste)
+            //.orderBy('departure_timestamp', descending: true)
+            .getDocuments();
+        return qn.documents;
+      } else if ((datum != null || datum != '') &&
+          (polaziste != '' || polaziste != null) &&
+          (dolaziste == '' || dolaziste == null)) {
+        QuerySnapshot qn = await firestore
+            .collection('Rute')
+            .where('departure_date', isEqualTo: datum)
+            .where('starting_destination', isEqualTo: polaziste)
+            //.where('interdestination', arrayContains: polaziste)
+            .getDocuments();
+        return qn.documents;
+      } else if ((datum != null || datum != '') &&
+          (polaziste == '' || polaziste == null) &&
+          (dolaziste != '' || dolaziste != null)) {
+        QuerySnapshot qn = await firestore
+            .collection('Rute')
+            .where('departure_date', isEqualTo: datum)
+            .where('ending_destination', isEqualTo: dolaziste)
+            .getDocuments();
+        return qn.documents;
+      } else if ((datum == null || datum == '') &&
+          (polaziste != '' || polaziste != null) &&
+          (dolaziste != '' || dolaziste != null)) {
+        QuerySnapshot qn = await firestore
+            .collection('Rute')
+            .where('starting_destination', isEqualTo: polaziste)
+            //.where('interdestination', arrayContains: polaziste)
+            .where('ending_destination', isEqualTo: dolaziste)
+            //.orderBy('departure_timestamp', descending: true)
+            .getDocuments();
+        return qn.documents;
+      } else if ((datum != null || datum != '') &&
+          (polaziste != '' || polaziste != null) &&
+          (dolaziste != '' || dolaziste != null)) {
+        QuerySnapshot qn = await firestore
+            .collection('Rute')
+            .where('departure_date', isEqualTo: datum)
+            .where('starting_destination', isEqualTo: polaziste)
+            //.where('interdestination', arrayContains: polaziste)
+            .where('ending_destination', isEqualTo: dolaziste)
+            .getDocuments();
+        return qn.documents;
+      }
+    }
+
+    double defaultScreenWidth = 400.0;
+    double defaultScreenHeight = 810.0;
+    ScreenUtil.instance = ScreenUtil(
+      width: defaultScreenWidth,
+      height: defaultScreenHeight,
+      allowFontScaling: true,
+    )..init(context);
+
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: WillPopScope(
+        onWillPop: _onWillPop,
+        child: SmartRefresher(
+          child: ListView(
+            children: <Widget>[
+              SearchListUser(
+                userID: userID,
+              ),
+              Divider1(
+                height: 1,
+                thickness: 1,
+              ),
+              Divider1(
+                height: 8,
+                thickness: 8,
+              ),
+              Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(top: 4.0, bottom: 0.0, left: 20),
+                  ),
+                  MediaQuery.removePadding(
+                    context: context,
+                    removeTop: true,
+                    removeBottom: true,
+                    child: Container(
+                      child: FutureBuilder(
+                        future: filter
+                            ? getPosts(startDate, startDest, endDest)
+                            : getAll(),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.hasData) {
+                            return ListView.builder(
+                                shrinkWrap: true,
+                                physics: ClampingScrollPhysics(),
+                                itemCount: snapshot.data.length,
+                                itemBuilder: (context, index) {
+                                  int time = int.parse(snapshot
+                                      .data[index].data['arrival_timestamp']);
+                                  if (time >
+                                      DateTime.now().millisecondsSinceEpoch) {
+                                    post = snapshot.data[index];
+                                    var logoAndName;
+                                    getPosts(startDate, startDest, endDest)
+                                        .then((data) {
+                                      logoAndName = Firestore.instance
+                                          .collection('Company')
+                                          .document(data['companyID'])
+                                          .snapshots();
+                                      if (logoAndName != null) {
+                                        logoAndName.forEach((item) {
+                                          image = NetworkImage(avatarURL);
+                                          companyName =
+                                              item.data['company_name'];
+                                        });
+                                      }
+                                    });
+
+                                    /// DATUM
+                                    String date = snapshot
+                                        .data[index].data['departure_date'];
+                                    String dateReversed =
+                                        date.split('/').reversed.join();
+                                    String departureDate = DateFormat("d MMM")
+                                        .format(DateTime.parse(dateReversed));
+                                    // KAPACITET
+                                    capacityString =
+                                        snapshot.data[index].data['capacity'];
+                                    companyID =
+                                        snapshot.data[index].data['user_id'];
+                                    final leftSection = new Container(
+                                        height: 32,
+                                        width: 62,
+                                        margin:
+                                            EdgeInsets.only(top: 8, bottom: 16),
+                                        decoration: new BoxDecoration(
+                                          shape: BoxShape.rectangle,
+                                          color: blueColor,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(1.0)),
+                                        ),
+                                        child: Center(
+                                            child: Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 8.0, right: 8.0),
+                                          child: new RichText(
+                                            text: new TextSpan(
+                                              children: <TextSpan>[
+                                                new TextSpan(
+                                                    text: departureDate,
+                                                    style: new TextStyle(
+                                                      fontSize: ScreenUtil
+                                                          .instance
+                                                          .setSp(13.0),
+                                                      color: Colors.white,
+                                                      fontFamily: "Roboto",
+                                                    )),
+                                              ],
+                                            ),
+                                          ),
+                                        )));
+
+                                    ///middle section u koji spremamo kapacitet
+                                    final middleSection = new Container(
+                                        height: 32,
+                                        width: 110,
+                                        margin: EdgeInsets.only(
+                                            left: 4.0,
+                                            right: 4.0,
+                                            top: 8,
+                                            bottom: 16),
+                                        decoration: new BoxDecoration(
+                                          shape: BoxShape.rectangle,
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(1.0)),
+                                          border: new Border.all(
+                                            color:
+                                                Colors.black.withOpacity(0.12),
+                                            width: 1,
+                                          ),
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            new RichText(
+                                              text: new TextSpan(
+                                                children: <TextSpan>[
+                                                  new TextSpan(
+                                                      text: 'Kapacitet: ',
+                                                      style: new TextStyle(
+                                                        fontSize: 14.0,
+                                                        color: Colors.black
+                                                            .withOpacity(0.6),
+                                                        fontFamily: "Roboto",
+                                                      )),
+                                                  new TextSpan(
+                                                    text: ('$capacityString t'),
+                                                    style: new TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 14.0,
+                                                      color: Colors.black
+                                                          .withOpacity(1.0),
+                                                      fontFamily: "Roboto",
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ));
+
+                                    /// DOSTUPNOST
+                                    String availability = snapshot
+                                        .data[index].data['availability'];
+
+                                    final rightSection = new Stack(
+                                      children: <Widget>[
+                                        Container(
+                                          width: ScreenUtil.instance
+                                              .setWidth(142.0),
+                                          height: 32,
+                                          margin: EdgeInsets.only(
+                                              top: 8,
+                                              bottom: 16,
+                                              left: 0.0,
+                                              right: 1.0),
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  width: 1.0,
+                                                  color: Colors.black
+                                                      .withOpacity(0.12)),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(1.0))),
+                                        ),
+                                        Container(
+                                            margin: EdgeInsets.only(top: 9),
+                                            child: LinearPercentIndicator(
+                                              padding: EdgeInsets.only(left: 1),
+                                              width: ScreenUtil.instance
+                                                  .setWidth(141.0),
+                                              lineHeight: 30.0,
+                                              percent:
+                                                  (double.parse(availability)) /
+                                                      100,
+                                              center: RichText(
+                                                text: TextSpan(
+                                                  children: <TextSpan>[
+                                                    TextSpan(
+                                                        text: 'Popunjenost: ',
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'Roboto',
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.6))),
+                                                    TextSpan(
+                                                      text: availability + ' %',
+                                                      style: TextStyle(
+                                                          fontFamily: 'Roboto',
+                                                          fontSize: ScreenUtil
+                                                              .instance
+                                                              .setSp(12.0),
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.black
+                                                              .withOpacity(
+                                                                  0.8)),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              linearStrokeCap:
+                                                  LinearStrokeCap.butt,
+                                              backgroundColor: Colors.white,
+                                              progressColor: Color.fromRGBO(
+                                                  3, 54, 255, 0.12),
+                                            ))
+                                      ],
+                                    );
+
+                                    return Column(
+                                      children: <Widget>[
+                                        GestureDetector(
+                                          behavior: HitTestBehavior.opaque,
+                                          onTap: () async {
+                                            try {
+                                              final result =
+                                                  await InternetAddress.lookup(
+                                                      'google.com');
+                                              if (result.isNotEmpty &&
+                                                  result[0]
+                                                      .rawAddress
+                                                      .isNotEmpty) {
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            RouteOnClick(
+                                                                post: snapshot
+                                                                        .data[
+                                                                    index],
+                                                                userID:
+                                                                    userID)));
+                                              }
+                                            } on SocketException catch (_) {
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          NoInternetConnectionLogInSrceen()));
+                                            }
+                                          },
+                                          child: Container(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 16,
+                                                  bottom: 4,
+                                                  left: 17,
+                                                  right: 8),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Container(
+                                                          width: 30,
+                                                          height: 30,
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  left: 0.0,
+                                                                  bottom: 6.0,
+                                                                  right: 12.0),
+                                                          decoration:
+                                                              new BoxDecoration(
+                                                            border: Border.all(
+                                                                width: 1,
+                                                                color: Colors
+                                                                    .black),
+                                                            shape:
+                                                                BoxShape.circle,
+                                                            image:
+                                                                new DecorationImage(
+                                                              fit: BoxFit.fill,
+                                                              image: NetworkImage(
+                                                                  '${snapshot.data[index].data['url_logo']}'),
+                                                            ),
+                                                          )),
+                                                      Container(
+                                                        width: ScreenUtil
+                                                            .instance
+                                                            .setSp(200.0),
+                                                        margin: EdgeInsets.only(
+                                                            bottom: 6.0),
+                                                        child: Text(
+                                                          ('${snapshot.data[index].data['company_name']}'),
+                                                          style: TextStyle(
+                                                            fontSize: 16.0,
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.8),
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontFamily:
+                                                                "Roboto",
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  new RichText(
+                                                    text: new TextSpan(
+                                                      children: <TextSpan>[
+                                                        new TextSpan(
+                                                            text:
+                                                                '${snapshot.data[index].data['starting_destination']}, ',
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color: Colors
+                                                                  .black
+                                                                  .withOpacity(
+                                                                      0.8),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontFamily:
+                                                                  "Roboto",
+                                                            )),
+                                                        new TextSpan(
+                                                            style:
+                                                                new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black
+                                                              .withOpacity(0.6),
+                                                          fontFamily: "Roboto",
+                                                        )),
+                                                        new TextSpan(
+                                                            text:
+                                                                ('${snapshot.data[index].data['interdestination']}'),
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color: Colors
+                                                                  .black
+                                                                  .withOpacity(
+                                                                      0.6),
+                                                              fontFamily:
+                                                                  "Roboto",
+                                                            )),
+                                                        new TextSpan(
+                                                          text:
+                                                              ('${snapshot.data[index].data['ending_destination']}'),
+                                                          style: new TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 20.0,
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.8),
+                                                            fontFamily:
+                                                                "Roboto",
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    children: <Widget>[
+                                                      leftSection,
+                                                      middleSection,
+                                                      rightSection
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Divider1(height: 1, thickness: 1)
+                                      ],
+                                    );
+                                  }
+                                  return Container(height: 0, width: 0);
+                                });
+                          } else {
+                            return SizedBox(
+                              child: Center(child: CircularProgressIndicator()),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          enablePullDown: true,
+          controller: _refreshController,
+          onRefresh: _onRefresh,
+        ),
       ),
+      bottomNavigationBar: BottomAppBarUser(userID: userID),
     );
   }
 
-  var queryResultSet = [];
-  var tempSearchStore = [];
-
-  initiateSearch(value) {
-    if (value.length == 0) {
-      setState(() {
-        existOr = false;
-        queryResultSet = [];
-        tempSearchStore = [];
-      });
-    }
-
-    // existOr = true;
-
-    var capitalizedValue =
-        value.substring(0, 1).toUpperCase() + value.substring(1);
-
-    if (queryResultSet.length == 0 && value.length == 1) {
-      SearchService().searchByPolazak(value).then((QuerySnapshot docs) {
-        for (int i = 0; i < docs.documents.length; ++i) {
-          queryResultSet.add(docs.documents[i].data);
-        }
-      });
-    } else {
-      tempSearchStore = [];
-      queryResultSet.forEach((element) {
-        if (element['starting_destination'].startsWith(capitalizedValue)) {
-          setState(() {
-            tempSearchStore.add(element);
-          });
-        }
-      });
-    }
+  Future getAll() async {
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore
+        .collection('Rute')
+        .orderBy('departure_timestamp', descending: true)
+        .getDocuments();
+    return qn.documents;
   }
-
-  // initiateSearch1(value) {
-  //   if (value.length == 0) {
-  //     setState(() {
-  //       existOr = false;
-  //       queryResultSet = [];
-  //       tempSearchStore = [];
-  //     });
-  //   }
-
-  //   // existOr = true;
-
-  //   var capitalizedValue =
-  //       value.substring(0, 1).toUpperCase() + value.substring(1);
-
-  //   if (queryResultSet.length == 0 && value.length == 1) {
-  //     SearchService().searchByInter(value).then((QuerySnapshot docs) {
-  //       for (int i = 0; i < docs.documents.length; ++i) {
-  //         queryResultSet.add(docs.documents[i].data);
-  //       }
-  //     });
-  //   } else {
-  //     tempSearchStore = [];
-  //     queryResultSet.forEach((element) {
-  //       if (element['interdestination'].startsWith(capitalizedValue)) {
-  //         setState(() {
-  //           tempSearchStore.add(element);
-  //         });
-  //       }
-  //     });
-  //   }
-  // }
 
   void _onRefresh() async {
     // monitor network fetch
@@ -177,740 +622,5 @@ class _UsersHomeState extends State<UsersHome> {
           ),
         ) ??
         true;
-  }
-
-  _UsersHomeState({this.userID});
-
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
-
-  @override
-  void initState() {
-    removeOr = true;
-    _onRefresh();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    double defaultScreenWidth = 400.0;
-    double defaultScreenHeight = 810.0;
-    ScreenUtil.instance = ScreenUtil(
-      width: defaultScreenWidth,
-      height: defaultScreenHeight,
-      allowFontScaling: true,
-    )..init(context);
-
-    return WillPopScope(
-        onWillPop: _onWillPop,
-        child: Scaffold(
-          appBar: _buildBar(context),
-          body: SmartRefresher(
-            child: ListView(
-              children: <Widget>[
-                existOr
-                    ? Column(
-                        children: tempSearchStore.map((element) {
-                        return buildResultCard(element);
-                      }).toList())
-                    : removeOr
-                        ?
-                        // Padding(
-                        //   padding: EdgeInsets.only(top: 16.0, bottom: 0.0, left: 20),
-                        // ),
-                        Container(
-                            child: FutureBuilder(
-                              future: getPosts(),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot snapshot) {
-                                if (snapshot.hasData) {
-                                  return ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: ClampingScrollPhysics(),
-                                      itemCount: snapshot.data.length,
-                                      itemBuilder: (context, index) {
-                                        int time = int.parse(snapshot
-                                            .data[index]
-                                            .data['arrival_timestamp']);
-
-                                        if (time >
-                                            DateTime.now()
-                                                .millisecondsSinceEpoch) {
-                                          post = snapshot.data[index];
-                                          var logoAndName;
-                                          getPosts().then((data) {
-                                            logoAndName = Firestore.instance
-                                                .collection('Company')
-                                                .document(data['companyID'])
-                                                .snapshots();
-                                            if (logoAndName != null) {
-                                              logoAndName.forEach((item) {
-                                                image = NetworkImage(avatarURL);
-                                                companyName =
-                                                    item.data['company_name'];
-                                              });
-                                            }
-                                          });
-
-                                          /// DATUM
-                                          String date = snapshot.data[index]
-                                              .data['departure_date'];
-                                          String dateReversed =
-                                              date.split('/').reversed.join();
-                                          String departureDate =
-                                              DateFormat("d MMM").format(
-                                                  DateTime.parse(dateReversed));
-                                          // KAPACITET
-                                          capacityString = snapshot
-                                              .data[index].data['capacity'];
-                                          companyID = snapshot
-                                              .data[index].data['user_id'];
-                                          final leftSection = new Container(
-                                              height: 32,
-                                              width: 62,
-                                              margin: EdgeInsets.only(
-                                                  top: 8, bottom: 16),
-                                              decoration: new BoxDecoration(
-                                                shape: BoxShape.rectangle,
-                                                color: blueColor,
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(1.0)),
-                                              ),
-                                              child: Center(
-                                                  child: Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: 8.0, right: 8.0),
-                                                child: new RichText(
-                                                  text: new TextSpan(
-                                                    children: <TextSpan>[
-                                                      new TextSpan(
-                                                          text: departureDate,
-                                                          style: new TextStyle(
-                                                            fontSize: ScreenUtil
-                                                                .instance
-                                                                .setSp(13.0),
-                                                            color: Colors.white,
-                                                            fontFamily:
-                                                                "Roboto",
-                                                          )),
-                                                    ],
-                                                  ),
-                                                ),
-                                              )));
-
-                                          ///middle section u koji spremamo kapacitet
-                                          final middleSection = new Container(
-                                              height: 32,
-                                              width: 110,
-                                              margin: EdgeInsets.only(
-                                                  left: 4.0,
-                                                  right: 4.0,
-                                                  top: 8,
-                                                  bottom: 16),
-                                              decoration: new BoxDecoration(
-                                                shape: BoxShape.rectangle,
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(1.0)),
-                                                border: new Border.all(
-                                                  color: Colors.black
-                                                      .withOpacity(0.12),
-                                                  width: 1,
-                                                ),
-                                              ),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  new RichText(
-                                                    text: new TextSpan(
-                                                      children: <TextSpan>[
-                                                        new TextSpan(
-                                                            text: 'Kapacitet: ',
-                                                            style:
-                                                                new TextStyle(
-                                                              fontSize: 14.0,
-                                                              color: Colors
-                                                                  .black
-                                                                  .withOpacity(
-                                                                      0.6),
-                                                              fontFamily:
-                                                                  "Roboto",
-                                                            )),
-                                                        new TextSpan(
-                                                          text:
-                                                              ('$capacityString t'),
-                                                          style: new TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 14.0,
-                                                            color: Colors.black
-                                                                .withOpacity(
-                                                                    1.0),
-                                                            fontFamily:
-                                                                "Roboto",
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ));
-
-                                          /// DOSTUPNOST
-                                          String availability = snapshot
-                                              .data[index].data['availability'];
-
-                                          final rightSection = new Stack(
-                                            children: <Widget>[
-                                              Container(
-                                                width: ScreenUtil.instance
-                                                    .setWidth(142.0),
-                                                height: 32,
-                                                margin: EdgeInsets.only(
-                                                    top: 8,
-                                                    bottom: 16,
-                                                    left: 0.0,
-                                                    right: 1.0),
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        width: 1.0,
-                                                        color: Colors.black
-                                                            .withOpacity(0.12)),
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                1.0))),
-                                              ),
-                                              Container(
-                                                  margin:
-                                                      EdgeInsets.only(top: 9),
-                                                  child: LinearPercentIndicator(
-                                                    padding: EdgeInsets.only(
-                                                        left: 1),
-                                                    width: ScreenUtil.instance
-                                                        .setWidth(141.0),
-                                                    lineHeight: 30.0,
-                                                    percent: (double.parse(
-                                                            availability)) /
-                                                        100,
-                                                    center: RichText(
-                                                      text: TextSpan(
-                                                        children: <TextSpan>[
-                                                          TextSpan(
-                                                              text:
-                                                                  'Popunjenost: ',
-                                                              style: TextStyle(
-                                                                  fontFamily:
-                                                                      'Roboto',
-                                                                  color: Colors
-                                                                      .black
-                                                                      .withOpacity(
-                                                                          0.6))),
-                                                          TextSpan(
-                                                            text: availability +
-                                                                ' %',
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'Roboto',
-                                                                fontSize:
-                                                                    ScreenUtil
-                                                                        .instance
-                                                                        .setSp(
-                                                                            12.0),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: Colors
-                                                                    .black
-                                                                    .withOpacity(
-                                                                        0.8)),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    linearStrokeCap:
-                                                        LinearStrokeCap.butt,
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    progressColor:
-                                                        Color.fromRGBO(
-                                                            3, 54, 255, 0.12),
-                                                  ))
-                                            ],
-                                          );
-
-                                          return Column(
-                                            children: <Widget>[
-                                              GestureDetector(
-                                                behavior:
-                                                    HitTestBehavior.opaque,
-                                                onTap: () async {
-                                                  try {
-                                                    final result =
-                                                        await InternetAddress
-                                                            .lookup(
-                                                                'google.com');
-
-                                                    if (result.isNotEmpty &&
-                                                        result[0]
-                                                            .rawAddress
-                                                            .isNotEmpty) {
-                                                      Navigator.of(context).push(
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  RouteOnClick(
-                                                                      post: snapshot
-                                                                              .data[
-                                                                          index],
-                                                                      userID:
-                                                                          userID)));
-                                                    }
-                                                  } on SocketException catch (_) {
-                                                    Navigator.of(context).push(
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                NoInternetConnectionLogInSrceen()));
-                                                  }
-                                                },
-                                                child: Container(
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 16,
-                                                            bottom: 4,
-                                                            left: 17,
-                                                            right: 8),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        Row(
-                                                          children: <Widget>[
-                                                            Container(
-                                                                width: 30,
-                                                                height: 30,
-                                                                margin: EdgeInsets
-                                                                    .only(
-                                                                        left:
-                                                                            0.0,
-                                                                        bottom:
-                                                                            6.0,
-                                                                        right:
-                                                                            12.0),
-                                                                decoration:
-                                                                    new BoxDecoration(
-                                                                  border: Border.all(
-                                                                      width: 1,
-                                                                      color: Colors
-                                                                          .black),
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                  image:
-                                                                      new DecorationImage(
-                                                                    fit: BoxFit
-                                                                        .fill,
-                                                                    image: NetworkImage(
-                                                                        '${snapshot.data[index].data['url_logo']}'),
-                                                                  ),
-                                                                )),
-                                                            Container(
-                                                              width: ScreenUtil
-                                                                  .instance
-                                                                  .setSp(200.0),
-                                                              margin: EdgeInsets
-                                                                  .only(
-                                                                      bottom:
-                                                                          6.0),
-                                                              child: Text(
-                                                                ('${snapshot.data[index].data['company_name']}'),
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      16.0,
-                                                                  color: Colors
-                                                                      .black
-                                                                      .withOpacity(
-                                                                          0.8),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  fontFamily:
-                                                                      "Roboto",
-                                                                ),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        new RichText(
-                                                          text: new TextSpan(
-                                                            children: <
-                                                                TextSpan>[
-                                                              new TextSpan(
-                                                                  text:
-                                                                      '${snapshot.data[index].data['starting_destination']}, ',
-                                                                  style:
-                                                                      new TextStyle(
-                                                                    fontSize:
-                                                                        20.0,
-                                                                    color: Colors
-                                                                        .black
-                                                                        .withOpacity(
-                                                                            0.8),
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontFamily:
-                                                                        "Roboto",
-                                                                  )),
-                                                              new TextSpan(
-                                                                  style:
-                                                                      new TextStyle(
-                                                                fontSize: 20.0,
-                                                                color: Colors
-                                                                    .black
-                                                                    .withOpacity(
-                                                                        0.6),
-                                                                fontFamily:
-                                                                    "Roboto",
-                                                              )),
-                                                              new TextSpan(
-                                                                  text:
-                                                                      ('${snapshot.data[index].data['interdestination']}'),
-                                                                  style:
-                                                                      new TextStyle(
-                                                                    fontSize:
-                                                                        20.0,
-                                                                    color: Colors
-                                                                        .black
-                                                                        .withOpacity(
-                                                                            0.6),
-                                                                    fontFamily:
-                                                                        "Roboto",
-                                                                  )),
-                                                              new TextSpan(
-                                                                text:
-                                                                    ('${snapshot.data[index].data['ending_destination']}'),
-                                                                style:
-                                                                    new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize:
-                                                                      20.0,
-                                                                  color: Colors
-                                                                      .black
-                                                                      .withOpacity(
-                                                                          0.8),
-                                                                  fontFamily:
-                                                                      "Roboto",
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Row(
-                                                          children: <Widget>[
-                                                            leftSection,
-                                                            middleSection,
-                                                            rightSection
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Divider1(height: 1, thickness: 1)
-                                            ],
-                                          );
-                                        }
-                                        return SizedBox();
-                                      });
-                                } else {
-                                  return SizedBox(
-                                    child: Center(
-                                        child: CircularProgressIndicator()),
-                                  );
-                                }
-                              },
-                            ),
-                          )
-                        : SizedBox(
-                            child: Center(child: CircularProgressIndicator()),
-                          ),
-              ],
-            ),
-            enablePullDown: true,
-            controller: _refreshController,
-            onRefresh: _onRefresh,
-          ),
-          bottomNavigationBar: BottomAppBarUser(userID: userID),
-        ));
-  }
-
-  Widget buildResultCard(data) {
-    int time = int.parse(data['arrival_timestamp']);
-    if (time > DateTime.now().millisecondsSinceEpoch) {
-      var logoAndName;
-      getPosts().then((data) {
-        logoAndName = Firestore.instance
-            .collection('Company')
-            .document(data['companyID'])
-            .snapshots();
-        if (logoAndName != null) {
-          logoAndName.forEach((item) {
-            image = NetworkImage(avatarURL);
-            companyName = item.data['company_name'];
-          });
-        }
-      });
-
-      /// DATUM
-      String date = data['departure_date'];
-      String dateReversed = date.split('/').reversed.join();
-      String departureDate =
-          DateFormat("d MMM").format(DateTime.parse(dateReversed));
-      // KAPACITET
-      capacityString = data['capacity'];
-      companyID = data['user_id'];
-      final leftSection = new Container(
-          height: 32,
-          width: 62,
-          margin: EdgeInsets.only(top: 8, bottom: 16),
-          decoration: new BoxDecoration(
-            shape: BoxShape.rectangle,
-            color: blueColor,
-            borderRadius: BorderRadius.all(Radius.circular(1.0)),
-          ),
-          child: Center(
-              child: Padding(
-            padding: EdgeInsets.only(left: 8.0, right: 8.0),
-            child: new RichText(
-              text: new TextSpan(
-                children: <TextSpan>[
-                  new TextSpan(
-                      text: departureDate,
-                      style: new TextStyle(
-                        fontSize: ScreenUtil.instance.setSp(13.0),
-                        color: Colors.white,
-                        fontFamily: "Roboto",
-                      )),
-                ],
-              ),
-            ),
-          )));
-
-      ///middle section u koji spremamo kapacitet
-      final middleSection = new Container(
-          height: 32,
-          width: 110,
-          margin: EdgeInsets.only(left: 4.0, right: 4.0, top: 8, bottom: 16),
-          decoration: new BoxDecoration(
-            shape: BoxShape.rectangle,
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(1.0)),
-            border: new Border.all(
-              color: Colors.black.withOpacity(0.12),
-              width: 1,
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              new RichText(
-                text: new TextSpan(
-                  children: <TextSpan>[
-                    new TextSpan(
-                        text: 'Kapacitet: ',
-                        style: new TextStyle(
-                          fontSize: 14.0,
-                          color: Colors.black.withOpacity(0.6),
-                          fontFamily: "Roboto",
-                        )),
-                    new TextSpan(
-                      text: data['capacity'],
-                      style: new TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14.0,
-                        color: Colors.black.withOpacity(1.0),
-                        fontFamily: "Roboto",
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ));
-
-      /// DOSTUPNOST
-      String availability = data['availability'];
-
-      final rightSection = new Stack(
-        children: <Widget>[
-          Container(
-            width: ScreenUtil.instance.setWidth(142.0),
-            height: 32,
-            margin: EdgeInsets.only(top: 8, bottom: 16, left: 0.0, right: 1.0),
-            decoration: BoxDecoration(
-                border: Border.all(
-                    width: 1.0, color: Colors.black.withOpacity(0.12)),
-                borderRadius: BorderRadius.all(Radius.circular(1.0))),
-          ),
-          Container(
-              margin: EdgeInsets.only(top: 9),
-              child: LinearPercentIndicator(
-                padding: EdgeInsets.only(left: 1),
-                width: ScreenUtil.instance.setWidth(141.0),
-                lineHeight: 30.0,
-                percent: (double.parse(availability)) / 100,
-                center: RichText(
-                  text: TextSpan(
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: 'Popunjenost: ',
-                          style: TextStyle(
-                              fontFamily: 'Roboto',
-                              color: Colors.black.withOpacity(0.6))),
-                      TextSpan(
-                        text: availability + ' %',
-                        style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: ScreenUtil.instance.setSp(12.0),
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black.withOpacity(0.8)),
-                      ),
-                    ],
-                  ),
-                ),
-                linearStrokeCap: LinearStrokeCap.butt,
-                backgroundColor: Colors.white,
-                progressColor: Color.fromRGBO(3, 54, 255, 0.12),
-              ))
-        ],
-      );
-      return Column(
-        children: <Widget>[
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () async {
-              try {
-                final result = await InternetAddress.lookup('google.com');
-
-                if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          RouteOnClick(post: data, userID: userID)));
-                }
-              } on SocketException catch (_) {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => NoInternetConnectionLogInSrceen()));
-              }
-            },
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    top: 16, bottom: 4, left: 17, right: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Container(
-                            width: 30,
-                            height: 30,
-                            margin: EdgeInsets.only(
-                                left: 0.0, bottom: 6.0, right: 12.0),
-                            decoration: new BoxDecoration(
-                              border: Border.all(width: 1, color: Colors.black),
-                              shape: BoxShape.circle,
-                              image: new DecorationImage(
-                                fit: BoxFit.fill,
-                                image: NetworkImage('${data['url_logo']}'),
-                              ),
-                            )),
-                        Container(
-                          width: ScreenUtil.instance.setSp(200.0),
-                          margin: EdgeInsets.only(bottom: 6.0),
-                          child: Text(
-                            ('${data['company_name']}'),
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.black.withOpacity(0.8),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Roboto",
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    new RichText(
-                      text: new TextSpan(
-                        children: <TextSpan>[
-                          new TextSpan(
-                              text: '${data['starting_destination']}, ',
-                              style: new TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.black.withOpacity(0.8),
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Roboto",
-                              )),
-                          new TextSpan(
-                              style: new TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.black.withOpacity(0.6),
-                            fontFamily: "Roboto",
-                          )),
-                          new TextSpan(
-                              text: ('${data['interdestination']}'),
-                              style: new TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.black.withOpacity(0.6),
-                                fontFamily: "Roboto",
-                              )),
-                          new TextSpan(
-                            text: ('${data['ending_destination']}'),
-                            style: new TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
-                              color: Colors.black.withOpacity(0.8),
-                              fontFamily: "Roboto",
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        leftSection,
-                        middleSection,
-                        rightSection
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Divider1(height: 20, thickness: 20),
-          Divider1(height: 1, thickness: 1)
-        ],
-      );
-    } else {
-      return Container(
-        width: 0,
-        height: 0,
-      );
-    }
-  }
-
-  Future getPosts() async {
-    var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore
-        .collection('Rute')
-        .orderBy('departure_timestamp', descending: true)
-        .getDocuments();
-    return qn.documents;
   }
 }
