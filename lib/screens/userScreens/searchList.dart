@@ -88,10 +88,9 @@ class _SearchListUserState extends State<SearchListUser> {
                 .loadString("assets/gradovi.json"),
             builder: (context, snapshot) {
               citiesList = [];
-
               getMyData(snapshot);
-
               return Container(height: 0, width: 0);
+
             },
           ),
         ),
