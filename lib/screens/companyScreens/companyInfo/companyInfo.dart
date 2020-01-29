@@ -201,7 +201,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                               borderSide: BorderSide(
                                                   color: StyleColors()
                                                       .textColorGray12)),
-                                          labelText: 'Url Profilne Slike',
+                                          labelText: 'Ovdje unesite link od Vaše slike.',
                                           labelStyle: TextStyle(
                                               color: StyleColors()
                                                   .textColorGray50),
@@ -243,7 +243,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                               borderSide: BorderSide(
                                                   color: StyleColors()
                                                       .textColorGray12)),
-                                          labelText: 'Korisničko Ime',
+                                          labelText: 'Naziv kompanije',
                                           labelStyle: TextStyle(
                                               color: StyleColors()
                                                   .textColorGray50),
@@ -286,7 +286,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                               borderSide: BorderSide(
                                                   color: StyleColors()
                                                       .textColorGray12)),
-                                          labelText: 'Kratki Opis',
+                                          labelText: 'Kontakt e-mail kompanije',
                                           labelStyle: TextStyle(
                                               color: StyleColors()
                                                   .textColorGray50),
@@ -328,7 +328,8 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                               borderSide: BorderSide(
                                                   color: StyleColors()
                                                       .textColorGray12)),
-                                          labelText: 'Mail',
+                                          labelText: 'Kratki opis kompanije',
+                                          hintText: 'Opis može sadržavati do 50 karaktera',
                                           labelStyle: TextStyle(
                                               color: StyleColors()
                                                   .textColorGray50),
@@ -370,7 +371,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                               borderSide: BorderSide(
                                                   color: StyleColors()
                                                       .textColorGray12)),
-                                          labelText: 'Telefon',
+                                          labelText: 'Kontakt telefon kompanije',
                                           labelStyle: TextStyle(
                                               color: StyleColors()
                                                   .textColorGray50),
@@ -454,7 +455,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                               borderSide: BorderSide(
                                                   color: StyleColors()
                                                       .textColorGray12)),
-                                          labelText: 'Lokacija',
+                                          labelText: 'Adresa i Grad kompanije',
                                           labelStyle: TextStyle(
                                               color: StyleColors()
                                                   .textColorGray50),
@@ -496,7 +497,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                                 BorderRadius.circular(4.0),
                                           ),
                                           child: Text(
-                                            'SAČUVAJ PROMJENE',
+                                            'SAČUVAJTE PROMJENE',
                                             style: TextStyle(
                                               fontSize: 14,
                                               fontFamily: 'Roboto',
@@ -611,7 +612,7 @@ class _CompanyInfoPageState extends State<CompanyInfoPage> {
                                                                     28,
                                                                     1.0),
                                                             content: Text(
-                                                                'Niste unijeli ispravan URL slike.'),
+                                                                'Unijeli ste netačan Url link do slike. Molimo Vas ispravite grešku.'),
                                                             action:
                                                                 SnackBarAction(
                                                               label: 'Undo',

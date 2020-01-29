@@ -268,7 +268,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                     BorderRadius.all(Radius.circular(4.0)),
                                 borderSide: BorderSide(
                                     color: StyleColors().textColorGray12)),
-                            labelText: 'Unesite interdestinaciju',
+                            labelText: 'Međudestinacija (npr. Zagreb)',
                             labelStyle:
                                 TextStyle(color: StyleColors().textColorGray50),
                             border: OutlineInputBorder(
@@ -368,7 +368,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                             color:
                                                 Color.fromRGBO(0, 0, 0, 0.12)),
                                       ),
-                                      hintText: 'Datum polaska',
+                                      hintText: 'Datum polaska vozila',
                                       contentPadding: EdgeInsets.fromLTRB(
                                           20.0, 10.0, 20.0, 10.0),
                                     ),
@@ -516,7 +516,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                                 borderSide: BorderSide(
                                                     color: Color.fromRGBO(
                                                         0, 0, 0, 0.12))),
-                                            labelText: 'Startna destinacija',
+                                            labelText: 'Startna destinacija (npr. Sarajevo)',
                                             labelStyle: TextStyle(
                                                 color: Color.fromRGBO(
                                                     0, 0, 0, 0.5)),
@@ -611,7 +611,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                                 borderSide: BorderSide(
                                                     color: Color.fromRGBO(
                                                         0, 0, 0, 0.12))),
-                                            labelText: 'Krajnja destinacija',
+                                            labelText: 'Krajnja destinacija (npr. Maribor)',
                                             labelStyle: TextStyle(
                                                 color: Color.fromRGBO(
                                                     0, 0, 0, 0.5)),
@@ -656,7 +656,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                             color:
                                                 Color.fromRGBO(0, 0, 0, 0.12)),
                                       ),
-                                      hintText: 'Datum dolaska',
+                                      hintText: 'Datum dolaska vozila',
                                       contentPadding: EdgeInsets.fromLTRB(
                                           20.0, 10.0, 20.0, 10.0),
                                     ),
@@ -793,7 +793,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                         BorderRadius.all(Radius.circular(4.0)),
                                     borderSide: BorderSide(
                                         color: Color.fromRGBO(0, 0, 0, 0.12))),
-                                labelText: 'Popunjenost u procentima',
+                                labelText: 'Popunjenost vozila u procentima',
                                 hintText: '0 - 100',
                                 labelStyle: TextStyle(
                                     color: Color.fromRGBO(0, 0, 0, 0.5)),
@@ -836,7 +836,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                         BorderRadius.all(Radius.circular(4.0)),
                                     borderSide: BorderSide(
                                         color: Color.fromRGBO(0, 0, 0, 0.12))),
-                                labelText: 'Kapacitet u tonama',
+                                labelText: 'Kapacitet vozila u tonama',
                                 hintText: '12',
                                 labelStyle: TextStyle(
                                     color: Color.fromRGBO(0, 0, 0, 0.5)),
@@ -911,7 +911,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                         BorderRadius.all(Radius.circular(4.0)),
                                     borderSide: BorderSide(
                                         color: Color.fromRGBO(0, 0, 0, 0.12))),
-                                labelText: 'Vrsta robe',
+                                labelText: 'Vrsta robe koju prevozite',
                                 labelStyle: TextStyle(
                                     color: Color.fromRGBO(0, 0, 0, 0.5)),
                                 hasFloatingPlaceholder: true,
@@ -947,7 +947,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                         BorderRadius.all(Radius.circular(4.0)),
                                     borderSide: BorderSide(
                                         color: Color.fromRGBO(0, 0, 0, 0.12))),
-                                labelText: 'Dimenzije',
+                                labelText: 'Dimenzije prtljažnog prostora vozila',
                                 hintText: '16m x 2.5m x 3m',
                                 labelStyle: TextStyle(
                                     color: Color.fromRGBO(0, 0, 0, 0.5)),
@@ -1028,7 +1028,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                               backgroundColor: Color.fromRGBO(
                                                   28, 28, 28, 1.0),
                                               content: Text(
-                                                  'Unesite broj od 0 do 100'),
+                                                  'Popunjenost vozila u procentima ne može biti veća od 100. Molimo ispravite.'),
                                               action: SnackBarAction(
                                                 label: 'Undo',
                                                 onPressed: () {},
@@ -1079,7 +1079,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
           duration: Duration(seconds: 2),
           behavior: SnackBarBehavior.floating,
           backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-          content: Text('Datum polaska ne može biti veći od datuma dolaska.'),
+          content: Text('Datum polaska vozila ne može biti stariji od Datuma dolaska vozila. Molimo ispravite.'),
           action: SnackBarAction(
             label: 'Undo',
             onPressed: () {},
@@ -1121,7 +1121,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-            content: Text('Datumi i vremena ne mogu biti jednaki.'),
+            content: Text('Vrijeme polaska vozila ne može biti jednako Vremenu dolaska vozila. Molimo ispravite.'),
             action: SnackBarAction(
               label: 'Undo',
               onPressed: () {},

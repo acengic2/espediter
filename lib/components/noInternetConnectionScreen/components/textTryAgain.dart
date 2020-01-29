@@ -5,7 +5,7 @@ class TryAgain extends StatelessWidget {
   final String tryAgainStingFirstMessage = "Nemate mreže";
   final String tryAgainStingSecondMessage =
       "Nažalost nemate mreže. Riješite problem pa pokušajte ponovno.";
-  final String buttonText = "POKUSAJTE PONOVO";
+  final String buttonText = "POKUŠAJTE PONOVO";
 
   @override
   Widget build(BuildContext context) {

@@ -887,7 +887,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                 borderRadius: BorderRadius.circular(4.0),
                               ),
                               child: Text(
-                                'SAČUVAJ PROMJENE',
+                                'SAČUVAJTE PROMJENE',
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontFamily: 'Roboto',

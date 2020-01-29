@@ -87,7 +87,7 @@ class _EditRouteScreenPageState extends State<EditRouteScreenPage> {
             RouteAndCheck().checkAndNavigate(context, userID);
           },
         ),
-        title: const Text('Aktivna Ruta',
+        title: const Text('Uređivanje Aktivne Rute',
             style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.8))),
       ),
       body: EditRouteForm(

@@ -182,7 +182,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                               borderSide: BorderSide(
                                                   color: StyleColors()
                                                       .textColorGray12)),
-                                          labelText: 'Url Profilne Slike',
+                                          labelText: 'Ovdje unesite link od Vaše slike.',
                                           labelStyle: TextStyle(
                                               color: StyleColors()
                                                   .textColorGray50),
@@ -266,7 +266,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                               borderSide: BorderSide(
                                                   color: StyleColors()
                                                       .textColorGray12)),
-                                          labelText: 'Mail',
+                                          labelText: 'Kontakt e-mail',
                                           labelStyle: TextStyle(
                                               color: StyleColors()
                                                   .textColorGray50),
@@ -307,7 +307,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                                 BorderRadius.circular(4.0),
                                           ),
                                           child: Text(
-                                            'SAČUVAJ PROMJENE',
+                                            'SAČUVAJTE PROMJENE',
                                             style: TextStyle(
                                               fontSize: 14,
                                               fontFamily: 'Roboto',
@@ -401,7 +401,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                                                     28,
                                                                     1.0),
                                                             content: Text(
-                                                                'Niste unijeli ispravan URL slike.'),
+                                                                'Unijeli ste netačan Url link do slike. Molimo Vas ispravite grešku.'),
                                                             action:
                                                                 SnackBarAction(
                                                               label: 'Undo',
