@@ -232,7 +232,7 @@ class _UsersHomeState extends State<UsersHome> {
               prazno ? Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                  margin: EdgeInsets.only(top: 75.0),
+                  margin: EdgeInsets.only(top: 150.0),
                   child: Column(
                      mainAxisAlignment: MainAxisAlignment.center,
                      crossAxisAlignment: CrossAxisAlignment.center,
@@ -243,7 +243,7 @@ class _UsersHomeState extends State<UsersHome> {
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 9.0, right: 16.0, left: 16.0),
-                        child: Text('Kombinacija unesenih filtera nema rezultata. Molimo Vas da uneste nešto drugo.',
+                        child: Text('Kombinacija unesenih filtera nema rezultata. Molimo Vas da unesete nešto drugo.',
                         textAlign: TextAlign.center, style: TextStyle(fontSize: 14.0, color: textColorGray60),),
                       ),
                     )
@@ -626,9 +626,12 @@ class _UsersHomeState extends State<UsersHome> {
                                 );
                           } 
                           else {
-                                 return SizedBox(
+                                 return Container(
+                                   margin: EdgeInsets.only(top: 200.0),
+                                   child: SizedBox(
                               child: Center(child: CircularProgressIndicator()),
-                            );
+                            ),
+                          );
                           }
                         },
                       ),
