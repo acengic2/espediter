@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
@@ -17,6 +18,7 @@ String controlVar = '';
 String initialStart = '';
 String intialEnd = '';
 bool filtered = false;
+int onceBtnPressed = 0;
 
 class SearchListUser extends StatefulWidget {
   final String userID;
@@ -120,6 +122,7 @@ class _SearchListUserState extends State<SearchListUser> {
                     ),
                     format: format,
                     onShowPicker: (context, currentValue) async {
+                       onceBtnPressed = 0;
                       DateTime picked = await showDatePicker(
                           locale: Locale('bs'),
                           context: context,
@@ -192,6 +195,7 @@ class _SearchListUserState extends State<SearchListUser> {
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5.0))),
                         onTap: () {
+                           onceBtnPressed = 0;
                           controlVar = 'starting';
                           filtered = false;
                           FocusScope.of(context).requestFocus(FocusNode());
@@ -247,6 +251,7 @@ class _SearchListUserState extends State<SearchListUser> {
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5.0))),
                         onTap: () {
+                           onceBtnPressed = 0;
                           controlVar = 'ending';
                           filtered = false;
                           FocusScope.of(context).requestFocus(FocusNode());
@@ -260,13 +265,21 @@ class _SearchListUserState extends State<SearchListUser> {
           child: Text('FILTRIRAJ'),
           onPressed: () {
             filtered = true;
-            Navigator.of(context).push(MaterialPageRoute(
+            if (onceBtnPressed == 0) {
+               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => UsersHome(
                     userID: userID,
                     datum: formatted,
                     polaziste: initialStart,
                     dolaziste: intialEnd,
                     filtered: filtered)));
+                onceBtnPressed = 1;
+            }
+             Timer(Duration(seconds: 5), () {
+                              onceBtnPressed = 0;
+                            });
+
+           
           },
         )
       ],
