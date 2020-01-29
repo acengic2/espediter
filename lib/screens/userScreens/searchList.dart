@@ -43,7 +43,7 @@ class _SearchListUserState extends State<SearchListUser> {
 
   getMyData(AsyncSnapshot snapshot) async {
     var myData = await json.decode(snapshot.data.toString());
-
+    citiesList = [];
     for (var i = 0; i < myData.length; i++) {
       citiesList.add(myData[i]['grad']);
     }
@@ -58,12 +58,12 @@ class _SearchListUserState extends State<SearchListUser> {
       intialEnd = result;
     }
 
-    if (recent != ''&& recent != null) {
+    if (recent != '' && recent != null) {
       listOfRecent = recent.split(', ');
     }
     return Column(
       children: <Widget>[
-          Container(
+        Container(
           height: 0,
           width: 0,
           child: FutureBuilder(
@@ -76,7 +76,6 @@ class _SearchListUserState extends State<SearchListUser> {
             },
           ),
         ),
-
         Container(
           margin: EdgeInsets.only(bottom: 8, left: 16.0, right: 16.0, top: 45),
           child: Row(
