@@ -5,7 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:spediter/components/divider.dart';
+import 'package:spediter/components/noInternetConnectionScreen/noInternetConnection.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
+import 'package:spediter/screens/companyScreens/createRoute/createRouteScreen.dart';
 import 'package:spediter/screens/userScreens/components/bottomAppBarUser.dart';
 import 'package:spediter/screens/userScreens/routeOnClick.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -39,6 +41,7 @@ class UsersHome extends StatefulWidget {
   final String userID;
   String polaziste, dolaziste, datum, recent;
   bool filtered;
+  
 
   UsersHome(
       {Key key,
@@ -66,6 +69,7 @@ class _UsersHomeState extends State<UsersHome> {
   bool filtered;
   var st;
   DateTime currentBackPressTime;
+  bool prazno = false;
 
   _UsersHomeState(
       {this.userID,
@@ -101,7 +105,8 @@ class _UsersHomeState extends State<UsersHome> {
             .collection('Rute')
             .orderBy('departure_timestamp', descending: true)
             .getDocuments();
-        return qn.documents;
+
+          return qn.documents;
       } else if ((datum != null || datum != '') &&
           (polaziste == '' || polaziste == null) &&
           (dolaziste == '' || dolaziste == null)) {
@@ -119,7 +124,13 @@ class _UsersHomeState extends State<UsersHome> {
             //.where('interdestination', arrayContains: polaziste)
             //.orderBy('departure_timestamp', descending: true)
             .getDocuments();
-        return qn.documents;
+
+          if(qn.documents.isEmpty) {
+              prazno = true;
+             return qn.documents;
+          } else {
+            return qn.documents;
+          }
       } else if ((datum == null || datum == '') &&
           (polaziste == '' || polaziste == null) &&
           (dolaziste != '' || dolaziste != null)) {
@@ -128,7 +139,12 @@ class _UsersHomeState extends State<UsersHome> {
             .where('ending_destination', isEqualTo: dolaziste)
             //.orderBy('departure_timestamp', descending: true)
             .getDocuments();
-        return qn.documents;
+        if(qn.documents.isEmpty) {
+              prazno = true;
+             return qn.documents;
+          } else {
+            return qn.documents;
+          }
       } else if ((datum != null || datum != '') &&
           (polaziste != '' || polaziste != null) &&
           (dolaziste == '' || dolaziste == null)) {
@@ -138,7 +154,12 @@ class _UsersHomeState extends State<UsersHome> {
             .where('starting_destination', isEqualTo: polaziste)
             //.where('interdestination', arrayContains: polaziste)
             .getDocuments();
-        return qn.documents;
+            if(qn.documents.isEmpty) {
+              prazno = true;
+             return qn.documents;
+          } else {
+            return qn.documents;
+          }
       } else if ((datum != null || datum != '') &&
           (polaziste == '' || polaziste == null) &&
           (dolaziste != '' || dolaziste != null)) {
@@ -147,7 +168,12 @@ class _UsersHomeState extends State<UsersHome> {
             .where('departure_date', isEqualTo: datum)
             .where('ending_destination', isEqualTo: dolaziste)
             .getDocuments();
-        return qn.documents;
+           if(qn.documents.isEmpty) {
+              prazno = true;
+             return qn.documents;
+          } else {
+            return qn.documents;
+          }
       } else if ((datum == null || datum == '') &&
           (polaziste != '' || polaziste != null) &&
           (dolaziste != '' || dolaziste != null)) {
@@ -158,7 +184,12 @@ class _UsersHomeState extends State<UsersHome> {
             .where('ending_destination', isEqualTo: dolaziste)
             //.orderBy('departure_timestamp', descending: true)
             .getDocuments();
-        return qn.documents;
+           if(qn.documents.isEmpty) {
+              prazno = true;
+             return qn.documents;
+          } else {
+            return qn.documents;
+          }
       } else if ((datum != null || datum != '') &&
           (polaziste != '' || polaziste != null) &&
           (dolaziste != '' || dolaziste != null)) {
@@ -169,7 +200,12 @@ class _UsersHomeState extends State<UsersHome> {
             //.where('interdestination', arrayContains: polaziste)
             .where('ending_destination', isEqualTo: dolaziste)
             .getDocuments();
-        return qn.documents;
+           if(qn.documents.isEmpty) {
+              prazno = true;
+             return qn.documents;
+          } else {
+            return qn.documents;
+          }
       }
     }
 
@@ -200,6 +236,30 @@ class _UsersHomeState extends State<UsersHome> {
                 height: 8,
                 thickness: 8,
               ),
+              
+              prazno ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  margin: EdgeInsets.only(top: 75.0),
+                  child: Column(
+                     mainAxisAlignment: MainAxisAlignment.center,
+                     crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                    Center(
+                      child: Text('Nema rezultata', style: TextStyle(fontSize: 16.0),),
+                    ),
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 9.0, right: 16.0, left: 16.0),
+                        child: Text('Kombinacija unesenih filtera nema rezultata. Molimo Vas da uneste nešto drugo.',
+                        textAlign: TextAlign.center, style: TextStyle(fontSize: 14.0, color: textColorGray60),),
+                      ),
+                    )
+                  ],
+                  ),
+                ),
+              )
+              :
               Column(
                 children: <Widget>[
                   Padding(
@@ -554,17 +614,12 @@ class _UsersHomeState extends State<UsersHome> {
                                       ],
                                     );
                                   }
+
                                   return Container(height: 0, width: 0);
                                 });
-                          } else if (!snapshot.hasData ||
-                              snapshot.data.documents == 0) {
-                            return Center(
-                              child: Container(
-                                child: Text('Nema rez'),
-                              ),
-                            );
-                          } else {
-                            return SizedBox(
+                          } 
+                          else {
+                                 return SizedBox(
                               child: Center(child: CircularProgressIndicator()),
                             );
                           }
@@ -624,3 +679,8 @@ class _UsersHomeState extends State<UsersHome> {
         true;
   }
 }
+
+Future ifNoResults() async {
+    return Center(child: Text('sjdkgaskhgfdsajhgfhjasgfjhgsahfg'),);
+  }
+
