@@ -516,7 +516,8 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                                 borderSide: BorderSide(
                                                     color: Color.fromRGBO(
                                                         0, 0, 0, 0.12))),
-                                            labelText: 'Startna destinacija (npr. Sarajevo)',
+                                            labelText:
+                                                'Startna destinacija (npr. Sarajevo)',
                                             labelStyle: TextStyle(
                                                 color: Color.fromRGBO(
                                                     0, 0, 0, 0.5)),
@@ -611,7 +612,8 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                                 borderSide: BorderSide(
                                                     color: Color.fromRGBO(
                                                         0, 0, 0, 0.12))),
-                                            labelText: 'Krajnja destinacija (npr. Maribor)',
+                                            labelText:
+                                                'Krajnja destinacija (npr. Maribor)',
                                             labelStyle: TextStyle(
                                                 color: Color.fromRGBO(
                                                     0, 0, 0, 0.5)),
@@ -947,7 +949,8 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                         BorderRadius.all(Radius.circular(4.0)),
                                     borderSide: BorderSide(
                                         color: Color.fromRGBO(0, 0, 0, 0.12))),
-                                labelText: 'Dimenzije prtljažnog prostora vozila',
+                                labelText:
+                                    'Dimenzije prtljažnog prostora vozila',
                                 hintText: '16m x 2.5m x 3m',
                                 labelStyle: TextStyle(
                                     color: Color.fromRGBO(0, 0, 0, 0.5)),
@@ -1079,7 +1082,8 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
           duration: Duration(seconds: 2),
           behavior: SnackBarBehavior.floating,
           backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-          content: Text('Datum polaska vozila ne može biti stariji od Datuma dolaska vozila. Molimo ispravite.'),
+          content: Text(
+              'Datum polaska vozila ne može biti stariji od Datuma dolaska vozila. Molimo ispravite.'),
           action: SnackBarAction(
             label: 'Undo',
             onPressed: () {},
@@ -1121,7 +1125,8 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-            content: Text('Vrijeme polaska vozila ne može biti jednako Vremenu dolaska vozila. Molimo ispravite.'),
+            content: Text(
+                'Vrijeme polaska vozila ne može biti jednako Vremenu dolaska vozila. Molimo ispravite.'),
             action: SnackBarAction(
               label: 'Undo',
               onPressed: () {},
@@ -1135,7 +1140,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
         }
       } else {
         if (onceBtnPressed == 0) {
-           getV();
+          getV();
           FirebaseCrud().createData(
               percentageVar,
               capacityVar,
@@ -1226,7 +1231,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
         }
       } else {
         if (onceBtnPressed == 0) {
-           getV();
+          getV();
           FirebaseCrud().createData(
               percentageVar,
               capacityVar,
@@ -1252,7 +1257,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
       }
     } else {
       if (onceBtnPressed == 0) {
-       getV();
+        getV();
         FirebaseCrud().createData(
             percentageVar,
             capacityVar,
@@ -1344,7 +1349,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
     FocusScope.of(context).requestFocus(focusGoods);
   }
 
-   getV() {
+  getV() {
     vrijednostiSaPolja = '';
     for (var i = 0; i < controllers.length; i++) {
       if (controllers[i].text != '') {

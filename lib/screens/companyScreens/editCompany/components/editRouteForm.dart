@@ -224,7 +224,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                     BorderRadius.all(Radius.circular(4.0)),
                                 borderSide: BorderSide(
                                     color: StyleColors().textColorGray12)),
-                            labelText: 'Unesite interdestinaciju',
+                            labelText: 'Međudestinacija (npr. Zagreb)',
                             labelStyle:
                                 TextStyle(color: StyleColors().textColorGray50),
                             border: OutlineInputBorder(
@@ -303,7 +303,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                       borderSide: BorderSide(
                                           color: StyleColors().textColorGray12),
                                     ),
-                                    hintText: 'Datum polaska',
+                                    hintText: 'Datum polaska vozila',
                                     contentPadding: EdgeInsets.fromLTRB(
                                         20.0, 10.0, 20.0, 10.0),
                                   ),
@@ -441,7 +441,8 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                               borderSide: BorderSide(
                                                   color: StyleColors()
                                                       .textColorGray12)),
-                                          labelText: 'Startna destinacija',
+                                          labelText:
+                                              'Startna destinacija (npr. Sarajevo)',
                                           labelStyle: TextStyle(
                                               color: StyleColors()
                                                   .textColorGray50),
@@ -516,7 +517,8 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                               borderSide: BorderSide(
                                                   color: StyleColors()
                                                       .textColorGray12)),
-                                          labelText: 'Krajnja destinacija',
+                                          labelText:
+                                              'Krajnja destinacija (npr. Maribor)',
                                           labelStyle: TextStyle(
                                               color: StyleColors()
                                                   .textColorGray50),
@@ -559,7 +561,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                       borderSide: BorderSide(
                                           color: StyleColors().textColorGray12),
                                     ),
-                                    hintText: 'Datum dolaska',
+                                    hintText: 'Datum dolaska vozila',
                                     contentPadding: EdgeInsets.fromLTRB(
                                         20.0, 10.0, 20.0, 10.0),
                                   ),
@@ -680,7 +682,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                       BorderRadius.all(Radius.circular(4.0)),
                                   borderSide: BorderSide(
                                       color: StyleColors().textColorGray12)),
-                              labelText: 'Popunjenost u procentima',
+                              labelText: 'Popunjenost vozila u procentima',
                               hintText: '0-100',
                               labelStyle: TextStyle(
                                   color: StyleColors().textColorGray50),
@@ -724,7 +726,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                       BorderRadius.all(Radius.circular(4.0)),
                                   borderSide: BorderSide(
                                       color: StyleColors().textColorGray12)),
-                              labelText: 'Kapacitet u tonama',
+                              labelText: 'Kapacitet vozila u tonama',
                               hintText: '15',
                               labelStyle: TextStyle(
                                   color: StyleColors().textColorGray50),
@@ -804,7 +806,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                       BorderRadius.all(Radius.circular(4.0)),
                                   borderSide: BorderSide(
                                       color: StyleColors().textColorGray12)),
-                              labelText: 'Vrsta robe',
+                              labelText: 'Vrsta robe koju prevozite',
                               labelStyle: TextStyle(
                                   color: StyleColors().textColorGray50),
                               hasFloatingPlaceholder: true,
@@ -841,7 +843,7 @@ class _EditRouteFormState extends State<EditRouteForm> {
                                       BorderRadius.all(Radius.circular(4.0)),
                                   borderSide: BorderSide(
                                       color: StyleColors().textColorGray12)),
-                              labelText: 'Dimenzije',
+                              labelText: 'Dimenzije prtljažnog prostora vozila',
                               hintText: '16m x 2.5m x 3m',
                               labelStyle: TextStyle(
                                   color: StyleColors().textColorGray50),
