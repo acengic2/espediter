@@ -44,7 +44,9 @@ class _ShowLoading extends State<ShowLoading> {
   /// id trenutno logovanog usera [usID]
   String usID;
   String text1 = "Logujemo Vas unutar aplikacije.";
-  String text2 = "Molimo sačekate.";
+  String text2 = "Molimo sačekajte.";
+
+      String recent;
 
   // bool _loadingInProgress;
 
@@ -68,11 +70,14 @@ class _ShowLoading extends State<ShowLoading> {
   @override
   void initState() {
     loadData();
+    getRecentFromUser(userID);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -108,6 +113,27 @@ class _ShowLoading extends State<ShowLoading> {
               },
             ),
           ),
+
+          Container(height: 0, width:0, child: 
+          FutureBuilder(
+          future: getRecentFromUser(userID),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                // shrinkWrap: true,
+                // physics: ClampingScrollPhysics(),
+                // addAutomaticKeepAlives: true,
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                   recent = snapshot.data[index].data['recent'];
+                 
+                  return Container(height: 0, width: 0);
+                },
+              );
+            }
+            return Container(height: 0, width: 0);
+          },
+        ),)
         ],
       ),
     );
@@ -179,7 +205,22 @@ class _ShowLoading extends State<ShowLoading> {
       RouteAndCheck().checkAndNavigate(context, userID);
     } else {
       Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => UsersHome(userID: userID)));
+          MaterialPageRoute(builder: (context) => UsersHome(userID: userID,recent: recent,)));
     }
   }
+
+
+  Future getRecentFromUser(String id) async {
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore
+        .collection('Users')
+        .where('user_id', isEqualTo: id)
+        .limit(1)
+        .getDocuments();
+
+    return qn.documents;
+  }
+
+  
+ 
 }
