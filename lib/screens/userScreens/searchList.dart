@@ -402,7 +402,9 @@ class RouteSearch extends SearchDelegate<SearchListUser> {
     }
     final suggestionList = query.isEmpty
         ? listOfRecent
-        : citiesList.where((p) => p.toLowerCase().startsWith(query)).toList();
+        : query.substring(0,1) != query.substring(0,1).toUpperCase() ? 
+        citiesList.where((p) => p.toLowerCase().startsWith(query)).toList() : 
+        citiesList.where((p) => p.startsWith(query)).toList();
 
     return new ListView.builder(
       shrinkWrap: true,
