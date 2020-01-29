@@ -173,7 +173,7 @@ class _ContactPartState extends State<ContactPart> {
 
                                             margin: EdgeInsets.only(top: 2.0),
                                             child: Text(
-                                              ('Telefon'),
+                                              ('Kontakt telefon kompanije'),
                                               style: TextStyle(
                                                 fontSize: 14.0,
                                                 color: Colors.black
@@ -234,7 +234,7 @@ class _ContactPartState extends State<ContactPart> {
                                              width: ScreenUtil.instance.setSp( 200.0),
                                             margin: EdgeInsets.only(top: 2.0),
                                             child: Text(
-                                              ('Mail'),
+                                              ('Kontakt e-mail kompanije'),
                                               style: TextStyle(
                                                 fontSize: 14.0,
                                                 color: Colors.black
@@ -295,7 +295,7 @@ class _ContactPartState extends State<ContactPart> {
                                             margin: EdgeInsets.only(
                                                 top: 2.0, bottom: 7.0),
                                             child: Text(
-                                              ('Website'),
+                                              ('Web stranica kompanije'),
                                               style: TextStyle(
                                                 fontSize: 14.0,
                                                 color: Colors.black

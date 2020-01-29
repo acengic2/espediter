@@ -120,7 +120,7 @@ class _RouteOnClickState extends State<RouteOnClick> {
                             text: new TextSpan(
                               children: <TextSpan>[
                                 new TextSpan(
-                                    text: '$item',
+                                    text: 'Prolazi kroz $item',
                                     style: new TextStyle(
                                         fontSize: 14.0,
                                         color: Colors.black,
@@ -184,7 +184,7 @@ class _RouteOnClickState extends State<RouteOnClick> {
                       text: new TextSpan(
                         children: <TextSpan>[
                           new TextSpan(
-                              text: 'Polazak iz ',
+                              text: 'Polazak vozila iz ',
                               style: new TextStyle(
                                 fontSize: 14.0,
                                 color: Colors.white,
@@ -245,7 +245,7 @@ class _RouteOnClickState extends State<RouteOnClick> {
                       text: new TextSpan(
                         children: <TextSpan>[
                           new TextSpan(
-                              text: 'Zadnja destinacija ',
+                              text: 'Zadnja destinacija vozila u ',
                               style: new TextStyle(
                                 fontSize: 14.0,
                                 color: Colors.white,
@@ -431,7 +431,7 @@ class _RouteOnClickState extends State<RouteOnClick> {
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(top: 7, bottom: 2),
-                    child: Text('Vrsta robe: ',
+                    child: Text('Vrsta robe koja se prevozi ',
                         style: new TextStyle(
                           fontSize: 12.0,
                           color: StyleColors().textColorGray60,
@@ -465,7 +465,7 @@ class _RouteOnClickState extends State<RouteOnClick> {
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(top: 7, bottom: 2),
-                    child: Text('Dimenzije prtljažnog prostora: ',
+                    child: Text('Dimenzije prtljažnog prostora vozila ',
                         style: new TextStyle(
                           fontSize: 12.0,
                           color: StyleColors().textColorGray60,

@@ -115,7 +115,7 @@ class _FormState extends State<FormLogIn> {
                           duration: Duration(seconds: 2),
                           behavior: SnackBarBehavior.floating,
                           backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-                          content: Text('User sa unesenim emailm ne postoji'),
+                          content: Text('Uneseni email ne postoji u bazi. Kontaktirajte administratora ako imate dodatne probleme.'),
                           action: SnackBarAction(
                             label: 'Undo',
                             onPressed: () {},
@@ -217,7 +217,7 @@ class _FormState extends State<FormLogIn> {
                           duration: Duration(seconds: 2),
                           behavior: SnackBarBehavior.floating,
                           backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-                          content: Text('Password nije tacan'),
+                          content: Text('Unesena lozinka nije valjana. Ako želite da je promijenite kontaktirajte administratora.'),
                           action: SnackBarAction(
                             label: 'Undo',
                             onPressed: () {},

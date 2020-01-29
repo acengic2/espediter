@@ -43,8 +43,8 @@ class _ShowLoading extends State<ShowLoading> {
   ///
   /// id trenutno logovanog usera [usID]
   String usID;
-  String text1 = "Registracija Korisnika";
-  String text2 = "Molim vas sačekajte trenutak.";
+  String text1 = "Logujemo Vas unutar aplikacije.";
+  String text2 = "Molimo sačekate.";
 
   // bool _loadingInProgress;
 

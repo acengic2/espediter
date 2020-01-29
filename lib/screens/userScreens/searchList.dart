@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:spediter/components/destinationCircles.dart';
 import 'package:spediter/components/destinationLines.dart';
-import 'package:spediter/components/divider.dart';
 import 'package:spediter/screens/userScreens/usersHome.dart';
 import 'package:spediter/theme/style.dart';
 
@@ -117,7 +116,7 @@ class _SearchListUserState extends State<SearchListUser> {
                         borderSide:
                             BorderSide(color: Color.fromRGBO(0, 0, 0, 0.12)),
                       ),
-                      hintText: 'Datum polaska',
+                      hintText: 'Izaberite Datum polaska robe',
                       contentPadding:
                           EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                     ),
@@ -190,7 +189,7 @@ class _SearchListUserState extends State<SearchListUser> {
                                     BorderRadius.all(Radius.circular(4.0)),
                                 borderSide: BorderSide(
                                     color: Color.fromRGBO(0, 0, 0, 0.12))),
-                            labelText: 'Polazište',
+                            labelText: 'Izaberite Mjesto odakle roba polazi',
                             labelStyle:
                                 TextStyle(color: Color.fromRGBO(0, 0, 0, 0.5)),
                             border: OutlineInputBorder(
@@ -246,7 +245,7 @@ class _SearchListUserState extends State<SearchListUser> {
                                     BorderRadius.all(Radius.circular(4.0)),
                                 borderSide: BorderSide(
                                     color: Color.fromRGBO(0, 0, 0, 0.12))),
-                            labelText: 'Odredište',
+                            labelText: 'Izaberite Mjesto gdje roba dolazi',
                             labelStyle:
                                 TextStyle(color: Color.fromRGBO(0, 0, 0, 0.5)),
                             border: OutlineInputBorder(

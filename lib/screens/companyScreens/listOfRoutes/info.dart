@@ -102,12 +102,12 @@ class _InfoPageState extends State<InfoPage> {
                         children: <Widget>[
                           Container(
                               margin: EdgeInsets.only(top: 22),
-                              height: 150,
+                              //height: 150,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Container(
-                                    height: 21,
+                                    //height: 21,
                                     margin:
                                         EdgeInsets.only(left: 16.0, bottom: 8),
                                     child: Text(
@@ -139,12 +139,13 @@ class _InfoPageState extends State<InfoPage> {
                                     },
                                   ),
                                   Container(
-                                    height: 104,
+                                    //height: 104,
                                     margin: EdgeInsets.only(
                                         left: 16, right: 16, bottom: 16),
                                     child: Text(
-                                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' +
-                                          ' Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                                      'E-Špediter je savremeni softver za Android i iOS uređaje, koji smanjuje troškove i olakšava bolju koordinaciju pri otpremanju robe iz vlastite države u inozemstvo i obrnuto.' +
+                                          ' Glavna namjena i zamisao jeste da se olakša komunikacija i pristup informacijama između Špeditera i potencijalnog naručioca prevoza robe, te osloboditi Vas cjelokupnog napora i brige oko otpreme, dopreme i prevoza robe u međunarodnom prometu.' + 
+                                          ' Ključna namjena je i da se olakša pregled slobodnih špeditera koji se prometuju na trasi koja je predmet interesovanja potencijalnog naručioca prevoza robe.',
                                       style: TextStyle(
                                           color: StyleColors().textColorGray60,
                                           fontFamily: 'Roboto',
@@ -164,16 +165,16 @@ class _InfoPageState extends State<InfoPage> {
                                         width: 1))),
                           ),
                           Container(
-                              height: 106,
+                              //height: 106,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Container(
-                                    height: 21,
+                                    //height: 21,
                                     margin:
                                         EdgeInsets.only(left: 16.0, bottom: 8),
                                     child: Text(
-                                      'Kako koristiti aplikaciju?',
+                                      'Kako koristiti e-Špediter?',
                                       style: TextStyle(
                                           color: StyleColors().textColorGray80,
                                           fontFamily: 'Roboto',
@@ -182,11 +183,14 @@ class _InfoPageState extends State<InfoPage> {
                                     ),
                                   ),
                                   Container(
-                                    height: 60,
+                                    //height: 60,
                                     margin: EdgeInsets.only(
                                         left: 16, right: 16, bottom: 16),
                                     child: Text(
-                                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                                      'E-Špediter korisnik postajete uz jednostavnu registraciju putem kontaktiranja naših administratora.' + 
+                                      ' Omogućavamo Vam postavljanje i praćenje svih ruta sa teritorije BiH jednim klikom.' + 
+                                      ' Uz navedeno imate mogućnost jednostavnog pregleda svojih prethodnih aktivnosti, spašavanje informacija o profilu i kompaniji, a kao dodatak u narednom periodu je planirano još mnogo inovacija.' +
+                                      ' Digitalne tehnologije su odličan način da se premosti jaz između izazova koje donosi nedostatak vremena i realne potrebe ljudi.',
                                       style: TextStyle(
                                           color: StyleColors().textColorGray60,
                                           fontFamily: 'Roboto',
@@ -206,16 +210,16 @@ class _InfoPageState extends State<InfoPage> {
                                         width: 1))),
                           ),
                           Container(
-                              height: 150,
+                              //height: 150,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Container(
-                                    height: 21,
+                                    //height: 21,
                                     margin:
                                         EdgeInsets.only(left: 16.0, bottom: 8),
                                     child: Text(
-                                      'Ko su naši partneri?',
+                                      'Program unapređenja i lojalnosti?',
                                       style: TextStyle(
                                           color: StyleColors().textColorGray80,
                                           fontFamily: 'Roboto',
@@ -224,12 +228,13 @@ class _InfoPageState extends State<InfoPage> {
                                     ),
                                   ),
                                   Container(
-                                    height: 104,
+                                    //height: 104,
                                     margin: EdgeInsets.only(
                                         left: 16, right: 16, bottom: 16),
                                     child: Text(
-                                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ' +
-                                          'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',
+                                      'Prateći svjetske trendove i lidere, sastavni dio e-Špediter politike će biti i ažuriranje aplikacije na dvosedmičnom nivou. ' +
+                                          'Svi korisnici aplikacije koji budu aktivno uključeni u traženju i prijavljivanju aplikativnih neispravnosti će sa zadovoljstvom biti nagrađeni. ' +
+                                          'Sve prijave ove prirode korisnici mogu prijaviti na e.spediterdemo@gmail.com.',
                                       style: TextStyle(
                                           color: StyleColors().textColorGray60,
                                           fontFamily: 'Roboto',

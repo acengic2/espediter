@@ -268,7 +268,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
                                     BorderRadius.all(Radius.circular(4.0)),
                                 borderSide: BorderSide(
                                     color: StyleColors().textColorGray12)),
-                            labelText: 'Unesite interdestinaciju',
+                            labelText: 'Međudestinacija (npr. Zagreb)',
                             labelStyle:
                                 TextStyle(color: StyleColors().textColorGray50),
                             border: OutlineInputBorder(
@@ -307,7 +307,7 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
     List<Widget> children = _buildList();
 
     return Scaffold(
-      //  resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         /// u appBaru kreiramo X iconicu na osnovu koje izlazimo iz [CreateRoutes] i idemo na [ListOfRoutes]
         backgroundColor: Colors.white,
@@ -330,746 +330,732 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
             FocusScope.of(context).requestFocus(new FocusNode());
             onceToast = 0;
           },
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    /// POCETAK FORME
-                    Form(
-                      key: _formKey,
-                      child: Column(
-                        children: <Widget>[
-                          ///DATUM I VRIJEME POLASKA
-                          Container(
-                            margin: EdgeInsets.only(
-                                bottom: 8, left: 16.0, right: 16.0, top: 16),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  flex: 5,
-                                  child: Container(
-                                    height: 36.0,
-                                    padding:
-                                        EdgeInsets.only(left: 4.0, right: 4.0),
-                                    child: DateTimeField(
-                                      textCapitalization:
-                                          TextCapitalization.words,
-                                      style: TextStyle(
-                                          fontSize:
-                                              ScreenUtil.instance.setSp(15.0)),
-                                      resetIcon: null,
-                                      readOnly: true,
-                                      decoration: InputDecoration(
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(4.0)),
-                                          borderSide: BorderSide(
-                                              color: Color.fromRGBO(
-                                                  0, 0, 0, 0.12)),
-                                        ),
-                                        hintText: 'Datum polaska',
-                                        contentPadding: EdgeInsets.fromLTRB(
-                                            20.0, 10.0, 20.0, 10.0),
+          child: ListView(
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  /// POCETAK FORME
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        ///DATUM I VRIJEME POLASKA
+                        Container(
+                          margin: EdgeInsets.only(
+                              bottom: 8, left: 16.0, right: 16.0, top: 16),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                flex: 5,
+                                child: Container(
+                                  height: 36.0,
+                                  padding:
+                                      EdgeInsets.only(left: 4.0, right: 4.0),
+                                  child: DateTimeField(
+                                    textCapitalization:
+                                        TextCapitalization.words,
+                                    style: TextStyle(
+                                        fontSize:
+                                            ScreenUtil.instance.setSp(15.0)),
+                                    resetIcon: null,
+                                    readOnly: true,
+                                    decoration: InputDecoration(
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(4.0)),
+                                        borderSide: BorderSide(
+                                            color:
+                                                Color.fromRGBO(0, 0, 0, 0.12)),
                                       ),
-                                      format: format,
-                                      onShowPicker:
-                                          (context, currentValue) async {
-                                        DateTime picked = await showDatePicker(
-                                            locale: Locale('bs'),
-                                            context: context,
-                                            initialDate: DateTime.now(),
-                                            firstDate: DateTime(2018),
-                                            lastDate: DateTime(2100));
-                                        if (picked == null) {
-                                          picked = DateTime.now();
-                                          _isBtnDisabled = false;
-                                        }
-
-                                        setState(() {
-                                          selectedDateP = picked;
-                                          if (selectedDateP == null) {
-                                            selectedDateP = DateTime.now();
-                                            _isBtnDisabled = false;
-                                          } else {
-                                            selectedDateP = picked;
-                                            _isBtnDisabled = false;
-                                          }
-                                        });
-                                        setState(() {
-                                          formatted =
-                                              formatP.format(selectedDateP);
-                                          if (selectedDateP == null) {
-                                            selectedDateP = DateTime.now();
-                                            _isBtnDisabled = false;
-                                          } else {
-                                            selectedDateP = picked;
-                                            _isBtnDisabled = false;
-                                          }
-                                        });
-                                        return selectedDateP;
-                                      },
-                                      onChanged: (input) {
-                                        onceToast = 0;
-                                        onceBtnPressed = 0;
-                                        _isBtnDisabled = false;
-                                        areFieldsEmpty();
-                                      },
+                                      hintText: 'Datum polaska vozila',
+                                      contentPadding: EdgeInsets.fromLTRB(
+                                          20.0, 10.0, 20.0, 10.0),
                                     ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 5,
-                                  child: Container(
-                                    height: 36.0,
-                                    margin:
-                                        EdgeInsets.only(left: 4.0, right: 4.0),
-                                    child: DateTimeField(
-                                      resetIcon: null,
-                                      readOnly: true,
-                                      style: TextStyle(
-                                          fontSize:
-                                              ScreenUtil.instance.setSp(15.0)),
-                                      decoration: InputDecoration(
-                                        hintText: "Vrijeme polaska",
-                                        contentPadding: EdgeInsets.fromLTRB(
-                                            20.0, 10.0, 20.0, 10.0),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(4.0)),
-                                          borderSide: BorderSide(
-                                              color: Color.fromRGBO(
-                                                  0, 0, 0, 0.12)),
-                                        ),
-                                      ),
-                                      format: formatTime,
-                                      onShowPicker:
-                                          (context, currentValue) async {
-                                        final time = await showTimePicker(
+                                    format: format,
+                                    onShowPicker:
+                                        (context, currentValue) async {
+                                      DateTime picked = await showDatePicker(
+                                          locale: Locale('bs'),
                                           context: context,
-                                          initialTime: TimeOfDay.fromDateTime(
-                                              currentValue ?? DateTime.now()),
-                                        );
-                                        setState(() {
-                                          timeP = time.toString();
-                                          _isBtnDisabled = false;
-                                        });
-                                        if (timeP == 'null') {
-                                          timeP = '';
-                                          _isBtnDisabled = false;
-                                        } else if (timeP != 'null') {
-                                          _isBtnDisabled = false;
-                                          return DateTimeField.convert(time);
-                                        }
-                                      },
-                                      onChanged: (input) {
-                                        t2 = input;
-                                        onceToast = 0;
-                                        onceBtnPressed = 0;
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(2018),
+                                          lastDate: DateTime(2100));
+                                      if (picked == null) {
+                                        picked = DateTime.now();
                                         _isBtnDisabled = false;
-                                        areFieldsEmpty();
-                                      },
-                                    ),
+                                      }
+
+                                      setState(() {
+                                        selectedDateP = picked;
+                                        if (selectedDateP == null) {
+                                          selectedDateP = DateTime.now();
+                                          _isBtnDisabled = false;
+                                        } else {
+                                          selectedDateP = picked;
+                                          _isBtnDisabled = false;
+                                        }
+                                      });
+                                      setState(() {
+                                        formatted =
+                                            formatP.format(selectedDateP);
+                                        if (selectedDateP == null) {
+                                          selectedDateP = DateTime.now();
+                                          _isBtnDisabled = false;
+                                        } else {
+                                          selectedDateP = picked;
+                                          _isBtnDisabled = false;
+                                        }
+                                      });
+                                      return selectedDateP;
+                                    },
+                                    onChanged: (input) {
+                                      onceToast = 0;
+                                      onceBtnPressed = 0;
+                                      _isBtnDisabled = false;
+                                      areFieldsEmpty();
+                                    },
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                              Expanded(
+                                flex: 5,
+                                child: Container(
+                                  height: 36.0,
+                                  margin:
+                                      EdgeInsets.only(left: 4.0, right: 4.0),
+                                  child: DateTimeField(
+                                    resetIcon: null,
+                                    readOnly: true,
+                                    style: TextStyle(
+                                        fontSize:
+                                            ScreenUtil.instance.setSp(15.0)),
+                                    decoration: InputDecoration(
+                                      hintText: "Vrijeme polaska",
+                                      contentPadding: EdgeInsets.fromLTRB(
+                                          20.0, 10.0, 20.0, 10.0),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(4.0)),
+                                        borderSide: BorderSide(
+                                            color:
+                                                Color.fromRGBO(0, 0, 0, 0.12)),
+                                      ),
+                                    ),
+                                    format: formatTime,
+                                    onShowPicker:
+                                        (context, currentValue) async {
+                                      final time = await showTimePicker(
+                                        context: context,
+                                        initialTime: TimeOfDay.fromDateTime(
+                                            currentValue ?? DateTime.now()),
+                                      );
+                                      setState(() {
+                                        timeP = time.toString();
+                                        _isBtnDisabled = false;
+                                      });
+                                      if (timeP == 'null') {
+                                        timeP = '';
+                                        _isBtnDisabled = false;
+                                      } else if (timeP != 'null') {
+                                        _isBtnDisabled = false;
+                                        return DateTimeField.convert(time);
+                                      }
+                                    },
+                                    onChanged: (input) {
+                                      t2 = input;
+                                      onceToast = 0;
+                                      onceBtnPressed = 0;
+                                      _isBtnDisabled = false;
+                                      areFieldsEmpty();
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
+                        ),
 
-                          /// DESTINACIJA POLASKA
-                          Container(
-                              margin: EdgeInsets.only(left: 16.0, right: 16.0),
-                              child: Row(children: <Widget>[
-                                Expanded(
-                                    flex: 1,
-                                    child: Column(
-                                      children: <Widget>[
-                                        DestinationCircle(
-                                            largeCircle:
-                                                StyleColors().blueColor2,
-                                            smallCircle:
-                                                StyleColors().blueColor),
-                                        DestinationLine(),
-                                      ],
-                                    )),
-                                Expanded(
-                                    flex: 9,
-                                    child: Container(
-                                        margin: EdgeInsets.only(
-                                            left: 9, bottom: 8, right: 5),
-                                        height: 36,
-                                        child: TextFormField(
-                                          maxLength: 32,
-                                          textCapitalization:
-                                              TextCapitalization.sentences,
-                                          decoration: InputDecoration(
-                                              counterText: '',
-                                              hasFloatingPlaceholder: false,
-                                              enabledBorder: OutlineInputBorder(
+                        /// DESTINACIJA POLASKA
+                        Container(
+                            margin: EdgeInsets.only(left: 16.0, right: 16.0),
+                            child: Row(children: <Widget>[
+                              Expanded(
+                                  flex: 1,
+                                  child: Column(
+                                    children: <Widget>[
+                                      DestinationCircle(
+                                          largeCircle: StyleColors().blueColor2,
+                                          smallCircle: StyleColors().blueColor),
+                                      DestinationLine(),
+                                    ],
+                                  )),
+                              Expanded(
+                                  flex: 9,
+                                  child: Container(
+                                      margin: EdgeInsets.only(
+                                          left: 9, bottom: 8, right: 5),
+                                      height: 36,
+                                      child: TextFormField(
+                                        maxLength: 32,
+                                        textCapitalization:
+                                            TextCapitalization.sentences,
+                                        decoration: InputDecoration(
+                                            counterText: '',
+                                            hasFloatingPlaceholder: false,
+                                            enabledBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(4.0)),
+                                              borderSide: BorderSide(
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 0.12)),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(4.0)),
                                                 borderSide: BorderSide(
                                                     color: Color.fromRGBO(
-                                                        0, 0, 0, 0.12)),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(4.0)),
-                                                  borderSide: BorderSide(
-                                                      color: Color.fromRGBO(
-                                                          0, 0, 0, 0.12))),
-                                              labelText: 'Startna destinacija',
-                                              labelStyle: TextStyle(
+                                                        0, 0, 0, 0.12))),
+                                            labelText:
+                                                'Startna destinacija (npr. Sarajevo)',
+                                            labelStyle: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    0, 0, 0, 0.5)),
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        5.0))),
+                                        onChanged: (input) {
+                                          setState(() {
+                                            onceToast = 0;
+                                            onceBtnPressed = 0;
+                                            startingDestination = input;
+                                            areFieldsEmpty();
+                                          });
+                                        },
+                                      )))
+                            ])),
+                        ListView(
+                          padding: EdgeInsets.all(0),
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          children: children,
+                        ),
+
+                        FutureBuilder(
+                          future: getPosts123(userID),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (snapshot.hasData) {
+                              return ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: ClampingScrollPhysics(),
+                                  itemCount: snapshot.data.length,
+                                  itemBuilder: (context, index) {
+                                    companyName = snapshot
+                                        .data[index].data['company_name'];
+                                    urlLogo =
+                                        snapshot.data[index].data['url_logo'];
+
+                                    return SizedBox();
+                                  });
+                            }
+                            return SizedBox();
+                          },
+                        ),
+
+                        ///KRAJNJA DESTINACIJA
+                        Container(
+                            margin: EdgeInsets.only(left: 16.0, right: 16.0),
+                            child: Row(children: <Widget>[
+                              Expanded(
+                                  flex: 1,
+                                  child: Column(
+                                    children: <Widget>[
+                                      DestinationLine(),
+                                      DestinationCircle(
+                                        largeCircle:
+                                            StyleColors().destinationCircle2,
+                                        smallCircle:
+                                            StyleColors().destinationCircle1,
+                                      ),
+                                    ],
+                                  )),
+                              Expanded(
+                                  flex: 9,
+                                  child: Container(
+                                      margin: EdgeInsets.only(
+                                          left: 9, bottom: 8, right: 5),
+                                      height: 36,
+                                      child: TextFormField(
+                                        maxLength: 32,
+                                        onTap: () {
+                                          setState(() {
+                                            fieldCount++;
+                                          });
+                                        },
+                                        textCapitalization:
+                                            TextCapitalization.sentences,
+                                        decoration: InputDecoration(
+                                            counterText: '',
+                                            hasFloatingPlaceholder: false,
+                                            enabledBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(4.0)),
+                                              borderSide: BorderSide(
                                                   color: Color.fromRGBO(
-                                                      0, 0, 0, 0.5)),
-                                              border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5.0))),
-                                          onChanged: (input) {
-                                            setState(() {
-                                              onceToast = 0;
-                                              onceBtnPressed = 0;
-                                              startingDestination = input;
-                                              areFieldsEmpty();
-                                            });
-                                          },
-                                        )))
-                              ])),
+                                                      0, 0, 0, 0.12)),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(4.0)),
+                                                borderSide: BorderSide(
+                                                    color: Color.fromRGBO(
+                                                        0, 0, 0, 0.12))),
+                                            labelText:
+                                                'Krajnja destinacija (npr. Maribor)',
+                                            labelStyle: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    0, 0, 0, 0.5)),
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        5.0))),
+                                        onChanged: (input) {
+                                          setState(() {
+                                            onceToast = 0;
+                                            onceBtnPressed = 0;
+                                            endingDestination = input;
+                                            areFieldsEmpty();
+                                          });
+                                        },
+                                      )))
+                            ])),
 
-                          Column(
-                            children: children,
+                        /// DATUM I VRIJEME DOLASKA
+                        Container(
+                          margin: EdgeInsets.only(
+                              bottom: 11.5, left: 16.0, right: 16.0, top: 2),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                flex: 5,
+                                child: Container(
+                                  height: 36.0,
+                                  padding:
+                                      EdgeInsets.only(left: 4.0, right: 4.0),
+                                  child: DateTimeField(
+                                    resetIcon: null,
+                                    readOnly: true,
+                                    style: TextStyle(
+                                        fontSize:
+                                            ScreenUtil.instance.setSp(15.0)),
+                                    decoration: InputDecoration(
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(4.0)),
+                                        borderSide: BorderSide(
+                                            color:
+                                                Color.fromRGBO(0, 0, 0, 0.12)),
+                                      ),
+                                      hintText: 'Datum dolaska vozila',
+                                      contentPadding: EdgeInsets.fromLTRB(
+                                          20.0, 10.0, 20.0, 10.0),
+                                    ),
+                                    format: format,
+                                    onShowPicker:
+                                        (context, currentValue) async {
+                                      DateTime picked = await showDatePicker(
+                                          locale: Locale('bs'),
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(2018),
+                                          lastDate: DateTime(2100));
+                                      if (picked == null) {
+                                        picked = DateTime.now();
+                                        _isBtnDisabled = false;
+                                      }
+                                      setState(() {
+                                        selectedDateD = picked;
+                                        if (selectedDateD == null) {
+                                          selectedDateD = DateTime.now();
+                                          _isBtnDisabled = false;
+                                        } else {
+                                          selectedDateD = picked;
+                                          _isBtnDisabled = false;
+                                        }
+                                      });
+                                      setState(() {
+                                        formatted2 =
+                                            formatP.format(selectedDateD);
+                                        if (selectedDateD == null) {
+                                          selectedDateD = DateTime.now();
+                                          _isBtnDisabled = false;
+                                        } else {
+                                          selectedDateD = picked;
+                                          _isBtnDisabled = false;
+                                        }
+                                      });
+                                      return selectedDateD;
+                                    },
+                                    onChanged: (input) {
+                                      onceToast = 0;
+                                      onceBtnPressed = 0;
+                                      _isBtnDisabled = false;
+                                      areFieldsEmpty();
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 5,
+                                child: Container(
+                                  height: 36.0,
+                                  margin:
+                                      EdgeInsets.only(left: 4.0, right: 4.0),
+                                  child: DateTimeField(
+                                    resetIcon: null,
+                                    readOnly: true,
+                                    style: TextStyle(
+                                        fontSize:
+                                            ScreenUtil.instance.setSp(15.0)),
+                                    decoration: InputDecoration(
+                                        hintText: "Vrijeme dolaska",
+                                        contentPadding: EdgeInsets.fromLTRB(
+                                            20.0, 10.0, 20.0, 10.0),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(4.0)),
+                                          borderSide: BorderSide(
+                                              color: Color.fromRGBO(
+                                                  0, 0, 0, 0.12)),
+                                        )),
+                                    format: formatTime,
+                                    onShowPicker:
+                                        (context, currentValue) async {
+                                      final time1 = await showTimePicker(
+                                        context: context,
+                                        initialTime: TimeOfDay.fromDateTime(
+                                            currentValue ?? DateTime.now()),
+                                      );
+                                      setState(() {
+                                        timeD = time1.toString();
+                                        _isBtnDisabled = false;
+                                      });
+                                      if (timeD == 'null') {
+                                        timeD = '';
+                                        _isBtnDisabled = false;
+                                      } else if (timeD != 'null') {
+                                        _isBtnDisabled = false;
+                                        return DateTimeField.convert(time1);
+                                      }
+                                    },
+                                    onChanged: (input) {
+                                      t1 = input;
+                                      onceToast = 0;
+                                      onceBtnPressed = 0;
+                                      _isBtnDisabled = false;
+                                      areFieldsEmpty();
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
+                        ),
 
-                          FutureBuilder(
-                            future: getPosts123(userID),
-                            builder:
-                                (BuildContext context, AsyncSnapshot snapshot) {
-                              if (snapshot.hasData) {
-                                return ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: ClampingScrollPhysics(),
-                                    itemCount: snapshot.data.length,
-                                    itemBuilder: (context, index) {
-                                      companyName = snapshot
-                                          .data[index].data['company_name'];
-                                      urlLogo =
-                                          snapshot.data[index].data['url_logo'];
+                        /// DIVIDER
+                        Divider1(
+                          thickness: 1,
+                          height: 1,
+                        ),
+                        Divider1(
+                          thickness: 8,
+                          height: 8,
+                        ),
 
-                                      return SizedBox();
-                                    });
-                              }
-                              return SizedBox();
+                        /// Popunjenost u procentimaaaaaaaaaaaaaaaaa
+                        Container(
+                          margin: EdgeInsets.only(
+                              bottom: 2, left: 16.0, right: 16.0, top: 11.5),
+                          child: TextFormField(
+                            keyboardType:
+                                TextInputType.numberWithOptions(decimal: false),
+                            controller: percentageController,
+                            focusNode: focusPercentage,
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4.0)),
+                                  borderSide: BorderSide(
+                                      color: Color.fromRGBO(0, 0, 0, 0.12)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(4.0)),
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(0, 0, 0, 0.12))),
+                                labelText: 'Popunjenost vozila u procentima',
+                                hintText: '0 - 100',
+                                labelStyle: TextStyle(
+                                    color: Color.fromRGBO(0, 0, 0, 0.5)),
+                                hasFloatingPlaceholder: true,
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.0))),
+                            onChanged: (input) {
+                              setState(() {
+                                if (input != '') {
+                                  percentageVar = int.parse(input);
+                                } else {
+                                  percentageVar = null;
+                                }
+                                onceToast = 0;
+                                onceBtnPressed = 0;
+                                areFieldsEmpty();
+                              });
                             },
                           ),
-
-                          ///KRAJNJA DESTINACIJA
-                          Container(
-                              margin: EdgeInsets.only(left: 16.0, right: 16.0),
-                              child: Row(children: <Widget>[
-                                Expanded(
-                                    flex: 1,
-                                    child: Column(
-                                      children: <Widget>[
-                                        DestinationLine(),
-                                        DestinationCircle(
-                                          largeCircle:
-                                              StyleColors().destinationCircle2,
-                                          smallCircle:
-                                              StyleColors().destinationCircle1,
-                                        ),
-                                      ],
-                                    )),
-                                Expanded(
-                                    flex: 9,
-                                    child: Container(
-                                        margin: EdgeInsets.only(
-                                            left: 9, bottom: 8, right: 5),
-                                        height: 36,
-                                        child: TextFormField(
-                                          maxLength: 32,
-                                          onTap: () {
-                                            setState(() {
-                                              fieldCount++;
-                                            });
-                                          },
-                                          textCapitalization:
-                                              TextCapitalization.sentences,
-                                          decoration: InputDecoration(
-                                              counterText: '',
-                                              hasFloatingPlaceholder: false,
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(4.0)),
-                                                borderSide: BorderSide(
-                                                    color: Color.fromRGBO(
-                                                        0, 0, 0, 0.12)),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(4.0)),
-                                                  borderSide: BorderSide(
-                                                      color: Color.fromRGBO(
-                                                          0, 0, 0, 0.12))),
-                                              labelText: 'Krajnja destinacija',
-                                              labelStyle: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 0.5)),
-                                              border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5.0))),
-                                          onChanged: (input) {
-                                            setState(() {
-                                              onceToast = 0;
-                                              onceBtnPressed = 0;
-                                              endingDestination = input;
-                                              areFieldsEmpty();
-                                            });
-                                          },
-                                        )))
-                              ])),
-
-                          /// DATUM I VRIJEME DOLASKA
-                          Container(
-                            margin: EdgeInsets.only(
-                                bottom: 11.5, left: 16.0, right: 16.0, top: 2),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  flex: 5,
-                                  child: Container(
-                                    height: 36.0,
-                                    padding:
-                                        EdgeInsets.only(left: 4.0, right: 4.0),
-                                    child: DateTimeField(
-                                      resetIcon: null,
-                                      readOnly: true,
-                                      style: TextStyle(
-                                          fontSize:
-                                              ScreenUtil.instance.setSp(15.0)),
-                                      decoration: InputDecoration(
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(4.0)),
-                                          borderSide: BorderSide(
-                                              color: Color.fromRGBO(
-                                                  0, 0, 0, 0.12)),
-                                        ),
-                                        hintText: 'Datum dolaska',
-                                        contentPadding: EdgeInsets.fromLTRB(
-                                            20.0, 10.0, 20.0, 10.0),
-                                      ),
-                                      format: format,
-                                      onShowPicker:
-                                          (context, currentValue) async {
-                                        DateTime picked = await showDatePicker(
-                                            locale: Locale('bs'),
-                                            context: context,
-                                            initialDate: DateTime.now(),
-                                            firstDate: DateTime(2018),
-                                            lastDate: DateTime(2100));
-                                        if (picked == null) {
-                                          picked = DateTime.now();
-                                          _isBtnDisabled = false;
-                                        }
-                                        setState(() {
-                                          selectedDateD = picked;
-                                          if (selectedDateD == null) {
-                                            selectedDateD = DateTime.now();
-                                            _isBtnDisabled = false;
-                                          } else {
-                                            selectedDateD = picked;
-                                            _isBtnDisabled = false;
-                                          }
-                                        });
-                                        setState(() {
-                                          formatted2 =
-                                              formatP.format(selectedDateD);
-                                          if (selectedDateD == null) {
-                                            selectedDateD = DateTime.now();
-                                            _isBtnDisabled = false;
-                                          } else {
-                                            selectedDateD = picked;
-                                            _isBtnDisabled = false;
-                                          }
-                                        });
-                                        return selectedDateD;
-                                      },
-                                      onChanged: (input) {
-                                        onceToast = 0;
-                                        onceBtnPressed = 0;
-                                        _isBtnDisabled = false;
-                                        areFieldsEmpty();
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 5,
-                                  child: Container(
-                                    height: 36.0,
-                                    margin:
-                                        EdgeInsets.only(left: 4.0, right: 4.0),
-                                    child: DateTimeField(
-                                      resetIcon: null,
-                                      readOnly: true,
-                                      style: TextStyle(
-                                          fontSize:
-                                              ScreenUtil.instance.setSp(15.0)),
-                                      decoration: InputDecoration(
-                                          hintText: "Vrijeme dolaska",
-                                          contentPadding: EdgeInsets.fromLTRB(
-                                              20.0, 10.0, 20.0, 10.0),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(4.0)),
-                                            borderSide: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    0, 0, 0, 0.12)),
-                                          )),
-                                      format: formatTime,
-                                      onShowPicker:
-                                          (context, currentValue) async {
-                                        final time1 = await showTimePicker(
-                                          context: context,
-                                          initialTime: TimeOfDay.fromDateTime(
-                                              currentValue ?? DateTime.now()),
-                                        );
-                                        setState(() {
-                                          timeD = time1.toString();
-                                          _isBtnDisabled = false;
-                                        });
-                                        if (timeD == 'null') {
-                                          timeD = '';
-                                          _isBtnDisabled = false;
-                                        } else if (timeD != 'null') {
-                                          _isBtnDisabled = false;
-                                          return DateTimeField.convert(time1);
-                                        }
-                                      },
-                                      onChanged: (input) {
-                                        t1 = input;
-                                        onceToast = 0;
-                                        onceBtnPressed = 0;
-                                        _isBtnDisabled = false;
-                                        areFieldsEmpty();
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          /// DIVIDER
-                          Divider1(
-                            thickness: 1,
-                            height: 1,
-                          ),
-                          Divider1(
-                            thickness: 8,
-                            height: 8,
-                          ),
-
-                          /// Popunjenost u procentimaaaaaaaaaaaaaaaaa
-                          Container(
-                            margin: EdgeInsets.only(
-                                bottom: 2, left: 16.0, right: 16.0, top: 11.5),
-                            child: TextFormField(
-                              keyboardType: TextInputType.numberWithOptions(
-                                  decimal: false),
-                              controller: percentageController,
-                              focusNode: focusPercentage,
-                              decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(4.0)),
-                                    borderSide: BorderSide(
-                                        color: Color.fromRGBO(0, 0, 0, 0.12)),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(4.0)),
-                                      borderSide: BorderSide(
-                                          color:
-                                              Color.fromRGBO(0, 0, 0, 0.12))),
-                                  labelText: 'Popunjenost u procentima',
-                                  hintText: '0 - 100',
-                                  labelStyle: TextStyle(
-                                      color: Color.fromRGBO(0, 0, 0, 0.5)),
-                                  hasFloatingPlaceholder: true,
-                                  border: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(5.0))),
-                              onChanged: (input) {
-                                setState(() {
-                                  if (input != '') {
-                                    percentageVar = int.parse(input);
-                                  } else {
-                                    percentageVar = null;
-                                  }
-                                  onceToast = 0;
-                                  onceBtnPressed = 0;
-                                  areFieldsEmpty();
-                                });
-                              },
-                            ),
-                          ),
-                          ////// kapacitet u tonamaaaaaaaa
-                          Container(
-                            margin: EdgeInsets.only(
-                                bottom: 4.5, left: 16.0, right: 16.0, top: 4.5),
-                            child: TextFormField(
-                              maxLength: 2,
-                              keyboardType: TextInputType.numberWithOptions(
-                                  decimal: true),
-                              focusNode: focusCapacity,
-                              decoration: InputDecoration(
-                                  counterText: '',
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(4.0)),
-                                    borderSide: BorderSide(
-                                        color: Color.fromRGBO(0, 0, 0, 0.12)),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(4.0)),
-                                      borderSide: BorderSide(
-                                          color:
-                                              Color.fromRGBO(0, 0, 0, 0.12))),
-                                  labelText: 'Kapacitet u tonama',
-                                  hintText: '12',
-                                  labelStyle: TextStyle(
-                                      color: Color.fromRGBO(0, 0, 0, 0.5)),
-                                  hasFloatingPlaceholder: true,
-                                  border: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(5.0))),
-                              onChanged: (input) {
-                                setState(() {
-                                  capacityVar = input;
-                                  onceToast = 0;
-                                  onceBtnPressed = 0;
-                                  areFieldsEmpty();
-                                });
-                              },
-                            ),
-                          ),
-
-                          /// VRSTE VOZILAAAA
-                          ResponsiveContainer(
-                            heightPercent:
-                                (68.0 / MediaQuery.of(context).size.height) *
-                                    100,
-                            widthPercent: 100.0,
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                  bottom: 4.5,
-                                  left: 16.0,
-                                  right: 16.0,
-                                  top: 4.5),
-                              decoration: ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                      width: 1.0,
-                                      style: BorderStyle.solid,
-                                      color: Color.fromRGBO(0, 0, 0, 0.12)),
+                        ),
+                        ////// kapacitet u tonamaaaaaaaa
+                        Container(
+                          margin: EdgeInsets.only(
+                              bottom: 4.5, left: 16.0, right: 16.0, top: 4.5),
+                          child: TextFormField(
+                            maxLength: 2,
+                            keyboardType:
+                                TextInputType.numberWithOptions(decimal: true),
+                            focusNode: focusCapacity,
+                            decoration: InputDecoration(
+                                counterText: '',
+                                enabledBorder: OutlineInputBorder(
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(5.0)),
+                                      BorderRadius.all(Radius.circular(4.0)),
+                                  borderSide: BorderSide(
+                                      color: Color.fromRGBO(0, 0, 0, 0.12)),
                                 ),
-                              ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 10.0, top: 5.0),
-                                child: DropdownButton(
-                                  hint: Text('Vrsta Vozila'),
-                                  disabledHint: Text('Vrsta Vozila'),
-                                  value: _selectedVehicle,
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontFamily: "Roboto",
-                                      color: Color.fromRGBO(0, 0, 0, 0.5)),
-                                  isExpanded: true,
-                                  items: _dropdownMenuItems,
-                                  underline: Container(color: Colors.white),
-                                  onChanged: onChangeDropdownItem,
-                                ),
-                              ),
-                            ),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(4.0)),
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(0, 0, 0, 0.12))),
+                                labelText: 'Kapacitet vozila u tonama',
+                                hintText: '12',
+                                labelStyle: TextStyle(
+                                    color: Color.fromRGBO(0, 0, 0, 0.5)),
+                                hasFloatingPlaceholder: true,
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.0))),
+                            onChanged: (input) {
+                              setState(() {
+                                capacityVar = input;
+                                onceToast = 0;
+                                onceBtnPressed = 0;
+                                areFieldsEmpty();
+                              });
+                            },
                           ),
+                        ),
 
-                          // VRSTE ROBEEEEEEEEEE
-                          Container(
+                        /// VRSTE VOZILAAAA
+                        ResponsiveContainer(
+                          heightPercent:
+                              (68.0 / MediaQuery.of(context).size.height) * 100,
+                          widthPercent: 100.0,
+                          child: Container(
                             margin: EdgeInsets.only(
                                 bottom: 4.5, left: 16.0, right: 16.0, top: 4.5),
-                            child: TextFormField(
-                              textCapitalization: TextCapitalization.sentences,
-                              focusNode: focusGoods,
-                              decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(4.0)),
-                                    borderSide: BorderSide(
-                                        color: Color.fromRGBO(0, 0, 0, 0.12)),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(4.0)),
-                                      borderSide: BorderSide(
-                                          color:
-                                              Color.fromRGBO(0, 0, 0, 0.12))),
-                                  labelText: 'Vrsta robe',
-                                  labelStyle: TextStyle(
-                                      color: Color.fromRGBO(0, 0, 0, 0.5)),
-                                  hasFloatingPlaceholder: true,
-                                  border: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(5.0))),
-                              onChanged: (input) {
-                                setState(() {
-                                  goodsVar = input;
-                                  onceToast = 0;
-                                  onceBtnPressed = 0;
-                                  areFieldsEmpty();
-                                });
-                              },
-                            ),
-                          ),
-
-                          ///DIMENZIJEEE
-                          Container(
-                            margin: EdgeInsets.only(
-                                bottom: 4.5, left: 16.0, right: 16.0, top: 8),
-                            child: TextFormField(
-                              textCapitalization: TextCapitalization.sentences,
-                              focusNode: focusDimensions,
-                              decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(4.0)),
-                                    borderSide: BorderSide(
-                                        color: Color.fromRGBO(0, 0, 0, 0.12)),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(4.0)),
-                                      borderSide: BorderSide(
-                                          color:
-                                              Color.fromRGBO(0, 0, 0, 0.12))),
-                                  labelText: 'Dimenzije',
-                                  hintText: '16m x 2.5m x 3m',
-                                  labelStyle: TextStyle(
-                                      color: Color.fromRGBO(0, 0, 0, 0.5)),
-                                  hasFloatingPlaceholder: true,
-                                  border: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(5.0))),
-                              onChanged: (input) {
-                                setState(() {
-                                  dimensionsVar = input;
-                                  onceToast = 0;
-                                  onceBtnPressed = 0;
-                                  areFieldsEmpty();
-                                });
-                              },
-                            ),
-                          ),
-
-                          /// BUTTOON
-                          Container(
-                            margin: EdgeInsets.only(
-                              left: 16.0,
-                              right: 16.0,
-                              bottom: 56.0,
-                              top: 8,
-                            ),
-                            height: 50,
-                            child: ConstrainedBox(
-                              constraints: const BoxConstraints(
-                                minWidth: double.infinity,
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    width: 1.0,
+                                    style: BorderStyle.solid,
+                                    color: Color.fromRGBO(0, 0, 0, 0.12)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5.0)),
                               ),
-                              child: RaisedButton(
-                                  disabledColor:
-                                      Color.fromRGBO(219, 219, 219, 1),
-                                  disabledTextColor: Color.fromRGBO(0, 0, 0, 1),
-                                  color: Color.fromRGBO(3, 54, 255, 1),
-                                  textColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(4.0),
-                                  ),
-                                  child: Text(
-                                    'KREIRAJ RUTU',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontFamily: 'Roboto',
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  onPressed: _isBtnDisabled
-                                      ? null
-                                      : () async {
-                                          FocusScopeNode currentFocus =
-                                              FocusScope.of(context);
-                                          if (!currentFocus.hasPrimaryFocus) {
-                                            currentFocus.unfocus();
-                                          }
-                                          try {
-                                            final result =
-                                                await InternetAddress.lookup(
-                                                    'google.com');
-                                            if (result.isNotEmpty &&
-                                                result[0]
-                                                    .rawAddress
-                                                    .isNotEmpty) {}
-                                          } on SocketException catch (_) {
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        NoInternetConnectionLogInSrceen()));
-                                          }
-
-                                          /// VALIDACIJA POLJA
-                                          if (percentageVar < 0 ||
-                                              percentageVar > 100) {
-                                            if (onceToast == 0) {
-                                              final snackBar = SnackBar(
-                                                duration: Duration(seconds: 2),
-                                                behavior:
-                                                    SnackBarBehavior.floating,
-                                                backgroundColor: Color.fromRGBO(
-                                                    28, 28, 28, 1.0),
-                                                content: Text(
-                                                    'Unesite broj od 0 do 100'),
-                                                action: SnackBarAction(
-                                                  label: 'Undo',
-                                                  onPressed: () {},
-                                                ),
-                                              );
-                                              Scaffold.of(context)
-                                                  .showSnackBar(snackBar);
-                                              onceToast = 1;
-                                              Timer(Duration(seconds: 2), () {
-                                                onceToast = 0;
-                                              });
-                                            }
-                                          } else {
-                                            validateDatesAndTimes(context);
-                                          }
-                                        }),
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 10.0, top: 5.0),
+                              child: DropdownButton(
+                                hint: Text('Vrsta Vozila'),
+                                disabledHint: Text('Vrsta Vozila'),
+                                value: _selectedVehicle,
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: "Roboto",
+                                    color: Color.fromRGBO(0, 0, 0, 0.5)),
+                                isExpanded: true,
+                                items: _dropdownMenuItems,
+                                underline: Container(color: Colors.white),
+                                onChanged: onChangeDropdownItem,
+                              ),
                             ),
                           ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ],
-            ),
+                        ),
+
+                        // VRSTE ROBEEEEEEEEEE
+                        Container(
+                          margin: EdgeInsets.only(
+                              bottom: 4.5, left: 16.0, right: 16.0, top: 4.5),
+                          child: TextFormField(
+                            textCapitalization: TextCapitalization.sentences,
+                            focusNode: focusGoods,
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4.0)),
+                                  borderSide: BorderSide(
+                                      color: Color.fromRGBO(0, 0, 0, 0.12)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(4.0)),
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(0, 0, 0, 0.12))),
+                                labelText: 'Vrsta robe koju prevozite',
+                                labelStyle: TextStyle(
+                                    color: Color.fromRGBO(0, 0, 0, 0.5)),
+                                hasFloatingPlaceholder: true,
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.0))),
+                            onChanged: (input) {
+                              setState(() {
+                                goodsVar = input;
+                                onceToast = 0;
+                                onceBtnPressed = 0;
+                                areFieldsEmpty();
+                              });
+                            },
+                          ),
+                        ),
+
+                        ///DIMENZIJEEE
+                        Container(
+                          margin: EdgeInsets.only(
+                              bottom: 4.5, left: 16.0, right: 16.0, top: 8),
+                          child: TextFormField(
+                            textCapitalization: TextCapitalization.sentences,
+                            focusNode: focusDimensions,
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4.0)),
+                                  borderSide: BorderSide(
+                                      color: Color.fromRGBO(0, 0, 0, 0.12)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(4.0)),
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(0, 0, 0, 0.12))),
+                                labelText:
+                                    'Dimenzije prtljažnog prostora vozila',
+                                hintText: '16m x 2.5m x 3m',
+                                labelStyle: TextStyle(
+                                    color: Color.fromRGBO(0, 0, 0, 0.5)),
+                                hasFloatingPlaceholder: true,
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.0))),
+                            onChanged: (input) {
+                              setState(() {
+                                dimensionsVar = input;
+                                onceToast = 0;
+                                onceBtnPressed = 0;
+                                areFieldsEmpty();
+                              });
+                            },
+                          ),
+                        ),
+
+                        /// BUTTOON
+                        Container(
+                          margin: EdgeInsets.only(
+                            left: 16.0,
+                            right: 16.0,
+                            bottom: 56.0,
+                            top: 8,
+                          ),
+                          height: 50,
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(
+                              minWidth: double.infinity,
+                            ),
+                            child: RaisedButton(
+                                disabledColor: Color.fromRGBO(219, 219, 219, 1),
+                                disabledTextColor: Color.fromRGBO(0, 0, 0, 1),
+                                color: Color.fromRGBO(3, 54, 255, 1),
+                                textColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4.0),
+                                ),
+                                child: Text(
+                                  'KREIRAJ RUTU',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: 'Roboto',
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                onPressed: _isBtnDisabled
+                                    ? null
+                                    : () async {
+                                        FocusScopeNode currentFocus =
+                                            FocusScope.of(context);
+                                        if (!currentFocus.hasPrimaryFocus) {
+                                          currentFocus.unfocus();
+                                        }
+                                        try {
+                                          final result =
+                                              await InternetAddress.lookup(
+                                                  'google.com');
+                                          if (result.isNotEmpty &&
+                                              result[0]
+                                                  .rawAddress
+                                                  .isNotEmpty) {}
+                                        } on SocketException catch (_) {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      NoInternetConnectionLogInSrceen()));
+                                        }
+
+                                        /// VALIDACIJA POLJA
+                                        if (percentageVar < 0 ||
+                                            percentageVar > 100) {
+                                          if (onceToast == 0) {
+                                            final snackBar = SnackBar(
+                                              duration: Duration(seconds: 2),
+                                              behavior:
+                                                  SnackBarBehavior.floating,
+                                              backgroundColor: Color.fromRGBO(
+                                                  28, 28, 28, 1.0),
+                                              content: Text(
+                                                  'Popunjenost vozila u procentima ne može biti veća od 100. Molimo ispravite.'),
+                                              action: SnackBarAction(
+                                                label: 'Undo',
+                                                onPressed: () {},
+                                              ),
+                                            );
+                                            Scaffold.of(context)
+                                                .showSnackBar(snackBar);
+                                            onceToast = 1;
+                                            Timer(Duration(seconds: 2), () {
+                                              onceToast = 0;
+                                            });
+                                          }
+                                        } else {
+                                          validateDatesAndTimes(context);
+                                        }
+                                      }),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ],
           ),
         ),
       ),
@@ -1096,7 +1082,8 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
           duration: Duration(seconds: 2),
           behavior: SnackBarBehavior.floating,
           backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-          content: Text('Datum polaska ne može biti veći od datuma dolaska.'),
+          content: Text(
+              'Datum polaska vozila ne može biti stariji od Datuma dolaska vozila. Molimo ispravite.'),
           action: SnackBarAction(
             label: 'Undo',
             onPressed: () {},
@@ -1138,7 +1125,8 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-            content: Text('Datumi i vremena ne mogu biti jednaki.'),
+            content: Text(
+                'Vrijeme polaska vozila ne može biti jednako Vremenu dolaska vozila. Molimo ispravite.'),
             action: SnackBarAction(
               label: 'Undo',
               onPressed: () {},
@@ -1370,3 +1358,4 @@ class _CreateRouteScreenPageState extends State<CreateRouteScreenPage> {
     }
   }
 }
+

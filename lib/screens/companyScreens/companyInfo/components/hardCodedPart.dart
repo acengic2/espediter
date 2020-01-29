@@ -29,7 +29,7 @@ class HardCodedPart extends StatelessWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.w500),
               ),
-              Text("support@esped.com"),
+              Text("e.spediterdemo@gmail.com"),
               Container(
                 margin: EdgeInsets.only(top: 9, bottom: 8),
                 child: Divider1(
@@ -45,7 +45,7 @@ class HardCodedPart extends StatelessWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.w500),
               ),
-              Text("062 667-266"),
+              Text("Trenutno nije dostupno"),
               Container(
                 margin: EdgeInsets.only(top: 9, bottom: 8),
                 child: Divider1(
@@ -64,7 +64,7 @@ class HardCodedPart extends StatelessWidget {
                     color: Colors.white.withOpacity(0.9),
                     textColor: Colors.black,
                     child: Text(
-                      'Odjava',
+                      'ODJAVITE SE',
                       style: TextStyle(
                         fontSize: 16,
                         fontFamily: 'Roboto',
