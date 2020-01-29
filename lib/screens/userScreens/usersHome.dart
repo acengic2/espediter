@@ -37,7 +37,7 @@ bool filter = false;
 
 class UsersHome extends StatefulWidget {
   final String userID;
-  String polaziste, dolaziste, datum;
+  String polaziste, dolaziste, datum, recent;
   bool filtered;
 
   UsersHome(
@@ -46,7 +46,8 @@ class UsersHome extends StatefulWidget {
       this.polaziste,
       this.dolaziste,
       this.datum,
-      this.filtered})
+      this.filtered,
+      this.recent})
       : super(key: key);
 
   @override
@@ -55,18 +56,24 @@ class UsersHome extends StatefulWidget {
       polaziste: polaziste,
       dolaziste: dolaziste,
       datum: datum,
-      filtered: filtered);
+      filtered: filtered,
+      recent: recent);
 }
 
 class _UsersHomeState extends State<UsersHome> {
   final String userID;
-  String polaziste, dolaziste, datum;
+  String polaziste, dolaziste, datum, recent;
   bool filtered;
   var st;
   DateTime currentBackPressTime;
 
   _UsersHomeState(
-      {this.userID, this.polaziste, this.dolaziste, this.datum, this.filtered});
+      {this.userID,
+      this.polaziste,
+      this.dolaziste,
+      this.datum,
+      this.filtered,
+      this.recent});
 
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
@@ -183,6 +190,7 @@ class _UsersHomeState extends State<UsersHome> {
             children: <Widget>[
               SearchListUser(
                 userID: userID,
+                recent: recent,
               ),
               Divider1(
                 height: 1,
@@ -219,21 +227,6 @@ class _UsersHomeState extends State<UsersHome> {
                                   if (time >
                                       DateTime.now().millisecondsSinceEpoch) {
                                     post = snapshot.data[index];
-                                    var logoAndName;
-                                    getPosts(startDate, startDest, endDest)
-                                        .then((data) {
-                                      logoAndName = Firestore.instance
-                                          .collection('Company')
-                                          .document(data['companyID'])
-                                          .snapshots();
-                                      if (logoAndName != null) {
-                                        logoAndName.forEach((item) {
-                                          image = NetworkImage(avatarURL);
-                                          companyName =
-                                              item.data['company_name'];
-                                        });
-                                      }
-                                    });
 
                                     /// DATUM
                                     String date = snapshot
@@ -561,10 +554,10 @@ class _UsersHomeState extends State<UsersHome> {
                                       ],
                                     );
                                   }
-                                    return Container(height: 0, width: 0);
-                                }
-                                );
-                          } else if(!snapshot.hasData || snapshot.data.documents == 0) { 
+                                  return Container(height: 0, width: 0);
+                                });
+                          } else if (!snapshot.hasData ||
+                              snapshot.data.documents == 0) {
                             return Center(
                               child: Container(
                                 child: Text('Nema rez'),

@@ -22,13 +22,13 @@ int onceBtnPressed = 0;
 
 class SearchListUser extends StatefulWidget {
   final String userID;
+  String recent;
 
-  SearchListUser({
-    this.userID,
-  });
+  SearchListUser({this.userID, this.recent});
   @override
   _SearchListUserState createState() => _SearchListUserState(
         userID: userID,
+        recent: recent,
       );
 }
 
@@ -38,10 +38,8 @@ String formatted;
 final formatP = DateFormat('yyyy-MM-dd');
 
 class _SearchListUserState extends State<SearchListUser> {
-  String userID;
-  _SearchListUserState({
-    this.userID,
-  });
+  String userID, recent;
+  _SearchListUserState({this.userID, this.recent});
 
   getMyData(AsyncSnapshot snapshot) async {
     var myData = await json.decode(snapshot.data.toString());
@@ -59,30 +57,13 @@ class _SearchListUserState extends State<SearchListUser> {
     if (controlVar == 'ending') {
       intialEnd = result;
     }
+
+    if (recent != ''&& recent != null) {
+      listOfRecent = recent.split(', ');
+    }
     return Column(
       children: <Widget>[
-        FutureBuilder(
-          future: getPosts12(userID),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-                addAutomaticKeepAlives: true,
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, index) {
-                  String recent = snapshot.data[index].data['recent'];
-                  if (recent != '') {
-                    listOfRecent = recent.split(', ');
-                  }
-                  return Container(height: 0, width: 0);
-                },
-              );
-            }
-            return Container(height: 0, width: 0);
-          },
-        ),
-        Container(
+          Container(
           height: 0,
           width: 0,
           child: FutureBuilder(
@@ -95,6 +76,7 @@ class _SearchListUserState extends State<SearchListUser> {
             },
           ),
         ),
+
         Container(
           margin: EdgeInsets.only(bottom: 8, left: 16.0, right: 16.0, top: 45),
           child: Row(
@@ -122,7 +104,7 @@ class _SearchListUserState extends State<SearchListUser> {
                     ),
                     format: format,
                     onShowPicker: (context, currentValue) async {
-                       onceBtnPressed = 0;
+                      onceBtnPressed = 0;
                       DateTime picked = await showDatePicker(
                           locale: Locale('bs'),
                           context: context,
@@ -195,7 +177,7 @@ class _SearchListUserState extends State<SearchListUser> {
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5.0))),
                         onTap: () {
-                           onceBtnPressed = 0;
+                          onceBtnPressed = 0;
                           controlVar = 'starting';
                           filtered = false;
                           FocusScope.of(context).requestFocus(FocusNode());
@@ -251,7 +233,7 @@ class _SearchListUserState extends State<SearchListUser> {
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5.0))),
                         onTap: () {
-                           onceBtnPressed = 0;
+                          onceBtnPressed = 0;
                           controlVar = 'ending';
                           filtered = false;
                           FocusScope.of(context).requestFocus(FocusNode());
@@ -266,42 +248,29 @@ class _SearchListUserState extends State<SearchListUser> {
           onPressed: () {
             filtered = true;
             if (onceBtnPressed == 0) {
-               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => UsersHome(
-                    userID: userID,
-                    datum: formatted,
-                    polaziste: initialStart,
-                    dolaziste: intialEnd,
-                    filtered: filtered)));
-                onceBtnPressed = 1;
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => UsersHome(
+                      userID: userID,
+                      datum: formatted,
+                      polaziste: initialStart,
+                      dolaziste: intialEnd,
+                      filtered: filtered)));
+              onceBtnPressed = 1;
             }
-             Timer(Duration(seconds: 5), () {
-                              onceBtnPressed = 0;
-                            });
-
-           
+            Timer(Duration(seconds: 5), () {
+              onceBtnPressed = 0;
+            });
           },
         )
       ],
     );
   }
-
-  Future getPosts12(String id) async {
-    var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore
-        .collection('Users')
-        .where('user_id', isEqualTo: id)
-        .getDocuments();
-    return qn.documents;
-  }
 }
 
 class RouteSearch extends SearchDelegate<SearchListUser> {
-  String userID;
+  String userID, recent;
 
-  RouteSearch({
-    this.userID,
-  });
+  RouteSearch({this.userID, this.recent});
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -310,12 +279,16 @@ class RouteSearch extends SearchDelegate<SearchListUser> {
         icon: Icon(Icons.search),
         onPressed: () {
           result = query;
-          if(result.isNotEmpty) {
-            result = result.substring(0, 1).toUpperCase() + result.substring(1, result.length);
+          if (result.isNotEmpty) {
+            result = result.substring(0, 1).toUpperCase() +
+                result.substring(1, result.length);
           }
           filtered = false;
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => UsersHome(userID: userID)));
+              builder: (context) => UsersHome(
+                    userID: userID,
+                    recent: recent,
+                  )));
         },
       ),
     ];
@@ -362,7 +335,10 @@ class RouteSearch extends SearchDelegate<SearchListUser> {
             result = suggestionList[index].toString();
             filtered = false;
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => UsersHome(userID: userID)));
+                builder: (context) => UsersHome(
+                      userID: userID,
+                      recent: recent,
+                    )));
           },
           leading: Stack(
             alignment: Alignment.center,

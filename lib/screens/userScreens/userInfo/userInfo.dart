@@ -123,10 +123,11 @@ class _UserInfoPageState extends State<UserInfoPage> {
           icon: Icon(Icons.clear),
           onPressed: () {
             /// provjera da li company ima ili nema ruta na osnovu koje im pokazujemo screen
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => UsersHome(userID: userID)));
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (context) => UsersHome(userID: userID)));
+            Navigator.pop(context);
           },
         ),
         title: const Text('Profil',
