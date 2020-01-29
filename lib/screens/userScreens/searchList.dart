@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -17,7 +16,7 @@ String result;
 String controlVar = '';
 String initialStart = '';
 String intialEnd = '';
-bool filtered = false;
+bool filtered = false, deleted = false;
 int onceBtnPressed = 0;
 
 class SearchListUser extends StatefulWidget {
@@ -40,6 +39,8 @@ final formatP = DateFormat('yyyy-MM-dd');
 class _SearchListUserState extends State<SearchListUser> {
   String userID, recent;
   _SearchListUserState({this.userID, this.recent});
+
+  TextEditingController controllerP, controllerD, controllerDate;
 
   getMyData(AsyncSnapshot snapshot) async {
     var myData = await json.decode(snapshot.data.toString());
@@ -86,8 +87,11 @@ class _SearchListUserState extends State<SearchListUser> {
                   height: 36.0,
                   padding: EdgeInsets.only(left: 4.0, right: 4.0),
                   child: DateTimeField(
-                    initialValue:
-                        (selectedDateP != null) ? selectedDateP : null,
+                    controller: (!deleted && selectedDateP != null)
+                        ? controllerDate = new TextEditingController(
+                            text: format.format(selectedDateP))
+                        : controllerDate =
+                            new TextEditingController(text: null),
                     textCapitalization: TextCapitalization.words,
                     resetIcon: null,
                     readOnly: true,
@@ -111,26 +115,46 @@ class _SearchListUserState extends State<SearchListUser> {
                           firstDate: DateTime(2018),
                           lastDate: DateTime(2100));
                       if (picked == null) {
-                        picked = DateTime.now();
+                        deleted ? selectedDateP = null : selectedDateP = picked;
+                      } else {
+                        selectedDateP = picked;
                       }
                       setState(() {
                         selectedDateP = picked;
-                        if (selectedDateP == null) {
-                          selectedDateP = DateTime.now();
-                        } else {
-                          selectedDateP = picked;
-                        }
                         formatted = formatP.format(selectedDateP);
                       });
                       filtered = false;
-                      // Navigator.of(context).push(MaterialPageRoute(
-                      //     builder: (context) =>
-                      //         UsersHome(userID: userID, datum: formatted, polaziste: initialStart, dolaziste: intialEnd)));
                       return selectedDateP;
                     },
                   ),
                 ),
               ),
+              Expanded(
+                  flex: 1,
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      bottom: 2.0,
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        Container(
+                          child: IconButton(
+                            onPressed: () {
+                              controllerDate.text = '';
+                              deleted = true;
+                              formatted = '';
+                              filtered = false;
+                              Timer(Duration(seconds: 5), () {
+                                deleted = false;
+                              });
+                            },
+                            icon: Icon(Icons.clear),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
             ],
           ),
         ),
@@ -153,7 +177,11 @@ class _SearchListUserState extends State<SearchListUser> {
                       margin: EdgeInsets.only(left: 9, bottom: 8, right: 5),
                       height: 36,
                       child: TextFormField(
-                        initialValue: initialStart,
+                        key: UniqueKey(),
+                        controller: deleted
+                            ? controllerP = new TextEditingController()
+                            : controllerP =
+                                new TextEditingController(text: initialStart),
                         maxLength: 32,
                         textCapitalization: TextCapitalization.sentences,
                         decoration: InputDecoration(
@@ -180,11 +208,34 @@ class _SearchListUserState extends State<SearchListUser> {
                           controlVar = 'starting';
                           filtered = false;
                           FocusScope.of(context).requestFocus(FocusNode());
+                          deleted = false;
                           showSearch(
                               context: context,
                               delegate: RouteSearch(userID: userID));
                         },
-                      )))
+                      ))),
+              Expanded(
+                  flex: 1,
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      bottom: 2.0,
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        Container(
+                          child: IconButton(
+                            onPressed: () {
+                              controllerP.text = '';
+                              deleted = true;
+                              initialStart = '';
+                            },
+                            icon: Icon(Icons.clear),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
             ])),
         Container(
             margin: EdgeInsets.only(
@@ -209,7 +260,10 @@ class _SearchListUserState extends State<SearchListUser> {
                       margin: EdgeInsets.only(left: 9, bottom: 16, right: 5),
                       height: 36,
                       child: TextFormField(
-                        initialValue: intialEnd,
+                        controller: deleted
+                            ? controllerD = new TextEditingController()
+                            : controllerD =
+                                new TextEditingController(text: intialEnd),
                         maxLength: 32,
                         textCapitalization: TextCapitalization.sentences,
                         decoration: InputDecoration(
@@ -236,31 +290,62 @@ class _SearchListUserState extends State<SearchListUser> {
                           controlVar = 'ending';
                           filtered = false;
                           FocusScope.of(context).requestFocus(FocusNode());
+                          deleted = false;
                           showSearch(
                               context: context,
                               delegate: RouteSearch(userID: userID));
                         },
-                      )))
+                      ))),
+              Expanded(
+                  flex: 1,
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      bottom: 2.0,
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        Container(
+                          child: IconButton(
+                            onPressed: () {
+                              controllerD.text = '';
+                              deleted = true;
+                              intialEnd = '';
+                            },
+                            icon: Icon(Icons.clear),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
             ])),
-        RaisedButton(
-          child: Text('FILTRIRAJ'),
-          onPressed: () {
-            filtered = true;
-            if (onceBtnPressed == 0) {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => UsersHome(
-                      userID: userID,
-                      datum: formatted,
-                      polaziste: initialStart,
-                      dolaziste: intialEnd,
-                      filtered: filtered)));
-              onceBtnPressed = 1;
-            }
-            Timer(Duration(seconds: 5), () {
-              onceBtnPressed = 0;
-            });
-          },
-        )
+        Container(
+          margin: EdgeInsets.only(bottom: 12),
+          child: RaisedButton(
+            color: StyleColors().blueColor,
+            child: Text(
+              'FILTRIRAJ',
+              style: TextStyle(
+                  fontSize: 14, fontFamily: "Roboto", color: Colors.white),
+            ),
+            onPressed: () {
+              filtered = true;
+              if (onceBtnPressed == 0) {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => UsersHome(
+                        userID: userID,
+                        datum: formatted,
+                        polaziste: initialStart,
+                        dolaziste: intialEnd,
+                        filtered: filtered)));
+                onceBtnPressed = 1;
+              }
+              Timer(Duration(seconds: 5), () {
+                onceBtnPressed = 0;
+              });
+            },
+          ),
+        ),
       ],
     );
   }
