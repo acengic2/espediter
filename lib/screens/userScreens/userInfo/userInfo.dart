@@ -8,7 +8,6 @@ import 'package:spediter/components/crud/firebaseCrud.dart';
 import 'package:spediter/components/divider.dart';
 import 'package:spediter/components/noInternetConnectionScreen/noInternetOnLogin.dart';
 import 'package:spediter/screens/companyScreens/companyInfo/components/hardCodedPart.dart';
-import 'package:spediter/screens/userScreens/usersHome.dart';
 import 'package:spediter/theme/style.dart';
 import 'package:spediter/utils/screenUtils.dart';
 import 'package:flutter/rendering.dart';

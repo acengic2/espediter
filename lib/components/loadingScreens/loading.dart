@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:spediter/components/loadingScreens/components/loadingComponent.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/listofRoutes.dart';
 import 'package:spediter/screens/companyScreens/listOfRoutes/noRoutes.dart';
-import 'package:spediter/screens/userScreens/searchList.dart';
 import 'package:spediter/screens/userScreens/usersHome.dart';
 import '../routingAndChecking.dart';
 
@@ -46,7 +45,7 @@ class _ShowLoading extends State<ShowLoading> {
   String text1 = "Logujemo Vas unutar aplikacije.";
   String text2 = "Molimo sačekajte.";
 
-      String recent;
+  String recent;
 
   // bool _loadingInProgress;
 
@@ -76,8 +75,6 @@ class _ShowLoading extends State<ShowLoading> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -96,9 +93,7 @@ class _ShowLoading extends State<ShowLoading> {
                       physics: ClampingScrollPhysics(),
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
-                        setState(() {
-                          rola = snapshot.data[index].data['role'];
-                        });
+                        rola = snapshot.data[index].data['role'];
 
                         return Container(
                           width: 0,
@@ -113,27 +108,29 @@ class _ShowLoading extends State<ShowLoading> {
               },
             ),
           ),
+          Container(
+            height: 0,
+            width: 0,
+            child: FutureBuilder(
+              future: getRecentFromUser(userID),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    // shrinkWrap: true,
+                    // physics: ClampingScrollPhysics(),
+                    // addAutomaticKeepAlives: true,
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) {
+                      recent = snapshot.data[index].data['recent'];
 
-          Container(height: 0, width:0, child: 
-          FutureBuilder(
-          future: getRecentFromUser(userID),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                // shrinkWrap: true,
-                // physics: ClampingScrollPhysics(),
-                // addAutomaticKeepAlives: true,
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, index) {
-                   recent = snapshot.data[index].data['recent'];
-                 
-                  return Container(height: 0, width: 0);
-                },
-              );
-            }
-            return Container(height: 0, width: 0);
-          },
-        ),)
+                      return Container(height: 0, width: 0);
+                    },
+                  );
+                }
+                return Container(height: 0, width: 0);
+              },
+            ),
+          )
         ],
       ),
     );
@@ -204,11 +201,13 @@ class _ShowLoading extends State<ShowLoading> {
       /// metoda koja provjerava rute i navigira
       RouteAndCheck().checkAndNavigate(context, userID);
     } else {
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => UsersHome(userID: userID,recent: recent,)));
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => UsersHome(
+                userID: userID,
+                recent: recent,
+              )));
     }
   }
-
 
   Future getRecentFromUser(String id) async {
     var firestore = Firestore.instance;
@@ -220,7 +219,4 @@ class _ShowLoading extends State<ShowLoading> {
 
     return qn.documents;
   }
-
-  
- 
 }
