@@ -45,7 +45,7 @@ After some time, the application will be built on the device/emulator connected 
 	*o	User Story 2 – List of Routes Screen bugs resolved:<br/>*
 	*o	User Story 3 – Edit/Finish active route and list finished routes:<br/>*
 	*o	User Story 4 – View and edit Company Info:<br/>*
-**•	V4 – Sprint 4 (14.01.2020.)<br/>**
+**•	V4 – Sprint 4 <br/>**
 	*o	Refactroing:<br/>*
 		-	Circles and lines on createRoute and editRoute screen<br/>
 		-	Colors<br/>
@@ -63,7 +63,16 @@ After some time, the application will be built on the device/emulator connected 
 		-	Insert progress indicator where there is communication with database (just not to show blank screen)<br/>
 		-	Redirect to List of Routes Screen after updating info<br/>
 		-	Showing logo icon of currently logged user<br/>
-**•	V4 – Sprint 4 (21.01.2020.)<br/>**
+**•	V4 – Sprint 4 <br/>**
 	*o	Bugs for Edit Route Screen:<br/>*
 	*o	Bugs for Company Profile Screen:<br/>*
 	*o	Pretraga screen:<br/>*
+	
+**•	V5 – Sprint 5 <br/>**
+      *o   As a "Regular User" I want to be able to view all active Routes and Loads posted by all Companies because I am in              need of finding the one that works best for me.
+      *o   As a "Regular User", I want to be able to open Route and Load so that I can preview all info about Route, Load and              Company.
+**•	V6 – Sprint 6 <br/>**
+      *o   As a Regular User, I want to be able to filter the Routes and Loads offered according to my needs, because my goal            is to search all routes more easily.
+      *o  As a Regular User, I want to read and update  my profile details so that I can change my info.
+     
+	
