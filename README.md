@@ -73,6 +73,6 @@ After some time, the application will be built on the device/emulator connected 
       *o   As a "Regular User", I want to be able to open Route and Load so that I can preview all info about Route, Load and              Company.
 **•	V6 – Sprint 6 <br/>**
       *o   As a Regular User, I want to be able to filter the Routes and Loads offered according to my needs, because my goal            is to search all routes more easily.
-      *o  As a Regular User, I want to read and update  my profile details so that I can change my info.
+      *o  As a Regular User, I want to read and update  my profile details so that I can change my info.<br/>
      
 	
